@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#f85f31",
+  "navigationBarTitleText": "接单池",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "u-notice-bar": "/uview-ui/components/u-notice-bar/u-notice-bar"
+  }
+}

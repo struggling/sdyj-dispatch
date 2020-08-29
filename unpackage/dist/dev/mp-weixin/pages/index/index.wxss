@@ -1,0 +1,238 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* content */
+.content.data-v-57280228 {}
+/* < 地理位置 */
+.location.data-v-57280228 {
+	background-color: #f85f31;
+	width: 100%;
+	height: 51rpx;
+	color: #FFFFFF;
+	padding-left: 25rpx;
+	padding-right: 25rpx;
+}
+.location .icondiliweizhi.data-v-57280228 {
+	font-size: 28rpx;
+	padding-right: 10rpx;
+}
+/* tabs */
+/* orderlist */
+.orderlist.data-v-57280228{
+}
+.order-item.data-v-57280228{
+	border-bottom: 1rpx solid #a7a7a7;
+	border-top: 1rpx solid #a7a7a7;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding-top: 40rpx;
+	padding-bottom: 30rpx;
+	padding-left: 25rpx;
+	padding-right: 25rpx;
+}
+.order-item .item-l .title.data-v-57280228{
+	font-weight: bold;
+	font-size: 40rpx;
+	margin-bottom: 30rpx;
+}
+.order-item .item-l .address.data-v-57280228{
+	
+	font-size: 28rpx;
+	color: #969CA8;
+	margin-bottom: 30rpx;
+	font-weight: bold;
+}
+.order-item .item-l .distance.data-v-57280228{
+	font-size: 28rpx;
+	color: #FA5741;
+	margin-bottom: 30rpx;
+	font-weight: bold;
+}
+.order-item .item-l .tool.data-v-57280228{
+	font-size: 28rpx;
+	color: #3072F6;
+	margin-bottom: 30rpx;
+	font-weight: bold;
+}
+.order-item .item-l .tool ._span.data-v-57280228{
+	padding-left: 10rpx;
+	padding-right: 10rpx;
+	padding-top: 4rpx;
+	padding-bottom: 4rpx;
+	background-color:  #e6e8f6;
+	margin-bottom: 10rpx;
+	margin-right: 10rpx;
+	border-radius: 8rpx;
+}
+.order-item .item-l .vtime.data-v-57280228{
+	color: #3072F6;
+	font-weight: bold;
+}
+.order-item .item-r.data-v-57280228{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	text-align: center;
+	width: 220rpx;
+}
+.order-item .item-r .img image.data-v-57280228{
+	border-radius: 100%;
+	-webkit-flex-shrink: 0;
+	        flex-shrink: 0;
+	width: 160rpx;
+	height: 160rpx;
+}
+.order-item .item-r .price.data-v-57280228{
+	color: #FA5741;
+	font-size:32rpx;
+	font-weight: bold;
+	margin-top: 20rpx;
+	margin-bottom: 20rpx;
+}
+.order-item .item-r .status.data-v-57280228{
+	height: 60rpx;
+	line-height: 60rpx;
+	font-size: 32rpx;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #FA5741;
+	border-radius: 40rpx;
+	padding: 0 30rpx;
+}
+.success.data-v-57280228{
+	background-color: #FA5741;
+}
+.fail.data-v-57280228{
+	background-color: #cccccc;
+}
+

@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/order/order",
+    "pages/home/home"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#f85f31",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tabBar/dispatch.png",
+        "selectedIconPath": "static/tabBar/dispathcselect.png",
+        "text": "接单池"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "iconPath": "static/tabBar/order.png",
+        "selectedIconPath": "static/tabBar/orderselect.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "static/tabBar/homeselect.png",
+        "selectedIconPath": "static/tabBar/home.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

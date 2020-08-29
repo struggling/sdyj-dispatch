@@ -1,0 +1,70 @@
+{
+	// 组件自动注册匹配
+	"easycom": {
+	        "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarTitleText": "接单池",
+				"navigationBarTextStyle":"white"
+			}
+		}
+	    ,{
+            "path" : "pages/order/order",
+            "style" : {
+				"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarTitleText": "接单中心",
+				"navigationBarTextStyle":"white"
+			}
+        }
+        ,{
+            "path" : "pages/home/home",
+            "style" : {
+				"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarTitleText": "个人中心",
+				"navigationBarTextStyle":"white"
+			}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+	    "color": "#7A7E83",
+	    "selectedColor": "#f85f31",
+	    "borderStyle": "white",
+	    "backgroundColor": "#ffffff",
+	    "list": [
+			{
+	        "pagePath": "pages/index/index",
+	        "iconPath": "static/tabBar/dispatch.png",
+	        "selectedIconPath": "static/tabBar/dispathcselect.png",
+	        "text": "接单池"
+			}, 
+			{
+				"pagePath": "pages/order/order",
+				"iconPath": "static/tabBar/order.png",
+				"selectedIconPath": "static/tabBar/orderselect.png",
+				"text": "订单"
+			},
+			{
+				"pagePath": "pages/home/home",
+				"iconPath": "static/tabBar/homeselect.png",
+				"selectedIconPath": "static/tabBar/home.png",
+				"text": "个人中心"
+			}
+		]
+	},
+	"permission": {
+	    "scope.userLocation": {
+	      "desc": "你的位置信息将用于小程序位置接口的效果展示" 
+	    }
+	  }
+}
