@@ -2,5 +2,10 @@
   "navigationBarBackgroundColor": "#f85f31",
   "navigationBarTitleText": "接单中心",
   "navigationBarTextStyle": "white",
-  "usingComponents": {}
+  "usingComponents": {
+    "order-list": "/components/index/order-list",
+    "swiper-tab-head": "/components/index/swiper-tab-head",
+    "load-more": "/components/common/load-more",
+    "no-thing": "/components/common/no-thing"
+  }
 }

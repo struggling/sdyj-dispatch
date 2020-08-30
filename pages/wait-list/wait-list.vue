@@ -1,0 +1,107 @@
+<template>
+	<view>
+		<!-- map -->
+		<map :latitude="latitude" :longitude="longitude" :markers="covers"></map>
+		<!-- orderDetail -->
+		<view class="orderDetail">
+			<view class="parameter">客户订单信息</view>
+			<view class="parameter">
+				<view class="parameter">     王先生      </view>
+				<view class="parameter">服务类型：家政保洁</view>
+			</view>
+			<view class="parameter">
+				<view class="parameter"> 1322****5123</view>
+				<view class="parameter">参考价格：160元</view>
+			</view>
+			<view class="parameter">
+				<view class="parameter">服务时长：2小时</view>
+				<view class="parameter">人员要求：2人</view>
+			</view>
+			<view class="parameter1">位置：四川省眉山市仁寿县中城国际社区24栋1单元202</view>
+			<view class="parameter1">工具要求：吸尘器    蒸汽机   除螨器   吸尘器    蒸汽机   除螨器</view>
+			<view class="parameter1">备注：不要毛巾，哈哈啊哈哈哈，真的不要毛巾，哈哈啊哈哈哈 真的不要毛巾，哈哈啊哈哈哈，真的</view>
+			<button type="default">立即抢单</button>
+			<image src="../../static/logo.png" mode=""></image>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				id: 0, // 使用 marker点击事件 需要填写id
+				title: 'map',
+				latitude: 29.993299,
+				longitude: 104.154709,
+				covers: [{
+					id: 0, 
+					latitude: 29.994521,
+					longitude: 104.154741,
+					iconPath: '../../static/logo.png',
+					width:20,
+					height:20,
+					content:'唐山迁安',//文本
+				}, {
+					latitude: 29.992511,
+					longitude: 104.151347,
+					iconPath: '../../static/logo.png'
+				}]
+			}
+		},
+		methods: {
+
+		}
+	}
+</script>
+
+<style scoped>
+	/* map */
+	uni-map {
+		position: relative;
+		width: 100%;
+		height: 722upx;
+		display: block;
+	}
+	/* orderDetail */
+	.orderDetail{
+		padding-left: 25upx;
+		padding-right: 25upx;
+		padding-top: 30upx;
+		position: relative;
+	}
+	.parameter{
+		display: flex;
+		padding-top: 6upx;
+		padding-bottom: 6upx;
+		justify-content: space-between;
+		font-size: 24upx;
+	}
+	.parameter1{
+		display: flex;
+		padding-top: 14upx;
+		padding-bottom: 14upx;
+		justify-content: space-between;
+		font-size: 24upx;
+	}
+	.orderDetail image{
+		width: 130upx;
+		height: 130upx;
+		border-radius: 100%;
+		border: 4upx solid #ff5500;
+		background-color: #CCCCCC;
+		position: absolute;
+		right: 80upx;
+		top: -68upx;
+	}
+	.orderDetail button{
+		background-color:#F86032 ;
+		color: #FFFFFF;
+		border-radius: 8upx;
+		width: 482upx;
+		height:76upx ;
+		font-size: 40upx;
+		line-height: 76upx;
+		margin:40upx auto;
+	}
+</style>

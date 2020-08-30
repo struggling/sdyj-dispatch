@@ -8,6 +8,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
+				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				"disableScroll":true,
 				"navigationBarBackgroundColor":"#f85f31",
 				"navigationBarTitleText": "接单池",
 				"navigationBarTextStyle":"white"
@@ -26,6 +28,14 @@
             "style" : {
 				"navigationBarBackgroundColor":"#f85f31",
 				"navigationBarTitleText": "个人中心",
+				"navigationBarTextStyle":"white"
+			}
+        }
+        ,{
+            "path" : "pages/wait-list/wait-list",
+            "style" : {
+				"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarTitleText": "待派单",
 				"navigationBarTextStyle":"white"
 			}
         }

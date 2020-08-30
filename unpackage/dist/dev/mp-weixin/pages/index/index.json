@@ -1,8 +1,13 @@
 {
+  "enablePullDownRefresh": true,
+  "disableScroll": true,
   "navigationBarBackgroundColor": "#f85f31",
   "navigationBarTitleText": "接单池",
   "navigationBarTextStyle": "white",
   "usingComponents": {
-    "u-notice-bar": "/uview-ui/components/u-notice-bar/u-notice-bar"
+    "u-notice-bar": "/uview-ui/components/u-notice-bar/u-notice-bar",
+    "u-modal": "/uview-ui/components/u-modal/u-modal",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "load-more": "/components/common/load-more"
   }
 }

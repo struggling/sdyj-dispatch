@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/order/order",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/wait-list/wait-list"
   ],
   "subPackages": [],
   "window": {
