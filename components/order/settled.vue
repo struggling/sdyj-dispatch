@@ -4,22 +4,22 @@
 		<view class="wait-list">
 			<view class="info">
 				<view class="parm">
-					<view class="parm-txt title">家政服务/日常保洁/2小时</view>
-					<view class="parm-txt">仁寿县中城国际社区2楼</view>
-					<view class="parm-txt">距离：&alt 1.6公里</view>
-					<view class="parm-txt"><span>毛巾</span><span>毛巾</span><span>毛巾</span></view>
-					<view class="parm-txt">上门时间：2020-8-22 14:00</view>
+					<view class="parm-txt title">{{item.type.id}}/{{item.type.childrentype}}/{{item.time}}小时</view>
+					<view class="parm-txt">{{item.address}}</view>
+					<view class="parm-txt">距离：&alt {{item.distance}}公里</view>
+					<view class="parm-txt"><span>{{item.tool[0].name}}</span><span>毛巾</span><span>毛巾</span></view>
+					<view class="parm-txt">上门时间：{{item.vtime}}</view>
 				</view>
 				<view class="parm">
 					<view class="pic">
 						<image src="../../static/logo.png" mode=""></image>
 					</view>
-					<view class="price">160元</view>
+					<view class="price">{{item.price}}元</view>
 				</view>
 			</view>
 			<view class="btn-group">
-				<view class="btn">取消订单</view>
-				<view class="btn active">立即上门</view>
+				<view class="btn">删除订单</view>
+				<view class="btn active" @tap="openbill">申请发票</view>
 			</view>
 		</view>
 	</view>	
@@ -27,11 +27,22 @@
 
 <script>
 	export default {
+		props:{
+			item: Object,
+			index: Number
+		},
 		data() {
 			return {
 				
 			}
 		},
+		methods:{
+			openbill(){
+				uni.navigateTo({
+					url:"../../pages/apply-bill/apply-bill"
+				})
+			}
+		}
 	}
 
 	
