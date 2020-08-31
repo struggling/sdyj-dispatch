@@ -39,6 +39,34 @@
 				"navigationBarTextStyle":"white"
 			}
         }
+        ,{
+            "path" : "pages/apply-bill/apply-bill",
+            "style" : {
+				"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarTitleText": "申请开票",
+				"navigationBarTextStyle":"white"
+			}
+        }
+        ,{
+            "path" : "pages/order-detail/order-detail",
+            "style" : {
+				"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarTitleText": "订单信息",
+				"navigationBarTextStyle":"white"
+			}
+        }
+        ,{
+            "path" : "pages/dispatch-detail/dispatch-detail",
+            "style" : {
+				"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarTitleText": "接单详情",
+				"navigationBarTextStyle":"white"
+			}
+        }
+        ,{
+            "path" : "pages/myinfo/myinfo",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

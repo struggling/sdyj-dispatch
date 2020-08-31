@@ -4,11 +4,7 @@
 			flexDirection: elLabelPosition == 'left' ? 'row' : 'column'
 		}">
 			<!-- 微信小程序中，将一个参数设置空字符串，结果会变成字符串"true" -->
-			<view class="u-form-item--left" :style="{
-				width: uLabelWidth,
-				flex: `0 0 ${uLabelWidth}`,
-				marginBottom: elLabelPosition == 'left' ? 0 : '10rpx',
-			}">
+			<view class="u-form-item--left" >
 				<!-- 为了块对齐 -->
 				<view class="u-form-item--left__content">
 					<!-- nvue不支持伪元素before -->
@@ -23,7 +19,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="u-form-item--right u-flex">
+			<view class="u-form-item--right ">
 				<view class="u-form-item--right__content">
 					<view class="u-form-item--right__content__slot ">
 						<slot />
@@ -334,6 +330,7 @@ export default {
 
 		&__body {
 			display: flex;
+			justify-content: space-between;
 		}
 
 		&--left {
@@ -368,7 +365,7 @@ export default {
 		}
 
 		&--right {
-			flex: 1;
+			// flex: 1;
 
 			&__content {
 				display: flex;

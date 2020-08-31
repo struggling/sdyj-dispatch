@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<view class="content">
+			
 			<!-- 地理位置 -->
 			<view class="location">
 				<span class="iconfont icondiliweizhi"></span>

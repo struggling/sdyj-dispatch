@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/order/order",
     "pages/home/home",
-    "pages/wait-list/wait-list"
+    "pages/wait-list/wait-list",
+    "pages/apply-bill/apply-bill"
   ],
   "subPackages": [],
   "window": {
@@ -38,5 +39,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap44.json"
 }

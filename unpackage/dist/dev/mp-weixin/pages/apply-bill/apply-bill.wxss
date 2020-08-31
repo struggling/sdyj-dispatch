@@ -1,0 +1,27 @@
+
+uni-page.data-v-c70360f4 {
+    background: #F2F2F2;
+}
+.content.data-v-c70360f4{
+	background-color: #F2F2F2;
+	box-sizing: border-box;
+}
+/* bill-title */
+.bill.data-v-c70360f4{
+	margin-left: 25rpx;
+	margin-right: 25rpx;
+	border-radius: 8rpx;
+	background-color: #FFFFFF;
+	padding: 25rpx;
+	margin-top: 25rpx;
+	font-size:30rpx;
+}
+.bill-num.data-v-c70360f4{
+	line-height: 1.8;
+	color: #4D4D4D;
+}
+.bill-price.data-v-c70360f4{
+	line-height: 1.8;
+	color: #4D4D4D;
+}
+

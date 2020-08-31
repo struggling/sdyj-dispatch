@@ -6,10 +6,12 @@
 				<swiper-item v-for="(items,index) in newslist" :key="index">
 					<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)">
 						<!-- 图文列表 -->
+						<orderList></orderList>
 						<template v-if="items.list.length>0">
-							<block v-for="(item,index1) in items.list" :key="index1">
+							<!-- <block v-for="(item,index1) in items.list" :key="index1">
 								<orderList :item="item" :index="index1"></orderList>
-							</block>
+							</block> -->
+							<orderList></orderList>
 						</template>
 						<template v-else>
 							<noThing></noThing>
@@ -56,43 +58,10 @@
 						id: "yiquxiao"
 					},
 				],
-				newslist: [{
+				newslist: [
+					{
 						loadtext: "上拉加载更多",
-						list: [{
-								avatar: require("../../static/logo.png"),
-								username: "昵称",
-								isconcern: false,
-								title: "我是标题",
-								type: "img", //img图文，video视频
-								titlepic: require("../../static/logo.png"),
-								playnum: 200000,
-								long: "2:47",
-								infonum: {
-									index: 0, //没有操作,
-									smile: 11,
-									angry: 11,
-								},
-								commentnum: 10,
-								share: 10
-							},
-							{
-								avatar: require("../../static/logo.png"),
-								username: "昵称",
-								isconcern: false,
-								title: "我是标题",
-								type: "video", //img图文，video视频
-								titlepic: require("../../static/logo.png"),
-								playnum: "20w",
-								long: "2:47",
-								infonum: {
-									index: 1, //没有操作,
-									smile: 11,
-									angry: 11,
-								},
-								commentnum: 10,
-								share: 10
-							}
-						]
+						list: []
 
 					},
 					{
@@ -148,7 +117,7 @@
 		methods: {
 			//上拉加载更多
 			loadmore(index) {
-				console.log(index);
+				console.log('index');
 				//修改状态
 				if (this.newslist[index].loadtext != "上拉加载更多") {
 					return;
@@ -158,23 +127,7 @@
 				//获取数据
 				setTimeout(() => {
 					//获取完成
-					let obj = {
-						avatar: require("../../static/logo.png"),
-						username: "昵称",
-						isconcern: false,
-						title: "我是标题",
-						type: "img", //img图文，video视频
-						titlepic: require("../../static/logo.png"),
-						playnum: 200000,
-						long: "2:47",
-						infonum: {
-							index: 0, //没有操作,
-							smile: 11,
-							angry: 11,
-						},
-						commentnum: 10,
-						share: 10
-					};
+					let obj = {};
 
 					this.newslist[index].list.push(obj);
 					this.newslist[index].loadtext = "上拉加载更多";

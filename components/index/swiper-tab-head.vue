@@ -38,6 +38,7 @@
 .swiper-tab-list{
 		color:#969696;
 		font-weight: bold;
+		margin-left: 30upx;
 	}
 	.uni-tab-bar .active {
 	color: #f86032;

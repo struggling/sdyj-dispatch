@@ -1,43 +1,25 @@
 <template>
 	<view>
-		<view class="img-video-list animated fadeInLeft">
-			<view class="avatar">
-				<view>
-					<image :src="item.avatar" mode="widthFix" lazy-load="">{{item.username}}</image>
-
+		<!-- 订单列表 -->
+		<view class="wait-list">
+			<view class="info">
+				<view class="parm">
+					<view class="parm-txt title">家政服务/日常保洁/2小时</view>
+					<view class="parm-txt">仁寿县中城国际社区2楼</view>
+					<view class="parm-txt">距离：&alt 1.6公里</view>
+					<view class="parm-txt"><span>毛巾</span><span>毛巾</span><span>毛巾</span></view>
+					<view class="parm-txt">上门时间：2020-8-22 14:00</view>
 				</view>
-				<view v-show="!item.isconcern" @tap="guanzhu">
-					<view class="iconfont icon-zengjia1"></view>关注
-				</view>
-			</view>
-			<view class="img-video-title" @tap="opendetial">{{item.title}}</view>
-			<view class="img-video" @tap="opendetial">
-				<!-- 图片 -->
-
-				<image :src="item.titlepic" mode="widthFix" lazy-load=""></image>
-
-				<!-- 视频 -->
-				<template v-if="item.type == 'video'">
-					<view class="video-play iconfont icon-bofang"></view>
-					<view class="video-play-info">{{item.playnum}}次播放 {{item.long}}</view>
-				</template>
-
-			</view>
-			<view class="Commentaries">
-				<view>
-						<view class=" iconfont icon-xiaolianmanyifuwu" :class="{'active':(item.infonum.index==1)}" @tap="caozuo('smile')">
-							<view>{{item.infonum.smile}}</view>
-						</view>
-						<view class="iconfont icon-kulian" :class="{'active':(item.infonum.index==2)}" @tap="caozuo('angry')">
-							<view>{{item.infonum.angry}}</view>
-						</view>
-				</view>
-				<view>
-					<view>
-						<view class=" iconfont icon-pinglun">{{item.commentnum}}</view>
-						<view class="iconfont icon-zhuanfa">{{item.share}}</view>
+				<view class="parm">
+					<view class="pic">
+						<image src="../../static/logo.png" mode=""></image>
 					</view>
+					<view class="price">160元</view>
 				</view>
+			</view>
+			<view class="btn-group">
+				<view class="btn">取消订单</view>
+				<view class="btn active">立即上门</view>
 			</view>
 		</view>
 	</view>	
@@ -45,160 +27,69 @@
 
 <script>
 	export default {
-		props: {
-			item: Object,
-			index: Number
-		},
-		methods: {
-			//关注
-			guanzhu() {
-				this.item.isconcern = true;
-				uni.showToast({
-					title: '关注成功',
-					mask: false,
-					duration: 1500
-				})
-			},
-			//操作
-			caozuo(type) {
-				switch (type) {
-					case "smile":
-						if (this.item.infonum.index == 1) {
-							return;
-						}
-						this.item.infonum.smile++;
-						if (this.item.infonum.index == 2) {
-							this.item.infonum.angry--;
-						}
-						this.item.infonum.index = 1
-						break;
-					case "angry":
-						if (this.item.infonum.index == 2) {
-							return;
-						}
-						this.item.infonum.angry++;
-						if (this.item.infonum.index == 1) {
-							this.item.infonum.smile--;
-						}
-						this.item.infonum.index = 2
-						break;
-
-				}
-			},
-			//进入详情页
-			opendetial(){
-				console.log("进入详情页");
-				console.log(this.item);
-				uni.navigateTo({
-					url: '../../pages/detail/detail?detailData='+JSON.stringify(this.item),
-				});
+		data() {
+			return {
+				
 			}
-		}
-
+		},
 	}
+
+	
 </script>
 
-<style>
-	.img-video-list {
-		padding: 20upx;
-		border-bottom: 1upx solid;
+<style scoped>
+	/* 订单列表 */
+	.wait-list{
+		
+		border-bottom: 1upx solid #c5c4d5;
+		padding-top: 50upx;
 	}
-
-	.avatar {
+	.wait-list .btn-group{
 		display: flex;
+		justify-content: end;
+		padding: 15upx;
+		justify-content: flex-end;
+	}
+	.btn-group .active{
+		background-color: #FA5741;
+		color: #FFFFFF !important;
+		border: none !important;
+	}
+	.info{
+		padding-left: 25upx;
+		padding-right: 25upx;
+		border-bottom: 1upx solid #c5c4d5;
+		display: flex;
+		align-items: center;
 		justify-content: space-between;
-		align-items: center;
 	}
-
-	.avatar>view:first-child {
-		display: flex;
-		align-items: center;
-		color: #929292;
+	.parm{
+		line-height: 28upx;
 	}
-
-	.avatar>view:first-child image {
-		width: 90upx;
-		height: 90upx !important;
-		border-radius: 50%;
-		margin-right: 10upx;
+	uni-view{
+		line-height: 2.15;
 	}
-
-	.avatar>view:last-child {
-		display: flex;
-		align-items: center;
-		background-color: #f4f4f4;
-		border-radius: 5upx;
-	}
-
-	.img-video-title {
-		padding: 15upx 0;
+	.parm .title{
 		font-size: 32upx;
+		font-weight: bold;
 	}
-
-	.img-video {
-		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		/* text-align: center; */
+	.parm .price{
+		text-align: center;
+		color:#FA5741 ;
 	}
-
-	.img-video .video-play {
-		position: absolute;
-		/* background-color: rgba(51,51,51,0.72); */
-		color: #FFFFFF;
-		font-size: 140upx;
-
-
+	.parm .pic image{
+		width: 168upx;
+		height: 168upx;
+		border-radius: 100%;
 	}
-
-	.img-video .video-play-info {
-		position: absolute;
-		background-color: rgba(51, 51, 51, 0.72);
-		color: #FFFFFF;
-		bottom: 8upx;
-		right: 8upx;
-		border-radius: 40upx;
-		font-size: 22upx;
-		padding: 0 10upx;
-
-	}
-
-	.img-video>image {
-		width: 100%;
-		border-radius: 20upx;
-	}
-
-	.Commentaries {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 15upx 0;
-		color: #999999;
-	}
-
-	.Commentaries>view:first-child {
-		display: flex;
-		align-items: center;
-	}
-
-	.Commentaries>view:last-child {
-		display: flex;
-		align-items: center;
-	}
-
-	.Commentaries>view>view {
-		display: flex;
-		align-items: center;
-		margin-right: 15upx;
-	}
-
-	.Commentaries>view>view>view {
-		margin-right: 15upx;
-
-	}
-
-	.active {
-		color: #4130ff;
+	.btn-group .btn {
+		font-size: 28upx;
+		border-radius: 28upx;
+		border: 1upx solid #CCCCCC;
+		color:#CCCCCC ;
+		padding-left: 20upx;
+		padding-right: 20upx;
+		line-height: 1.5;
+		margin-left: 48upx;
 	}
 </style>

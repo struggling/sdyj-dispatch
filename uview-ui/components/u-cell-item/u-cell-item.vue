@@ -225,6 +225,7 @@ export default {
 
 .u-cell_title {
 	font-size: 28rpx;
+	line-height: 48upx;
 }
 
 .u-cell__left-icon-wrap {

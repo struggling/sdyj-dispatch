@@ -3,6 +3,10 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	        justify-content: center;
@@ -17,6 +21,10 @@
 	right: 0;
 }
 .nothing image{
-	/* width: 60%; */
+	width: 60%;
+}
+.nothing .txt{
+	font-size: 36rpx;
+	font-weight: bold;
 }
 
