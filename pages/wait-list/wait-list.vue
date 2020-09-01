@@ -63,6 +63,13 @@
 		height: 722upx;
 		display: block;
 	}
+	/* 修改小程序中map默认样式 */
+	map{
+		position: relative;
+		width: 100%;
+		height: 646upx;
+		display: block;
+	}
 	/* orderDetail */
 	.orderDetail{
 		padding-left: 25upx;
@@ -103,5 +110,9 @@
 		font-size: 40upx;
 		line-height: 76upx;
 		margin:40upx auto;
+	}
+	/* 修改小程序的默认button样式 */
+	button{
+		-webkit-appearance:none
 	}
 </style>

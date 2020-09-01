@@ -25,14 +25,14 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.u-tips.data-v-6f495b00 {
+.u-tips.data-v-77a9240c {
   font-size: 26rpx;
   text-align: center;
   padding: 34rpx 0;
   line-height: 1;
   color: #909399;
 }
-.u-action-sheet-item.data-v-6f495b00 {
+.u-action-sheet-item.data-v-77a9240c {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -46,11 +46,11 @@
   font-size: 34rpx;
   padding: 34rpx 0;
 }
-.u-gab.data-v-6f495b00 {
+.u-gab.data-v-77a9240c {
   height: 12rpx;
   background-color: #eaeaec;
 }
-.u-actionsheet-cancel.data-v-6f495b00 {
+.u-actionsheet-cancel.data-v-77a9240c {
   color: #303133;
 }
 

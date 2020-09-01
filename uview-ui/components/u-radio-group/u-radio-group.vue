@@ -1,5 +1,6 @@
 <template>
-	<view class="u-radio-group u-clearfix">
+	<view class="u-radio-group u-clearfix" style="display: flex;
+">
 		<slot></slot>
 	</view>
 </template>

@@ -121,6 +121,60 @@
 			}
 		},
 		onLoad() {
+					//检查登录是否过期
+					// uni.checkSession({
+					// 	success: (res) => {
+					// 		if(res.errMsg == 'checkSession:ok'){
+					// 			console.log(res);
+					// 			console.log('登录暂未过期');
+					// 			console.log(uni.getStorageSync('openid'));
+					// 		}
+					// 	},
+					// 	fail: (err) => {
+					// 		//过期的话调用接口
+					// 		uni.showModal({
+					// 			cancelText:'取消',
+					// 			confirmText:'确定',
+					// 			title:'登录已过期,请重新登录',
+					// 			success: (res) => {
+					// 				if(res.confirm){
+					// 					uni.showLoading({
+					// 						mask:true,
+					// 						title:'登录中...'
+					// 					})
+					// 					// uni.login({
+					// 					// 	provider:'weixin',
+					// 					// 	success: (res) => {
+					// 					// 		console.log(res);
+					// 					// 		this.http.httpRequest('/index.php/login','post',{
+					// 					// 			code:res.code
+					// 					// 		}).then((res) => {
+					// 					// 			if(res.code == 1){
+					// 					// 				uni.hideLoading()
+					// 					// 				uni.showToast({
+					// 					// 					icon:'success',
+					// 					// 					title:'登录成功'
+					// 					// 				})
+					// 					// 				this.loginCode = res.code
+					// 					// 				uni.setStorageSync('loginCode',this.loginCode)
+					// 					// 				this.nickName = uni.getStorageSync('nickname')
+					// 					// 				this.avatar = uni.getStorageSync('avatar')
+					// 					// 				this.showButton = false
+					// 					// 				setTimeout(() => {
+					// 					// 					uni.navigateTo({
+					// 					// 						url:'../index/examType'
+					// 					// 					})
+					// 					// 				},2000)
+					// 					// 			}
+					// 					// 		})
+					// 					// 	}
+					// 					// })
+					// 				}
+					// 			}
+					// 		})
+					// 	}
+					// });
+
 			// 获取scoll-view高度值
 			uni.getSystemInfo({
 				success: (res) => {

@@ -12,7 +12,7 @@
 					<u-radio-group v-model="radio">
 						<u-radio active-color="#F86032" v-for="(item, index) in radioList" :key="index" :name="item.name" :disabled="item.disabled"
 						 @change="radioChange">
-							{{ item.name }}{{item.checked}}
+							{{ item.name }}
 						</u-radio>
 					</u-radio-group>
 				</u-form-item>
@@ -47,7 +47,7 @@
 				</view>
 			</u-form>
 		</view>
-		<u-button @click="submit">提交申请</u-button>
+		<button @click="submit">提交申请</button>
 		<!-- 操作菜单 -->
 		<u-action-sheet :list="list" v-model="show" :tips="tips" @click="click"></u-action-sheet>
 	</view>
@@ -155,6 +155,9 @@
 		width: 100%;
 		height: 1246upx;
 	}
+	.u-radio-group{
+		display: flex;
+	}
 
 	/* bill-title */
 	.bill {
@@ -203,7 +206,20 @@
 		margin: 0 auto;
 		margin-top: 100upx;
 	}
-
+ button{
+		background-color:#F86032 ;
+		color: #FFFFFF;
+		border-radius: 8upx;
+		width: 482upx;
+		height:76upx ;
+		font-size: 40upx;
+		line-height: 76upx;
+		margin:40upx auto;
+	}
+	/* 修改小程序的默认button样式 */
+	button{
+		-webkit-appearance:none
+	}
 	/* selecttype */
 	.selectType {
 		color: #4D4D4D;

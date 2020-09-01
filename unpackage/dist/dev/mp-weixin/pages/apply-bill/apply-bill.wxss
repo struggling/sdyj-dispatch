@@ -1,60 +1,75 @@
 
-.content.data-v-c70360f4 {
-	background-color: #F2F2F2;
-	box-sizing: border-box;
-	width: 100%;
-	height: 1246rpx;
+.content.data-v-d07f7b00 {
+		background-color: #F2F2F2;
+		box-sizing: border-box;
+		width: 100%;
+		height: 1246rpx;
 }
-
-/* bill-title */
-.bill.data-v-c70360f4 {
-	margin-left: 25rpx;
-	margin-right: 25rpx;
-	border-radius: 8rpx;
-	background-color: #FFFFFF;
-	padding: 25rpx;
-	/* margin-top: 25upx; */
-	font-size: 30rpx;
-	font-weight: bold;
+.u-radio-group.data-v-d07f7b00{
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
 }
-.bill-num.data-v-c70360f4 {
-	line-height: 1.8;
-	color: #4D4D4D;
+	/* bill-title */
+.bill.data-v-d07f7b00 {
+		margin-left: 25rpx;
+		margin-right: 25rpx;
+		border-radius: 8rpx;
+		background-color: #FFFFFF;
+		padding: 25rpx;
+		/* margin-top: 25upx; */
+		font-size: 30rpx;
+		font-weight: bold;
 }
-.bill-num ._span.data-v-c70360f4 {
-	padding-left: 60rpx;
+.bill-num.data-v-d07f7b00 {
+		line-height: 1.8;
+		color: #4D4D4D;
 }
-.bill-price.data-v-c70360f4 {
-	line-height: 1.8;
-	color: #4D4D4D;
+.bill-num ._span.data-v-d07f7b00 {
+		padding-left: 60rpx;
 }
-.bill-price ._span.data-v-c70360f4 {
-	padding-left: 60rpx;
-	color: #ff5500;
+.bill-price.data-v-d07f7b00 {
+		line-height: 1.8;
+		color: #4D4D4D;
 }
-
-/* form */
-.u-form-item--left.data-v-c70360f4 {
-	width: 62rpx !important;
-	-webkit-box-flex: 0;
-	-webkit-flex: 0;
-	        flex: 0;
+.bill-price ._span.data-v-d07f7b00 {
+		padding-left: 60rpx;
+		color: #ff5500;
 }
-
-/* button */
-.u-btn.data-v-c70360f4 {
-	width: 482rpx;
-	height: 76rpx;
-	background-color: #F86032;
-	border-radius: 8rpx;
-	color: #FFFFFF;
-	margin: 0 auto;
-	margin-top: 100rpx;
+	/* form */
+.u-form-item--left.data-v-d07f7b00 {
+		width: 62rpx !important;
+		-webkit-box-flex: 0;
+		-webkit-flex: 0;
+		        flex: 0;
 }
-
-/* selecttype */
-.selectType.data-v-c70360f4 {
-	color: #4D4D4D;
-	padding-right: 20rpx;
+	/* button */
+.u-btn.data-v-d07f7b00 {
+		width: 482rpx;
+		height: 76rpx;
+		background-color: #F86032;
+		border-radius: 8rpx;
+		color: #FFFFFF;
+		margin: 0 auto;
+		margin-top: 100rpx;
+}
+button.data-v-d07f7b00{
+		background-color:#F86032 ;
+		color: #FFFFFF;
+		border-radius: 8rpx;
+		width: 482rpx;
+		height:76rpx;
+		font-size: 40rpx;
+		line-height: 76rpx;
+		margin:40rpx auto;
+}
+	/* 修改小程序的默认button样式 */
+button.data-v-d07f7b00{
+		-webkit-appearance:none
+}
+	/* selecttype */
+.selectType.data-v-d07f7b00 {
+		color: #4D4D4D;
+		padding-right: 20rpx;
 }
 

@@ -7,7 +7,8 @@
     "pages/apply-bill/apply-bill",
     "pages/order-detail/order-detail",
     "pages/dispatch-detail/dispatch-detail",
-    "pages/myinfo/myinfo"
+    "pages/myinfo/myinfo",
+    "pages/login/login"
   ],
   "subPackages": [],
   "window": {
@@ -42,11 +43,11 @@
       }
     ]
   },
-  "permission" : {
-    "scope.userLocation" : {
-        "desc" : "你的位置信息将用于小程序位置接口的效果展示"
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap66.json"
+  "sitemapLocation": "sitemap25.json"
 }

@@ -71,6 +71,12 @@
 				"navigationBarTextStyle":"white"
 			}
         }
+        ,{
+            "path" : "pages/login/login",
+            "style" : {"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarTitleText": "登陆授权",
+				"navigationBarTextStyle":"white"}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
