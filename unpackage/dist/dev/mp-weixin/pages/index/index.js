@@ -94,13 +94,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uNoticeBar: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-notice-bar/u-notice-bar */ "uview-ui/components/u-notice-bar/u-notice-bar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-notice-bar/u-notice-bar.vue */ 76))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-notice-bar/u-notice-bar */ "uview-ui/components/u-notice-bar/u-notice-bar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-notice-bar/u-notice-bar.vue */ 98))
   },
   uModal: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 83))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 105))
   },
   uPopup: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 90))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 112))
   }
 }
 var render = function() {
@@ -230,8 +230,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
-var Mock = __webpack_require__(/*! ../../common//mock.mp.js */ 43);var loadMore = function loadMore() {__webpack_require__.e(/*! require.ensure | components/common/load-more */ "components/common/load-more").then((function () {return resolve(__webpack_require__(/*! ../../components/common/load-more.vue */ 97));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var Mock = __webpack_require__(/*! ../../common//mock.mp.js */ 43);var loadMore = function loadMore() {__webpack_require__.e(/*! require.ensure | components/common/load-more */ "components/common/load-more").then((function () {return resolve(__webpack_require__(/*! ../../components/common/load-more.vue */ 119));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 {
   components: {
@@ -262,6 +263,7 @@ var Mock = __webpack_require__(/*! ../../common//mock.mp.js */ 43);var loadMore 
 
   },
   onLoad: function onLoad() {var _this = this;
+    // 获取scoll-view高度值
     uni.getSystemInfo({
       success: function success(res) {
         console.log(res.windowHeight);
@@ -269,24 +271,14 @@ var Mock = __webpack_require__(/*! ../../common//mock.mp.js */ 43);var loadMore 
         _this.swiperheight = height;
       } });
 
-    //用户授权
-    // uni.authorize({
-    // 	scope: 'scope.userLocation',
-    // 	success() {
-    // 		//若是用户同意授权，则会跳转到此函数，可以在此调用获取位置信息的api
-    // 		// 腾讯地图地理位置api
-    // 		uni.getLocation({
-    // 			type: 'gcj02', //腾讯地图使用gcj02获取位置坐标
-    // 			success: function(res) {
-    // 				console.log('当前位置的经度：' + res.longitude);
-    // 				console.log('当前位置的纬度：' + res.latitude);
-    // 			}
-    // 		});
-    // 	},
-    // 	fail(err) {
-    // 		console.log(err)
-    // 	}
-    // });
+    // 获取用户地理位置经纬都
+    uni.getLocation({
+      type: 'wgs84',
+      success: function success(res) {
+        console.log('当前位置的经度：' + res.longitude);
+        console.log('当前位置的纬度：' + res.latitude);
+      } });
+
     // mock数据
     var Random = Mock.Random;
     Random.county();

@@ -1,28 +1,28 @@
 
-.swiper-tab-list.data-v-090a9d36{
+.swiper-tab-list.data-v-8de60c3e{
 		color:#969696;
 		font-weight: bold;
 		margin-left: 30rpx;
 }
-.uni-tab-bar .active.data-v-090a9d36 {
+.uni-tab-bar .active.data-v-8de60c3e {
 	color: #f86032;
 }
-.active .swiper-tab-line.data-v-090a9d36{
+.active .swiper-tab-line.data-v-8de60c3e{
 		border-bottom: 6rpx solid #f86032;
 		width: 70rpx;
 		margin: auto;
 		border-top: 6rpx solid #f86032;
 		border-radius: 20rpx;
 }
-.swiper-box.data-v-090a9d36{
+.swiper-box.data-v-8de60c3e{
 		/* height: 700upx !important; */
 }
-.uni-swiper-tab.data-v-090a9d36{
+.uni-swiper-tab.data-v-8de60c3e{
 		/* border-bottom: 1px solid #ffffff;
 		padding-left: 25upx;
 		padding-right: 25upx; */
 }
-.uni-scroll-view.data-v-090a9d36 {
+.uni-scroll-view.data-v-8de60c3e {
 	    position: relative;
 	    -webkit-overflow-scrolling: touch;
 	    width: 100%;

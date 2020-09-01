@@ -3,9 +3,12 @@
   "navigationBarTitleText": "接单中心",
   "navigationBarTextStyle": "white",
   "usingComponents": {
-    "order-list": "/components/index/order-list",
-    "swiper-tab-head": "/components/index/swiper-tab-head",
+    "order-list": "/components/order/order-list",
+    "swiper-tab-head": "/components/order/swiper-tab-head",
     "load-more": "/components/common/load-more",
-    "no-thing": "/components/common/no-thing"
+    "no-thing": "/components/common/no-thing",
+    "settled": "/components/order/settled",
+    "cancel": "/components/order/cancel",
+    "order-settled": "/components/order/order-settled"
   }
 }

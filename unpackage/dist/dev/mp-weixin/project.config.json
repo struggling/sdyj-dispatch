@@ -27,12 +27,12 @@
 			"outputPath": ""
 		},
 		"useIsolateContext": true,
-		"useCompilerModule": false,
+		"useCompilerModule": true,
 		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "",
-	"appid": "touristappid",
+	"appid": "wxe7bb48c6264d17e1",
 	"projectname": "sdyj-dispatch",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

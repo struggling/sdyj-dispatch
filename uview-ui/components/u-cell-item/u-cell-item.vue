@@ -226,6 +226,7 @@ export default {
 .u-cell_title {
 	font-size: 28rpx;
 	line-height: 48upx;
+	padding-left: 20upx;
 }
 
 .u-cell__left-icon-wrap {
@@ -277,6 +278,7 @@ export default {
 	vertical-align: middle;
 	color: $u-tips-color;
 	font-size: 26rpx;
+	line-height: 24px;
 }
 
 .u-cell__title,

@@ -551,6 +551,7 @@ export default {
 	flex-direction: column;
 	color: $u-content-color;
 	font-size: 26rpx;
+	// height: 114upx !important;
 }
 
 .u-add-tips {

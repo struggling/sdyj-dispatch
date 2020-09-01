@@ -121,6 +121,7 @@
 			}
 		},
 		onLoad() {
+			// 获取scoll-view高度值
 			uni.getSystemInfo({
 				success: (res) => {
 					console.log(res.windowHeight);
@@ -128,24 +129,14 @@
 					this.swiperheight = height;
 				}
 			});
-			//用户授权
-			// uni.authorize({
-			// 	scope: 'scope.userLocation',
-			// 	success() {
-			// 		//若是用户同意授权，则会跳转到此函数，可以在此调用获取位置信息的api
-			// 		// 腾讯地图地理位置api
-			// 		uni.getLocation({
-			// 			type: 'gcj02', //腾讯地图使用gcj02获取位置坐标
-			// 			success: function(res) {
-			// 				console.log('当前位置的经度：' + res.longitude);
-			// 				console.log('当前位置的纬度：' + res.latitude);
-			// 			}
-			// 		});
-			// 	},
-			// 	fail(err) {
-			// 		console.log(err)
-			// 	}
-			// });
+			// 获取用户地理位置经纬都
+			uni.getLocation({
+			    type: 'wgs84',
+			    success: function (res) {
+			        console.log('当前位置的经度：' + res.longitude);
+			        console.log('当前位置的纬度：' + res.latitude);
+			    }
+			});
 			// mock数据
 			const Random = Mock.Random;
 			Random.county();

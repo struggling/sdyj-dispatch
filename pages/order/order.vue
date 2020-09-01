@@ -283,5 +283,7 @@
 </script>
 
 <style>
-
+	view{
+		line-height: 2.25;
+	}
 </style>

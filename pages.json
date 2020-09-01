@@ -65,7 +65,11 @@
         }
         ,{
             "path" : "pages/myinfo/myinfo",
-            "style" : {}
+            "style" : {
+				"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarTitleText": "个人信息",
+				"navigationBarTextStyle":"white"
+			}
         }
     ],
 	"globalStyle": {
@@ -99,10 +103,5 @@
 				"text": "个人中心"
 			}
 		]
-	},
-	"permission": {
-	    "scope.userLocation": {
-	      "desc": "你的位置信息将用于小程序位置接口的效果展示" 
-	    }
-	  }
+	}
 }
