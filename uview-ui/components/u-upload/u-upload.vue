@@ -528,6 +528,9 @@ export default {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	position: absolute;
+	top: 242upx;
+	right: 118upx;
 }
 
 .u-list-item {

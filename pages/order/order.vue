@@ -81,14 +81,6 @@
 						loadtext: "上拉加载更多",
 						list: []
 					},
-					{
-						loadtext: "上拉加载更多",
-						list: []
-					},
-					{
-						loadtext: "上拉加载更多",
-						list: []
-					},
 				],
 			}
 		},
@@ -135,24 +127,24 @@
 				//获取数据
 				setTimeout(() => {
 					//获取完成
-					let obj = this.getlistdata();;
-
+					let obj = this.getlistdata();
 					this.newslist[index].list.concat(obj);
 					this.newslist[index].loadtext = "上拉加载更多";
 				}, 1000)
-
-				// this.newslist[index].loadtext = "上拉加载更多"
-				// this.newslist[index].loadtext = "上拉加载更多"
 			},
 			//tabbar点击事件
 			tabtap(index) {
 				this.tabIndex = index;
-				this.getlistdata();
+				let obj = this.getlistdata();
+				this.newslist[index].list.concat(obj);
+				console.log(this.newslist);
 			},
 			//滑动事件
 			tabChange(e) {
-				this.tabIndex = e.detail.current;
-				this.getlistdata();
+				let obj = this.getlistdata();
+				// this.tabIndex = e.detail.current;
+				// this.newslist[e.detail.current].list.concat(obj);
+				// console.log(this.newslist);
 			},
 			getlistdata(){
 				const Random = Mock.Random;

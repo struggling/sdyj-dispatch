@@ -69,7 +69,7 @@
 					</view>
 				</view>
 			</view>
-			<u-button @click="submit">保存信息</u-button>
+			<button @click="submit">保存信息</button>
 			<!-- <u-upload  ref="uUpload" :action="action"></u-upload> -->
 			<u-upload style="opacity:0" :custom-btn="true" ref="uUpload" :show-upload-list="showUploadList" :action="action"
 			 :max-count="maxcount">
@@ -265,7 +265,20 @@
 		margin-top: 148upx;
 		margin-bottom: 214upx;
 	}
-
+	button{
+			background-color:#F86032 ;
+			color: #FFFFFF;
+			border-radius: 8upx;
+			width: 482upx;
+			height:76upx ;
+			font-size: 40upx;
+			line-height: 76upx;
+			margin:40upx auto;
+		}
+		/* 修改小程序的默认button样式 */
+		button{
+			-webkit-appearance:none
+		}
 	.u-upload {
 		position: absolute;
 		top: 242upx;

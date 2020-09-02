@@ -37,8 +37,9 @@
 		<!-- 个人信息列表 -->
 		<view class="u-m-t-20">
 			<u-cell-group>
-				<u-cell-item  title="个人信息"></u-cell-item>
-				<u-cell-item  title="个人工号">123456</u-cell-item>
+				
+				<u-cell-item title="个人信息"></u-cell-item>
+				<u-cell-item  title="个人工号">个人工号123456</u-cell-item>
 				<u-cell-item  title="个人工作时间" @tap="showtime=true">{{timeval}}</u-cell-item>
 				<u-cell-item  title="评分指南">9.4分</u-cell-item>
 				<u-cell-item  title="意见反馈"></u-cell-item>

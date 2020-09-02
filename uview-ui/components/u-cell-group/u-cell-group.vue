@@ -3,7 +3,7 @@
 		<view class="u-cell-title" v-if="title" :style="[titleStyle]">
 			{{title}}
 		</view>
-		<view class="u-cell-item-box" :class="{'u-border-bottom u-border-top': border}">
+		<view class="u-cell-item-box " :class="{'u-border-bottom u-border-top': border}">
 			<slot />
 		</view>
 	</view>

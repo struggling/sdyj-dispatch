@@ -6,7 +6,6 @@
     "u-avatar": "/uview-ui/components/u-avatar/u-avatar",
     "u-rate": "/uview-ui/components/u-rate/u-rate",
     "u-icon": "/uview-ui/components/u-icon/u-icon",
-    "u-button": "/uview-ui/components/u-button/u-button",
     "u-upload": "/uview-ui/components/u-upload/u-upload",
     "u-select": "/uview-ui/components/u-select/u-select"
   }

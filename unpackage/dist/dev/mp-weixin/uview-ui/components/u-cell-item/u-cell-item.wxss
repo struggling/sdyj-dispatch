@@ -25,7 +25,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.u-cell.data-v-ff40bd70 {
+.u-cell.data-v-65423b64 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -39,22 +39,22 @@
   background-color: #fff;
   text-align: left;
 }
-.u-cell_title.data-v-ff40bd70 {
+.u-cell_title.data-v-65423b64 {
   font-size: 28rpx;
   line-height: 48rpx;
   padding-left: 20rpx;
 }
-.u-cell__left-icon-wrap.data-v-ff40bd70 {
+.u-cell__left-icon-wrap.data-v-65423b64 {
   margin-right: 10rpx;
   font-size: 32rpx;
 }
-.u-cell__right-icon-wrap.data-v-ff40bd70 {
+.u-cell__right-icon-wrap.data-v-65423b64 {
   margin-left: 10rpx;
   color: #969799;
   font-size: 28rpx;
 }
-.u-cell__left-icon-wrap.data-v-ff40bd70,
-.u-cell__right-icon-wrap.data-v-ff40bd70 {
+.u-cell__left-icon-wrap.data-v-65423b64,
+.u-cell__right-icon-wrap.data-v-65423b64 {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -63,7 +63,7 @@
           align-items: center;
   height: 48rpx;
 }
-.u-cell-border.data-v-ff40bd70:after {
+.u-cell-border.data-v-65423b64:after {
   position: absolute;
   box-sizing: border-box;
   content: ' ';
@@ -75,17 +75,17 @@
   -webkit-transform: scaleY(0.5);
   transform: scaleY(0.5);
 }
-.u-cell-border.data-v-ff40bd70 {
+.u-cell-border.data-v-65423b64 {
   position: relative;
 }
-.u-cell__label.data-v-ff40bd70 {
+.u-cell__label.data-v-65423b64 {
   margin-top: 6rpx;
   font-size: 26rpx;
   line-height: 36rpx;
   color: #909399;
   word-wrap: break-word;
 }
-.u-cell__value.data-v-ff40bd70 {
+.u-cell__value.data-v-65423b64 {
   overflow: hidden;
   text-align: right;
   vertical-align: middle;
@@ -93,13 +93,13 @@
   font-size: 26rpx;
   line-height: 24px;
 }
-.u-cell__title.data-v-ff40bd70,
-.u-cell__value.data-v-ff40bd70 {
+.u-cell__title.data-v-65423b64,
+.u-cell__value.data-v-65423b64 {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
           flex: 1;
 }
-.u-cell--required.data-v-ff40bd70 {
+.u-cell--required.data-v-65423b64 {
   overflow: visible;
   display: -webkit-box;
   display: -webkit-flex;
@@ -108,7 +108,7 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.u-cell--required.data-v-ff40bd70:before {
+.u-cell--required.data-v-65423b64:before {
   position: absolute;
   content: '*';
   left: 8px;
