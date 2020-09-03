@@ -38,28 +38,37 @@
 						//获取用户信息
 						uni.getUserInfo({
 							success(data) {
-								console.log(data);
+								// console.log(data);
 								uni.request({
 										url: "https://applet.51tiaoyin.com/public/applet/login/",
 										method: "GET",
+										dataType:JSON,
 										data: {
 											"code": code,
 											"iv": data.iv,
 											"encryptedData": data.encryptedData
 										},
 										success(res) {
-											JSON.stringify(res);
-											console.log(res);
-											uni.showToast({
-												title: "登录成功"
-											});
-											// uni.reLaunch({
-											// 	url:"../index/index",
-											// });
-											// 把用户信息写入缓存
-											uni.setStorage('user_name', res.data.wechat_name);
-											uni.setStorage('user_avatar', res.data.wechat_img);
-											uni.setStorage('user_uid', res.data.wechat_uid);
+											// JSON.stringify(res.data.wechat_name);
+											// console.log(res);
+											console.log(JSON.parse(res.data));
+											const data = JSON.parse(res.data);
+											console.log(data.data.uid);
+											if(data.code == 200){
+												uni.showToast({
+													title: "登录成功"
+												});
+												// uni.reLaunch({
+												// 	url:"../index/index",
+												// });
+												// 把用户信息写入缓存
+												
+												// console.log(res.data.data);
+												uni.setStorageSync('user_name', data.data.wechat_name);
+												uni.setStorageSync('user_avatar', data.data.wechat_img);
+												uni.setStorageSync('user_uid', data.data.uid);
+											}
+											
 										},
 										fail(res) {
 											uni.showToast({
@@ -76,15 +85,16 @@
 			},
 			//获取用户缓存信息
 			getinfo(){
-				uni.getStorage({
-					key: 'user_uid',
-					success(res) {
-						console.log(res.data);
-					},
-					fail(res) {
-						console.log(res);
-					}
-				})
+				console.log("haha");
+				try {
+				    const value = uni.getStorageSync('user_uid');
+				    if (value) {
+				        console.log(value);
+				    }else{console.log("value不存在");}
+				} catch (e) {
+				    // error
+					console.log(e);
+				}
 			},
 			},
 		onLoad() {

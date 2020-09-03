@@ -8,9 +8,10 @@
 		{
 			"path": "pages/index/index",
 			"style": {
+				"navigationStyle":"custom",
 				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
 				"disableScroll":true,
-				"navigationBarBackgroundColor":"#f85f31",
+				"navigationBarBackgroundColor":"#00ABEB",
 				"navigationBarTitleText": "接单池",
 				"navigationBarTextStyle":"white"
 			}
@@ -18,7 +19,8 @@
 	    ,{
             "path" : "pages/order/order",
             "style" : {
-				"navigationBarBackgroundColor":"#f85f31",
+				"navigationStyle":"custom",
+				"navigationBarBackgroundColor":"#00ABEB",
 				"navigationBarTitleText": "接单中心",
 				"navigationBarTextStyle":"white"
 			}
@@ -26,7 +28,8 @@
         ,{
             "path" : "pages/home/home",
             "style" : {
-				"navigationBarBackgroundColor":"#f85f31",
+				"navigationStyle":"custom",
+				"navigationBarBackgroundColor":"#00ABEB",
 				"navigationBarTitleText": "个人中心",
 				"navigationBarTextStyle":"white"
 			}
@@ -34,6 +37,7 @@
         ,{
             "path" : "pages/wait-list/wait-list",
             "style" : {
+				"navigationStyle":"custom",
 				"navigationBarBackgroundColor":"#f85f31",
 				"navigationBarTitleText": "待派单",
 				"navigationBarTextStyle":"white"
@@ -42,6 +46,7 @@
         ,{
             "path" : "pages/apply-bill/apply-bill",
             "style" : {
+				"navigationStyle":"custom",
 				"navigationBarBackgroundColor":"#f85f31",
 				"navigationBarTitleText": "申请开票",
 				"navigationBarTextStyle":"white"
@@ -50,6 +55,7 @@
         ,{
             "path" : "pages/order-detail/order-detail",
             "style" : {
+				"navigationStyle":"custom",
 				"navigationBarBackgroundColor":"#f85f31",
 				"navigationBarTitleText": "订单信息",
 				"navigationBarTextStyle":"white"
@@ -58,6 +64,7 @@
         ,{
             "path" : "pages/dispatch-detail/dispatch-detail",
             "style" : {
+				"navigationStyle":"custom",
 				"navigationBarBackgroundColor":"#f85f31",
 				"navigationBarTitleText": "接单详情",
 				"navigationBarTextStyle":"white"
@@ -66,6 +73,7 @@
         ,{
             "path" : "pages/myinfo/myinfo",
             "style" : {
+				"navigationStyle":"custom",
 				"navigationBarBackgroundColor":"#f85f31",
 				"navigationBarTitleText": "个人信息",
 				"navigationBarTextStyle":"white"
@@ -73,7 +81,9 @@
         }
         ,{
             "path" : "pages/login/login",
-            "style" : {"navigationBarBackgroundColor":"#f85f31",
+            "style" : {
+				"navigationStyle":"custom",
+				"navigationBarBackgroundColor":"#f85f31",
 				"navigationBarTitleText": "登陆授权",
 				"navigationBarTextStyle":"white"}
         }
@@ -86,9 +96,10 @@
 	},
 	"tabBar": {
 	    "color": "#7A7E83",
-	    "selectedColor": "#f85f31",
+	    "selectedColor": "#00ABEB",
 	    "borderStyle": "white",
 	    "backgroundColor": "#ffffff",
+		
 	    "list": [
 			{
 	        "pagePath": "pages/index/index",

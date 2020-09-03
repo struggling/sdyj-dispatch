@@ -1,55 +1,63 @@
 <template>
-	<view class="content">
-		<!--bill-title  -->
-		<view class="line" style="width: 100%;height: 25upx;background-color:#F2F2F2 ;"></view>
-		<view class="bill">
-			<view class="bill-num">订单编号 <span>123456789644236</span></view>
-			<view class="bill-price">开票金额 <span>￥160</span></view>
+	
+	<view>
+		<u-navbar :is-back="false"  title="抢单池" :height="height" :background="background" title-color="#ffffff">
+			<view class="slot-wrap">
+				{{address}}
+			</view>
+		</u-navbar>
+		<view class="content">
+			<!--bill-title  -->
+			<view class="line" style="width: 100%;height: 25upx;background-color:#F2F2F2 ;"></view>
+			<view class="bill">
+				<view class="bill-num">订单编号 <span>123456789644236</span></view>
+				<view class="bill-price">开票金额 <span>￥160</span></view>
+			</view>
+			<view class="bill" style="margin-top: 25upx;">
+				<u-form :model="form" ref="uForm">
+					<u-form-item label="抬头类型">
+						<u-radio-group v-model="radio">
+							<u-radio active-color="#00abeb" v-for="(item, index) in radioList" :key="index" :name="item.name" :disabled="item.disabled"
+							 @change="radioChange">
+								{{ item.name }}
+							</u-radio>
+						</u-radio-group>
+					</u-form-item>
+					<u-form-item label="发票类型" prop="bill">
+						<view class="selectType" @tap="opensheet" >{{bill}}</view>
+						<u-icon name="arrow-right" @tap="opensheet"></u-icon>
+					</u-form-item>
+					<u-form-item label="发票抬头" prop="name">
+						<u-input v-model="form.name" placeholder="填写需要开票的个人姓名" />
+					</u-form-item>
+					<view v-if="type == '个人'">
+						<u-form-item label="个人地址" prop="address">
+							<u-input v-model="form.address" placeholder="填写需要开票的个人地址" />
+						</u-form-item>
+						<u-form-item label="个人电话" prop="tel">
+							<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
+						</u-form-item>
+					</view>
+					<view v-else>
+						<u-form-item label="税号" prop="suinum">
+							<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
+						</u-form-item>
+						<u-form-item label="企业地址" prop="cpadd">
+							<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
+						</u-form-item>
+						<u-form-item label="银行账号" prop="banknum">
+							<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
+						</u-form-item>
+						<u-form-item label="企业邮箱" prop="eamil">
+							<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
+						</u-form-item>
+					</view>
+				</u-form>
+			</view>
+			<button @click="submit" class="theme">提交申请</button>
+			<!-- 操作菜单 -->
+			<u-action-sheet :list="list" v-model="show" :tips="tips" @click="click"></u-action-sheet>
 		</view>
-		<view class="bill" style="margin-top: 25upx;">
-			<u-form :model="form" ref="uForm">
-				<u-form-item label="抬头类型">
-					<u-radio-group v-model="radio">
-						<u-radio active-color="#F86032" v-for="(item, index) in radioList" :key="index" :name="item.name" :disabled="item.disabled"
-						 @change="radioChange">
-							{{ item.name }}
-						</u-radio>
-					</u-radio-group>
-				</u-form-item>
-				<u-form-item label="发票类型" prop="bill">
-					<view class="selectType" @tap="opensheet" >{{bill}}</view>
-					<u-icon name="arrow-right" @tap="opensheet"></u-icon>
-				</u-form-item>
-				<u-form-item label="发票抬头" prop="name">
-					<u-input v-model="form.name" placeholder="填写需要开票的个人姓名" />
-				</u-form-item>
-				<view v-if="type == '个人'">
-					<u-form-item label="个人地址" prop="address">
-						<u-input v-model="form.address" placeholder="填写需要开票的个人地址" />
-					</u-form-item>
-					<u-form-item label="个人电话" prop="tel">
-						<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
-					</u-form-item>
-				</view>
-				<view v-else>
-					<u-form-item label="税号" prop="suinum">
-						<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
-					</u-form-item>
-					<u-form-item label="企业地址" prop="cpadd">
-						<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
-					</u-form-item>
-					<u-form-item label="银行账号" prop="banknum">
-						<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
-					</u-form-item>
-					<u-form-item label="企业邮箱" prop="eamil">
-						<u-input v-model="form.tel" placeholder="填写需要开票的个人电话" />
-					</u-form-item>
-				</view>
-			</u-form>
-		</view>
-		<button @click="submit">提交申请</button>
-		<!-- 操作菜单 -->
-		<u-action-sheet :list="list" v-model="show" :tips="tips" @click="click"></u-action-sheet>
 	</view>
 </template>
 
@@ -57,6 +65,11 @@
 	export default {
 		data() {
 			return {
+				address:"",
+				height:"",
+				background:{
+					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+				},
 				type:"个人",
 				bill:"增值税电子普通发票",
 				list: [{
@@ -149,6 +162,7 @@
 	};
 </script>
 <style scoped>
+	
 	.content {
 		background-color: #F2F2F2;
 		box-sizing: border-box;

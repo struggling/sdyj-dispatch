@@ -1,14 +1,20 @@
 <template>
 	<view>
+		<u-navbar :is-back="false"  title="抢单池" :height="height" :background="background" title-color="#ffffff">
+			<view class="slot-wrap">
+				{{address}}
+			</view>
+		</u-navbar>
+		
 		<view class="content">
 
 			<!-- 地理位置 -->
-			<view class="location">
+			<!-- <view class="location theme">
 				<span class="iconfont icondiliweizhi"></span>
 				<span>仁寿县</span>
-			</view>
+			</view> -->
 			<!-- 滚动通知 -->
-			<u-notice-bar mode="vertical" :list="notice" :duration="2500"></u-notice-bar>
+			<u-notice-bar mode="vertical" :list="notice" :duration="2500" bg-color="#E2F7FF" color="#010101"></u-notice-bar>
 			<!-- 接单列表 -->
 			<!-- 表头 -->
 			<view class="tab-bar">
@@ -29,16 +35,16 @@
 										<view class="item-l">
 											<view class="title">{{item.type.id}}/{{item.type.childrentype}}/<span>{{item.time}}小时</span></view>
 											<view class="address">{{item.address}}</view>
-											<view class="distance">距离：&lt {{item.distance}}公里</view>
-											<view class="tool"><span>毛巾</span><span>扳手大锤</span><span>长托帕</span></view>
+											<view class="dtime">
+												
+												<view class="distance">距离：&lt {{item.distance}}公里</view>
 											<view class="vtime">上门时间：{{item.vtime}}</view>
+											</view>
+											<view class="tool"><span>毛巾</span><span>扳手大锤</span><span>长托帕</span></view>
 										</view>
 										<view class="item-r">
-											<view class="img">
-												<image src="../../static/logo.png" mode=""></image>
-											</view>
 											<view class="price">{{item.price}}元</view>
-											<view class="status" @tap="openModel">立即抢单</view>
+											<view class="status theme" @tap="openModel">立即抢单</view>
 										</view>
 									</view>
 								</view>
@@ -94,6 +100,10 @@
 
 <script>
 	const Mock = require("../../common//mock.mp.js");
+	
+	//引入小程序微信小程序JavaScriptSDK
+	// const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+	var bmap = require('../../libs/bmap-wx.js'); 
 	import loadMore from "../../components/common/load-more.vue";
 	export default {
 		components: {
@@ -101,6 +111,12 @@
 		},
 		data() {
 			return {
+				address:"当前位置",
+				height:"",
+				background:{
+					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+				},
+				user_uid :"",
 				showpopup: false,
 				show: false,
 				content: '恭喜您抢单成功，请前往已抢单界面查看详情！',
@@ -123,14 +139,39 @@
 				],
 			}
 		},
+		onReady() {
+			const jl = this.countDistance("30.248398420426","120.17557880007","39.909187","116.397451")
+			console.log(jl);	
+			
+		},
 		onLoad() {
 			// 检查登录是否过期
+			var that = this;
 			uni.checkSession({
 					success: (res) => {
 						if (res.errMsg == 'checkSession:ok') {
 							console.log(res);
 							console.log('登录暂未过期');
-							console.log(uni.getStorage('user_uid'));
+							console.log(uni.getStorageSync('user_uid'));
+							this.user_uid = uni.getStorageSync('user_uid')
+							uni.request({
+								url:"https://applet.51tiaoyin.com/public/applet/work/stay",
+								method:"POST",
+								dataType:JSON,
+								data:{
+									town:"杭州",
+									genre:"日常保洁",
+									uid:this.user_uid
+								},
+								success(res) {
+									const data = JSON.parse(res.data);
+									console.log(data.data);
+									// console.log(res)
+								},
+								fail(err) {
+									console.log(err);
+								}
+							})
 						}
 					},
 					fail: (err) => {
@@ -190,12 +231,54 @@
 				});
 			// 获取用户地理位置经纬都
 			uni.getLocation({
-				type: 'wgs84',
-				success: function(res) {
+				type: 'gcj02',
+				success(res) {
 					console.log('当前位置的经度：' + res.longitude);
 					console.log('当前位置的纬度：' + res.latitude);
+					const  longitude = res.longitude;
+					const latitude = res.latitude;
+					 // 实例化腾讯地图小程序API核心
+					// const qqmapsdk = new QQMapWX({
+					// 	key: 'WYTBZ-MJSWU-H7VV7-BQTQV-2Z6PO-RBB23'
+					// });
+					//  qqmapsdk.reverseGeocoder({
+					// 	 location:{
+					// 	 	longitude : res.longitude,
+					// 	 	latitude : res.latitude
+					// 	 },
+					// 	 success(res){
+					// 	 	console.log(res,data);
+					// 	 },
+					// 	 fail(error){
+					// 		 console.log(error);
+					// 	 }
+					//  } )
+					//百度地图
+					var BMap = new bmap.BMapWX({ 
+					            ak: 'q58GRKnjyQGGXI72GMdHKBBUaHEIKSyc' 
+					        }); 
+					BMap.regeocoding({
+						location:res.latitude+","+res.longitude,
+						// location:"116.409443,39.909843",
+						
+							 success(res){
+								 // console.log(res.wxMarkerData[0].address);
+								 const address = res.wxMarkerData[0].address.substring(3);
+								 console.log(this);
+								 that.address = address;
+							 },
+							 fail(error){
+								 console.log(error);
+								 console.log("失败");
+							 }
+							 
+					})
+						}	,
+				fail() {
+					console.log("位置获取失败");
 				}
 			});
+
 			// mock数据
 			const Random = Mock.Random;
 			Random.county();
@@ -617,12 +700,39 @@
 			uni.navigateTo({
 				url: '../wait-list/wait-list',
 			});
-		}
+		},
+		//计算两点直线路径
+		countDistance(la1, lo1, la2, lo2) {  
+		            var La1 = la1 * Math.PI / 180.0;  
+		            var La2 = la2 * Math.PI / 180.0;  
+		            var La3 = La1 - La2;  
+		            var Lb3 = lo1 * Math.PI / 180.0 - lo2 * Math.PI / 180.0;  
+		            var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(La3 / 2), 2)+Math.cos(La1) * Math.cos(La2) * Math.pow(Math.sin(Lb3 / 2), 2)));  
+		            s = s * 6378.137;//地球半径  
+		            s = Math.round(s * 10000) / 10000;  
+		            console.log("计算结果",s,'公里');   
+		        }
 	}
-	}
+}
 </script>
 
 <style scoped>
+	/* 顶部导航栏自定义 */
+	.slot-wrap {
+			display: flex;
+			align-items: center;
+			/* 如果您想让slot内容占满整个导航栏的宽度 */
+			/* flex: 1; */
+			/* 如果您想让slot内容与导航栏左右有空隙 */
+			padding: 0 25rpx;
+			color: #FFFFFF;
+			margin-top: 2upx;
+			font-size: 22upx;
+		}
+	.status_bar {
+	      height: var(--status-bar-height);
+	      width: 100%;
+	  }
 	/* content */
 	.content {}
 
@@ -664,7 +774,7 @@
 	}
 
 	.tab-bar .active {
-		background-color: #F85F31;
+		background: linear-gradient(90deg, #00ABEB, #54C3F1);
 	}
 
 	uni-scroll-view .uni-scroll-view::-webkit-scrollbar {
@@ -684,8 +794,8 @@
 	.orderlist {}
 
 	.order-item {
-		border-bottom: 1upx solid #a7a7a7;
-		border-top: 1upx solid #a7a7a7;
+		/* border-bottom: 1upx solid #c3c3f6; */
+		border-top: 1upx solid #c3c3f6;
 		display: flex;
 		justify-content: space-between;
 		padding-top: 40upx;
@@ -698,6 +808,7 @@
 		font-weight: bold;
 		font-size: 32upx;
 		margin-bottom: 30upx;
+		color: #101D37;
 	}
 
 	.order-item .item-l .address {
@@ -707,10 +818,12 @@
 		margin-bottom: 30upx;
 		font-weight: bold;
 	}
-
+	.order-item .dtime{
+		display: flex;
+	}
 	.order-item .item-l .distance {
 		font-size: 20upx;
-		color: #FA5741;
+		color: #00ABEB;
 		margin-bottom: 30upx;
 		font-weight: bold;
 	}
@@ -737,6 +850,7 @@
 		color: #3072F6;
 		font-weight: bold;
 		font-size: 18upx;
+		margin-left: 25upx;
 
 	}
 
@@ -771,6 +885,7 @@
 		background-color: #FA5741;
 		border-radius: 20upx;
 		padding: 0 30upx;
+		margin-top: 89upx;
 	}
 
 	.success {

@@ -29,9 +29,11 @@ var _uviewUi = _interopRequireDefault(__webpack_require__(/*! uview-ui */ 11));f
 // 		uni.redirectTo({url:'../login/login?backpage='+backpage+'&backtype='+backtype});
 // 		return false;
 // 	}
-// 	// 登录成功、已经登录返回数组 [用户 id, 用户随机码, 用户昵称, 用户表情]
+// 	// 登录成功、已经登录返回数组 [用户 id, 用户随机码, 用户昵称, 用户头像]
 // 	return [user_id, user_nu, user_nm, user_fa];
 // }
+// 定义一个全局的请求地址
+// Vue.prototype.apiServer = 'http://0608.cc/'
 
 _vue.default.use(_uviewUi.default);
 

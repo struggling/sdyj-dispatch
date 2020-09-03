@@ -1,4 +1,5 @@
 {
+  "navigationStyle": "custom",
   "navigationBarBackgroundColor": "#f85f31",
   "navigationBarTitleText": "登陆授权",
   "navigationBarTextStyle": "white",

@@ -623,6 +623,120 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 顶部导航栏自定义 */
+.slot-wrap.data-v-57280228 {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		        align-items: center;
+		/* 如果您想让slot内容占满整个导航栏的宽度 */
+		/* flex: 1; */
+		/* 如果您想让slot内容与导航栏左右有空隙 */
+		padding: 0 25rpx;
+		color: #FFFFFF;
+		margin-top: 2rpx;
+		font-size: 22rpx;
+}
+.status_bar.data-v-57280228 {
+      height: 25px;
+      width: 100%;
+}
 /* content */
 .content.data-v-57280228 {}
 /* < 地理位置 */
@@ -663,7 +777,8 @@
 	text-align: center;
 }
 .tab-bar .active.data-v-57280228 {
-	background-color: #F85F31;
+	background: -webkit-linear-gradient(left, #00ABEB, #54C3F1);
+	background: linear-gradient(90deg, #00ABEB, #54C3F1);
 }
 uni-scroll-view .uni-scroll-view.data-v-57280228::-webkit-scrollbar {
 	/* 隐藏滚动条，但依旧具备可以滚动的功能 */
@@ -679,8 +794,8 @@ uni-scroll-view .uni-scroll-view.data-v-57280228::-webkit-scrollbar {
 /* orderlist */
 .orderlist.data-v-57280228 {}
 .order-item.data-v-57280228 {
-	border-bottom: 1rpx solid #a7a7a7;
-	border-top: 1rpx solid #a7a7a7;
+	/* border-bottom: 1upx solid #c3c3f6; */
+	border-top: 1rpx solid #c3c3f6;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -696,6 +811,7 @@ uni-scroll-view .uni-scroll-view.data-v-57280228::-webkit-scrollbar {
 	font-weight: bold;
 	font-size: 32rpx;
 	margin-bottom: 30rpx;
+	color: #101D37;
 }
 .order-item .item-l .address.data-v-57280228 {
 
@@ -704,9 +820,14 @@ uni-scroll-view .uni-scroll-view.data-v-57280228::-webkit-scrollbar {
 	margin-bottom: 30rpx;
 	font-weight: bold;
 }
+.order-item .dtime.data-v-57280228{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
 .order-item .item-l .distance.data-v-57280228 {
 	font-size: 20rpx;
-	color: #FA5741;
+	color: #00ABEB;
 	margin-bottom: 30rpx;
 	font-weight: bold;
 }
@@ -730,6 +851,7 @@ uni-scroll-view .uni-scroll-view.data-v-57280228::-webkit-scrollbar {
 	color: #3072F6;
 	font-weight: bold;
 	font-size: 18rpx;
+	margin-left: 25rpx;
 }
 .order-item .item-r.data-v-57280228 {
 	display: -webkit-box;
@@ -765,6 +887,7 @@ uni-scroll-view .uni-scroll-view.data-v-57280228::-webkit-scrollbar {
 	background-color: #FA5741;
 	border-radius: 20rpx;
 	padding: 0 30rpx;
+	margin-top: 89rpx;
 }
 .success.data-v-57280228 {
 	background-color: #FA5741;

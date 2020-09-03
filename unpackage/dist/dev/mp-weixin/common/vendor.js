@@ -760,7 +760,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8169,7 +8169,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8190,14 +8190,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -8282,7 +8282,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8856,7 +8856,59 @@ function rgbToHex(rgb) {
 
 /***/ }),
 
-/***/ 218:
+/***/ 22:
+/*!*****************************************************************!*\
+  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/guid.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 本算法来源于简书开源代码，详见：https://www.jianshu.com/p/fdbf293d0a85
+                                                                                                      * 全局唯一标识符（uuid，Globally Unique Identifier）,也称作 uuid(Universally Unique IDentifier) 
+                                                                                                      * 一般用于多个组件之间,给它一个唯一的标识符,或者v-for循环的时候,如果使用数组的index可能会导致更新列表出现问题
+                                                                                                      * 最可能的情况是左滑删除item或者对某条信息流"不喜欢"并去掉它的时候,会导致组件内的数据可能出现错乱
+                                                                                                      * v-for的时候,推荐使用后端返回的id而不是循环的index
+                                                                                                      * @param {Number} len uuid的长度
+                                                                                                      * @param {Boolean} firstU 将返回的首字母置为"u"
+                                                                                                      * @param {Nubmer} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
+                                                                                                      */
+function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  var uuid = [];
+  radix = radix || chars.length;
+
+  if (len) {
+    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
+    for (var i = 0; i < len; i++) {uuid[i] = chars[0 | Math.random() * radix];}
+  } else {
+    var r;
+    // rfc4122标准要求返回的uuid中,某些位为固定的字符
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+    uuid[14] = '4';
+
+    for (var _i = 0; _i < 36; _i++) {
+      if (!uuid[_i]) {
+        r = 0 | Math.random() * 16;
+        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
+      }
+    }
+  }
+  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guuid不能用作id或者class
+  if (firstU) {
+    uuid.shift();
+    return 'u' + uuid.join('');
+  } else {
+    return uuid.join('');
+  }
+}var _default =
+
+guid;exports.default = _default;
+
+/***/ }),
+
+/***/ 226:
 /*!****************************************************************!*\
   !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/util/emitter.js ***!
   \****************************************************************/
@@ -8916,7 +8968,7 @@ function _broadcast(componentName, eventName, params) {
 
 /***/ }),
 
-/***/ 219:
+/***/ 227:
 /*!************************************************************************!*\
   !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/util/async-validator.js ***!
   \************************************************************************/
@@ -8946,7 +8998,7 @@ function _broadcast(componentName, eventName, params) {
 var formatRegExp = /%[sdj%]/g;
 var warning = function warning() {}; // don't print warning message when in production env or node runtime
 
-if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
+if (typeof process !== 'undefined' && Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
 'undefined' && typeof document !== 'undefined') {
   warning = function warning(type, errors) {
     if (typeof console !== 'undefined' && console.warn) {
@@ -10279,63 +10331,11 @@ Schema.warning = warning;
 Schema.messages = messages;var _default =
 
 Schema;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../谷歌下载/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 220)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../谷歌下载/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 228)))
 
 /***/ }),
 
-/***/ 22:
-/*!*****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/guid.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 本算法来源于简书开源代码，详见：https://www.jianshu.com/p/fdbf293d0a85
-                                                                                                      * 全局唯一标识符（uuid，Globally Unique Identifier）,也称作 uuid(Universally Unique IDentifier) 
-                                                                                                      * 一般用于多个组件之间,给它一个唯一的标识符,或者v-for循环的时候,如果使用数组的index可能会导致更新列表出现问题
-                                                                                                      * 最可能的情况是左滑删除item或者对某条信息流"不喜欢"并去掉它的时候,会导致组件内的数据可能出现错乱
-                                                                                                      * v-for的时候,推荐使用后端返回的id而不是循环的index
-                                                                                                      * @param {Number} len uuid的长度
-                                                                                                      * @param {Boolean} firstU 将返回的首字母置为"u"
-                                                                                                      * @param {Nubmer} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
-                                                                                                      */
-function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-  var uuid = [];
-  radix = radix || chars.length;
-
-  if (len) {
-    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
-    for (var i = 0; i < len; i++) {uuid[i] = chars[0 | Math.random() * radix];}
-  } else {
-    var r;
-    // rfc4122标准要求返回的uuid中,某些位为固定的字符
-    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-    uuid[14] = '4';
-
-    for (var _i = 0; _i < 36; _i++) {
-      if (!uuid[_i]) {
-        r = 0 | Math.random() * 16;
-        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
-      }
-    }
-  }
-  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guuid不能用作id或者class
-  if (firstU) {
-    uuid.shift();
-    return 'u' + uuid.join('');
-  } else {
-    return uuid.join('');
-  }
-}var _default =
-
-guid;exports.default = _default;
-
-/***/ }),
-
-/***/ 220:
+/***/ 228:
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -10366,7 +10366,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 221);
+        if (!path) path = __webpack_require__(/*! path */ 229);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -10380,7 +10380,7 @@ exports.features = {};
 
 /***/ }),
 
-/***/ 221:
+/***/ 229:
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -10690,7 +10690,7 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 220)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 228)))
 
 /***/ }),
 
@@ -10846,18 +10846,44 @@ random;exports.default = _default;
 
 /***/ }),
 
-/***/ 278:
+/***/ 28:
+/*!*****************************************************************!*\
+  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/trim.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function trim(str) {var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'both';
+  if (pos == 'both') {
+    return str.replace(/^\s+|\s+$/g, "");
+  } else if (pos == "left") {
+    return str.replace(/^\s*/, '');
+  } else if (pos == 'right') {
+    return str.replace(/(\s*$)/g, "");
+  } else if (pos == 'all') {
+    return str.replace(/\s+/g, "");
+  } else {
+    return str;
+  }
+}var _default =
+
+trim;exports.default = _default;
+
+/***/ }),
+
+/***/ 286:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 279);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 287);
 
 /***/ }),
 
-/***/ 279:
+/***/ 287:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -10888,7 +10914,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 280);
+module.exports = __webpack_require__(/*! ./runtime */ 288);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -10905,33 +10931,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 28:
-/*!*****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/trim.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function trim(str) {var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'both';
-  if (pos == 'both') {
-    return str.replace(/^\s+|\s+$/g, "");
-  } else if (pos == "left") {
-    return str.replace(/^\s*/, '');
-  } else if (pos == 'right') {
-    return str.replace(/(\s*$)/g, "");
-  } else if (pos == 'all') {
-    return str.replace(/\s+/g, "");
-  } else {
-    return str;
-  }
-}var _default =
-
-trim;exports.default = _default;
-
-/***/ }),
-
-/***/ 280:
+/***/ 288:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -11955,6 +11955,468 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   topTips: 975,
   sticky: 970,
   indexListSticky: 965 };exports.default = _default;
+
+/***/ }),
+
+/***/ 372:
+/*!**************************************************!*\
+  !*** D:/xiaoma/项目/sdyj-dispatch/libs/bmap-wx.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @file 微信小程序JSAPI
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @author 崔健 cuijian03@baidu.com 2017.01.10
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @update 邓淑芳 623996689@qq.com 2019.07.03
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
+
+/**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * 百度地图微信小程序API类
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * @class
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */var
+BMapWX = /*#__PURE__*/function () {"use strict";
+
+  /**
+                                                  * 百度地图微信小程序API类
+                                                  *
+                                                  * @constructor
+                                                  */
+  function BMapWX(param) {_classCallCheck(this, BMapWX);
+    this.ak = param["ak"];
+  }
+
+  /**
+     * 使用微信接口进行定位
+     *
+     * @param {string} type 坐标类型
+     * @param {Function} success 成功执行
+     * @param {Function} fail 失败执行
+     * @param {Function} complete 完成后执行
+     */_createClass(BMapWX, [{ key: "getWXLocation", value: function getWXLocation(
+    type, success, fail, complete) {
+      type = type || 'gcj02',
+      success = success || function () {};
+      fail = fail || function () {};
+      complete = complete || function () {};
+      wx.getLocation({
+        type: type,
+        success: success,
+        fail: fail,
+        complete: complete });
+
+    }
+
+    /**
+       * POI周边检索
+       *
+       * @param {Object} param 检索配置
+       * 参数对象结构可以参考
+       * http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-placeapi
+       */ }, { key: "search", value: function search(
+    param) {
+      var that = this;
+      param = param || {};
+      var searchparam = {
+        query: param["query"] || '生活服务$美食&酒店',
+        scope: param["scope"] || 1,
+        filter: param["filter"] || '',
+        coord_type: param["coord_type"] || 2,
+        page_size: param["page_size"] || 10,
+        page_num: param["page_num"] || 0,
+        output: param["output"] || 'json',
+        ak: that.ak,
+        sn: param["sn"] || '',
+        timestamp: param["timestamp"] || '',
+        radius: param["radius"] || 2000,
+        ret_coordtype: 'gcj02ll' };
+
+      var otherparam = {
+        iconPath: param["iconPath"],
+        iconTapPath: param["iconTapPath"],
+        width: param["width"],
+        height: param["height"],
+        alpha: param["alpha"] || 1,
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      var type = 'gcj02';
+      var locationsuccess = function locationsuccess(result) {
+        searchparam["location"] = result["latitude"] + ',' + result["longitude"];
+        wx.request({
+          url: 'https://api.map.baidu.com/place/v2/search',
+          data: searchparam,
+          header: {
+            "content-type": "application/json" },
+
+          method: 'GET',
+          success: function success(data) {
+            var res = data["data"];
+            if (res["status"] === 0) {
+              var poiArr = res["results"];
+              // outputRes 包含两个对象，
+              // originalData为百度接口返回的原始数据
+              // wxMarkerData为小程序规范的marker格式
+              var outputRes = {};
+              outputRes["originalData"] = res;
+              outputRes["wxMarkerData"] = [];
+              for (var i = 0; i < poiArr.length; i++) {
+                outputRes["wxMarkerData"][i] = {
+                  id: i,
+                  latitude: poiArr[i]["location"]["lat"],
+                  longitude: poiArr[i]["location"]["lng"],
+                  title: poiArr[i]["name"],
+                  iconPath: otherparam["iconPath"],
+                  iconTapPath: otherparam["iconTapPath"],
+                  address: poiArr[i]["address"],
+                  telephone: poiArr[i]["telephone"],
+                  alpha: otherparam["alpha"],
+                  width: otherparam["width"],
+                  height: otherparam["height"] };
+
+              }
+              otherparam.success(outputRes);
+            } else {
+              otherparam.fail({
+                errMsg: res["message"],
+                statusCode: res["status"] });
+
+            }
+          },
+          fail: function fail(data) {
+            otherparam.fail(data);
+          } });
+
+      };
+      var locationfail = function locationfail(result) {
+        otherparam.fail(result);
+      };
+      var locationcomplete = function locationcomplete(result) {
+      };
+      if (!param["location"]) {
+        that.getWXLocation(type, locationsuccess, locationfail, locationcomplete);
+      } else {
+        var longitude = param.location.split(',')[1];
+        var latitude = param.location.split(',')[0];
+        var errMsg = 'input location';
+        var res = {
+          errMsg: errMsg,
+          latitude: latitude,
+          longitude: longitude };
+
+        locationsuccess(res);
+      }
+    }
+
+    /**
+       * sug模糊检索
+       *
+       * @param {Object} param 检索配置
+       * 参数对象结构可以参考
+       * http://lbsyun.baidu.com/index.php?title=webapi/place-suggestion-api
+       */ }, { key: "suggestion", value: function suggestion(
+    param) {
+      var that = this;
+      param = param || {};
+      var suggestionparam = {
+        query: param["query"] || '',
+        region: param["region"] || '全国',
+        city_limit: param["city_limit"] || false,
+        output: param["output"] || 'json',
+        ak: that.ak,
+        sn: param["sn"] || '',
+        timestamp: param["timestamp"] || '',
+        ret_coordtype: 'gcj02ll' };
+
+      var otherparam = {
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      wx.request({
+        url: 'https://api.map.baidu.com/place/v2/suggestion',
+        data: suggestionparam,
+        header: {
+          "content-type": "application/json" },
+
+        method: 'GET',
+        success: function success(data) {
+          var res = data["data"];
+          if (res["status"] === 0) {
+            otherparam.success(res);
+          } else {
+            otherparam.fail({
+              errMsg: res["message"],
+              statusCode: res["status"] });
+
+          }
+        },
+        fail: function fail(data) {
+          otherparam.fail(data);
+        } });
+
+    }
+
+    /**
+       * rgc检索（逆地理编码：经纬度->地点描述）
+       * 
+       * @param {Object} param 检索配置
+       * 参数对象结构可以参考
+       * https://lbs.baidu.com/index.php?title=webapi/guide/webservice-geocoding-abroad
+       * 
+       */ }, { key: "regeocoding", value: function regeocoding(
+    param) {
+      var that = this;
+      param = param || {};
+      var regeocodingparam = {
+        coordtype: param["coordtype"] || 'gcj02ll',
+        ret_coordtype: 'gcj02ll',
+        radius: param["radius"] || 1000,
+        ak: that.ak,
+        sn: param["sn"] || '',
+        output: param["output"] || 'json',
+        callback: param["callback"] || function () {},
+        extensions_poi: param["extensions_poi"] || 1,
+        extensions_road: param["extensions_road"] || false,
+        extensions_town: param["extensions_town"] || false,
+        language: param["language"] || 'zh-CN',
+        language_auto: param["language_auto"] || 0 };
+
+      var otherparam = {
+        iconPath: param["iconPath"],
+        iconTapPath: param["iconTapPath"],
+        width: param["width"],
+        height: param["height"],
+        alpha: param["alpha"] || 1,
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      var type = 'gcj02';
+      var locationsuccess = function locationsuccess(result) {
+        regeocodingparam["location"] = result["latitude"] + ',' + result["longitude"];
+        wx.request({
+          url: 'https://api.map.baidu.com/reverse_geocoding/v3',
+          data: regeocodingparam,
+          header: {
+            "content-type": "application/json" },
+
+          method: 'GET',
+          success: function success(data) {
+            var res = data["data"];
+            if (res["status"] === 0) {
+              var poiObj = res["result"];
+              // outputRes 包含两个对象：
+              // originalData为百度接口返回的原始数据
+              // wxMarkerData为小程序规范的marker格式
+              var outputRes = {};
+              outputRes["originalData"] = res;
+              outputRes["wxMarkerData"] = [];
+              outputRes["wxMarkerData"][0] = {
+                id: 0,
+                latitude: result["latitude"],
+                longitude: result["longitude"],
+                address: poiObj["formatted_address"],
+                iconPath: otherparam["iconPath"],
+                iconTapPath: otherparam["iconTapPath"],
+                desc: poiObj["sematic_description"],
+                business: poiObj["business"],
+                alpha: otherparam["alpha"],
+                width: otherparam["width"],
+                height: otherparam["height"] };
+
+              otherparam.success(outputRes);
+            } else {
+              otherparam.fail({
+                errMsg: res["message"],
+                statusCode: res["status"] });
+
+            }
+          },
+          fail: function fail(data) {
+            otherparam.fail(data);
+          } });
+
+      };
+      var locationfail = function locationfail(result) {
+        otherparam.fail(result);
+      };
+      var locationcomplete = function locationcomplete(result) {
+      };
+      if (!param["location"]) {
+        that.getWXLocation(type, locationsuccess, locationfail, locationcomplete);
+      } else {
+        var longitude = param.location.split(',')[1];
+        var latitude = param.location.split(',')[0];
+        var errMsg = 'input location';
+        var res = {
+          errMsg: errMsg,
+          latitude: latitude,
+          longitude: longitude };
+
+        locationsuccess(res);
+      }
+    }
+
+    /**
+       * gc检索（地理编码：地点->经纬度）
+       *
+       * @param {Object} param 检索配置
+       * 参数对象结构可以参考
+       * https://lbs.baidu.com/index.php?title=webapi/guide/webservice-geocoding
+       * 
+       */ }, { key: "geocoding", value: function geocoding(
+    param) {
+      var that = this;
+      param = param || {};
+      var geocodingparam = {
+        address: param["address"] || '',
+        city: param["city"] || '',
+        ret_coordtype: param["coordtype"] || 'gcj02ll',
+        ak: that.ak,
+        sn: param["sn"] || '',
+        output: param["output"] || 'json',
+        callback: param["callback"] || function () {} };
+
+      var otherparam = {
+        iconPath: param["iconPath"],
+        iconTapPath: param["iconTapPath"],
+        width: param["width"],
+        height: param["height"],
+        alpha: param["alpha"] || 1,
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      if (param["address"]) {
+        wx.request({
+          url: 'https://api.map.baidu.com/geocoding/v3',
+          data: geocodingparam,
+          header: {
+            "content-type": "application/json" },
+
+          method: 'GET',
+          success: function success(data) {
+            var res = data["data"];
+            if (res["status"] === 0) {
+              var poiObj = res["result"];
+              // outputRes 包含两个对象：
+              // originalData为百度接口返回的原始数据
+              // wxMarkerData为小程序规范的marker格式
+              var outputRes = res;
+              outputRes["originalData"] = res;
+              outputRes["wxMarkerData"] = [];
+              outputRes["wxMarkerData"][0] = {
+                id: 0,
+                latitude: poiObj["location"]["lat"],
+                longitude: poiObj["location"]["lng"],
+                iconPath: otherparam["iconPath"],
+                iconTapPath: otherparam["iconTapPath"],
+                alpha: otherparam["alpha"],
+                width: otherparam["width"],
+                height: otherparam["height"] };
+
+              otherparam.success(outputRes);
+            } else {
+              otherparam.fail({
+                errMsg: res["message"],
+                statusCode: res["status"] });
+
+            }
+          },
+          fail: function fail(data) {
+            otherparam.fail(data);
+          } });
+
+      } else {
+        var errMsg = 'input address!';
+        var res = {
+          errMsg: errMsg };
+
+        otherparam.fail(res);
+      }
+    }
+
+    /**
+       * 天气检索
+       *
+       * @param {Object} param 检索配置
+       */ }, { key: "weather", value: function weather(
+    param) {
+      var that = this;
+      param = param || {};
+      var weatherparam = {
+        coord_type: param["coord_type"] || 'gcj02',
+        output: param["output"] || 'json',
+        ak: that.ak,
+        sn: param["sn"] || '',
+        timestamp: param["timestamp"] || '' };
+
+      var otherparam = {
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      var type = 'gcj02';
+      var locationsuccess = function locationsuccess(result) {
+        weatherparam["location"] = result["longitude"] + ',' + result["latitude"];
+        wx.request({
+          url: 'https://api.map.baidu.com/telematics/v3/weather',
+          data: weatherparam,
+          header: {
+            "content-type": "application/json" },
+
+          method: 'GET',
+          success: function success(data) {
+            var res = data["data"];
+            if (res["error"] === 0 && res["status"] === 'success') {
+              var weatherArr = res["results"];
+              // outputRes 包含两个对象，
+              // originalData为百度接口返回的原始数据
+              // wxMarkerData为小程序规范的marker格式
+              var outputRes = {};
+              outputRes["originalData"] = res;
+              outputRes["currentWeather"] = [];
+              outputRes["currentWeather"][0] = {
+                currentCity: weatherArr[0]["currentCity"],
+                pm25: weatherArr[0]["pm25"],
+                date: weatherArr[0]["weather_data"][0]["date"],
+                temperature: weatherArr[0]["weather_data"][0]["temperature"],
+                weatherDesc: weatherArr[0]["weather_data"][0]["weather"],
+                wind: weatherArr[0]["weather_data"][0]["wind"] };
+
+              otherparam.success(outputRes);
+            } else {
+              otherparam.fail({
+                errMsg: res["message"],
+                statusCode: res["status"] });
+
+            }
+          },
+          fail: function fail(data) {
+            otherparam.fail(data);
+          } });
+
+      };
+      var locationfail = function locationfail(result) {
+        otherparam.fail(result);
+      };
+      var locationcomplete = function locationcomplete(result) {
+      };
+      if (!param["location"]) {
+        that.getWXLocation(type, locationsuccess, locationfail, locationcomplete);
+      } else {
+        var longitude = param.location.split(',')[0];
+        var latitude = param.location.split(',')[1];
+        var errMsg = 'input location';
+        var res = {
+          errMsg: errMsg,
+          latitude: latitude,
+          longitude: longitude };
+
+        locationsuccess(res);
+      }
+    } }]);return BMapWX;}();
+
+
+module.exports.BMapWX = BMapWX;
 
 /***/ }),
 

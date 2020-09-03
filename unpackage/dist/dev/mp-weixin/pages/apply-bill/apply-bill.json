@@ -1,8 +1,10 @@
 {
+  "navigationStyle": "custom",
   "navigationBarBackgroundColor": "#f85f31",
   "navigationBarTitleText": "申请开票",
   "navigationBarTextStyle": "white",
   "usingComponents": {
+    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
     "u-form": "/uview-ui/components/u-form/u-form",
     "u-form-item": "/uview-ui/components/u-form-item/u-form-item",
     "u-radio-group": "/uview-ui/components/u-radio-group/u-radio-group",
