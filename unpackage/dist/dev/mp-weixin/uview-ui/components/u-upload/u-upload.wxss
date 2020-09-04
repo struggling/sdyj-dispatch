@@ -25,7 +25,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.u-upload.data-v-0d33af60 {
+.u-upload.data-v-4385b1da {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -38,7 +38,7 @@
   top: 242rpx;
   right: 118rpx;
 }
-.u-list-item.data-v-0d33af60 {
+.u-list-item.data-v-4385b1da {
   width: 200rpx;
   height: 200rpx;
   overflow: hidden;
@@ -56,10 +56,10 @@
   -webkit-justify-content: center;
           justify-content: center;
 }
-.u-preview-wrap.data-v-0d33af60 {
+.u-preview-wrap.data-v-4385b1da {
   border: 1px solid #ebecee;
 }
-.u-add-wrap.data-v-0d33af60 {
+.u-add-wrap.data-v-4385b1da {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -67,20 +67,20 @@
   color: #606266;
   font-size: 26rpx;
 }
-.u-add-tips.data-v-0d33af60 {
+.u-add-tips.data-v-4385b1da {
   margin-top: 20rpx;
   line-height: 40rpx;
 }
-.u-add-wrap__hover.data-v-0d33af60 {
+.u-add-wrap__hover.data-v-4385b1da {
   background-color: #ebecee;
 }
-.u-preview-image.data-v-0d33af60 {
+.u-preview-image.data-v-4385b1da {
   display: block;
   width: 100%;
   height: 100%;
   border-radius: 10rpx;
 }
-.u-delete-icon.data-v-0d33af60 {
+.u-delete-icon.data-v-4385b1da {
   position: absolute;
   top: 10rpx;
   right: 10rpx;
@@ -99,7 +99,7 @@
   -webkit-justify-content: center;
           justify-content: center;
 }
-.u-icon.data-v-0d33af60 {
+.u-icon.data-v-4385b1da {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -110,7 +110,7 @@
   -webkit-justify-content: center;
           justify-content: center;
 }
-.u-progress.data-v-0d33af60 {
+.u-progress.data-v-4385b1da {
   position: absolute;
   bottom: 10rpx;
   left: 8rpx;
@@ -118,7 +118,7 @@
   z-index: 9;
   width: auto;
 }
-.u-error-btn.data-v-0d33af60 {
+.u-error-btn.data-v-4385b1da {
   color: #ffffff;
   background-color: #fa3534;
   font-size: 20rpx;

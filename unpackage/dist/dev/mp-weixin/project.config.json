@@ -6,32 +6,11 @@
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
-		"enhance": false,
 		"postcss": true,
-		"preloadBackgroundData": false,
-		"minified": true,
-		"newFeature": false,
-		"coverView": true,
-		"nodeModules": false,
-		"autoAudits": false,
-		"showShadowRootInWxmlPanel": false,
-		"scopeDataCheck": false,
-		"uglifyFileName": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"compileHotReLoad": false,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		},
-		"useIsolateContext": true,
-		"useCompilerModule": true,
-		"userConfirmedUseCompilerModuleSwitch": false
+		"minified": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "",
+	"libVersion": "2.9.2",
 	"appid": "wxe7bb48c6264d17e1",
 	"projectname": "sdyj-dispatch",
 	"simulatorType": "wechat",
@@ -62,15 +41,15 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/settlement/settlement",
-					"pathName": "pages/settlement/settlement",
+					"name": "pages/register/register",
+					"pathName": "pages/register/register",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "pages/order/order",
-					"pathName": "pages/order/order",
+					"name": "pages/settlement/settlement",
+					"pathName": "pages/settlement/settlement",
 					"scene": null
 				}
 			]

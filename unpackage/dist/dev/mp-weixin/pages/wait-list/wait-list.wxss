@@ -57,27 +57,27 @@
 
 
 /* map */
-uni-map.data-v-70637098 {
+uni-map.data-v-91f69da4 {
 	position: relative;
 	width: 100%;
 	height: 722rpx;
 	display: block;
 }
 /* 修改小程序中map默认样式 */
-map.data-v-70637098{
+map.data-v-91f69da4{
 	position: relative;
 	width: 100%;
 	height: 646rpx;
 	display: block;
 }
 /* orderDetail */
-.orderDetail.data-v-70637098{
+.orderDetail.data-v-91f69da4{
 	padding-left: 25rpx;
 	padding-right: 25rpx;
 	padding-top: 30rpx;
 	position: relative;
 }
-.parameter.data-v-70637098{
+.parameter.data-v-91f69da4{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -88,7 +88,7 @@ map.data-v-70637098{
 	        justify-content: space-between;
 	font-size: 24rpx;
 }
-.parameter1.data-v-70637098{
+.parameter1.data-v-91f69da4{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -99,7 +99,7 @@ map.data-v-70637098{
 	        justify-content: space-between;
 	font-size: 24rpx;
 }
-.orderDetail image.data-v-70637098{
+.orderDetail image.data-v-91f69da4{
 	width: 130rpx;
 	height: 130rpx;
 	border-radius: 100%;
@@ -109,7 +109,7 @@ map.data-v-70637098{
 	right: 80rpx;
 	top: -68rpx;
 }
-.orderDetail button.data-v-70637098{
+.orderDetail button.data-v-91f69da4{
 	background-color:#F86032 ;
 	color: #FFFFFF;
 	border-radius: 8rpx;
@@ -120,7 +120,7 @@ map.data-v-70637098{
 	margin:40rpx auto;
 }
 /* 修改小程序的默认button样式 */
-button.data-v-70637098{
+button.data-v-91f69da4{
 	-webkit-appearance:none
 }
 

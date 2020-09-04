@@ -25,7 +25,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.u-rate.data-v-533abf00 {
+.u-rate.data-v-2c86200c {
   display: -webkit-inline-flex;
   display: -webkit-inline-box;
   display: inline-flex;
@@ -35,7 +35,7 @@
   margin: 0;
   padding: 0;
 }
-.u-icon.data-v-533abf00 {
+.u-icon.data-v-2c86200c {
   box-sizing: border-box;
 }
 

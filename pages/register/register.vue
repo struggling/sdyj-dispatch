@@ -9,22 +9,22 @@
 			<view class="from-group">
 				<view class="iconfont iconyuangonggonglingfenbu"></view>
 				<view class="line"></view>
-				<view class="input"><input type="text" value="" placeholder="请填写你的姓名"/></view>
+				<view class="input"><input type="text" v-model="name" value="" placeholder="请填写你的姓名"/></view>
 			</view>
 			<view class="from-group">
 				<view class="iconfont icongerenzhongxinwoderenwubiaozhuntouxianxing"></view>
 				<view class="line"></view>
-				<view class="input"><input type="text" value="" placeholder="请填写你的工龄"/></view>
+				<view class="input"><input type="text" v-model="worktime" value="" placeholder="请填写你的工龄"/></view>
 			</view>
 			<view class="from-group">
 				<view class="iconfont iconshouji"></view>
 				<view class="line"></view>
-				<view class="input"><input type="text" value="" placeholder="请填写你的手机号"/></view>
+				<view class="input"><button  open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">{{phonenum}}</button></view>
 			</view>
 			<view class="from-group">
 				<view class="iconfont iconleixing1"></view>
 				<view class="line"></view>
-				<view class="input"><input type="text" value="" placeholder="请选择服务类型"/></view>
+				<view class="input"><button type="default">{{counttype}}</button></view>
 			</view>
 			<!-- 类型选择 -->
 			<view class="typecontent">
@@ -35,14 +35,17 @@
 					<view class="title">种类</view>
 					<view class="onelist">
 						<block v-for="(item,index) in typename" :key="index">
-							<view :class="[list,{'theme':tableIndex == index?theme:''}]" @tap="selecttype(index)">{{item}}</view>
+							<view :class="[list,{'theme': rSelect.indexOf(index)!=-1}]"  @tap="selecttype(index)">{{item}}</view>
 						</block>
 					</view>
 			</view>
 			<!-- 协议 -->
-			<view class="xieyi">确定同意<span>《协议》</span></view>
+			<input name="Fruit" type="radio" value="" />
+			<view class="xieyi">
+				<input type="radio" checked/>
+确定同意<span>《协议》</span></view>
 			<!-- 提交 -->
-			<button type="default"> 确定提交</button>
+			<button type="default" class="btn theme"> 确定提交</button>
 		</view>
 	</view>
 </template>
@@ -51,15 +54,29 @@
 	export default {
 		data() {
 			return {
+				selectname :[],
+				counttype:"请选择服务类型",
+				name:"",
+				worktime:"",
+				phonenum:"获取手机号码",
 				list:"list",
-				theme:"theme",
-				tableIndex:0,
+				rSelect:[],
 				typefy:"",
 				typename:[],
 				height: "",
 				background: {
 					backgroundImage: "linear-gradient(90deg, #00ABEB, #54C3F1)",
 				},
+			}
+		},
+		computed:{
+			counttype(){
+				let selectname = this.selectname;
+				for (let i = 0; i < selectname.length; i++) {
+					let sumstring =  selectname[i];
+					console.log(sumstring);
+				}
+				return this.typefy+"——"+sumstring
 			}
 		},
 		onLoad(option) {
@@ -78,9 +95,22 @@
 			
 		},
 		methods: {
-			selecttype(index){
-				this.tableIndex = index;
-			}
+			//选择二级分类服务类型
+			selecttype(e){
+				 if (this.rSelect.indexOf(e) == -1) {
+					console.log(e)//打印下标
+					this.rSelect.push(e);//选中添加到数组里
+					this.selectname.push(this.typename[e]);
+				} else {
+					this.rSelect.splice(this.rSelect.indexOf(e), 1); //取消
+				 }
+			},
+			//获取手机号码
+			getPhoneNumber(e) {
+				 console.log(e);  
+				 console.log(e.detail.iv);  
+				 console.log(e.detail.encryptedData);  
+			}  
 		},
 		onReady() {
 			
@@ -120,11 +150,19 @@
 		color:#B3B3B3;
 		width: 100%;
 	}
+	.from-group .input button{
+		-webkit-appearance: none;
+		height: 100%;
+		line-height: 50upx;
+		background: linear-gradient(90deg, #00ABEB, #54C3F1);
+		color: #FFFFFF;
+		
+	}
 	/* 表单类型选择 */
 	.typecontent{
 		background-color:#E1E1E1;
 		width: 100%;
-		height: 502upx;
+		margin-bottom:25upx ;
 		border-radius: 12upx;
 		padding-left: 25upx;
 		padding-right: 25upx;
@@ -152,5 +190,23 @@
 		line-height: 60upx;
 		color: #FFFFFF;
 	}
-	
+	.xieyi{
+		text-align: center;
+	}
+	.xieyi span{
+		text-decoration: solid;
+		color: #0A98D5;
+		margin-bottom: 25upx;
+	}
+	.btn{
+		width: 60%;
+		height: 70upx;
+		line-height: 70upx;
+		color: #FFFFFF;
+		-webkit-appearance:none;
+		border: none;
+		margin: 0 auto;
+		margin-top: 25upx;
+		margin-bottom: 25upx;
+	}
 </style>

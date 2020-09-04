@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createComponent = createComponent;exports.createPage = createPage;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}
+Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createComponent = createComponent;exports.createPage = createPage;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance");}function _iterableToArrayLimit(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}
 
 var _toString = Object.prototype.toString;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -144,7 +144,7 @@ function queue(hooks, data) {
   for (var i = 0; i < hooks.length; i++) {
     var hook = hooks[i];
     if (promise) {
-      promise = Promise.resolve(wrapperHook(hook));
+      promise = Promise.then(wrapperHook(hook));
     } else {
       var res = hook(data);
       if (isPromise(res)) {
@@ -241,23 +241,17 @@ var promiseInterceptor = {
 
 
 var SYNC_API_RE =
-/^\$|sendNativeEvent|restoreGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
+/^\$|restoreGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
 
 var CONTEXT_API_RE = /^create|Manager$/;
 
-// Context例外情况
-var CONTEXT_API_RE_EXC = ['createBLEConnection'];
-
-// 同步例外情况
-var ASYNC_API = ['createBLEConnection'];
-
-var CALLBACK_API_RE = /^on|^off/;
+var CALLBACK_API_RE = /^on/;
 
 function isContextApi(name) {
-  return CONTEXT_API_RE.test(name) && CONTEXT_API_RE_EXC.indexOf(name) === -1;
+  return CONTEXT_API_RE.test(name);
 }
 function isSyncApi(name) {
-  return SYNC_API_RE.test(name) && ASYNC_API.indexOf(name) === -1;
+  return SYNC_API_RE.test(name);
 }
 
 function isCallbackApi(name) {
@@ -282,19 +276,6 @@ function shouldPromise(name) {
   return true;
 }
 
-/* eslint-disable no-extend-native */
-if (!Promise.prototype.finally) {
-  Promise.prototype.finally = function (callback) {
-    var promise = this.constructor;
-    return this.then(
-    function (value) {return promise.resolve(callback()).then(function () {return value;});},
-    function (reason) {return promise.resolve(callback()).then(function () {
-        throw reason;
-      });});
-
-  };
-}
-
 function promisify(name, api) {
   if (!shouldPromise(name)) {
     return api;
@@ -308,6 +289,18 @@ function promisify(name, api) {
         success: resolve,
         fail: reject })].concat(
       params));
+      /* eslint-disable no-extend-native */
+      if (!Promise.prototype.finally) {
+        Promise.prototype.finally = function (callback) {
+          var promise = this.constructor;
+          return this.then(
+          function (value) {return promise.resolve(callback()).then(function () {return value;});},
+          function (reason) {return promise.resolve(callback()).then(function () {
+              throw reason;
+            });});
+
+        };
+      }
     })));
   };
 }
@@ -346,9 +339,9 @@ function upx2px(number, newDeviceWidth) {
   result = Math.floor(result + EPS);
   if (result === 0) {
     if (deviceDPR === 1 || !isIOS) {
-      result = 1;
+      return 1;
     } else {
-      result = 0.5;
+      return 0.5;
     }
   }
   return number < 0 ? -result : result;
@@ -358,12 +351,14 @@ var interceptors = {
   promiseInterceptor: promiseInterceptor };
 
 
+
+
 var baseApi = /*#__PURE__*/Object.freeze({
   __proto__: null,
   upx2px: upx2px,
+  interceptors: interceptors,
   addInterceptor: addInterceptor,
-  removeInterceptor: removeInterceptor,
-  interceptors: interceptors });
+  removeInterceptor: removeInterceptor });
 
 
 var previewImage = {
@@ -421,10 +416,7 @@ var protocols = {
 
 
 var todos = [
-'vibrate',
-'preloadPage',
-'unPreloadPage',
-'loadSubPackage'];
+'vibrate'];
 
 var canIUses = [];
 
@@ -456,9 +448,7 @@ function processArgs(methodName, fromArgs) {var argsOption = arguments.length > 
           toArgs[keyOption.name ? keyOption.name : key] = keyOption.value;
         }
       } else if (CALLBACKS.indexOf(key) !== -1) {
-        if (isFn(fromArgs[key])) {
-          toArgs[key] = processCallback(methodName, fromArgs[key], returnValue);
-        }
+        toArgs[key] = processCallback(methodName, fromArgs[key], returnValue);
       } else {
         if (!keepFromArgs) {
           toArgs[key] = fromArgs[key];
@@ -573,6 +563,10 @@ var extraApi = /*#__PURE__*/Object.freeze({
 
 
 var getEmitter = function () {
+  if (typeof getUniEmitter === 'function') {
+    /* eslint-disable no-undef */
+    return getUniEmitter;
+  }
   var Emitter;
   return function getUniEmitter() {
     if (!Emitter) {
@@ -605,6 +599,8 @@ var eventApi = /*#__PURE__*/Object.freeze({
   $off: $off,
   $once: $once,
   $emit: $emit });
+
+
 
 
 var api = /*#__PURE__*/Object.freeze({
@@ -659,8 +655,6 @@ Component = function Component() {var options = arguments.length > 0 && argument
 var PAGE_EVENT_HOOKS = [
 'onPullDownRefresh',
 'onReachBottom',
-'onAddToFavorites',
-'onShareTimeline',
 'onShareAppMessage',
 'onPageScroll',
 'onResize',
@@ -723,10 +717,10 @@ function initVueComponent(Vue, vueOptions) {
   var VueComponent;
   if (isFn(vueOptions)) {
     VueComponent = vueOptions;
+    vueOptions = VueComponent.extendOptions;
   } else {
     VueComponent = Vue.extend(vueOptions);
   }
-  vueOptions = VueComponent.options;
   return [VueComponent, vueOptions];
 }
 
@@ -795,14 +789,14 @@ function createObserver(name) {
 }
 
 function initBehaviors(vueOptions, initBehavior) {
-  var vueBehaviors = vueOptions.behaviors;
-  var vueExtends = vueOptions.extends;
-  var vueMixins = vueOptions.mixins;
+  var vueBehaviors = vueOptions['behaviors'];
+  var vueExtends = vueOptions['extends'];
+  var vueMixins = vueOptions['mixins'];
 
-  var vueProps = vueOptions.props;
+  var vueProps = vueOptions['props'];
 
   if (!vueProps) {
-    vueOptions.props = vueProps = [];
+    vueOptions['props'] = vueProps = [];
   }
 
   var behaviors = [];
@@ -814,11 +808,11 @@ function initBehaviors(vueOptions, initBehavior) {
           vueProps.push('name');
           vueProps.push('value');
         } else {
-          vueProps.name = {
+          vueProps['name'] = {
             type: String,
             default: '' };
 
-          vueProps.value = {
+          vueProps['value'] = {
             type: [String, Number, Boolean, Array, Object, Date],
             default: '' };
 
@@ -862,11 +856,6 @@ function initProperties(props) {var isBehavior = arguments.length > 1 && argumen
       type: String,
       value: '' };
 
-    // 用于字节跳动小程序模拟抽象节点
-    properties.generic = {
-      type: Object,
-      value: null };
-
     properties.vueSlots = { // 小程序不能直接定义 $slots 的 props，所以通过 vueSlots 转换到 $slots
       type: null,
       value: [],
@@ -892,7 +881,7 @@ function initProperties(props) {var isBehavior = arguments.length > 1 && argumen
     Object.keys(props).forEach(function (key) {
       var opts = props[key];
       if (isPlainObject(opts)) {// title:{type:String,default:''}
-        var value = opts.default;
+        var value = opts['default'];
         if (isFn(value)) {
           value = value();
         }
@@ -931,11 +920,6 @@ function wrapper$1(event) {
     event.detail = {};
   }
 
-  if (hasOwn(event, 'markerId')) {
-    event.detail = typeof event.detail === 'object' ? event.detail : {};
-    event.detail.markerId = event.markerId;
-  }
-
   if (isPlainObject(event.detail)) {
     event.target = Object.assign({}, event.target, event.detail);
   }
@@ -952,18 +936,7 @@ function getExtraValue(vm, dataPathsArray) {
       var propPath = dataPathArray[1];
       var valuePath = dataPathArray[3];
 
-      var vFor;
-      if (Number.isInteger(dataPath)) {
-        vFor = dataPath;
-      } else if (!dataPath) {
-        vFor = context;
-      } else if (typeof dataPath === 'string' && dataPath) {
-        if (dataPath.indexOf('#s#') === 0) {
-          vFor = dataPath.substr(3);
-        } else {
-          vFor = vm.__get_value(dataPath, context);
-        }
-      }
+      var vFor = dataPath ? vm.__get_value(dataPath, context) : context;
 
       if (Number.isInteger(vFor)) {
         context = value;
@@ -1013,12 +986,6 @@ function processEventExtra(vm, extra, event) {
         } else {
           if (dataPath === '$event') {// $event
             extraObj['$' + index] = event;
-          } else if (dataPath === 'arguments') {
-            if (event.detail && event.detail.__args__) {
-              extraObj['$' + index] = event.detail.__args__;
-            } else {
-              extraObj['$' + index] = [event];
-            }
           } else if (dataPath.indexOf('$event.') === 0) {// $event.target.value
             extraObj['$' + index] = vm.__get_value(dataPath.replace('$event.', ''), event);
           } else {
@@ -1099,26 +1066,17 @@ function isMatchEventType(eventType, optType) {
 
 }
 
-function getContextVm(vm) {
-  var $parent = vm.$parent;
-  // 父组件是 scoped slots 或者其他自定义组件时继续查找
-  while ($parent && $parent.$parent && ($parent.$options.generic || $parent.$parent.$options.generic || $parent.$scope._$vuePid)) {
-    $parent = $parent.$parent;
-  }
-  return $parent && $parent.$parent;
-}
-
 function handleEvent(event) {var _this = this;
   event = wrapper$1(event);
 
   // [['tap',[['handle',[1,2,a]],['handle1',[1,2,a]]]]]
   var dataset = (event.currentTarget || event.target).dataset;
   if (!dataset) {
-    return console.warn('事件信息不存在');
+    return console.warn("\u4E8B\u4EF6\u4FE1\u606F\u4E0D\u5B58\u5728");
   }
   var eventOpts = dataset.eventOpts || dataset['event-opts']; // 支付宝 web-view 组件 dataset 非驼峰
   if (!eventOpts) {
-    return console.warn('事件信息不存在');
+    return console.warn("\u4E8B\u4EF6\u4FE1\u606F\u4E0D\u5B58\u5728");
   }
 
   // [['handle',[1,2,a]],['handle1',[1,2,a]]]
@@ -1140,8 +1098,12 @@ function handleEvent(event) {var _this = this;
         var methodName = eventArray[0];
         if (methodName) {
           var handlerCtx = _this.$vm;
-          if (handlerCtx.$options.generic) {// mp-weixin,mp-toutiao 抽象节点模拟 scoped slots
-            handlerCtx = getContextVm(handlerCtx) || handlerCtx;
+          if (
+          handlerCtx.$options.generic &&
+          handlerCtx.$parent &&
+          handlerCtx.$parent.$parent)
+          {// mp-weixin,mp-toutiao 抽象节点模拟 scoped slots
+            handlerCtx = handlerCtx.$parent.$parent;
           }
           if (methodName === '$emit') {
             handlerCtx.$emit.apply(handlerCtx,
@@ -1165,17 +1127,14 @@ function handleEvent(event) {var _this = this;
             }
             handler.once = true;
           }
-          var params = processEventArgs(
+          ret.push(handler.apply(handlerCtx, processEventArgs(
           _this.$vm,
           event,
           eventArray[1],
           eventArray[2],
           isCustom,
-          methodName);
+          methodName)));
 
-          // 参数尾部增加原始事件对象用于复杂表达式内获取额外数据
-          // eslint-disable-next-line no-sparse-arrays
-          ret.push(handler.apply(handlerCtx, (Array.isArray(params) ? params : []).concat([,,,,,,,,,, event])));
         }
       });
     }
@@ -1194,9 +1153,7 @@ var hooks = [
 'onShow',
 'onHide',
 'onError',
-'onPageNotFound',
-'onThemeChange',
-'onUnhandledRejection'];
+'onPageNotFound'];
 
 
 function parseBaseApp(vm, _ref3)
@@ -1378,8 +1335,8 @@ function parseBaseComponent(vueComponentOptions)
 
   {
     // 微信 multipleSlots 部分情况有 bug，导致内容顺序错乱 如 u-list，提供覆盖选项
-    if (vueOptions['mp-weixin'] && vueOptions['mp-weixin'].options) {
-      Object.assign(options, vueOptions['mp-weixin'].options);
+    if (vueOptions['mp-weixin'] && vueOptions['mp-weixin']['options']) {
+      Object.assign(options, vueOptions['mp-weixin']['options']);
     }
   }
 
@@ -1444,10 +1401,6 @@ function parseBaseComponent(vueComponentOptions)
       __e: handleEvent } };
 
 
-  // externalClasses
-  if (vueOptions.externalClasses) {
-    componentOptions.externalClasses = vueOptions.externalClasses;
-  }
 
   if (Array.isArray(vueOptions.wxsCallMethods)) {
     vueOptions.wxsCallMethods.forEach(function (callMethod) {
@@ -1530,7 +1483,7 @@ var uni = {};
 if (typeof Proxy !== 'undefined' && "mp-weixin" !== 'app-plus') {
   uni = new Proxy({}, {
     get: function get(target, name) {
-      if (hasOwn(target, name)) {
+      if (target[name]) {
         return target[name];
       }
       if (baseApi[name]) {
@@ -1634,15 +1587,7 @@ function normalizeComponent (
 
   // fixed by xxxxxx auto components
   if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
+    options.components = Object.assign(components, options.components || {})
   }
   // fixed by xxxxxx renderjs
   if (renderjs) {
@@ -1729,9 +1674,9 @@ function normalizeComponent (
 /***/ }),
 
 /***/ 11:
-/*!****************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/index.js ***!
-  \****************************************************/
+/*!****************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/index.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1876,12 +1821,13 @@ var install = function install(Vue) {
 /***/ }),
 
 /***/ 12:
-/*!***************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/mixin/mixin.js ***!
-  \***************************************************************/
+/*!***************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/mixin/mixin.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {module.exports = {
   data: function data() {
     return {};
@@ -1918,9 +1864,9 @@ var install = function install(Vue) {
 /***/ }),
 
 /***/ 13:
-/*!*****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/request/index.js ***!
-  \*****************************************************************/
+/*!*****************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/request/index.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2042,18 +1988,18 @@ Request = /*#__PURE__*/function () {_createClass(Request, [{ key: "setConfig",
       timer: null, // 定时器
       originalData: false, // 是否在拦截器中返回服务端的原始数据，见文档说明
       loadingMask: true // 展示loading的时候，是否给一个透明的蒙层，防止触摸穿透
-    };
 
-    // 拦截器
-    this.interceptor = {
+
+      // 拦截器
+    };this.interceptor = {
       // 请求前的拦截
       request: null,
       // 请求后的拦截
-      response: null };
+      response: null
 
 
-    // get请求
-    this.get = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      // get请求
+    };this.get = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       return _this2.request({
         method: 'GET',
         url: url,
@@ -2099,9 +2045,9 @@ new Request();exports.default = _default;
 /***/ }),
 
 /***/ 14:
-/*!**********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/deepMerge.js ***!
-  \**********************************************************************/
+/*!**********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/deepMerge.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2140,9 +2086,9 @@ deepMerge;exports.default = _default;
 /***/ }),
 
 /***/ 15:
-/*!**********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/deepClone.js ***!
-  \**********************************************************************/
+/*!**********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/deepClone.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2174,9 +2120,9 @@ deepClone;exports.default = _default;
 /***/ }),
 
 /***/ 16:
-/*!*****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/test.js ***!
-  \*****************************************************************/
+/*!*****************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/test.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2417,9 +2363,9 @@ function code(value) {var len = arguments.length > 1 && arguments[1] !== undefin
 /***/ }),
 
 /***/ 17:
-/*!************************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/queryParams.js ***!
-  \************************************************************************/
+/*!************************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/queryParams.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2486,9 +2432,9 @@ queryParams;exports.default = _default;
 /***/ }),
 
 /***/ 18:
-/*!******************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/route.js ***!
-  \******************************************************************/
+/*!******************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/route.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2583,9 +2529,9 @@ route;exports.default = _default;
 /***/ }),
 
 /***/ 19:
-/*!***********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/timeFormat.js ***!
-  \***********************************************************************/
+/*!***********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/timeFormat.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3279,10 +3225,12 @@ if (true) {
   };
 
   formatComponentName = function (vm, includeFile) {
-    if (vm.$root === vm) {
-      if (vm.$options && vm.$options.__file) { // fixed by xxxxxx
-        return ('') + vm.$options.__file
+    {
+      if(vm.$scope && vm.$scope.is){
+        return vm.$scope.is
       }
+    }
+    if (vm.$root === vm) {
       return '<Root>'
     }
     var options = typeof vm === 'function' && vm.cid != null
@@ -3317,7 +3265,7 @@ if (true) {
     if (vm._isVue && vm.$parent) {
       var tree = [];
       var currentRecursiveSequence = 0;
-      while (vm && vm.$options.name !== 'PageBody') {
+      while (vm) {
         if (tree.length > 0) {
           var last = tree[tree.length - 1];
           if (last.constructor === vm.constructor) {
@@ -3329,7 +3277,7 @@ if (true) {
             currentRecursiveSequence = 0;
           }
         }
-        !vm.$options.isReserved && tree.push(vm);
+        tree.push(vm);
         vm = vm.$parent;
       }
       return '\n\nfound in\n\n' + tree
@@ -3352,7 +3300,13 @@ var uid = 0;
  * directives subscribing to it.
  */
 var Dep = function Dep () {
-  this.id = uid++;
+  // fixed by xxxxxx (nvue vuex)
+  /* eslint-disable no-undef */
+  if(typeof SharedObject !== 'undefined'){
+    this.id = SharedObject.uid++;
+  } else {
+    this.id = uid++;
+  }
   this.subs = [];
 };
 
@@ -3389,7 +3343,7 @@ Dep.prototype.notify = function notify () {
 // can be evaluated at a time.
 // fixed by xxxxxx (nvue shared vuex)
 /* eslint-disable no-undef */
-Dep.SharedObject = {};
+Dep.SharedObject = typeof SharedObject !== 'undefined' ? SharedObject : {};
 Dep.SharedObject.target = null;
 Dep.SharedObject.targetStack = [];
 
@@ -7608,10 +7562,10 @@ function initMixin (Vue) {
     initEvents(vm);
     initRender(vm);
     callHook(vm, 'beforeCreate');
-    !vm._$fallback && initInjections(vm); // resolve injections before data/props  
+    vm.mpHost !== 'mp-toutiao' && initInjections(vm); // resolve injections before data/props  
     initState(vm);
-    !vm._$fallback && initProvide(vm); // resolve provide after data/props
-    !vm._$fallback && callHook(vm, 'created');      
+    vm.mpHost !== 'mp-toutiao' && initProvide(vm); // resolve provide after data/props
+    vm.mpHost !== 'mp-toutiao' && callHook(vm, 'created');      
 
     /* istanbul ignore if */
     if ( true && config.performance && mark) {
@@ -8239,15 +8193,6 @@ function cloneWithData(vm) {
     ret[key] = vm[key];
     return ret
   }, ret);
-
-  // vue-composition-api
-  var rawBindings = vm.__secret_vfa_state__ && vm.__secret_vfa_state__.rawBindings;
-  if (rawBindings) {
-    Object.keys(rawBindings).forEach(function (key) {
-      ret[key] = vm[key];
-    });
-  }
-  
   //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
   Object.assign(ret, vm.$mp.data || {});
   if (
@@ -8336,7 +8281,7 @@ function mountComponent$1(
     }
   }
   
-  !vm._$fallback && callHook(vm, 'beforeMount');
+  vm.mpHost !== 'mp-toutiao' && callHook(vm, 'beforeMount');
 
   var updateComponent = function () {
     vm._update(vm._render(), hydrating);
@@ -8454,8 +8399,7 @@ function getTarget(obj, path) {
 
 function internalMixin(Vue) {
 
-  Vue.config.errorHandler = function(err, vm, info) {
-    Vue.util.warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
+  Vue.config.errorHandler = function(err) {
     console.error(err);
     /* eslint-disable no-undef */
     var app = getApp();
@@ -8570,7 +8514,7 @@ function internalMixin(Vue) {
   };
 
   Vue.prototype.__map = function(val, iteratee) {
-    //TODO 暂不考虑 string
+    //TODO 暂不考虑 string,number
     var ret, i, l, keys, key;
     if (Array.isArray(val)) {
       ret = new Array(val.length);
@@ -8584,13 +8528,6 @@ function internalMixin(Vue) {
       for (i = 0, l = keys.length; i < l; i++) {
         key = keys[i];
         ret[key] = iteratee(val[key], key, i);
-      }
-      return ret
-    } else if (typeof val === 'number') {
-      ret = new Array(val);
-      for (i = 0, l = val; i < l; i++) {
-        // 第一个参数暂时仍和小程序一致
-        ret[i] = iteratee(i, i);
       }
       return ret
     }
@@ -8607,10 +8544,7 @@ var LIFECYCLE_HOOKS$1 = [
     'onShow',
     'onHide',
     'onUniNViewMessage',
-    'onPageNotFound',
-    'onThemeChange',
     'onError',
-    'onUnhandledRejection',
     //Page
     'onLoad',
     // 'onShow',
@@ -8620,8 +8554,6 @@ var LIFECYCLE_HOOKS$1 = [
     'onPullDownRefresh',
     'onReachBottom',
     'onTabItemTap',
-    'onAddToFavorites',
-    'onShareTimeline',
     'onShareAppMessage',
     'onResize',
     'onPageScroll',
@@ -8690,9 +8622,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 20:
-/*!*********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/timeFrom.js ***!
-  \*********************************************************************/
+/*!*********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/timeFrom.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8747,9 +8679,9 @@ timeFrom;exports.default = _default;
 /***/ }),
 
 /***/ 21:
-/*!**************************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/colorGradient.js ***!
-  \**************************************************************************/
+/*!**************************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/colorGradient.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8857,9 +8789,9 @@ function rgbToHex(rgb) {
 /***/ }),
 
 /***/ 22:
-/*!*****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/guid.js ***!
-  \*****************************************************************/
+/*!*****************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/guid.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8909,9 +8841,9 @@ guid;exports.default = _default;
 /***/ }),
 
 /***/ 23:
-/*!******************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/color.js ***!
-  \******************************************************************/
+/*!******************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/color.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8957,9 +8889,9 @@ color;exports.default = _default;
 /***/ }),
 
 /***/ 24:
-/*!**********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/type2icon.js ***!
-  \**********************************************************************/
+/*!**********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/type2icon.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9002,10 +8934,10 @@ type2icon;exports.default = _default;
 
 /***/ }),
 
-/***/ 240:
-/*!****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/util/emitter.js ***!
-  \****************************************************************/
+/***/ 242:
+/*!****************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/util/emitter.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9062,10 +8994,10 @@ function _broadcast(componentName, eventName, params) {
 
 /***/ }),
 
-/***/ 241:
-/*!************************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/util/async-validator.js ***!
-  \************************************************************************/
+/***/ 243:
+/*!************************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/util/async-validator.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9389,7 +9321,7 @@ var types = {
   integer: function integer(value) {
     return types.number(value) && parseInt(value, 10) === value;
   },
-  "float": function _float(value) {
+  "float": function float(value) {
     return types.number(value) && !types.integer(value);
   },
   array: function array(value) {
@@ -10425,11 +10357,11 @@ Schema.warning = warning;
 Schema.messages = messages;var _default =
 
 Schema;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../谷歌下载/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 242)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ 244)))
 
 /***/ }),
 
-/***/ 242:
+/***/ 244:
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -10437,11 +10369,7 @@ Schema;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 exports.nextTick = function nextTick(fn) {
-    var args = Array.prototype.slice.call(arguments);
-    args.shift();
-    setTimeout(function () {
-        fn.apply(null, args);
-    }, 0);
+	setTimeout(fn, 0);
 };
 
 exports.platform = exports.arch = 
@@ -10460,7 +10388,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 243);
+        if (!path) path = __webpack_require__(/*! path */ 245);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -10474,17 +10402,14 @@ exports.features = {};
 
 /***/ }),
 
-/***/ 243:
+/***/ 245:
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {// .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
-// backported and transplited with Babel, with backwards-compat fixes
-
-// Copyright Joyent, Inc. and other Node contributors.
+/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the
@@ -10534,6 +10459,14 @@ function normalizeArray(parts, allowAboveRoot) {
 
   return parts;
 }
+
+// Split a filename into [root, dir, basename, ext], unix version
+// 'root' is just a slash, or nothing.
+var splitPathRe =
+    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+var splitPath = function(filename) {
+  return splitPathRe.exec(filename).slice(1);
+};
 
 // path.resolve([from ...], to)
 // posix version
@@ -10650,120 +10583,37 @@ exports.relative = function(from, to) {
 exports.sep = '/';
 exports.delimiter = ':';
 
-exports.dirname = function (path) {
-  if (typeof path !== 'string') path = path + '';
-  if (path.length === 0) return '.';
-  var code = path.charCodeAt(0);
-  var hasRoot = code === 47 /*/*/;
-  var end = -1;
-  var matchedSlash = true;
-  for (var i = path.length - 1; i >= 1; --i) {
-    code = path.charCodeAt(i);
-    if (code === 47 /*/*/) {
-        if (!matchedSlash) {
-          end = i;
-          break;
-        }
-      } else {
-      // We saw the first non-path separator
-      matchedSlash = false;
-    }
+exports.dirname = function(path) {
+  var result = splitPath(path),
+      root = result[0],
+      dir = result[1];
+
+  if (!root && !dir) {
+    // No dirname whatsoever
+    return '.';
   }
 
-  if (end === -1) return hasRoot ? '/' : '.';
-  if (hasRoot && end === 1) {
-    // return '//';
-    // Backwards-compat fix:
-    return '/';
+  if (dir) {
+    // It has a dirname, strip trailing slash
+    dir = dir.substr(0, dir.length - 1);
   }
-  return path.slice(0, end);
+
+  return root + dir;
 };
 
-function basename(path) {
-  if (typeof path !== 'string') path = path + '';
 
-  var start = 0;
-  var end = -1;
-  var matchedSlash = true;
-  var i;
-
-  for (i = path.length - 1; i >= 0; --i) {
-    if (path.charCodeAt(i) === 47 /*/*/) {
-        // If we reached a path separator that was not part of a set of path
-        // separators at the end of the string, stop now
-        if (!matchedSlash) {
-          start = i + 1;
-          break;
-        }
-      } else if (end === -1) {
-      // We saw the first non-path separator, mark this as the end of our
-      // path component
-      matchedSlash = false;
-      end = i + 1;
-    }
-  }
-
-  if (end === -1) return '';
-  return path.slice(start, end);
-}
-
-// Uses a mixed approach for backwards-compatibility, as ext behavior changed
-// in new Node.js versions, so only basename() above is backported here
-exports.basename = function (path, ext) {
-  var f = basename(path);
+exports.basename = function(path, ext) {
+  var f = splitPath(path)[2];
+  // TODO: make this comparison case-insensitive on windows?
   if (ext && f.substr(-1 * ext.length) === ext) {
     f = f.substr(0, f.length - ext.length);
   }
   return f;
 };
 
-exports.extname = function (path) {
-  if (typeof path !== 'string') path = path + '';
-  var startDot = -1;
-  var startPart = 0;
-  var end = -1;
-  var matchedSlash = true;
-  // Track the state of characters (if any) we see before our first dot and
-  // after any path separator we find
-  var preDotState = 0;
-  for (var i = path.length - 1; i >= 0; --i) {
-    var code = path.charCodeAt(i);
-    if (code === 47 /*/*/) {
-        // If we reached a path separator that was not part of a set of path
-        // separators at the end of the string, stop now
-        if (!matchedSlash) {
-          startPart = i + 1;
-          break;
-        }
-        continue;
-      }
-    if (end === -1) {
-      // We saw the first non-path separator, mark this as the end of our
-      // extension
-      matchedSlash = false;
-      end = i + 1;
-    }
-    if (code === 46 /*.*/) {
-        // If this is our first dot, mark it as the start of our extension
-        if (startDot === -1)
-          startDot = i;
-        else if (preDotState !== 1)
-          preDotState = 1;
-    } else if (startDot !== -1) {
-      // We saw a non-dot and non-path separator before our dot, so we should
-      // have a good chance at having a non-empty extension
-      preDotState = -1;
-    }
-  }
 
-  if (startDot === -1 || end === -1 ||
-      // We saw a non-dot character immediately before the dot
-      preDotState === 0 ||
-      // The (right-most) trimmed path component is exactly '..'
-      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
-    return '';
-  }
-  return path.slice(startDot, end);
+exports.extname = function(path) {
+  return splitPath(path)[3];
 };
 
 function filter (xs, f) {
@@ -10784,14 +10634,14 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 242)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 244)))
 
 /***/ }),
 
 /***/ 25:
-/*!************************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/randomArray.js ***!
-  \************************************************************************/
+/*!************************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/randomArray.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10807,9 +10657,9 @@ randomArray;exports.default = _default;
 /***/ }),
 
 /***/ 26:
-/*!********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/addUnit.js ***!
-  \********************************************************************/
+/*!********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/addUnit.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10826,9 +10676,9 @@ function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefin
 /***/ }),
 
 /***/ 27:
-/*!*******************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/random.js ***!
-  \*******************************************************************/
+/*!*******************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/random.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10847,9 +10697,9 @@ random;exports.default = _default;
 /***/ }),
 
 /***/ 28:
-/*!*****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/trim.js ***!
-  \*****************************************************************/
+/*!*****************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/trim.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10873,9 +10723,9 @@ trim;exports.default = _default;
 /***/ }),
 
 /***/ 29:
-/*!******************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/toast.js ***!
-  \******************************************************************/
+/*!******************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/toast.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10925,9 +10775,9 @@ module.exports = g;
 /***/ }),
 
 /***/ 30:
-/*!**********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/getParent.js ***!
-  \**********************************************************************/
+/*!**********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/getParent.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10982,18 +10832,19 @@ function getParent(name, keys) {
 
 /***/ }),
 
-/***/ 300:
-/*!*********************************************************************************************!*\
-  !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
-  \*********************************************************************************************/
+/***/ 302:
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 301);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 303);
+
 
 /***/ }),
 
-/***/ 301:
+/***/ 303:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -11024,7 +10875,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 302);
+module.exports = __webpack_require__(/*! ./runtime */ 304);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -11041,7 +10892,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 302:
+/***/ 304:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -11774,9 +11625,9 @@ if (hadRuntime) {
 /***/ }),
 
 /***/ 31:
-/*!********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/$parent.js ***!
-  \********************************************************************/
+/*!********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/$parent.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11803,9 +11654,9 @@ function $parent() {var name = arguments.length > 0 && arguments[0] !== undefine
 /***/ }),
 
 /***/ 32:
-/*!****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/sys.js ***!
-  \****************************************************************/
+/*!****************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/sys.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11822,9 +11673,9 @@ function sys() {
 /***/ }),
 
 /***/ 33:
-/*!*********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/debounce.js ***!
-  \*********************************************************************/
+/*!*********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/debounce.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11862,9 +11713,9 @@ debounce;exports.default = _default;
 /***/ }),
 
 /***/ 34:
-/*!*********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/throttle.js ***!
-  \*********************************************************************/
+/*!*********************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/function/throttle.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11905,9 +11756,9 @@ throttle;exports.default = _default;
 /***/ }),
 
 /***/ 35:
-/*!*****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/config/config.js ***!
-  \*****************************************************************/
+/*!*****************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/config/config.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11929,9 +11780,9 @@ var version = '1.6.5';var _default =
 /***/ }),
 
 /***/ 36:
-/*!*****************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/config/zIndex.js ***!
-  \*****************************************************************/
+/*!*****************************************************!*\
+  !*** E:/项目/速达易家派单系统/uview-ui/libs/config/zIndex.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11959,33 +11810,35 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 4:
-/*!*********************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/pages.json ***!
-  \*********************************************/
+/*!*********************************!*\
+  !*** E:/项目/速达易家派单系统/pages.json ***!
+  \*********************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
 
 /***/ }),
 
 /***/ 43:
-/*!****************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/common/mock.mp.js ***!
-  \****************************************************/
+/*!****************************************!*\
+  !*** E:/项目/速达易家派单系统/common/mock.mp.js ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/*!
-  * better-mock v0.2.6 (mock.mp.js)
-  * (c) 2019-2020 lavyun@163.com
-  * Released under the MIT License.
-  */
+"use strict";
+ /*!
+                * better-mock v0.2.6 (mock.mp.js)
+                * (c) 2019-2020 lavyun@163.com
+                * Released under the MIT License.
+                */
 
 (function (global, factory) {
    true ? module.exports = factory() :
   undefined;
-})(this, function () {'use strict';
+})(void 0, function () {'use strict';
 
   var constant = {
     GUID: 1,
@@ -12135,7 +11988,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   var MAX_NATURE_NUMBER = 9007199254740992;
   var MIN_NATURE_NUMBER = -9007199254740992;
   // 返回一个随机的布尔值。
-  var _boolean = function _boolean(min, max, current) {
+  var boolean = function boolean(min, max, current) {
     if (min === void 0) {min = 1;}
     if (max === void 0) {max = 1;}
     if (isDef(current)) {
@@ -12149,7 +12002,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     }
     return Math.random() >= 0.5;
   };
-  var bool = _boolean;
+  var bool = boolean;
   // 返回一个随机的自然数（大于等于 0 的整数）。
   var natural = function natural(min, max) {
     if (min === void 0) {min = 0;}
@@ -12166,9 +12019,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     max = parseInt(max.toString(), 10);
     return Math.round(Math.random() * (max - min)) + min;
   };
-  var _int = integer;
+  var int = integer;
   // 返回一个随机的浮点数。
-  var _float = function _float(min, max, dmin, dmax) {
+  var float = function float(min, max, dmin, dmax) {
     dmin = isDef(dmin) ? dmin : 0;
     dmin = Math.max(Math.min(dmin, 17), 0);
     dmax = isDef(dmax) ? dmax : 17;
@@ -12203,7 +12056,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     }
     return pool.charAt(natural(0, pool.length - 1));
   };
-  var _char = character;
+  var char = character;
   // 返回一个随机字符串。
   var string = function string(pool, min, max) {
     var len;
@@ -12259,14 +12112,14 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   };
 
   var basic = /*#__PURE__*/Object.freeze({
-    boolean: _boolean,
+    boolean: boolean,
     bool: bool,
     natural: natural,
     integer: integer,
-    int: _int,
-    float: _float,
+    int: int,
+    float: float,
     character: character,
-    char: _char,
+    char: char,
     string: string,
     str: str,
     range: range });
@@ -20319,30 +20172,31 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 44:
-/*!**************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/libs/bmap-wx.js ***!
-  \**************************************************/
+/*!**************************************!*\
+  !*** E:/项目/速达易家派单系统/libs/bmap-wx.js ***!
+  \**************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @file 微信小程序JSAPI
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @author 崔健 cuijian03@baidu.com 2017.01.10
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @update 邓淑芳 623996689@qq.com 2019.07.03
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * @file 微信小程序JSAPI
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * @author 崔健 cuijian03@baidu.com 2017.01.10
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * @update 邓淑芳 623996689@qq.com 2019.07.03
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */
 
 /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * 百度地图微信小程序API类
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * @class
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */var
-BMapWX = /*#__PURE__*/function () {"use strict";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 百度地图微信小程序API类
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @class
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */var
+BMapWX = /*#__PURE__*/function () {
 
   /**
-                                                  * 百度地图微信小程序API类
-                                                  *
-                                                  * @constructor
-                                                  */
+                                    * 百度地图微信小程序API类
+                                    *
+                                    * @constructor
+                                    */
   function BMapWX(param) {_classCallCheck(this, BMapWX);
     this.ak = param["ak"];
   }
