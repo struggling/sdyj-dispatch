@@ -1,0 +1,105 @@
+
+.content.data-v-00659ba6{
+	padding-left: 25rpx;
+	padding-right: 25rpx;
+	margin-top: 40rpx;
+}
+/* 标题 */
+.title-nav.data-v-00659ba6{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	font-size: 18rpx;
+	color:#00A43F ;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.l-nav.data-v-00659ba6{
+}
+.l-nav image.data-v-00659ba6{
+	width: 32rpx;
+	height: 32rpx;
+	vertical-align: middle;
+	padding-right: 15rpx;
+}
+/* 宫格 */
+.gird.data-v-00659ba6{
+	margin-top: 20rpx;
+	margin-bottom: 40rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+}
+.gird .gird-item.data-v-00659ba6{
+	width:206rpx;
+	height: 228rpx;
+	border-radius: 12rpx;
+	background-color: #000000;
+	text-align: center;
+	margin-top: 20rpx;
+}
+.gird .gird-item image.data-v-00659ba6{
+	width: 170rpx;
+	height: 146rpx;
+	border-radius: 8rpx;
+	margin-top: 15rpx;
+}
+.gird .gird-item .btn.data-v-00659ba6{
+	width:148rpx;
+	height: 36rpx;
+	line-height: 36rpx;
+	border-radius: 8rpx;
+	font-size: 16rpx;
+	/* display: inline; */
+	margin: 0 auto;
+	margin-top: 10rpx;
+}
+/* 入驻说明 */
+.ensure.data-v-00659ba6{
+}
+.ensure .title.data-v-00659ba6{
+	width: 155rpx;
+	height: 40rpx;
+	background: -webkit-linear-gradient(left, #80BF26, #5CB531);
+	background: linear-gradient(90deg, #80BF26, #5CB531);
+	border-bottom-right-radius: 20rpx;
+	border-top-right-radius: 20rpx;
+	line-height: 40rpx;
+	text-align: center;
+	color: #FFFFFF;
+}
+.ensure .panel.data-v-00659ba6{
+	margin-top: 40rpx;
+	width: 691rpx;
+	height: 161rpx;
+	background: -webkit-linear-gradient(left, #30C7FF, #55C3F2);
+	background: linear-gradient(90deg, #30C7FF, #55C3F2);
+	border-radius: 10rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding-left: 25rpx;
+	padding-right: 25rpx;
+}
+.ensure .panel image.data-v-00659ba6{
+	width: 28rpx;
+	height: 28rpx;
+}
+.ensure .panel .txt.data-v-00659ba6{
+	padding-left: 20rpx;
+	color: #FFFFFF;
+	margin-top: 20rpx;
+}
+

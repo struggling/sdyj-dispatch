@@ -94,16 +94,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uNavbar: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-navbar/u-navbar */ "uview-ui/components/u-navbar/u-navbar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-navbar/u-navbar.vue */ 109))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-navbar/u-navbar */ "uview-ui/components/u-navbar/u-navbar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-navbar/u-navbar.vue */ 123))
   },
   uNoticeBar: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-notice-bar/u-notice-bar */ "uview-ui/components/u-notice-bar/u-notice-bar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-notice-bar/u-notice-bar.vue */ 116))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-notice-bar/u-notice-bar */ "uview-ui/components/u-notice-bar/u-notice-bar").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-notice-bar/u-notice-bar.vue */ 130))
   },
   uModal: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 123))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 137))
   },
   uPopup: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 130))
+    return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 144))
   }
 }
 var render = function() {
@@ -143,7 +143,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _readOnlyError(name) {throw new Error("\"" + name + "\" is read-only");} //
 //
 //
 //
@@ -248,7 +248,7 @@ var Mock = __webpack_require__(/*! ../../common//mock.mp.js */ 43);
 
 //引入小程序微信小程序JavaScriptSDK
 // const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
-var bmap = __webpack_require__(/*! ../../libs/bmap-wx.js */ 372);var loadMore = function loadMore() {__webpack_require__.e(/*! require.ensure | components/common/load-more */ "components/common/load-more").then((function () {return resolve(__webpack_require__(/*! ../../components/common/load-more.vue */ 137));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var bmap = __webpack_require__(/*! ../../libs/bmap-wx.js */ 44);var loadMore = function loadMore() {__webpack_require__.e(/*! require.ensure | components/common/load-more */ "components/common/load-more").then((function () {return resolve(__webpack_require__(/*! ../../components/common/load-more.vue */ 151));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 {
   components: {
@@ -256,6 +256,7 @@ var bmap = __webpack_require__(/*! ../../libs/bmap-wx.js */ 372);var loadMore = 
 
   data: function data() {
     return {
+      istype: "",
       address: "当前位置",
       height: "",
       background: {
@@ -842,8 +843,15 @@ var bmap = __webpack_require__(/*! ../../libs/bmap-wx.js */ 372);var loadMore = 
     },
     //openpage
     openWaitlist: function openWaitlist() {
+      //判断用户类型值是否存在，
+      //接受一个判断师傅类型的参数
+      var urlpath = "'../wait-list/wait-list'";
+      var ydurl = "../settlement/settlement";
+      var openurl = "";
+      this.istype ? openurl = (_readOnlyError("openurl"), urlpath) : openurl = (_readOnlyError("openurl"), ydurl);
       uni.navigateTo({
-        url: '../wait-list/wait-list' });
+        url: urlpath });
+
 
     },
     //计算两点直线路径

@@ -87,6 +87,18 @@
 				"navigationBarTitleText": "登陆授权",
 				"navigationBarTextStyle":"white"}
         }
+        ,{
+            "path" : "pages/settlement/settlement",
+            "style" : {
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/register/register",
+            "style" : {
+				"navigationStyle":"custom"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

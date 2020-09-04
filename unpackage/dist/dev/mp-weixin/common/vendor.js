@@ -8908,7 +8908,101 @@ guid;exports.default = _default;
 
 /***/ }),
 
-/***/ 226:
+/***/ 23:
+/*!******************************************************************!*\
+  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/color.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 为了让用户能够自定义主题，会逐步弃用此文件，各颜色通过css提供
+// 为了给某些特殊场景使用和向后兼容，无需删除此文件(2020-06-20)
+var color = {
+  primary: "#2979ff",
+  primaryDark: "#2b85e4",
+  primaryDisabled: "#a0cfff",
+  primaryLight: "#ecf5ff",
+  bgColor: "#f3f4f6",
+
+  info: "#909399",
+  infoDark: "#82848a",
+  infoDisabled: "#c8c9cc",
+  infoLight: "#f4f4f5",
+
+  warning: "#ff9900",
+  warningDark: "#f29100",
+  warningDisabled: "#fcbd71",
+  warningLight: "#fdf6ec",
+
+  error: "#fa3534",
+  errorDark: "#dd6161",
+  errorDisabled: "#fab6b6",
+  errorLight: "#fef0f0",
+
+  success: "#19be6b",
+  successDark: "#18b566",
+  successDisabled: "#71d5a1",
+  successLight: "#dbf1e1",
+
+  mainColor: "#303133",
+  contentColor: "#606266",
+  tipsColor: "#909399",
+  lightColor: "#c0c4cc",
+  borderColor: "#e4e7ed" };var _default =
+
+
+color;exports.default = _default;
+
+/***/ }),
+
+/***/ 24:
+/*!**********************************************************************!*\
+  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/type2icon.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 根据主题type值,获取对应的图标
+                                                                                                      * @param String type 主题名称,primary|info|error|warning|success
+                                                                                                      * @param String fill 是否使用fill填充实体的图标  
+                                                                                                      */
+function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  // 如果非预置值,默认为success
+  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
+  var iconName = '';
+  // 目前(2019-12-12),info和primary使用同一个图标
+  switch (type) {
+    case 'primary':
+      iconName = 'info-circle';
+      break;
+    case 'info':
+      iconName = 'info-circle';
+      break;
+    case 'error':
+      iconName = 'close-circle';
+      break;
+    case 'warning':
+      iconName = 'error-circle';
+      break;
+    case 'success':
+      iconName = 'checkmark-circle';
+      break;
+    default:
+      iconName = 'checkmark-circle';}
+
+  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
+  if (fill) iconName += '-fill';
+  return iconName;
+}var _default =
+
+type2icon;exports.default = _default;
+
+/***/ }),
+
+/***/ 240:
 /*!****************************************************************!*\
   !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/util/emitter.js ***!
   \****************************************************************/
@@ -8968,7 +9062,7 @@ function _broadcast(componentName, eventName, params) {
 
 /***/ }),
 
-/***/ 227:
+/***/ 241:
 /*!************************************************************************!*\
   !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/util/async-validator.js ***!
   \************************************************************************/
@@ -10331,11 +10425,11 @@ Schema.warning = warning;
 Schema.messages = messages;var _default =
 
 Schema;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../谷歌下载/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 228)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../谷歌下载/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 242)))
 
 /***/ }),
 
-/***/ 228:
+/***/ 242:
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -10366,7 +10460,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 229);
+        if (!path) path = __webpack_require__(/*! path */ 243);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -10380,7 +10474,7 @@ exports.features = {};
 
 /***/ }),
 
-/***/ 229:
+/***/ 243:
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -10690,101 +10784,7 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 228)))
-
-/***/ }),
-
-/***/ 23:
-/*!******************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/color.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 为了让用户能够自定义主题，会逐步弃用此文件，各颜色通过css提供
-// 为了给某些特殊场景使用和向后兼容，无需删除此文件(2020-06-20)
-var color = {
-  primary: "#2979ff",
-  primaryDark: "#2b85e4",
-  primaryDisabled: "#a0cfff",
-  primaryLight: "#ecf5ff",
-  bgColor: "#f3f4f6",
-
-  info: "#909399",
-  infoDark: "#82848a",
-  infoDisabled: "#c8c9cc",
-  infoLight: "#f4f4f5",
-
-  warning: "#ff9900",
-  warningDark: "#f29100",
-  warningDisabled: "#fcbd71",
-  warningLight: "#fdf6ec",
-
-  error: "#fa3534",
-  errorDark: "#dd6161",
-  errorDisabled: "#fab6b6",
-  errorLight: "#fef0f0",
-
-  success: "#19be6b",
-  successDark: "#18b566",
-  successDisabled: "#71d5a1",
-  successLight: "#dbf1e1",
-
-  mainColor: "#303133",
-  contentColor: "#606266",
-  tipsColor: "#909399",
-  lightColor: "#c0c4cc",
-  borderColor: "#e4e7ed" };var _default =
-
-
-color;exports.default = _default;
-
-/***/ }),
-
-/***/ 24:
-/*!**********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/type2icon.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 根据主题type值,获取对应的图标
-                                                                                                      * @param String type 主题名称,primary|info|error|warning|success
-                                                                                                      * @param String fill 是否使用fill填充实体的图标  
-                                                                                                      */
-function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  // 如果非预置值,默认为success
-  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
-  var iconName = '';
-  // 目前(2019-12-12),info和primary使用同一个图标
-  switch (type) {
-    case 'primary':
-      iconName = 'info-circle';
-      break;
-    case 'info':
-      iconName = 'info-circle';
-      break;
-    case 'error':
-      iconName = 'close-circle';
-      break;
-    case 'warning':
-      iconName = 'error-circle';
-      break;
-    case 'success':
-      iconName = 'checkmark-circle';
-      break;
-    default:
-      iconName = 'checkmark-circle';}
-
-  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
-  if (fill) iconName += '-fill';
-  return iconName;
-}var _default =
-
-type2icon;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 242)))
 
 /***/ }),
 
@@ -10872,18 +10872,128 @@ trim;exports.default = _default;
 
 /***/ }),
 
-/***/ 286:
+/***/ 29:
+/*!******************************************************************!*\
+  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/toast.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function toast(title) {var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1500;
+  uni.showToast({
+    title: title,
+    icon: 'none',
+    duration: duration });
+
+}var _default =
+
+toast;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 30:
+/*!**********************************************************************!*\
+  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/getParent.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = getParent; // 获取父组件的参数，因为支付宝小程序不支持provide/inject的写法
+// this.$parent在非H5中，可以准确获取到父组件，但是在H5中，需要多次this.$parent.$parent.xxx
+function getParent(name, keys) {
+  var parent = this.$parent;
+  // 通过while历遍，这里主要是为了H5需要多层解析的问题
+  while (parent) {
+    // 父组件
+    if (parent.$options.name !== name) {
+      // 如果组件的name不相等，继续上一级寻找
+      parent = parent.$parent;
+    } else {var _ret = function () {
+        var data = {};
+        // 判断keys是否数组，如果传过来的是一个数组，那么直接使用数组元素值当做键值去父组件寻找
+        if (Array.isArray(keys)) {
+          keys.map(function (val) {
+            data[val] = parent[val] ? parent[val] : '';
+          });
+        } else {
+          // 历遍传过来的对象参数
+          for (var i in keys) {
+            // 如果子组件有此值则用，无此值则用父组件的值
+            // 判断是否空数组，如果是，则用父组件的值，否则用子组件的值
+            if (Array.isArray(keys[i])) {
+              if (keys[i].length) {
+                data[i] = keys[i];
+              } else {
+                data[i] = parent[i];
+              }
+            } else if (keys[i].constructor === Object) {
+              // 判断是否对象，如果是对象，且有属性，那么使用子组件的值，否则使用父组件的值
+              if (Object.keys(keys[i]).length) {
+                data[i] = keys[i];
+              } else {
+                data[i] = parent[i];
+              }
+            } else {
+              // 只要子组件有传值，即使是false值，也是“传值”了，也需要覆盖父组件的同名参数
+              data[i] = keys[i] || keys[i] === false ? keys[i] : parent[i];
+            }
+          }
+        }
+        return { v: data };}();if (typeof _ret === "object") return _ret.v;
+    }
+  }
+
+  return {};
+}
+
+/***/ }),
+
+/***/ 300:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 287);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 301);
 
 /***/ }),
 
-/***/ 287:
+/***/ 301:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -10914,7 +11024,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 288);
+module.exports = __webpack_require__(/*! ./runtime */ 302);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -10931,7 +11041,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 288:
+/***/ 302:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -11663,116 +11773,6 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 29:
-/*!******************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/toast.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function toast(title) {var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1500;
-  uni.showToast({
-    title: title,
-    icon: 'none',
-    duration: duration });
-
-}var _default =
-
-toast;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 3:
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 30:
-/*!**********************************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/getParent.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = getParent; // 获取父组件的参数，因为支付宝小程序不支持provide/inject的写法
-// this.$parent在非H5中，可以准确获取到父组件，但是在H5中，需要多次this.$parent.$parent.xxx
-function getParent(name, keys) {
-  var parent = this.$parent;
-  // 通过while历遍，这里主要是为了H5需要多层解析的问题
-  while (parent) {
-    // 父组件
-    if (parent.$options.name !== name) {
-      // 如果组件的name不相等，继续上一级寻找
-      parent = parent.$parent;
-    } else {var _ret = function () {
-        var data = {};
-        // 判断keys是否数组，如果传过来的是一个数组，那么直接使用数组元素值当做键值去父组件寻找
-        if (Array.isArray(keys)) {
-          keys.map(function (val) {
-            data[val] = parent[val] ? parent[val] : '';
-          });
-        } else {
-          // 历遍传过来的对象参数
-          for (var i in keys) {
-            // 如果子组件有此值则用，无此值则用父组件的值
-            // 判断是否空数组，如果是，则用父组件的值，否则用子组件的值
-            if (Array.isArray(keys[i])) {
-              if (keys[i].length) {
-                data[i] = keys[i];
-              } else {
-                data[i] = parent[i];
-              }
-            } else if (keys[i].constructor === Object) {
-              // 判断是否对象，如果是对象，且有属性，那么使用子组件的值，否则使用父组件的值
-              if (Object.keys(keys[i]).length) {
-                data[i] = keys[i];
-              } else {
-                data[i] = parent[i];
-              }
-            } else {
-              // 只要子组件有传值，即使是false值，也是“传值”了，也需要覆盖父组件的同名参数
-              data[i] = keys[i] || keys[i] === false ? keys[i] : parent[i];
-            }
-          }
-        }
-        return { v: data };}();if (typeof _ret === "object") return _ret.v;
-    }
-  }
-
-  return {};
-}
-
-/***/ }),
-
 /***/ 31:
 /*!********************************************************************!*\
   !*** D:/xiaoma/项目/sdyj-dispatch/uview-ui/libs/function/$parent.js ***!
@@ -11955,468 +11955,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   topTips: 975,
   sticky: 970,
   indexListSticky: 965 };exports.default = _default;
-
-/***/ }),
-
-/***/ 372:
-/*!**************************************************!*\
-  !*** D:/xiaoma/项目/sdyj-dispatch/libs/bmap-wx.js ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @file 微信小程序JSAPI
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @author 崔健 cuijian03@baidu.com 2017.01.10
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @update 邓淑芳 623996689@qq.com 2019.07.03
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
-
-/**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * 百度地图微信小程序API类
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * @class
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */var
-BMapWX = /*#__PURE__*/function () {"use strict";
-
-  /**
-                                                  * 百度地图微信小程序API类
-                                                  *
-                                                  * @constructor
-                                                  */
-  function BMapWX(param) {_classCallCheck(this, BMapWX);
-    this.ak = param["ak"];
-  }
-
-  /**
-     * 使用微信接口进行定位
-     *
-     * @param {string} type 坐标类型
-     * @param {Function} success 成功执行
-     * @param {Function} fail 失败执行
-     * @param {Function} complete 完成后执行
-     */_createClass(BMapWX, [{ key: "getWXLocation", value: function getWXLocation(
-    type, success, fail, complete) {
-      type = type || 'gcj02',
-      success = success || function () {};
-      fail = fail || function () {};
-      complete = complete || function () {};
-      wx.getLocation({
-        type: type,
-        success: success,
-        fail: fail,
-        complete: complete });
-
-    }
-
-    /**
-       * POI周边检索
-       *
-       * @param {Object} param 检索配置
-       * 参数对象结构可以参考
-       * http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-placeapi
-       */ }, { key: "search", value: function search(
-    param) {
-      var that = this;
-      param = param || {};
-      var searchparam = {
-        query: param["query"] || '生活服务$美食&酒店',
-        scope: param["scope"] || 1,
-        filter: param["filter"] || '',
-        coord_type: param["coord_type"] || 2,
-        page_size: param["page_size"] || 10,
-        page_num: param["page_num"] || 0,
-        output: param["output"] || 'json',
-        ak: that.ak,
-        sn: param["sn"] || '',
-        timestamp: param["timestamp"] || '',
-        radius: param["radius"] || 2000,
-        ret_coordtype: 'gcj02ll' };
-
-      var otherparam = {
-        iconPath: param["iconPath"],
-        iconTapPath: param["iconTapPath"],
-        width: param["width"],
-        height: param["height"],
-        alpha: param["alpha"] || 1,
-        success: param["success"] || function () {},
-        fail: param["fail"] || function () {} };
-
-      var type = 'gcj02';
-      var locationsuccess = function locationsuccess(result) {
-        searchparam["location"] = result["latitude"] + ',' + result["longitude"];
-        wx.request({
-          url: 'https://api.map.baidu.com/place/v2/search',
-          data: searchparam,
-          header: {
-            "content-type": "application/json" },
-
-          method: 'GET',
-          success: function success(data) {
-            var res = data["data"];
-            if (res["status"] === 0) {
-              var poiArr = res["results"];
-              // outputRes 包含两个对象，
-              // originalData为百度接口返回的原始数据
-              // wxMarkerData为小程序规范的marker格式
-              var outputRes = {};
-              outputRes["originalData"] = res;
-              outputRes["wxMarkerData"] = [];
-              for (var i = 0; i < poiArr.length; i++) {
-                outputRes["wxMarkerData"][i] = {
-                  id: i,
-                  latitude: poiArr[i]["location"]["lat"],
-                  longitude: poiArr[i]["location"]["lng"],
-                  title: poiArr[i]["name"],
-                  iconPath: otherparam["iconPath"],
-                  iconTapPath: otherparam["iconTapPath"],
-                  address: poiArr[i]["address"],
-                  telephone: poiArr[i]["telephone"],
-                  alpha: otherparam["alpha"],
-                  width: otherparam["width"],
-                  height: otherparam["height"] };
-
-              }
-              otherparam.success(outputRes);
-            } else {
-              otherparam.fail({
-                errMsg: res["message"],
-                statusCode: res["status"] });
-
-            }
-          },
-          fail: function fail(data) {
-            otherparam.fail(data);
-          } });
-
-      };
-      var locationfail = function locationfail(result) {
-        otherparam.fail(result);
-      };
-      var locationcomplete = function locationcomplete(result) {
-      };
-      if (!param["location"]) {
-        that.getWXLocation(type, locationsuccess, locationfail, locationcomplete);
-      } else {
-        var longitude = param.location.split(',')[1];
-        var latitude = param.location.split(',')[0];
-        var errMsg = 'input location';
-        var res = {
-          errMsg: errMsg,
-          latitude: latitude,
-          longitude: longitude };
-
-        locationsuccess(res);
-      }
-    }
-
-    /**
-       * sug模糊检索
-       *
-       * @param {Object} param 检索配置
-       * 参数对象结构可以参考
-       * http://lbsyun.baidu.com/index.php?title=webapi/place-suggestion-api
-       */ }, { key: "suggestion", value: function suggestion(
-    param) {
-      var that = this;
-      param = param || {};
-      var suggestionparam = {
-        query: param["query"] || '',
-        region: param["region"] || '全国',
-        city_limit: param["city_limit"] || false,
-        output: param["output"] || 'json',
-        ak: that.ak,
-        sn: param["sn"] || '',
-        timestamp: param["timestamp"] || '',
-        ret_coordtype: 'gcj02ll' };
-
-      var otherparam = {
-        success: param["success"] || function () {},
-        fail: param["fail"] || function () {} };
-
-      wx.request({
-        url: 'https://api.map.baidu.com/place/v2/suggestion',
-        data: suggestionparam,
-        header: {
-          "content-type": "application/json" },
-
-        method: 'GET',
-        success: function success(data) {
-          var res = data["data"];
-          if (res["status"] === 0) {
-            otherparam.success(res);
-          } else {
-            otherparam.fail({
-              errMsg: res["message"],
-              statusCode: res["status"] });
-
-          }
-        },
-        fail: function fail(data) {
-          otherparam.fail(data);
-        } });
-
-    }
-
-    /**
-       * rgc检索（逆地理编码：经纬度->地点描述）
-       * 
-       * @param {Object} param 检索配置
-       * 参数对象结构可以参考
-       * https://lbs.baidu.com/index.php?title=webapi/guide/webservice-geocoding-abroad
-       * 
-       */ }, { key: "regeocoding", value: function regeocoding(
-    param) {
-      var that = this;
-      param = param || {};
-      var regeocodingparam = {
-        coordtype: param["coordtype"] || 'gcj02ll',
-        ret_coordtype: 'gcj02ll',
-        radius: param["radius"] || 1000,
-        ak: that.ak,
-        sn: param["sn"] || '',
-        output: param["output"] || 'json',
-        callback: param["callback"] || function () {},
-        extensions_poi: param["extensions_poi"] || 1,
-        extensions_road: param["extensions_road"] || false,
-        extensions_town: param["extensions_town"] || false,
-        language: param["language"] || 'zh-CN',
-        language_auto: param["language_auto"] || 0 };
-
-      var otherparam = {
-        iconPath: param["iconPath"],
-        iconTapPath: param["iconTapPath"],
-        width: param["width"],
-        height: param["height"],
-        alpha: param["alpha"] || 1,
-        success: param["success"] || function () {},
-        fail: param["fail"] || function () {} };
-
-      var type = 'gcj02';
-      var locationsuccess = function locationsuccess(result) {
-        regeocodingparam["location"] = result["latitude"] + ',' + result["longitude"];
-        wx.request({
-          url: 'https://api.map.baidu.com/reverse_geocoding/v3',
-          data: regeocodingparam,
-          header: {
-            "content-type": "application/json" },
-
-          method: 'GET',
-          success: function success(data) {
-            var res = data["data"];
-            if (res["status"] === 0) {
-              var poiObj = res["result"];
-              // outputRes 包含两个对象：
-              // originalData为百度接口返回的原始数据
-              // wxMarkerData为小程序规范的marker格式
-              var outputRes = {};
-              outputRes["originalData"] = res;
-              outputRes["wxMarkerData"] = [];
-              outputRes["wxMarkerData"][0] = {
-                id: 0,
-                latitude: result["latitude"],
-                longitude: result["longitude"],
-                address: poiObj["formatted_address"],
-                iconPath: otherparam["iconPath"],
-                iconTapPath: otherparam["iconTapPath"],
-                desc: poiObj["sematic_description"],
-                business: poiObj["business"],
-                alpha: otherparam["alpha"],
-                width: otherparam["width"],
-                height: otherparam["height"] };
-
-              otherparam.success(outputRes);
-            } else {
-              otherparam.fail({
-                errMsg: res["message"],
-                statusCode: res["status"] });
-
-            }
-          },
-          fail: function fail(data) {
-            otherparam.fail(data);
-          } });
-
-      };
-      var locationfail = function locationfail(result) {
-        otherparam.fail(result);
-      };
-      var locationcomplete = function locationcomplete(result) {
-      };
-      if (!param["location"]) {
-        that.getWXLocation(type, locationsuccess, locationfail, locationcomplete);
-      } else {
-        var longitude = param.location.split(',')[1];
-        var latitude = param.location.split(',')[0];
-        var errMsg = 'input location';
-        var res = {
-          errMsg: errMsg,
-          latitude: latitude,
-          longitude: longitude };
-
-        locationsuccess(res);
-      }
-    }
-
-    /**
-       * gc检索（地理编码：地点->经纬度）
-       *
-       * @param {Object} param 检索配置
-       * 参数对象结构可以参考
-       * https://lbs.baidu.com/index.php?title=webapi/guide/webservice-geocoding
-       * 
-       */ }, { key: "geocoding", value: function geocoding(
-    param) {
-      var that = this;
-      param = param || {};
-      var geocodingparam = {
-        address: param["address"] || '',
-        city: param["city"] || '',
-        ret_coordtype: param["coordtype"] || 'gcj02ll',
-        ak: that.ak,
-        sn: param["sn"] || '',
-        output: param["output"] || 'json',
-        callback: param["callback"] || function () {} };
-
-      var otherparam = {
-        iconPath: param["iconPath"],
-        iconTapPath: param["iconTapPath"],
-        width: param["width"],
-        height: param["height"],
-        alpha: param["alpha"] || 1,
-        success: param["success"] || function () {},
-        fail: param["fail"] || function () {} };
-
-      if (param["address"]) {
-        wx.request({
-          url: 'https://api.map.baidu.com/geocoding/v3',
-          data: geocodingparam,
-          header: {
-            "content-type": "application/json" },
-
-          method: 'GET',
-          success: function success(data) {
-            var res = data["data"];
-            if (res["status"] === 0) {
-              var poiObj = res["result"];
-              // outputRes 包含两个对象：
-              // originalData为百度接口返回的原始数据
-              // wxMarkerData为小程序规范的marker格式
-              var outputRes = res;
-              outputRes["originalData"] = res;
-              outputRes["wxMarkerData"] = [];
-              outputRes["wxMarkerData"][0] = {
-                id: 0,
-                latitude: poiObj["location"]["lat"],
-                longitude: poiObj["location"]["lng"],
-                iconPath: otherparam["iconPath"],
-                iconTapPath: otherparam["iconTapPath"],
-                alpha: otherparam["alpha"],
-                width: otherparam["width"],
-                height: otherparam["height"] };
-
-              otherparam.success(outputRes);
-            } else {
-              otherparam.fail({
-                errMsg: res["message"],
-                statusCode: res["status"] });
-
-            }
-          },
-          fail: function fail(data) {
-            otherparam.fail(data);
-          } });
-
-      } else {
-        var errMsg = 'input address!';
-        var res = {
-          errMsg: errMsg };
-
-        otherparam.fail(res);
-      }
-    }
-
-    /**
-       * 天气检索
-       *
-       * @param {Object} param 检索配置
-       */ }, { key: "weather", value: function weather(
-    param) {
-      var that = this;
-      param = param || {};
-      var weatherparam = {
-        coord_type: param["coord_type"] || 'gcj02',
-        output: param["output"] || 'json',
-        ak: that.ak,
-        sn: param["sn"] || '',
-        timestamp: param["timestamp"] || '' };
-
-      var otherparam = {
-        success: param["success"] || function () {},
-        fail: param["fail"] || function () {} };
-
-      var type = 'gcj02';
-      var locationsuccess = function locationsuccess(result) {
-        weatherparam["location"] = result["longitude"] + ',' + result["latitude"];
-        wx.request({
-          url: 'https://api.map.baidu.com/telematics/v3/weather',
-          data: weatherparam,
-          header: {
-            "content-type": "application/json" },
-
-          method: 'GET',
-          success: function success(data) {
-            var res = data["data"];
-            if (res["error"] === 0 && res["status"] === 'success') {
-              var weatherArr = res["results"];
-              // outputRes 包含两个对象，
-              // originalData为百度接口返回的原始数据
-              // wxMarkerData为小程序规范的marker格式
-              var outputRes = {};
-              outputRes["originalData"] = res;
-              outputRes["currentWeather"] = [];
-              outputRes["currentWeather"][0] = {
-                currentCity: weatherArr[0]["currentCity"],
-                pm25: weatherArr[0]["pm25"],
-                date: weatherArr[0]["weather_data"][0]["date"],
-                temperature: weatherArr[0]["weather_data"][0]["temperature"],
-                weatherDesc: weatherArr[0]["weather_data"][0]["weather"],
-                wind: weatherArr[0]["weather_data"][0]["wind"] };
-
-              otherparam.success(outputRes);
-            } else {
-              otherparam.fail({
-                errMsg: res["message"],
-                statusCode: res["status"] });
-
-            }
-          },
-          fail: function fail(data) {
-            otherparam.fail(data);
-          } });
-
-      };
-      var locationfail = function locationfail(result) {
-        otherparam.fail(result);
-      };
-      var locationcomplete = function locationcomplete(result) {
-      };
-      if (!param["location"]) {
-        that.getWXLocation(type, locationsuccess, locationfail, locationcomplete);
-      } else {
-        var longitude = param.location.split(',')[0];
-        var latitude = param.location.split(',')[1];
-        var errMsg = 'input location';
-        var res = {
-          errMsg: errMsg,
-          latitude: latitude,
-          longitude: longitude };
-
-        locationsuccess(res);
-      }
-    } }]);return BMapWX;}();
-
-
-module.exports.BMapWX = BMapWX;
 
 /***/ }),
 
@@ -20777,6 +20315,468 @@ module.exports.BMapWX = BMapWX;
   return Mock;
 
 });
+
+/***/ }),
+
+/***/ 44:
+/*!**************************************************!*\
+  !*** D:/xiaoma/项目/sdyj-dispatch/libs/bmap-wx.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @file 微信小程序JSAPI
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @author 崔健 cuijian03@baidu.com 2017.01.10
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @update 邓淑芳 623996689@qq.com 2019.07.03
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
+
+/**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * 百度地图微信小程序API类
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * @class
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */var
+BMapWX = /*#__PURE__*/function () {"use strict";
+
+  /**
+                                                  * 百度地图微信小程序API类
+                                                  *
+                                                  * @constructor
+                                                  */
+  function BMapWX(param) {_classCallCheck(this, BMapWX);
+    this.ak = param["ak"];
+  }
+
+  /**
+     * 使用微信接口进行定位
+     *
+     * @param {string} type 坐标类型
+     * @param {Function} success 成功执行
+     * @param {Function} fail 失败执行
+     * @param {Function} complete 完成后执行
+     */_createClass(BMapWX, [{ key: "getWXLocation", value: function getWXLocation(
+    type, success, fail, complete) {
+      type = type || 'gcj02',
+      success = success || function () {};
+      fail = fail || function () {};
+      complete = complete || function () {};
+      wx.getLocation({
+        type: type,
+        success: success,
+        fail: fail,
+        complete: complete });
+
+    }
+
+    /**
+       * POI周边检索
+       *
+       * @param {Object} param 检索配置
+       * 参数对象结构可以参考
+       * http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-placeapi
+       */ }, { key: "search", value: function search(
+    param) {
+      var that = this;
+      param = param || {};
+      var searchparam = {
+        query: param["query"] || '生活服务$美食&酒店',
+        scope: param["scope"] || 1,
+        filter: param["filter"] || '',
+        coord_type: param["coord_type"] || 2,
+        page_size: param["page_size"] || 10,
+        page_num: param["page_num"] || 0,
+        output: param["output"] || 'json',
+        ak: that.ak,
+        sn: param["sn"] || '',
+        timestamp: param["timestamp"] || '',
+        radius: param["radius"] || 2000,
+        ret_coordtype: 'gcj02ll' };
+
+      var otherparam = {
+        iconPath: param["iconPath"],
+        iconTapPath: param["iconTapPath"],
+        width: param["width"],
+        height: param["height"],
+        alpha: param["alpha"] || 1,
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      var type = 'gcj02';
+      var locationsuccess = function locationsuccess(result) {
+        searchparam["location"] = result["latitude"] + ',' + result["longitude"];
+        wx.request({
+          url: 'https://api.map.baidu.com/place/v2/search',
+          data: searchparam,
+          header: {
+            "content-type": "application/json" },
+
+          method: 'GET',
+          success: function success(data) {
+            var res = data["data"];
+            if (res["status"] === 0) {
+              var poiArr = res["results"];
+              // outputRes 包含两个对象，
+              // originalData为百度接口返回的原始数据
+              // wxMarkerData为小程序规范的marker格式
+              var outputRes = {};
+              outputRes["originalData"] = res;
+              outputRes["wxMarkerData"] = [];
+              for (var i = 0; i < poiArr.length; i++) {
+                outputRes["wxMarkerData"][i] = {
+                  id: i,
+                  latitude: poiArr[i]["location"]["lat"],
+                  longitude: poiArr[i]["location"]["lng"],
+                  title: poiArr[i]["name"],
+                  iconPath: otherparam["iconPath"],
+                  iconTapPath: otherparam["iconTapPath"],
+                  address: poiArr[i]["address"],
+                  telephone: poiArr[i]["telephone"],
+                  alpha: otherparam["alpha"],
+                  width: otherparam["width"],
+                  height: otherparam["height"] };
+
+              }
+              otherparam.success(outputRes);
+            } else {
+              otherparam.fail({
+                errMsg: res["message"],
+                statusCode: res["status"] });
+
+            }
+          },
+          fail: function fail(data) {
+            otherparam.fail(data);
+          } });
+
+      };
+      var locationfail = function locationfail(result) {
+        otherparam.fail(result);
+      };
+      var locationcomplete = function locationcomplete(result) {
+      };
+      if (!param["location"]) {
+        that.getWXLocation(type, locationsuccess, locationfail, locationcomplete);
+      } else {
+        var longitude = param.location.split(',')[1];
+        var latitude = param.location.split(',')[0];
+        var errMsg = 'input location';
+        var res = {
+          errMsg: errMsg,
+          latitude: latitude,
+          longitude: longitude };
+
+        locationsuccess(res);
+      }
+    }
+
+    /**
+       * sug模糊检索
+       *
+       * @param {Object} param 检索配置
+       * 参数对象结构可以参考
+       * http://lbsyun.baidu.com/index.php?title=webapi/place-suggestion-api
+       */ }, { key: "suggestion", value: function suggestion(
+    param) {
+      var that = this;
+      param = param || {};
+      var suggestionparam = {
+        query: param["query"] || '',
+        region: param["region"] || '全国',
+        city_limit: param["city_limit"] || false,
+        output: param["output"] || 'json',
+        ak: that.ak,
+        sn: param["sn"] || '',
+        timestamp: param["timestamp"] || '',
+        ret_coordtype: 'gcj02ll' };
+
+      var otherparam = {
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      wx.request({
+        url: 'https://api.map.baidu.com/place/v2/suggestion',
+        data: suggestionparam,
+        header: {
+          "content-type": "application/json" },
+
+        method: 'GET',
+        success: function success(data) {
+          var res = data["data"];
+          if (res["status"] === 0) {
+            otherparam.success(res);
+          } else {
+            otherparam.fail({
+              errMsg: res["message"],
+              statusCode: res["status"] });
+
+          }
+        },
+        fail: function fail(data) {
+          otherparam.fail(data);
+        } });
+
+    }
+
+    /**
+       * rgc检索（逆地理编码：经纬度->地点描述）
+       * 
+       * @param {Object} param 检索配置
+       * 参数对象结构可以参考
+       * https://lbs.baidu.com/index.php?title=webapi/guide/webservice-geocoding-abroad
+       * 
+       */ }, { key: "regeocoding", value: function regeocoding(
+    param) {
+      var that = this;
+      param = param || {};
+      var regeocodingparam = {
+        coordtype: param["coordtype"] || 'gcj02ll',
+        ret_coordtype: 'gcj02ll',
+        radius: param["radius"] || 1000,
+        ak: that.ak,
+        sn: param["sn"] || '',
+        output: param["output"] || 'json',
+        callback: param["callback"] || function () {},
+        extensions_poi: param["extensions_poi"] || 1,
+        extensions_road: param["extensions_road"] || false,
+        extensions_town: param["extensions_town"] || false,
+        language: param["language"] || 'zh-CN',
+        language_auto: param["language_auto"] || 0 };
+
+      var otherparam = {
+        iconPath: param["iconPath"],
+        iconTapPath: param["iconTapPath"],
+        width: param["width"],
+        height: param["height"],
+        alpha: param["alpha"] || 1,
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      var type = 'gcj02';
+      var locationsuccess = function locationsuccess(result) {
+        regeocodingparam["location"] = result["latitude"] + ',' + result["longitude"];
+        wx.request({
+          url: 'https://api.map.baidu.com/reverse_geocoding/v3',
+          data: regeocodingparam,
+          header: {
+            "content-type": "application/json" },
+
+          method: 'GET',
+          success: function success(data) {
+            var res = data["data"];
+            if (res["status"] === 0) {
+              var poiObj = res["result"];
+              // outputRes 包含两个对象：
+              // originalData为百度接口返回的原始数据
+              // wxMarkerData为小程序规范的marker格式
+              var outputRes = {};
+              outputRes["originalData"] = res;
+              outputRes["wxMarkerData"] = [];
+              outputRes["wxMarkerData"][0] = {
+                id: 0,
+                latitude: result["latitude"],
+                longitude: result["longitude"],
+                address: poiObj["formatted_address"],
+                iconPath: otherparam["iconPath"],
+                iconTapPath: otherparam["iconTapPath"],
+                desc: poiObj["sematic_description"],
+                business: poiObj["business"],
+                alpha: otherparam["alpha"],
+                width: otherparam["width"],
+                height: otherparam["height"] };
+
+              otherparam.success(outputRes);
+            } else {
+              otherparam.fail({
+                errMsg: res["message"],
+                statusCode: res["status"] });
+
+            }
+          },
+          fail: function fail(data) {
+            otherparam.fail(data);
+          } });
+
+      };
+      var locationfail = function locationfail(result) {
+        otherparam.fail(result);
+      };
+      var locationcomplete = function locationcomplete(result) {
+      };
+      if (!param["location"]) {
+        that.getWXLocation(type, locationsuccess, locationfail, locationcomplete);
+      } else {
+        var longitude = param.location.split(',')[1];
+        var latitude = param.location.split(',')[0];
+        var errMsg = 'input location';
+        var res = {
+          errMsg: errMsg,
+          latitude: latitude,
+          longitude: longitude };
+
+        locationsuccess(res);
+      }
+    }
+
+    /**
+       * gc检索（地理编码：地点->经纬度）
+       *
+       * @param {Object} param 检索配置
+       * 参数对象结构可以参考
+       * https://lbs.baidu.com/index.php?title=webapi/guide/webservice-geocoding
+       * 
+       */ }, { key: "geocoding", value: function geocoding(
+    param) {
+      var that = this;
+      param = param || {};
+      var geocodingparam = {
+        address: param["address"] || '',
+        city: param["city"] || '',
+        ret_coordtype: param["coordtype"] || 'gcj02ll',
+        ak: that.ak,
+        sn: param["sn"] || '',
+        output: param["output"] || 'json',
+        callback: param["callback"] || function () {} };
+
+      var otherparam = {
+        iconPath: param["iconPath"],
+        iconTapPath: param["iconTapPath"],
+        width: param["width"],
+        height: param["height"],
+        alpha: param["alpha"] || 1,
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      if (param["address"]) {
+        wx.request({
+          url: 'https://api.map.baidu.com/geocoding/v3',
+          data: geocodingparam,
+          header: {
+            "content-type": "application/json" },
+
+          method: 'GET',
+          success: function success(data) {
+            var res = data["data"];
+            if (res["status"] === 0) {
+              var poiObj = res["result"];
+              // outputRes 包含两个对象：
+              // originalData为百度接口返回的原始数据
+              // wxMarkerData为小程序规范的marker格式
+              var outputRes = res;
+              outputRes["originalData"] = res;
+              outputRes["wxMarkerData"] = [];
+              outputRes["wxMarkerData"][0] = {
+                id: 0,
+                latitude: poiObj["location"]["lat"],
+                longitude: poiObj["location"]["lng"],
+                iconPath: otherparam["iconPath"],
+                iconTapPath: otherparam["iconTapPath"],
+                alpha: otherparam["alpha"],
+                width: otherparam["width"],
+                height: otherparam["height"] };
+
+              otherparam.success(outputRes);
+            } else {
+              otherparam.fail({
+                errMsg: res["message"],
+                statusCode: res["status"] });
+
+            }
+          },
+          fail: function fail(data) {
+            otherparam.fail(data);
+          } });
+
+      } else {
+        var errMsg = 'input address!';
+        var res = {
+          errMsg: errMsg };
+
+        otherparam.fail(res);
+      }
+    }
+
+    /**
+       * 天气检索
+       *
+       * @param {Object} param 检索配置
+       */ }, { key: "weather", value: function weather(
+    param) {
+      var that = this;
+      param = param || {};
+      var weatherparam = {
+        coord_type: param["coord_type"] || 'gcj02',
+        output: param["output"] || 'json',
+        ak: that.ak,
+        sn: param["sn"] || '',
+        timestamp: param["timestamp"] || '' };
+
+      var otherparam = {
+        success: param["success"] || function () {},
+        fail: param["fail"] || function () {} };
+
+      var type = 'gcj02';
+      var locationsuccess = function locationsuccess(result) {
+        weatherparam["location"] = result["longitude"] + ',' + result["latitude"];
+        wx.request({
+          url: 'https://api.map.baidu.com/telematics/v3/weather',
+          data: weatherparam,
+          header: {
+            "content-type": "application/json" },
+
+          method: 'GET',
+          success: function success(data) {
+            var res = data["data"];
+            if (res["error"] === 0 && res["status"] === 'success') {
+              var weatherArr = res["results"];
+              // outputRes 包含两个对象，
+              // originalData为百度接口返回的原始数据
+              // wxMarkerData为小程序规范的marker格式
+              var outputRes = {};
+              outputRes["originalData"] = res;
+              outputRes["currentWeather"] = [];
+              outputRes["currentWeather"][0] = {
+                currentCity: weatherArr[0]["currentCity"],
+                pm25: weatherArr[0]["pm25"],
+                date: weatherArr[0]["weather_data"][0]["date"],
+                temperature: weatherArr[0]["weather_data"][0]["temperature"],
+                weatherDesc: weatherArr[0]["weather_data"][0]["weather"],
+                wind: weatherArr[0]["weather_data"][0]["wind"] };
+
+              otherparam.success(outputRes);
+            } else {
+              otherparam.fail({
+                errMsg: res["message"],
+                statusCode: res["status"] });
+
+            }
+          },
+          fail: function fail(data) {
+            otherparam.fail(data);
+          } });
+
+      };
+      var locationfail = function locationfail(result) {
+        otherparam.fail(result);
+      };
+      var locationcomplete = function locationcomplete(result) {
+      };
+      if (!param["location"]) {
+        that.getWXLocation(type, locationsuccess, locationfail, locationcomplete);
+      } else {
+        var longitude = param.location.split(',')[0];
+        var latitude = param.location.split(',')[1];
+        var errMsg = 'input location';
+        var res = {
+          errMsg: errMsg,
+          latitude: latitude,
+          longitude: longitude };
+
+        locationsuccess(res);
+      }
+    } }]);return BMapWX;}();
+
+
+module.exports.BMapWX = BMapWX;
 
 /***/ })
 

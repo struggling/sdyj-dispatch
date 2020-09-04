@@ -111,6 +111,7 @@
 		},
 		data() {
 			return {
+				istype:"",
 				address:"当前位置",
 				height:"",
 				background:{
@@ -697,9 +698,16 @@
 		},
 		//openpage
 		openWaitlist() {
+			//判断用户类型值是否存在，
+			//接受一个判断师傅类型的参数
+			const urlpath = "'../wait-list/wait-list'";
+			const ydurl = "../settlement/settlement";
+			const openurl ="";
+			this.istype?openurl = urlpath :openurl = ydurl;
 			uni.navigateTo({
-				url: '../wait-list/wait-list',
-			});
+				url: urlpath,
+			})
+			
 		},
 		//计算两点直线路径
 		countDistance(la1, lo1, la2, lo2) {  
