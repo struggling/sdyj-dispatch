@@ -1,12 +1,15 @@
 <template>
 	<view>
+		<!-- 顶部自定义导航 -->
+		<u-navbar :is-back="true"  title="个人中心" :height="height" :background="background" title-color="#ffffff" back-icon-color="#ffffff" >
+		</u-navbar>
 		<view class="bg">
 			<image class="bgimg" src="../../static/home/home.png" mode=""></image>
 			<view class="text">
-				<view class="nickname">速达易家售前</view>
+				<view class="nickname">{{user_name}}</view>
 				<view class="sign" @tap="showsign = true">点击签到</view>
 			</view>
-			<image src="../../static/logo.png" class="avatar" mode=""></image>
+			<image :src="user_avatar" class="avatar" mode=""></image>
 			<view class="panel">
 				<view class="panel-item">
 					<view class="icon">
@@ -60,6 +63,14 @@
 	export default {
 		data() {
 			return {
+				//顶部导航栏
+				height:"",
+				background:{
+					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+				},
+				//顶部导航栏
+				user_name:"",
+				user_avatar:"",
 				pic: 'https://uviewui.com/common/logo.png',
 				show: true,
 				showtime: false,
@@ -90,7 +101,8 @@
 			}
 		},
 		onLoad() {
-
+			this.user_name = uni.getStorageSync("user_name");
+			this.user_avatar = uni.getStorageSync("user_avatar");
 		},
 		methods: {
 			// 回调参数为包含多个元素的数组，每个元素分别反应每一列的选择情况
@@ -197,7 +209,7 @@
 		position: absolute;
 		align-items: center;
 		z-index: 999;
-		box-shadow: 2px 2px 8px 1px rgba(248, 95, 4, 3)
+		box-shadow: 2px 2px 8px 1px rgba(0, 171, 236, 1)
 	}
 
 	.bg .panel .icon {

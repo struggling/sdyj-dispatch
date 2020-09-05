@@ -238,6 +238,8 @@
 					console.log('当前位置的纬度：' + res.latitude);
 					const  longitude = res.longitude;
 					const latitude = res.latitude;
+					uni.setStorageSync('longitude',res.longitude);
+					uni.setStorageSync('latitude',res.latitude);
 					 // 实例化腾讯地图小程序API核心
 					// const qqmapsdk = new QQMapWX({
 					// 	key: 'WYTBZ-MJSWU-H7VV7-BQTQV-2Z6PO-RBB23'
@@ -261,12 +263,12 @@
 					BMap.regeocoding({
 						location:res.latitude+","+res.longitude,
 						// location:"116.409443,39.909843",
-						
 							 success(res){
 								 // console.log(res.wxMarkerData[0].address);
 								 const address = res.wxMarkerData[0].address.substring(3);
 								 console.log(this);
 								 that.address = address;
+								 
 							 },
 							 fail(error){
 								 console.log(error);
@@ -691,6 +693,9 @@
 		// model
 		openModel() {
 			this.show = true;
+			uni.navigateTo({
+				url:"../settlement/settlement"
+			})
 		},
 		//closemode
 		close() {

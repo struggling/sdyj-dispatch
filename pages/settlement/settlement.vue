@@ -15,8 +15,8 @@
 				<!-- 入驻导航 -->
 			<view class="gird">
 				<block v-for="(item,index) in type" :key="index">
-					<view class="gird-item" @tap="openregister(item)">
-						<image src="../../static/settlement/logo.png" mode=""></image>
+					<view class="gird-item" @tap="openregister(item)" :style="background1[index]">
+						<image :src="pic[index]" mode=""></image>
 						<view class="btn theme">申请入驻</view>
 					</view>
 				</block>
@@ -26,11 +26,11 @@
 				<view class="title">入驻优势</view>
 				<view class="panel">
 					<view class="txt">
-						<image src="" mode=""></image>
+						<image src="../../static/settlement/ioon.png" mode="" style="vertical-position: ;"></image>
 						<span>海量订单、精准推送</span>
 					</view>
 					<view class="txt">
-						<image src="" mode=""></image>
+						<image src="../../static/settlement/ioon.png" mode=""></image>
 						<span>海量订单、精准推送</span>
 					</view>
 					
@@ -40,11 +40,11 @@
 				<view class="title">入驻优势</view>
 				<view class="panel">
 					<view class="txt">
-						<image src="" mode=""></image>
+						<image src="../../static/settlement/ioon.png" mode=""></image>
 						<span>海量订单、精准推送</span>
 					</view>
 					<view class="txt">
-						<image src="" mode=""></image>
+						<image src="../../static/settlement/ioon.png" mode=""></image>
 						<span>海量订单、精准推送</span>
 					</view>
 				</view>
@@ -57,6 +57,22 @@
 	export default {
 		data() {
 			return {
+				pic:[
+					"../../static/settlement/jzbj.png",
+					"../../static/settlement/jdwx.png",
+					"../../static/settlement/jdqx.png",
+					"../../static/settlement/gqty.png",
+					"../../static/settlement/gqby.png",
+					"../../static/settlement/cjq.png",
+				],
+				background1:[
+					"background-color: #F8F5D5",
+					"background-color: #D9F8D4",
+					"background-color: #F8E5D4",
+					"background-color: #D4F8EE",
+					"background-color: #F8D4F8",
+					"background-color: #D4EBF8",
+				],
 				type:[],
 				typedata:{},
 				height:"",
@@ -190,5 +206,23 @@
 		padding-left: 20upx;
 		color: #FFFFFF;
 		margin-top: 20upx;
+	}
+	.sty1{
+		background-color: #F8F5D5;
+	}
+	.sty1{
+		background-color: #D9F8D4;
+	}
+	.sty1{
+		background-color: #F8E5D4;
+	}
+	.sty1{
+		background-color: #D4F8EE;
+	}
+	.sty1{
+		background-color: #F8D4F8;
+	}
+	.sty1{
+		background-color: #D4EBF8;
 	}
 </style>

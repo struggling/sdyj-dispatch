@@ -4,6 +4,7 @@
   "navigationBarTitleText": "个人中心",
   "navigationBarTextStyle": "white",
   "usingComponents": {
+    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
     "u-cell-group": "/uview-ui/components/u-cell-group/u-cell-group",
     "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
     "u-select": "/uview-ui/components/u-select/u-select",

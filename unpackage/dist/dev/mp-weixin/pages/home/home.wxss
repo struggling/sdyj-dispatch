@@ -33,7 +33,7 @@ page {
   height: 44px;
 }
 .camera:active {
-    background-color: #ededed;
+  background-color: #ededed;
 }
 .user-box {
   background-color: #fff;
@@ -94,7 +94,7 @@ page {
   -webkit-align-items: center;
           align-items: center;
   z-index: 999;
-  box-shadow: 2px 2px 8px 1px #f85f04;
+  box-shadow: 2px 2px 8px 1px #00abec;
 }
 .bg .panel .icon {
   text-align: center;
