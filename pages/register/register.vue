@@ -26,6 +26,7 @@
 				<view class="line"></view>
 				<view class="input"><button type="default">{{counttype}}</button></view>
 			</view>
+
 			<!-- 类型选择 -->
 			<view class="typecontent">
 				<view class="title">当前选择种类</view>
@@ -42,7 +43,8 @@
 			<!-- 协议 -->
 			<view class="xieyi">
 				<view :class="[check,{'theme':flag,'':flag}]" @tap="checked"></view>
-				确定同意<span>《协议》</span></view>
+				确定同意<span>《协议》</span>
+			</view>
 			<!-- 提交 -->
 			<button type="default" class="btn theme" @tap="submit()"> 确定提交</button>
 		</view>
@@ -50,14 +52,17 @@
 </template>
 
 <script>
+		import Validator from '../../common/validator.esm.js';
+		const validator = new Validator();
 	export default {
 		data() {
 			return {
-				postData:[],
-				flag:true,
-				check:"check",
-				ischeck:false,
-				code:"",
+				sumstring: [],
+				postData: [],
+				flag: true,
+				check: "check",
+				ischeck: false,
+				code: "",
 				selectname: [],
 				// counttype: "请选择服务类型",
 				name: "",
@@ -75,14 +80,9 @@
 		},
 		computed: {
 			counttype() {
-				// console.log(this);
 				let selectname = this.selectname;
-				console.log(selectname);
-				for (let i = 0; i < selectname.length; i++) {
-					let sumstring = selectname[i];
-					console.log(sumstring);
-				return this.typefy + "," + sumstring
-				}
+				this.sumstring = this.selectname;
+				return this.typefy + "," + this.sumstring
 			}
 		},
 		onLoad(option) {
@@ -102,7 +102,7 @@
 			};
 			uni.login({
 				provider: 'weixin',
-				success(res){
+				success(res) {
 					console.log(res.code);
 					that.code = res.code
 				}
@@ -114,12 +114,10 @@
 				if (this.rSelect.indexOf(e) == -1) {
 					console.log(e) //打印下标
 					this.rSelect.push(e); //选中添加到数组里
-					console.log(this.typename[e]);
 					this.selectname.push(this.typename[e]);
-					// console.log(this.selectname.push(this.typename[e]));
-					console.log(this.selectname);
 				} else {
 					this.rSelect.splice(this.rSelect.indexOf(e), 1); //取消
+					this.selectname.splice(this.typename.indexOf(e), 1);
 				}
 			},
 			//获取手机号码
@@ -130,142 +128,175 @@
 				let iv = e.detail.iv;
 				let encryptedData = e.detail.encryptedData;
 				let code = this.code;
-				let that  =this;
+				let that = this;
 				//检查session——key是否过期
 				uni.checkSession({
 					success(res) {
 						console.log(res);
 						uni.request({
-									url: "https://applet.51tiaoyin.com/public/applet/user/get_phone",
-									method: 'GET',
-									dataType: JSON,
-									data: {
-										"code": code,
-										"iv": iv,
-										"encryptedData": encryptedData
-									},
-									success(res) {
-										console.log(res.data);
-										let data = JSON.parse(res.data);
-										console.log(data);
-										if (data.code== 200) {
-											// console.log(this);
-											console.log(data.data);
-											that.phonenum = data.data;
-										} else {
-											uni.showToast({
-												title: "没有获取手机号",
-												duration: 1500
-											})
-										}
-									},
-									fail(res) {
-										console.log(res)
-									}
-								})
+							url: "https://applet.51tiaoyin.com/public/applet/user/get_phone",
+							method: 'GET',
+							dataType: JSON,
+							data: {
+								"code": code,
+								"iv": iv,
+								"encryptedData": encryptedData
+							},
+							success(res) {
+								console.log(res.data);
+								let data = JSON.parse(res.data);
+								console.log(data);
+								if (data.code == 200) {
+									// console.log(this);
+									console.log(data.data);
+									that.phonenum = data.data;
+								} else {
+									uni.showToast({
+										title: "没有获取手机号",
+										duration: 1500
+									})
+								}
+							},
+							fail(res) {
+								console.log(res)
+							}
+						})
 					},
-					 fail(err) {
-					                // session_key 已经失效，需要重新执行登录流程
-					                uni.login({
-					                    success: res => {
-					                        that.data.code = res.code
-					                    }
-					                })
-					            }
+					fail(err) {
+						// session_key 已经失效，需要重新执行登录流程
+						uni.login({
+							success: res => {
+								that.data.code = res.code
+							}
+						})
+					}
 				})
-				
+
 				// 	//-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
 				if (e.detail.errMsg == 'getPhoneNumber:user deny') { //用户点击拒绝
 					uni.showToast({
-						title:"拒绝获取手机号码"
+						title: "拒绝获取手机号码"
 					})
 
 				} else { //允许授权执行跳转
 					uni.showToast({
-						title:"正在获取手机号码"
+						title: "正在获取手机号码"
 					})
 
 				}
 			},
-			
+
 			//选中协议
-			checked(){
+			checked() {
 				return this.flag = !this.flag
 			},
 			//表单提交
-			submit(){
-				console.log(this.name);
-				//姓名校验
-				if(this.name == ""){
+			submit() {
+				let name = true,
+					phone = true,
+					worktime = true,
+					counttype = true;
+				validator
+					.init()
+					.add(this.name, [{
+							type: 'required',
+							message: '用户名不能为空'
+						},
+						{
+							type: 'min:2',
+							message: '用户名长度不能小于2位!'
+						},
+						{
+							type: 'max:6',
+							message: '用户名长度不能大于6位!'
+						}
+					])
+					.add(this.worktime, [{
+							type: 'required',
+							message: '手机号码不能为空'
+						},
+						{
+							type: 'max:2',
+							message: '工龄必须输入数字',
+							callback :(value, message) =>  {
+								var reg = '\d{2}';
+							      return reg.test(value) ? void 0 : message 
+							    }
+						}
+					])
+					.add(this.phone, [{
+							type: 'required',
+							message: '手机号码不能为空'
+						},
+						{
+							type: 'phone',
+							message: '手机号码格式不正确'
+						}
+					])
+					.add(this.counttype, [{
+							type: 'required',
+							message: '服务类型不能为空'
+						},
+					])
+				const errorMsg = validator.validation()
+				if (errorMsg) {
 					uni.showToast({
-						title:"姓名不能为空"
+						title:errorMsg
+					});
+					// console.error(errorMsg)
+				} else {
+					uni.showToast({
+						title:"提交中"
+					});
+					let latitude = uni.getStorageSync("latitude");
+					let longitude = uni.getStorageSync("longitude")
+					uni.request({
+						url: "https://applet.51tiaoyin.com/public/applet/user/get_info",
+						method: "POST",
+						data: {
+							name: this.name,
+							age: this.worktime,
+							phone: this.phonenum,
+							coord: latitude + "," + longitude,
+							type: this.counttype
+						},
+						success(res) {
+							console.log(res);
+						},
+						fail() {
+							console.log("失败：" + res);
+						}
 					})
 				}
-				//手机号码校验
-				if(this.phonenum == ""){
-					uni.showToast({
-						title:"手机号不能为空"
-					})
-				}else{
-					var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
-					if(!reg.test(this.phonenum)){
-						uni.showToast({
-							title:"请填写正确的手机格式"
-						})
-					}
-				}
-				//工作时间校验
-				if(this.worktime == ""){
-					uni.showToast({
-						title:"工作时间不能为空"
-					})
-				}else{
-					
-				}
-				if(this.counttype == ""){
-					uni.showToast({
-						title:"请选择下方服务类型"
-					})
-				}
-				console.log(this.phonenum);
-				console.log(this.worktime);
-				console.log(this.counttype);
+				// //姓名校验
+				// if(this.name == ""){
+				// 	uni.showToast({
+				// 		title:"姓名不能为空"
+				// 	});
+				// 	name = false;
+				// }else{
+
+				// }
+				// //手机号码校验
+				// if(this.phonenum == ""){
+				// 	uni.showToast({
+				// 		title:"手机号不能为空"
+				// 	})
+				// }
+				// //工作时间校验
+				// if(this.worktime == ""){
+				// 	uni.showToast({
+				// 		title:"工作时间不能为空"
+				// 	})
+				// }else{
+
+				// }
+				// if(this.counttype == ""){
+				// 	uni.showToast({
+				// 		title:"请选择下方服务类型"
+				// 	})
+				// }
 				
-				console.log("地址："+location);
-				let latitude = uni.getStorageSync("latitude");
-				let longitude = uni.getStorageSync("longitude")
-				console.log('精度：'+latitude);
-				
-					let location={
-						latitude:latitude,
-						longitude:longitude
-					}
-					
-				this.postData.push(this.name);
-				this.postData.push(this.worktime);
-				this.postData.push(this.counttype);
-				this.postData.push(this.phonenum);
-				this.postData.push(latitude);
-				this.postData.push(longitude);
-				console.log("参数为："+this.postData);
-				
-				uni.request({
-					url:"https://applet.51tiaoyin.com/public/applet/user/get_info",
-					method:"POST",
-					data:{
-						name:this.name,
-						age:this.worktime,
-						phone:this.phonenum,
-						coord:latitude+","+longitude,
-						type:this.counttype
-					},
-					success(res) {
-						console.log(res);
-					},
-					fail() {
-						console.log("失败："+res);
-					}
-				})
 			}
 		},
 		onReady() {
@@ -378,14 +409,14 @@
 		margin-top: 25upx;
 		margin-bottom: 25upx;
 	}
+
 	/* 选中协议 */
-	.check{
+	.check {
 		width: 40upx;
 		height: 40upx;
 		border-radius: 100%;
 		background-color: #18B566;
 	}
-	.active{
-		
-	}
+
+	.active {}
 </style>

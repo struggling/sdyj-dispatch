@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<!-- 顶部自定义导航 -->
+		<u-navbar :is-back="false"  title="易工单" :height="height" :background="background" title-color="#ffffff" back-icon-color="#ffffff" >
+		</u-navbar>
 		<!-- #ifdef MP-WEIXIN -->
 		<view v-if="isCanUse">
 			<view>
@@ -10,12 +13,9 @@
 					<view>申请获取以下权限</view>
 					<text>获得你的公开信息(昵称，头像、地区等)</text>
 				</view>
-
 				<button class='bottom' type='primary' open-type="getUserInfo" withCredentials="true" lang="zh_CN" @getuserinfo="wxGetUserInfo">
 					授权登录
 				</button>
-				
-				<button type="default" class="" @tap="getinfo">获取缓存</button>
 			</view>
 		</view>
 		<!-- #endif -->
@@ -26,7 +26,11 @@
 	export default {
 		data() {
 			return {
-				isCanUse:true
+				isCanUse:true,
+				height:"",
+				background:{
+					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+				},
 			};
 		},
 		methods: {
@@ -50,23 +54,30 @@
 										},
 										success(res) {
 											// JSON.stringify(res.data.wechat_name);
-											// console.log(res);
+											console.log(res);
 											console.log(JSON.parse(res.data));
 											const data = JSON.parse(res.data);
 											console.log(data.data.uid);
 											if(data.code == 200){
-												uni.showToast({
-													title: "登录成功"
+												uni.showLoading({
+												    title: '登录中'
 												});
-												// uni.reLaunch({
-												// 	url:"../index/index",
-												// });
+												setTimeout(
+												()=>{
+												uni.reLaunch({
+													url:"../index/index"
+												})	
+												},1500);
 												// 把用户信息写入缓存
 												
 												// console.log(res.data.data);
 												uni.setStorageSync('user_name', data.data.wechat_name);
 												uni.setStorageSync('user_avatar', data.data.wechat_img);
 												uni.setStorageSync('user_uid', data.data.uid);
+											}else{
+												uni.showToast({
+													title: "服务器无响应"
+												});
 											}
 											
 										},
@@ -75,28 +86,19 @@
 												title: '获取授权信息失败',
 												icon: 'none'
 											});
-											console.log(res);
 										}
-									})
+								})
+							},
+							fail(res) {
+								uni.showToast({
+									title:"无网络..."
+								})
 							}
 						})
 					}
 				})
 			},
-			//获取用户缓存信息
-			getinfo(){
-				console.log("haha");
-				try {
-				    const value = uni.getStorageSync('user_uid');
-				    if (value) {
-				        console.log(value);
-				    }else{console.log("value不存在");}
-				} catch (e) {
-				    // error
-					console.log(e);
-				}
-			},
-			},
+		},
 		onLoad() {
 			
 		}
@@ -127,7 +129,17 @@
 		color: #9d9d9d;
 		margin-top: 40rpx;
 	}
-
+	button{
+		-webkit-appearance:none;
+		border: none;
+		height: 80upx;
+		line-height: 80upx;
+		background: linear-gradient(90deg, #00ABEB, #54C3F1);
+		border-radius: 21upx;
+	}
+	button::after{
+		border: none;
+	}
 	.bottom {
 		border-radius: 80rpx;
 		margin: 70rpx 50rpx;

@@ -1,26 +1,43 @@
 <template>
 	<view>
+		<!-- 顶部自定义导航 -->
+		<u-navbar :is-back="true"  title="入驻引导" :height="height" :background="background" title-color="#ffffff" back-icon-color="#ffffff" >
+		</u-navbar>
 		<!-- map -->
 		<map :latitude="latitude" :longitude="longitude" :markers="covers"></map>
 		<!-- orderDetail -->
 		<view class="orderDetail">
-			<view class="parameter">客户订单信息</view>
-			<view class="parameter">
-				<view class="parameter">     王先生      </view>
-				<view class="parameter">服务类型：家政保洁</view>
+			<view class=" iconfont icongerenzhongxin-zhong">
+				<span style="padding-left: 25upx;">客户订单信息</span>
 			</view>
 			<view class="parameter">
-				<view class="parameter"> 1322****5123</view>
-				<view class="parameter">参考价格：160元</view>
+				<view class=" iconfont icontongxunlu">
+					<span style="padding-left: 25upx;">王先生</span>
+				</view>
+				<view class="r-txt">
+					<span style="padding-left: 25upx;">服务类型：家政保洁</span>
+				</view>
 			</view>
 			<view class="parameter">
-				<view class="parameter">服务时长：2小时</view>
-				<view class="parameter">人员要求：2人</view>
+				<view class=" iconfont iconshouji">
+					<span style="padding-left: 25upx;">1322****5123</span>
+				</view>
+				<view class="r-txt ">
+					<span style="padding-left: 25upx;">参考价格：160元</span>
+				</view>
 			</view>
-			<view class="parameter1">位置：四川省眉山市仁寿县中城国际社区24栋1单元202</view>
-			<view class="parameter1">工具要求：吸尘器    蒸汽机   除螨器   吸尘器    蒸汽机   除螨器</view>
-			<view class="parameter1">备注：不要毛巾，哈哈啊哈哈哈，真的不要毛巾，哈哈啊哈哈哈 真的不要毛巾，哈哈啊哈哈哈，真的</view>
-			<button type="default">立即抢单</button>
+			<view class="parameter">
+				<view class=" r-txt">
+					<span>服务时长：2小时</span>
+				</view>
+				<view class="r-txt ">
+					<span style="padding-left: 25upx;">人员要求：2人</span>
+				</view>
+			</view>
+			<view class="parameter">位置：四川省眉山市仁寿县中城国际社区24栋1单元202</view>
+			<view class="parameter">工具要求：吸尘器    蒸汽机   除螨器   吸尘器    蒸汽机   除螨器</view>
+			<view class="parameter">备注：不要毛巾，哈哈啊哈哈哈，真的不要毛巾，哈哈啊哈哈哈 真的不要毛巾，哈哈啊哈哈哈，真的</view>
+			<button type="default" class="theme">立即抢单</button>
 			<image src="../../static/logo.png" mode=""></image>
 		</view>
 	</view>
@@ -30,24 +47,34 @@
 	export default {
 		data() {
 			return {
+				height:"",
+				background:{
+					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+				},
 				id: 0, // 使用 marker点击事件 需要填写id
 				title: 'map',
 				latitude: 29.993299,
 				longitude: 104.154709,
-				covers: [{
+				covers: [
+					{
 					id: 0, 
 					latitude: 29.994521,
 					longitude: 104.154741,
-					iconPath: '../../static/logo.png',
+					iconPath: '../../static/wait-list/location.png',
 					width:20,
 					height:20,
 					content:'唐山迁安',//文本
-				}, {
+				}, 
+				{
 					latitude: 29.992511,
 					longitude: 104.151347,
-					iconPath: '../../static/logo.png'
-				}]
+					iconPath: '../../static/wait-list/location.png'
+				},
+				]
 			}
+		},
+		onLoad() {
+			
 		},
 		methods: {
 
@@ -70,6 +97,9 @@
 		height: 646upx;
 		display: block;
 	}
+	label{
+		display: inline-block !important;
+	}
 	/* orderDetail */
 	.orderDetail{
 		padding-left: 25upx;
@@ -77,25 +107,36 @@
 		padding-top: 30upx;
 		position: relative;
 	}
+	.parameter2{
+		
+	}
+	.parameter .r-txt{
+		width: 40%;
+		text-align: left;
+	}
 	.parameter{
 		display: flex;
 		padding-top: 6upx;
 		padding-bottom: 6upx;
 		justify-content: space-between;
 		font-size: 24upx;
+		margin-top: 25upx;
 	}
-	.parameter1{
-		display: flex;
-		padding-top: 14upx;
-		padding-bottom: 14upx;
-		justify-content: space-between;
+	.parameter .iconfont {
 		font-size: 24upx;
+	}
+	.parameter .iconfont span{
+		font-size: 24upx;
+		text-align: left;
+	}
+	.parameter  span{
+		text-align: left;
 	}
 	.orderDetail image{
 		width: 130upx;
 		height: 130upx;
 		border-radius: 100%;
-		border: 4upx solid #ff5500;
+		border: 4upx solid #00ABEB;
 		background-color: #CCCCCC;
 		position: absolute;
 		right: 80upx;

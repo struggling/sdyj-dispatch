@@ -4,6 +4,7 @@
   "navigationBarTitleText": "接单中心",
   "navigationBarTextStyle": "white",
   "usingComponents": {
+    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
     "order-list": "/components/order/order-list",
     "swiper-tab-head": "/components/order/swiper-tab-head",
     "load-more": "/components/common/load-more",

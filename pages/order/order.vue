@@ -1,5 +1,7 @@
 <template>
 	<view>
+		<!-- 自定义导航栏 -->
+		<u-navbar :is-back="false"  title="订单中心" :height="height" :background="background" title-color="#ffffff"></u-navbar>
 		<swiperTabHead :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
 		<view class="uni-tab-bar">
 			<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
@@ -44,6 +46,12 @@
 		},
 		data() {
 			return {
+				// 自定义导航栏
+				height:"",
+				background:{
+					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+				},
+				// 自定义导航栏
 				swiperheight: 500,
 				tabIndex: 0,
 				tabBars: [{

@@ -11,9 +11,6 @@
 					<view class="parm-txt">上门时间：{{item.vtime}}</view>
 				</view>
 				<view class="parm">
-					<view class="pic">
-						<image src="../../static/logo.png" mode=""></image>
-					</view>
 					<view class="price">{{item.price}}元</view>
 				</view>
 			</view>

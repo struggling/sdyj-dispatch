@@ -1,11 +1,13 @@
 <template>
 	<view>
-		<u-navbar :is-back="false"  title="抢单池" :height="height" :background="background" title-color="#ffffff">
+		<!-- 自定义导航栏 -->
+		<u-navbar :is-back="false" title="抢单池" :height="height" :background="background" title-color="#ffffff">
 			<view class="slot-wrap">
 				{{address}}
 			</view>
 		</u-navbar>
-		
+		<!-- 自定义收藏我的小程序 -->
+		<add-tip :tip="tip" :duration="duration" />
 		<view class="content">
 
 			<!-- 地理位置 -->
@@ -33,17 +35,22 @@
 								<view class="orderlist">
 									<view class="order-item">
 										<view class="item-l">
-											<view class="title">{{item.type.id}}/{{item.type.childrentype}}/<span>{{item.time}}小时</span></view>
-											<view class="address">{{item.address}}</view>
+											<view class="title">{{item.name}}<span>{{item.duration}}小时</span></view>
+											<view class="address">{{item.origin}}</view>
 											<view class="dtime">
-												
-												<view class="distance">距离：&lt {{item.distance}}公里</view>
-											<view class="vtime">上门时间：{{item.vtime}}</view>
+
+												<view class="distance">距离：&lt {{jl[index]}}公里</view>
+												<view class="vtime">上门时间：{{item.door_time}}</view>
 											</view>
-											<view class="tool"><span>毛巾</span><span>扳手大锤</span><span>长托帕</span></view>
+											<view class="tool">
+												<block v-for="(items,index1) in tool" :key="index1">
+													<view class="">{{items}}</view>
+												</block>
+												
+											</view>
 										</view>
 										<view class="item-r">
-											<view class="price">{{item.price}}元</view>
+											<view class="price">{{item.budget}}元</view>
 											<view class="status theme" @tap="openModel">立即抢单</view>
 										</view>
 									</view>
@@ -62,7 +69,9 @@
 											<view class="title">{{item.type.id}}/{{item.type.childrentype}}/<span>{{item.time}}小时</span></view>
 											<view class="address">{{item.address}}</view>
 											<view class="distance">距离：&lt {{item.distance}}公里</view>
-											<view class="tool"><span>毛巾</span><span>扳手大锤</span><span>长托帕</span></view>
+											<view class="tool">
+												<span>{items}</span>
+											</view>
 											<view class="vtime">上门时间：{{item.vtime}}</view>
 										</view>
 										<view class="item-r">
@@ -100,24 +109,32 @@
 
 <script>
 	const Mock = require("../../common//mock.mp.js");
-	
+
 	//引入小程序微信小程序JavaScriptSDK
 	// const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
-	var bmap = require('../../libs/bmap-wx.js'); 
+	var bmap = require('../../libs/bmap-wx.js');
 	import loadMore from "../../components/common/load-more.vue";
+	import addTip from "../../components/struggler-uniapp-add-tip/struggler-uniapp-add-tip"
 	export default {
 		components: {
-			loadMore
+			loadMore,
+			addTip
 		},
 		data() {
 			return {
-				istype:"",
-				address:"当前位置",
-				height:"",
-				background:{
-					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+				tool:[],
+				jl:[],
+				latitude: '',
+				longitude: "",
+				tip: "点击「添加小程序」，下次访问更便捷",
+				duration: 1,
+				istype: "",
+				address: "当前位置",
+				height: "",
+				background: {
+					backgroundImage: "linear-gradient(90deg, #00ABEB, #54C3F1)",
 				},
-				user_uid :"",
+				user_uid: "",
 				showpopup: false,
 				show: false,
 				content: '恭喜您抢单成功，请前往已抢单界面查看详情！',
@@ -141,9 +158,8 @@
 			}
 		},
 		onReady() {
-			const jl = this.countDistance("30.248398420426","120.17557880007","39.909187","116.397451")
-			console.log(jl);	
-			
+
+
 		},
 		onLoad() {
 			// 检查登录是否过期
@@ -155,24 +171,6 @@
 							console.log('登录暂未过期');
 							console.log(uni.getStorageSync('user_uid'));
 							this.user_uid = uni.getStorageSync('user_uid')
-							uni.request({
-								url:"https://applet.51tiaoyin.com/public/applet/work/stay",
-								method:"POST",
-								dataType:JSON,
-								data:{
-									town:"杭州",
-									genre:"日常保洁",
-									uid:this.user_uid
-								},
-								success(res) {
-									const data = JSON.parse(res.data);
-									console.log(data.data);
-									// console.log(res)
-								},
-								fail(err) {
-									console.log(err);
-								}
-							})
 						}
 					},
 					fail: (err) => {
@@ -236,48 +234,36 @@
 				success(res) {
 					console.log('当前位置的经度：' + res.longitude);
 					console.log('当前位置的纬度：' + res.latitude);
-					const  longitude = res.longitude;
-					const latitude = res.latitude;
-					uni.setStorageSync('longitude',res.longitude);
-					uni.setStorageSync('latitude',res.latitude);
-					 // 实例化腾讯地图小程序API核心
-					// const qqmapsdk = new QQMapWX({
-					// 	key: 'WYTBZ-MJSWU-H7VV7-BQTQV-2Z6PO-RBB23'
-					// });
-					//  qqmapsdk.reverseGeocoder({
-					// 	 location:{
-					// 	 	longitude : res.longitude,
-					// 	 	latitude : res.latitude
-					// 	 },
-					// 	 success(res){
-					// 	 	console.log(res,data);
-					// 	 },
-					// 	 fail(error){
-					// 		 console.log(error);
-					// 	 }
-					//  } )
+					that.latitude = res.latitude;
+					that.longitude = res.longitude;
+					//注册页面经纬度缓存
+					uni.setStorageSync('longitude', res.longitude);
+					uni.setStorageSync('latitude', res.latitude);
 					//百度地图
-					var BMap = new bmap.BMapWX({ 
-					            ak: 'q58GRKnjyQGGXI72GMdHKBBUaHEIKSyc' 
-					        }); 
+					var BMap = new bmap.BMapWX({
+						ak: 'q58GRKnjyQGGXI72GMdHKBBUaHEIKSyc'
+					});
 					BMap.regeocoding({
-						location:res.latitude+","+res.longitude,
+						location: res.latitude + "," + res.longitude,
 						// location:"116.409443,39.909843",
-							 success(res){
-								 // console.log(res.wxMarkerData[0].address);
-								 const address = res.wxMarkerData[0].address.substring(3);
-								 console.log(this);
-								 that.address = address;
-								 
-							 },
-							 fail(error){
-								 console.log(error);
-								 console.log("失败");
-							 }
-							 
+						success(res) {
+							// console.log(res.wxMarkerData[0].address);
+							const address = res.wxMarkerData[0].address.substring(3);
+							console.log(this);
+							that.address = address;
+
+						},
+						fail(error) {
+							console.log(error);
+							console.log("失败");
+						}
+
 					})
-						}	,
+				},
 				fail() {
+					uni.showToast({
+						title: "拒绝获取当前位置"
+					})
 					console.log("位置获取失败");
 				}
 			});
@@ -420,35 +406,200 @@
 
 			);
 			console.log(orderData);
-			this.orderlist = orderData.orderlist;
+			//判断用户是否注册服务工种,获取缓存里面的值
+			let isregister = true;
+			if (isregister) {
+				uni.request({
+					//首页待派单订单请求
+					url: "https://applet.51tiaoyin.com/public/applet/work/stay",
+					method: "POST",
+					dataType: JSON,
+					data: {
+						town: "杭州",
+						genre: "日常保洁",
+						uid: this.user_uid
+					},
+					success(res) {
+						const data = JSON.parse(res.data);
+						console.log(data.data);
+						// console.log(res)
+						that.orderlist = data.data;
+						console.log(that.orderlist);
+						for (var i = 0; i < that.orderlist.length; i++) {
+							console.log(111);
+							var location = that.orderlist[i].longitude;
+							var tool = that.orderlist[i].label.split(" ");
+							console.log(location);
+							var longitude = location.split(",")[0];
+							var latitude = location.split(",")[1]
+							var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
+							   jl = Math.floor(jl/1000 * 10) / 10;
+							   that.jl.push(jl);
+							   that.tool.push(tool);
+							console.log(that.jl);
+							console.log(that.tool);
+							
+						}
+					},
+					fail(err) {
+						console.log(err);
+					}
+				})
+			} else {
+				this.orderlist = orderData.orderlist;
+			}
+
 		},
 		onPullDownRefresh() {
 			this.getData();
 			console.log("xiala");
 		},
-	methods: {
-		// tabs通知swiper切换
-		//tabbar点击事件
-		xuanzhong(index) {
-			this.tabIndex = index;
-			console.log(index);
-		},
-		//滑动切换
-		tabChange(e) {
-			this.tabIndex = e.detail.current;
-			if (this.tabIndex == 1) {
-				this.showpopup = true
-			}
-		},
-		//上拉加载
-		loadmore() {
-			if (this.loadtext != "上拉加载更多") {
-				return;
-			}
-			this.loadtext = "加载中...";
-			console.log(this.loadtext);
-			// 加载后端获取的数据
-			for (var i = 0; i < 5; i++) {
+		methods: {
+			// tabs通知swiper切换
+			//tabbar点击事件
+			xuanzhong(index) {
+				this.tabIndex = index;
+				console.log(index);
+			},
+			//滑动切换
+			tabChange(e) {
+				this.tabIndex = e.detail.current;
+				if (this.tabIndex == 1) {
+					this.showpopup = true
+				}
+			},
+			//上拉加载
+			loadmore() {
+				if (this.loadtext != "上拉加载更多") {
+					return;
+				}
+				this.loadtext = "加载中...";
+				console.log(this.loadtext);
+				// 加载后端获取的数据
+				for (var i = 0; i < 5; i++) {
+					const orderData = Mock.mock({
+							'orderlist|3': [{
+								"time|1-10": 10,
+								"price|100-600": 600,
+								address: "@county(true)",
+								"distance|1-10.1": 1,
+								vtime: "@datetime()",
+								loadtext: "上拉加载更多",
+								"type|1": [{
+										"id|1": "家政服务",
+										"childrentype|1": [
+											"日常保洁",
+											"开荒保洁",
+											"地板养护",
+											"空气检测",
+											"甲醛治理",
+											"沙发清洗",
+											"窗帘清洗",
+											"收纳师",
+											"保姆",
+											"月嫂",
+											"做饭阿姨",
+											"上门除螨",
+											"消毒服务"
+										]
+									},
+									{
+										"id|1": "清洗服务",
+										"childrentype|1": [
+											"油烟机清洗",
+											"洗衣机清洗",
+											"冰箱清洗",
+											"热水器清洗",
+											"饮水机清洗",
+											"燃气罩清洗",
+											"电风扇清洗",
+											"微波炉清洗",
+											"沙发清洗",
+											"窗帘清洗",
+										]
+									},
+									{
+										"id|1": "安装维修",
+										"childrentype|1": [
+											"家电维修",
+											"锁具安装",
+											"管道疏通",
+											"卫浴维修",
+											"开锁换锁",
+											"壁纸壁画",
+											"地板安装",
+											"五金安装",
+											"卫浴安装",
+											"家具安装",
+											"家具维修",
+										]
+									},
+									{
+										"id|1": "搬运搬家",
+										"childrentype|1": [
+											"钢琴搬运",
+											"家庭搬家",
+											"企业搬家",
+											"车辆托运",
+										]
+									},
+									{
+										"id|1": "乐器维修",
+										"childrentype|1": [
+											"钢琴调音",
+											"钢琴维修",
+											"电子琴维修",
+											"古筝调音",
+											"古筝维修",
+											"吉他维修",
+											"风琴维修",
+										]
+									},
+									{
+										"id|1": "房屋装修",
+										"childrentype|1": [
+											"水电工",
+											"油漆工",
+											"木工",
+											"拆墙工",
+											"水暖工",
+											"泥水工",
+											"防水工",
+											"力工",
+											"打孔",
+											"安装工",
+										]
+									},
+								],
+								"tool|1-3": [{
+									"name|+1": [
+										'毛巾',
+										'托帕',
+										'扳手大锤',
+										'梯子',
+										'掸子',
+										'铲刀',
+										'涂水',
+										'擦地拖地器具',
+										'吸尘吸水器具',
+										'刮子',
+										'加长杆'
+									]
+								}]
+							}]
+						}
+
+					);
+					const morelist = this.orderlist.concat(orderData.orderlist);
+					this.orderlist = morelist;
+				}
+				console.log("加载后端获取的数据");
+
+				this.loadtext = "暂无更多数据";
+				console.log(this.loadtext);
+			},
+			//下拉刷新获取数据
+			getData() {
 				const orderData = Mock.mock({
 						'orderlist|3': [{
 							"time|1-10": 10,
@@ -562,190 +713,82 @@
 					}
 
 				);
-				const morelist = this.orderlist.concat(orderData.orderlist);
+				const morelist = orderData.orderlist;
 				this.orderlist = morelist;
-			}
-			console.log("加载后端获取的数据");
+				console.log("xialashuju");
+				uni.stopPullDownRefresh();
+			},
+			// model
+			openModel() {
+				this.show = true;
+				uni.navigateTo({
+					url: "../settlement/settlement",
+					//"../wait-list/wait-list?latitude="+this.latitude+"&longitude"+
+				})
+			},
+			//closemode
+			close() {
+				this.$refs.popup.close();
+			},
+			//openpage
+			openWaitlist() {
+				//判断用户类型值是否存在，
+				//接受一个判断师傅类型的参数
+				const urlpath = "'../wait-list/wait-list'";
+				const ydurl = "../settlement/settlement";
+				const openurl = "";
+				this.istype ? openurl = urlpath : openurl = ydurl;
+				uni.navigateTo({
+					url: openurl,
+				})
 
-			this.loadtext = "暂无更多数据";
-			console.log(this.loadtext);
-		},
-		//下拉刷新获取数据
-		getData() {
-			const orderData = Mock.mock({
-					'orderlist|3': [{
-						"time|1-10": 10,
-						"price|100-600": 600,
-						address: "@county(true)",
-						"distance|1-10.1": 1,
-						vtime: "@datetime()",
-						loadtext: "上拉加载更多",
-						"type|1": [{
-								"id|1": "家政服务",
-								"childrentype|1": [
-									"日常保洁",
-									"开荒保洁",
-									"地板养护",
-									"空气检测",
-									"甲醛治理",
-									"沙发清洗",
-									"窗帘清洗",
-									"收纳师",
-									"保姆",
-									"月嫂",
-									"做饭阿姨",
-									"上门除螨",
-									"消毒服务"
-								]
-							},
-							{
-								"id|1": "清洗服务",
-								"childrentype|1": [
-									"油烟机清洗",
-									"洗衣机清洗",
-									"冰箱清洗",
-									"热水器清洗",
-									"饮水机清洗",
-									"燃气罩清洗",
-									"电风扇清洗",
-									"微波炉清洗",
-									"沙发清洗",
-									"窗帘清洗",
-								]
-							},
-							{
-								"id|1": "安装维修",
-								"childrentype|1": [
-									"家电维修",
-									"锁具安装",
-									"管道疏通",
-									"卫浴维修",
-									"开锁换锁",
-									"壁纸壁画",
-									"地板安装",
-									"五金安装",
-									"卫浴安装",
-									"家具安装",
-									"家具维修",
-								]
-							},
-							{
-								"id|1": "搬运搬家",
-								"childrentype|1": [
-									"钢琴搬运",
-									"家庭搬家",
-									"企业搬家",
-									"车辆托运",
-								]
-							},
-							{
-								"id|1": "乐器维修",
-								"childrentype|1": [
-									"钢琴调音",
-									"钢琴维修",
-									"电子琴维修",
-									"古筝调音",
-									"古筝维修",
-									"吉他维修",
-									"风琴维修",
-								]
-							},
-							{
-								"id|1": "房屋装修",
-								"childrentype|1": [
-									"水电工",
-									"油漆工",
-									"木工",
-									"拆墙工",
-									"水暖工",
-									"泥水工",
-									"防水工",
-									"力工",
-									"打孔",
-									"安装工",
-								]
-							},
-						],
-						"tool|1-3": [{
-							"name|+1": [
-								'毛巾',
-								'托帕',
-								'扳手大锤',
-								'梯子',
-								'掸子',
-								'铲刀',
-								'涂水',
-								'擦地拖地器具',
-								'吸尘吸水器具',
-								'刮子',
-								'加长杆'
-							]
-						}]
-					}]
+			},
+			//计算两点直线路径
+			countDistance(la1, lo1, la2, lo2) {
+				var FINAL = 6378137.0
+				/** 
+				 * 求某个经纬度的值的角度值 
+				 * @param {Object} d 
+				 */
+				function calcDegree(d) {
+					return d * Math.PI / 180.0;
 				}
-
-			);
-			const morelist = orderData.orderlist;
-			this.orderlist = morelist;
-			console.log("xialashuju");
-			uni.stopPullDownRefresh();
-		},
-		// model
-		openModel() {
-			this.show = true;
-			uni.navigateTo({
-				url:"../settlement/settlement"
-			})
-		},
-		//closemode
-		close() {
-			this.$refs.popup.close();
-		},
-		//openpage
-		openWaitlist() {
-			//判断用户类型值是否存在，
-			//接受一个判断师傅类型的参数
-			const urlpath = "'../wait-list/wait-list'";
-			const ydurl = "../settlement/settlement";
-			const openurl ="";
-			this.istype?openurl = urlpath :openurl = ydurl;
-			uni.navigateTo({
-				url: urlpath,
-			})
-			
-		},
-		//计算两点直线路径
-		countDistance(la1, lo1, la2, lo2) {  
-		            var La1 = la1 * Math.PI / 180.0;  
-		            var La2 = la2 * Math.PI / 180.0;  
-		            var La3 = La1 - La2;  
-		            var Lb3 = lo1 * Math.PI / 180.0 - lo2 * Math.PI / 180.0;  
-		            var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(La3 / 2), 2)+Math.cos(La1) * Math.cos(La2) * Math.pow(Math.sin(Lb3 / 2), 2)));  
-		            s = s * 6378.137;//地球半径  
-		            s = Math.round(s * 10000) / 10000;  
-		            console.log("计算结果",s,'公里');   
-		        }
+				/** 
+				 * 根据两点经纬度值，获取两地的实际相差的距离 
+				 * @param {Object} f    第一点的坐标位置[latitude,longitude] 
+				 * @param {Object} t    第二点的坐标位置[latitude,longitude] 
+				 */
+				var flat = calcDegree(la1);
+				var flng = calcDegree(lo1);
+				var tlat = calcDegree(la2);
+				var tlng = calcDegree(lo2);
+				var result = Math.sin(flat) * Math.sin(tlat);
+				result += Math.cos(flat) * Math.cos(tlat) * Math.cos(flng - tlng);
+				return Math.acos(result) * FINAL;
+			}
+		}
 	}
-}
 </script>
 
 <style scoped>
 	/* 顶部导航栏自定义 */
 	.slot-wrap {
-			display: flex;
-			align-items: center;
-			/* 如果您想让slot内容占满整个导航栏的宽度 */
-			/* flex: 1; */
-			/* 如果您想让slot内容与导航栏左右有空隙 */
-			padding: 0 25rpx;
-			color: #FFFFFF;
-			margin-top: 2upx;
-			font-size: 22upx;
-		}
+		display: flex;
+		align-items: center;
+		/* 如果您想让slot内容占满整个导航栏的宽度 */
+		/* flex: 1; */
+		/* 如果您想让slot内容与导航栏左右有空隙 */
+		padding: 0 25rpx;
+		color: #FFFFFF;
+		margin-top: 2upx;
+		font-size: 22upx;
+	}
+
 	.status_bar {
-	      height: var(--status-bar-height);
-	      width: 100%;
-	  }
+		height: var(--status-bar-height);
+		width: 100%;
+	}
+
 	/* content */
 	.content {}
 
@@ -831,9 +874,11 @@
 		margin-bottom: 30upx;
 		font-weight: bold;
 	}
-	.order-item .dtime{
+
+	.order-item .dtime {
 		display: flex;
 	}
+
 	.order-item .item-l .distance {
 		font-size: 20upx;
 		color: #00ABEB;

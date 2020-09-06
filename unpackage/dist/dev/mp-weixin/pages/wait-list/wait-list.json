@@ -3,5 +3,7 @@
   "navigationBarBackgroundColor": "#f85f31",
   "navigationBarTitleText": "待派单",
   "navigationBarTextStyle": "white",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-navbar": "/uview-ui/components/u-navbar/u-navbar"
+  }
 }

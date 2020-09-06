@@ -20,6 +20,18 @@
 	color: #9d9d9d;
 	margin-top: 40rpx;
 }
+button{
+	-webkit-appearance:none;
+	border: none;
+	height: 80rpx;
+	line-height: 80rpx;
+	background: -webkit-linear-gradient(left, #00ABEB, #54C3F1);
+	background: linear-gradient(90deg, #00ABEB, #54C3F1);
+	border-radius: 21rpx;
+}
+button::after{
+	border: none;
+}
 .bottom {
 	border-radius: 80rpx;
 	margin: 70rpx 50rpx;

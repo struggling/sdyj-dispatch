@@ -207,22 +207,7 @@
 		color: #FFFFFF;
 		margin-top: 20upx;
 	}
-	.sty1{
-		background-color: #F8F5D5;
-	}
-	.sty1{
-		background-color: #D9F8D4;
-	}
-	.sty1{
-		background-color: #F8E5D4;
-	}
-	.sty1{
-		background-color: #D4F8EE;
-	}
-	.sty1{
-		background-color: #F8D4F8;
-	}
-	.sty1{
-		background-color: #D4EBF8;
+	.btn{
+		color: #FFFFFF;
 	}
 </style>

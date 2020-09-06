@@ -41,13 +41,13 @@
 		margin-left: 30upx;
 	}
 	.uni-tab-bar .active {
-	color: #f86032;
+	color: #00ABEB;
 	}
 	.active .swiper-tab-line{
-		border-bottom: 6upx solid #f86032;
+		border-bottom: 6upx solid #00ABEB;
 		width: 70upx;
 		margin: auto;
-		border-top: 6upx solid #f86032;
+		border-top: 6upx solid #00ABEB;
 		border-radius: 20upx;
 	}
 	.swiper-box{
