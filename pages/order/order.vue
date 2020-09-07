@@ -117,27 +117,10 @@
 					this.swiperheight = height;
 				}
 			});
+			 uni.$emit('updates',{msg:'页面更新'});
 			this.user_uid = uni.getStorageSync('user_uid');
 			if(this.tabIndex == 0){
 				this.getlistdata();
-			}
-		},
-		//监听搜索框点击事件
-		onNavigationBarSearchInputClicked() {
-			// console.log("打开搜索页");
-			uni.navigateTo({
-				url: '../search/search',
-
-			});
-		},
-		//监听原生标题导航按钮点击事件
-		onNavigationBarButtonTap(e) {
-			// console.log(JSON.stringify(e));
-			switch (e.index) {
-				case 1:
-					uni.navigateTo({
-						url: "../add-input/add-input",
-					});
 			}
 		},
 		methods: {
@@ -162,11 +145,6 @@
 			tabtap(index) {
 				this.tabIndex = index;
 				this.tabclick = index;
-			},
-			//滑动事件
-			tabChange(e) {
-				this.tabIndex = e.detail.current;
-				
 				if(this.tabclick != e.detail.current){
 					this.tabclick =  e.detail.current;
 					switch (this.tabIndex){
@@ -180,8 +158,10 @@
 				}else{
 					console.log("取消多次请求");
 				}
-				
-
+			},
+			//滑动事件
+			tabChange(e) {
+				this.tabIndex = e.detail.current;
 			},
 			//拉去待上门数据
 			getlistdata(){
@@ -196,6 +176,7 @@
 							uid:this.user_uid
 						},
 						success(res) {
+							console.log();
 							console.log("待上门:"+res);
 							console.log(res);
 							const data = JSON.parse(res.data);

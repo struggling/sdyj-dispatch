@@ -87,11 +87,15 @@
 				},
 			}
 		},
-		onLoad(option) {
-			console.log(option.data);
-			this.data = option.data;
-			console.log(this.data);
+		onLoad() {
+			let data = uni.getStorageSync("data");
+			console.log(data);
 		},
+		onReady() {
+				uni.$on('itemData',(data)=>{  
+					console.log(data.data);
+				})
+			},
 		methods: {
 			
 		}

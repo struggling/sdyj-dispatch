@@ -33,7 +33,7 @@ page {
   height: 44px;
 }
 .camera:active {
-  background-color: #ededed;
+    background-color: #ededed;
 }
 .user-box {
   background-color: #fff;

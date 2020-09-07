@@ -1,0 +1,192 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* orderlist */
+.orderlist.data-v-3fdb89ca {}
+.order-item.data-v-3fdb89ca {
+	/* border-bottom: 1upx solid #c3c3f6; */
+	border-top: 1rpx solid #c3c3f6;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding-top: 40rpx;
+	padding-bottom: 30rpx;
+	padding-left: 25rpx;
+	padding-right: 25rpx;
+}
+.order-item .item-l .title.data-v-3fdb89ca {
+	font-weight: bold;
+	font-size: 32rpx;
+	margin-bottom: 30rpx;
+	color: #101D37;
+}
+.order-item .item-l .address.data-v-3fdb89ca {
+
+	font-size: 20rpx;
+	color: #969CA8;
+	margin-bottom: 30rpx;
+	font-weight: bold;
+}
+.order-item .dtime.data-v-3fdb89ca {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.order-item .item-l .distance.data-v-3fdb89ca {
+	font-size: 20rpx;
+	color: #00ABEB;
+	margin-bottom: 30rpx;
+	font-weight: bold;
+}
+.order-item .item-l .tool.data-v-3fdb89ca {
+	font-size: 20rpx;
+	color: #3072F6;
+	margin-bottom: 30rpx;
+	font-weight: bold;
+}
+.order-item .item-l .tool ._span.data-v-3fdb89ca {
+	padding-left: 10rpx;
+	padding-right: 10rpx;
+	padding-top: 4rpx;
+	padding-bottom: 4rpx;
+	background-color: #e6e8f6;
+	margin-bottom: 10rpx;
+	margin-right: 10rpx;
+	border-radius: 8rpx;
+}
+.order-item .item-l .vtime.data-v-3fdb89ca {
+	color: #3072F6;
+	font-weight: bold;
+	font-size: 18rpx;
+	margin-left: 25rpx;
+}
+.order-item .item-r.data-v-3fdb89ca {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	text-align: center;
+	width: 220rpx;
+}
+.order-item .item-r .img image.data-v-3fdb89ca {
+	border-radius: 100%;
+	-webkit-flex-shrink: 0;
+	        flex-shrink: 0;
+	width: 168rpx;
+	height: 168rpx;
+}
+.order-item .item-r .price.data-v-3fdb89ca {
+	color: #FA5741;
+	font-size: 28rpx;
+	font-weight: bold;
+	margin-top: 20rpx;
+	margin-bottom: 20rpx;
+}
+.order-item .item-r .status.data-v-3fdb89ca {
+	height: 42rpx;
+	line-height: 42rpx;
+	font-size: 28rpx;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #FA5741;
+	border-radius: 20rpx;
+	padding: 0 30rpx;
+	margin-top: 89rpx;
+}
+.success.data-v-3fdb89ca {
+	background-color: #FA5741;
+}
+.fail.data-v-3fdb89ca {
+	background-color: #cccccc;
+}
+

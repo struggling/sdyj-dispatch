@@ -57,6 +57,7 @@
 	export default {
 		data() {
 			return {
+				isget:true,
 				sumstring: [],
 				postData: [],
 				flag: true,
@@ -120,55 +121,64 @@
 			},
 			//获取手机号码
 			getPhoneNumber(e) {
+				
+				if(this.isget){
+					this.isget =false;
+					let iv = e.detail.iv,
+					encryptedData = e.detail.encryptedData,
+					code = this.code,
+					that = this;
+					//检查session——key是否过期
+					uni.checkSession({
+						success(res) {
+							console.log(res);
+							uni.request({
+								url: "https://applet.51tiaoyin.com/public/applet/user/get_phone",
+								method: 'GET',
+								dataType: JSON,
+								data: {
+									"code": code,
+									"iv": iv,
+									"encryptedData": encryptedData
+								},
+								success(res) {
+									console.log(res.data);
+									let data = JSON.parse(res.data);
+									console.log(data);
+									if (data.code == 200) {
+										// console.log(this);
+										console.log(data.data);
+										that.phonenum = data.data;
+									} else {
+										uni.showToast({
+											title: "没有获取手机号",
+											duration: 1500
+										})
+									}
+								},
+								fail(res) {
+									console.log(res)
+								}
+							})
+						},
+						fail(err) {
+							// session_key 已经失效，需要重新执行登录流程
+							uni.login({
+								success: res => {
+									that.data.code = res.code
+								}
+							})
+						}
+					})
+				}else{
+					uni.showToast({
+						title:"手机号码已存在"
+					})
+				}
 				// console.log(e.detail.errMsg);
 				// console.log(e.detail.iv);
 				// console.log(e.detail.encryptedData);
-				let iv = e.detail.iv,
-				encryptedData = e.detail.encryptedData,
-				code = this.code,
-				that = this;
-				//检查session——key是否过期
-				uni.checkSession({
-					success(res) {
-						console.log(res);
-						uni.request({
-							url: "https://applet.51tiaoyin.com/public/applet/user/get_phone",
-							method: 'GET',
-							dataType: JSON,
-							data: {
-								"code": code,
-								"iv": iv,
-								"encryptedData": encryptedData
-							},
-							success(res) {
-								console.log(res.data);
-								let data = JSON.parse(res.data);
-								console.log(data);
-								if (data.code == 200) {
-									// console.log(this);
-									console.log(data.data);
-									that.phonenum = data.data;
-								} else {
-									uni.showToast({
-										title: "没有获取手机号",
-										duration: 1500
-									})
-								}
-							},
-							fail(res) {
-								console.log(res)
-							}
-						})
-					},
-					fail(err) {
-						// session_key 已经失效，需要重新执行登录流程
-						uni.login({
-							success: res => {
-								that.data.code = res.code
-							}
-						})
-					}
-				})
+				
 
 				// 	//-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
 				if (e.detail.errMsg == 'getPhoneNumber:user deny') { //用户点击拒绝

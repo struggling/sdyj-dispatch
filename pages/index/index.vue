@@ -33,28 +33,8 @@
 						<scroll-view scroll-y class="list" @scrolltolower="loadmore" show-scrollbar="false">
 							<template v-if="orderlist.length>0">
 								<block v-for="(item,index) in orderlist" :key="index">
-									<view class="orderlist">
-										<view class="order-item">
-											<view class="item-l">
-												<view class="title">{{item.name}}<span>{{item.duration}}小时</span></view>
-												<view class="address">{{item.origin}}</view>
-												<view class="dtime">
-													<view class="distance">距离：&lt {{jl[index]}}公里</view>
-													<view class="vtime">上门时间：{{item.door_time}}</view>
-												</view>
-												<view class="tool">
-													<block v-for="(items,index1) in tool" :key="index1">
-														<view><span>{{items}}</span></view>
-														<view class="">{{items}}</view>
-													</block>
-												</view>
-											</view>
-											<view class="item-r">
-												<view class="price">{{item.budget}}元</view>
-												<view class="status theme" @tap="openModel(index)">立即抢单</view>
-											</view>
-										</view>
-									</view>
+									<orderList :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></orderList>
+									
 								</block>
 							</template>
 							<!-- nothing -->
@@ -121,11 +101,13 @@
 	import loadMore from "../../components/common/load-more.vue";
 	import addTip from "../../components/struggler-uniapp-add-tip/struggler-uniapp-add-tip";
 	import noThing from "../../components/common/no-thing.vue";
+	import orderList from "../../components/index/orderlist.vue"
 	export default {
 		components: {
 			loadMore,
 			addTip,
-			noThing
+			noThing,
+			orderList
 		},
 		data() {
 			return {
@@ -175,6 +157,7 @@
 							console.log('登录暂未过期');
 							this.user_uid = uni.getStorageSync('user_uid');//uid写在检查函数里面，
 							console.log("uid的值:"+this.user_uid);
+							//获取注册信息phone（判断用户是否登录）
 							uni.login({
 								success(res) {
 									let code = res.code;
@@ -297,68 +280,86 @@
 					console.log("位置获取失败");
 				}
 			});
-
+			
+			// mock数据通知栏
+			const Random = Mock.Random;
+			Random.county();
+			Random.cname();
+			Random.city();
+			Random.datetime();
+			const data = Mock.mock({
+				'list|3': [{
+					name: "@cname()",
+					city: '@city(true)',
+					"type|+1": [
+						"日常保洁",
+						"开荒保洁",
+						"上门除甲醛",
+						"上门维修",
+					]
+				}]
+			});
+			for (var i = 0; i < data.list.length; i++) {
+				var str = "恭喜--" + data.list[i].name + "--抢到" + data.list[i].city + "--" + data.list[i].type + "--订单";
+				this.notice.push(str);
+			}
+			
 			//判断用户是否注册服务工种,获取缓存里面的值
 			this.user_uid = uni.getStorageSync('user_uid');
 			let phone = uni.getStorageSync('phone');	
-			console.log("uid的值222:"+this.user_uid);
+			console.log("uid的值:"+this.user_uid);
 			// let isregister = true;
-			if (phone) {
-				console.log("uid的值222:"+this.user_uid);
-				uni.request({
-					//首页待派单订单请求
-					url: "https://applet.51tiaoyin.com/public/applet/work/stay",
-					method: "POST",
-					dataType: JSON,
-					data: {
-						town: "成都",
-						genre: ['日常保洁',"开荒保洁","上门除甲醛"],
-						uid: this.user_uid
-					},
-					success(res) {
-						console.log(res);
-						const data = JSON.parse(res.data);
-						console.log(data.data);
-						if(data.code == 200){
-							
-							// console.log(res)
-							that.orderlist = data.data;
-							console.log("订单列表:"+that.orderlist);
-							for (var i = 0; i < that.orderlist.length; i++) {
-								var location = that.orderlist[i].longitude;
-								var tool = that.orderlist[i].label.split(" ");
-								console.log(location);
-								var longitude = location.split(",")[0];
-								var latitude = location.split(",")[1]
-								var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
-								   jl = Math.floor(jl/1000 * 10) / 10;
-								   that.jl.push(jl);
-								   that.tool.push(tool);
-								console.log(that.jl);
-								console.log(that.tool);
-								
-							}
-						}else{
-							console.log('请求失败');
-							console.log(res);
+			//首页待派单订单请求
+			uni.request({
+				url: "https://applet.51tiaoyin.com/public/applet/work/stay",
+				method: "POST",
+				dataType: JSON,
+				data: {
+					town: "成都",
+					genre: ['日常保洁',"开荒保洁","上门除甲醛"],
+					uid: this.user_uid
+				},
+				success(res) {
+					console.log(res);
+					const data = JSON.parse(res.data);
+					console.log(data.data);
+					if(data.code == 200){
+						// console.log(res)
+						that.orderlist = data.data;
+						console.log("订单列表:");
+						console.log(that.orderlist);
+						//计算经纬度距离和循环遍历工具要求
+						for (var i = 0; i < that.orderlist.length; i++) {
+							var location = that.orderlist[i].longitude;
+							var tool = that.orderlist[i].label.split(" ");
+							console.log(location);
+							var longitude = location.split(",")[0];
+							var latitude = location.split(",")[1]
+							var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
+							   jl = Math.floor(jl/1000 * 10) / 10;
+							   that.jl.push(jl);
+							   that.tool.push(tool);
+							console.log(that.jl);
+							console.log(that.tool);
 						}
-						
-					},
-					fail(err) {
-						console.log(err);
+					}else{
+						console.log(res);
+						uni.showToast({
+							title:"无网络"
+						})
 					}
-				})
-			} else {
-				//如果没有手机说明用户没有注册跳转
-				uni.navigateTo({
-					url:"../settlement/settlement"
-				})
-			}
+					
+				},
+				fail(err) {
+					console.log(err);
+				}
+			})
+			
 
 		},
 		onPullDownRefresh() {
-			this.getData();
-			console.log("xiala");
+			// this.getData();
+			console.log("下拉刷新");
 		},
 		methods: {
 			// tabs通知swiper切换
@@ -626,6 +627,174 @@
 			},
 			// model,发送抢单请求
 			openModel(index) {
+				let phone = uni.getStorageSync('phone');
+				if (phone) {
+					let indextag = true;
+					if(indextag){
+						indextag = false;
+						uni.request({
+							url:"https://applet.51tiaoyin.com/public/applet/work/take",
+							method:"POST",
+							dataType:JSON,
+							data:{
+								uid:this.user_uid,
+								code:code,//订单编号
+								WorkNautica:[this.longitude,this.latitude],
+								phone:phone
+							},
+							success(res) {
+								console.log(res);
+								console.log("当前点击的为："+index);
+								if(res.code = 200){
+									//抢单成功体醒
+									that.show = true;
+									//删除该订单
+									let arr = that.orderlist.splice(index,1);
+									console.log(arr);
+									
+								}else{
+									uni.showToast({
+										title:"无网络!"
+									})
+								}
+							},
+							fail() {
+								console.log(res);
+							}
+						})
+					}
+				} else {
+					uni.showModal({
+					    title: '提示',
+					    content: '请先完成师傅服务类型注册，在抢单',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								//如果没有手机说明用户没有注册跳转
+								uni.navigateTo({
+									url:"../settlement/settlement"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+								
+					        }
+					    }
+					});
+					//如果用户没有注册使用假数据
+					const orderData = Mock.mock({
+							'orderlist|3': [{
+								"time|1-10": 10,
+								"price|100-600": 600,
+								address: "@county(true)",
+								"distance|1-10.1": 1,
+								vtime: "@datetime()",
+								loadtext: "上拉加载更多",
+								"type|1": [{
+										"id|1": "家政服务",
+										"childrentype|1": [
+											"日常保洁",
+											"开荒保洁",
+											"地板养护",
+											"空气检测",
+											"甲醛治理",
+											"沙发清洗",
+											"窗帘清洗",
+											"收纳师",
+											"保姆",
+											"月嫂",
+											"做饭阿姨",
+											"上门除螨",
+											"消毒服务"
+										]
+									},
+									{
+										"id|1": "清洗服务",
+										"childrentype|1": [
+											"油烟机清洗",
+											"洗衣机清洗",
+											"冰箱清洗",
+											"热水器清洗",
+											"饮水机清洗",
+											"燃气罩清洗",
+											"电风扇清洗",
+											"微波炉清洗",
+											"沙发清洗",
+											"窗帘清洗",
+										]
+									},
+									{
+										"id|1": "安装维修",
+										"childrentype|1": [
+											"家电维修",
+											"锁具安装",
+											"管道疏通",
+											"卫浴维修",
+											"开锁换锁",
+											"壁纸壁画",
+											"地板安装",
+											"五金安装",
+											"卫浴安装",
+											"家具安装",
+											"家具维修",
+										]
+									},
+									{
+										"id|1": "搬运搬家",
+										"childrentype|1": [
+											"钢琴搬运",
+											"家庭搬家",
+											"企业搬家",
+											"车辆托运",
+										]
+									},
+									{
+										"id|1": "乐器维修",
+										"childrentype|1": [
+											"钢琴调音",
+											"钢琴维修",
+											"电子琴维修",
+											"古筝调音",
+											"古筝维修",
+											"吉他维修",
+											"风琴维修",
+										]
+									},
+									{
+										"id|1": "房屋装修",
+										"childrentype|1": [
+											"水电工",
+											"油漆工",
+											"木工",
+											"拆墙工",
+											"水暖工",
+											"泥水工",
+											"防水工",
+											"力工",
+											"打孔",
+											"安装工",
+										]
+									},
+								],
+								"tool|1-3": [{
+									"name|+1": [
+										'毛巾',
+										'托帕',
+										'扳手大锤',
+										'梯子',
+										'掸子',
+										'铲刀',
+										'涂水',
+										'擦地拖地器具',
+										'吸尘吸水器具',
+										'刮子',
+										'加长杆'
+									]
+								}]
+							}]
+						}
+					);
+					this.orderlist = orderData.orderList
+				}
 				let code  = this.orderlist[index].code;
 				let that = this;
 				//请求一次
@@ -633,39 +802,7 @@
 					title:indextag
 				})
 				let indextag = true;
-				if(indextag){
-					indextag = false;
-					uni.request({
-						url:"https://applet.51tiaoyin.com/public/applet/work/take",
-						method:"POST",
-						dataType:JSON,
-						data:{
-							uid:this.user_uid,
-							code:code,//订单编号
-							WorkNautica:[this.longitude,this.latitude],
-							phone:uni.getStorageSync("phone")
-							
-						},
-						success(res) {
-							console.log(res);
-							if(res.code = 200){
-								//抢单成功体醒
-								that.show = true;
-								//删除该订单
-								let arr = this.orderlist.splice(index,1);
-								console.log(arr);
-								
-							}else{
-								uni.showToast({
-									title:"无网络!"
-								})
-							}
-						},
-						fail() {
-							console.log(res);
-						}
-					})
-				}
+				
 				
 			},
 			//closemode
@@ -803,111 +940,5 @@
 		color: transparent;
 	}
 
-	/* orderlist */
-	.orderlist {}
-
-	.order-item {
-		/* border-bottom: 1upx solid #c3c3f6; */
-		border-top: 1upx solid #c3c3f6;
-		display: flex;
-		justify-content: space-between;
-		padding-top: 40upx;
-		padding-bottom: 30upx;
-		padding-left: 25upx;
-		padding-right: 25upx;
-	}
-
-	.order-item .item-l .title {
-		font-weight: bold;
-		font-size: 32upx;
-		margin-bottom: 30upx;
-		color: #101D37;
-	}
-
-	.order-item .item-l .address {
-
-		font-size: 20upx;
-		color: #969CA8;
-		margin-bottom: 30upx;
-		font-weight: bold;
-	}
-
-	.order-item .dtime {
-		display: flex;
-	}
-
-	.order-item .item-l .distance {
-		font-size: 20upx;
-		color: #00ABEB;
-		margin-bottom: 30upx;
-		font-weight: bold;
-	}
-
-	.order-item .item-l .tool {
-		font-size: 20upx;
-		color: #3072F6;
-		margin-bottom: 30upx;
-		font-weight: bold;
-	}
-
-	.order-item .item-l .tool span {
-		padding-left: 10upx;
-		padding-right: 10upx;
-		padding-top: 4upx;
-		padding-bottom: 4upx;
-		background-color: #e6e8f6;
-		margin-bottom: 10upx;
-		margin-right: 10upx;
-		border-radius: 8upx;
-	}
-
-	.order-item .item-l .vtime {
-		color: #3072F6;
-		font-weight: bold;
-		font-size: 18upx;
-		margin-left: 25upx;
-
-	}
-
-	.order-item .item-r {
-		display: flex;
-		flex-direction: column;
-		text-align: center;
-		width: 220upx;
-	}
-
-	.order-item .item-r .img image {
-		border-radius: 100%;
-		flex-shrink: 0;
-		width: 168upx;
-		height: 168upx;
-	}
-
-	.order-item .item-r .price {
-		color: #FA5741;
-		font-size: 28upx;
-		font-weight: bold;
-		margin-top: 20upx;
-		margin-bottom: 20upx;
-	}
-
-	.order-item .item-r .status {
-		height: 42upx;
-		line-height: 42upx;
-		font-size: 28upx;
-		font-weight: bold;
-		color: #FFFFFF;
-		background-color: #FA5741;
-		border-radius: 20upx;
-		padding: 0 30upx;
-		margin-top: 89upx;
-	}
-
-	.success {
-		background-color: #FA5741;
-	}
-
-	.fail {
-		background-color: #cccccc;
-	}
+	
 </style>
