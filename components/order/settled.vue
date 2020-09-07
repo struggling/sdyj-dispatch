@@ -4,19 +4,19 @@
 		<view class="wait-list">
 			<view class="info">
 				<view class="parm">
-					<view class="parm-txt title">{{item.type.id}}/{{item.type.childrentype}}/{{item.time}}小时</view>
-					<view class="parm-txt">{{item.address}}</view>
-					<view class="parm-txt">距离：&alt {{item.distance}}公里</view>
-					<view class="parm-txt"><span>{{item.tool[0].name}}</span><span>毛巾</span><span>毛巾</span></view>
-					<view class="parm-txt">上门时间：{{item.vtime}}</view>
+					<view class="parm-txt title">{{item.name}}/{{item.duration}}</view>
+					<view class="parm-txt">{{item.origin}}</view>
+					<view class="parm-txt">距离：&alt {{item.Distance}}公里</view>
+					<view class="parm-txt"><span>{{item.label}}</span></view>
+					<view class="parm-txt">上门时间：{{item.door_time}}</view>
 				</view>
 				<view class="parm">
-					<view class="price">{{item.price}}元</view>
+					<view class="price">{{item.budget}}元</view>
 				</view>
 			</view>
 			<view class="btn-group">
-				<view class="btn">删除订单</view>
-				<view class="btn active" @tap="openbill">申请发票</view>
+				<view class="btn">{{btn[0]}}</view>
+				<view class="btn active" @tap="openpage(index)">{{btn[1]}}</view>
 			</view>
 		</view>
 	</view>	
@@ -26,18 +26,33 @@
 	export default {
 		props:{
 			item: Object,
-			index: Number
+			index: Number,
+			btn:Array
 		},
 		data() {
 			return {
-				
+				data:[]
 			}
 		},
+		onReady() {
+			console.log("要传递的值");
+			console.log(this.item);
+			
+			this.data.push(this.item);
+			console.log(this.data);
+		},
 		methods:{
-			openbill(){
-				uni.navigateTo({
-					url:"../../pages/apply-bill/apply-bill"
-				})
+			openpage(index){
+				console.log(this.data[index]);
+				switch (index){
+					case 0:
+						uni.navigateTo({
+							url:'../../pages/order-detail/order-detail?data='+this.data[index]
+						})
+						break;
+					default:
+						break;
+				}
 			}
 		}
 	}
@@ -59,7 +74,7 @@
 		justify-content: flex-end;
 	}
 	.btn-group .active{
-		background-color: #FA5741;
+		background-color: #00AAEB;
 		color: #FFFFFF !important;
 		border: none !important;
 	}

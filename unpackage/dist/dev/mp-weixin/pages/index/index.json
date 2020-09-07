@@ -11,6 +11,7 @@
     "u-modal": "/uview-ui/components/u-modal/u-modal",
     "u-popup": "/uview-ui/components/u-popup/u-popup",
     "load-more": "/components/common/load-more",
-    "add-tip": "/components/struggler-uniapp-add-tip/struggler-uniapp-add-tip"
+    "add-tip": "/components/struggler-uniapp-add-tip/struggler-uniapp-add-tip",
+    "no-thing": "/components/common/no-thing"
   }
 }

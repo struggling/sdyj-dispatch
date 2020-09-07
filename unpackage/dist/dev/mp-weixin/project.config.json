@@ -6,11 +6,32 @@
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
+		"enhance": false,
 		"postcss": true,
-		"minified": true
+		"preloadBackgroundData": false,
+		"minified": true,
+		"newFeature": false,
+		"coverView": true,
+		"nodeModules": false,
+		"autoAudits": false,
+		"showShadowRootInWxmlPanel": false,
+		"scopeDataCheck": false,
+		"uglifyFileName": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"compileHotReLoad": false,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"useIsolateContext": true,
+		"useCompilerModule": true,
+		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.9.2",
+	"libVersion": "",
 	"appid": "wxe7bb48c6264d17e1",
 	"projectname": "sdyj-dispatch",
 	"simulatorType": "wechat",
@@ -48,22 +69,15 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/dispatch-detail/dispatch-detail",
-					"pathName": "pages/dispatch-detail/dispatch-detail",
+					"name": "pages/home/home",
+					"pathName": "pages/home/home",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "pages/wait-list/wait-list",
-					"pathName": "pages/wait-list/wait-list",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/login/login",
-					"pathName": "pages/login/login",
+					"name": "pages/order-detail/order-detail",
+					"pathName": "pages/order-detail/order-detail",
 					"query": "",
 					"scene": null
 				},
@@ -76,8 +90,8 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/order/order",
-					"pathName": "pages/order/order",
+					"name": "pages/login/login",
+					"pathName": "pages/login/login",
 					"scene": null
 				}
 			]

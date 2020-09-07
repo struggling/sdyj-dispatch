@@ -37,6 +37,9 @@
 				</view>
 			</view>
 		</view>
+		<!-- 客服会话 -->
+		<!-- <button send-message-title="分享标题" send-message-img="分享的单个图片链接" show-message-card="true"  class='details_button' open-type='contact' plain>
+		 </button> -->
 		<!-- 个人信息列表 -->
 		<view class="u-m-t-20">
 			<u-cell-group>
@@ -49,6 +52,7 @@
 				<u-cell-item  title="设置" @tap="openset"></u-cell-item>
 			</u-cell-group>
 		</view>
+		 
 		<!-- class="iconfont icongerenxinxi"  class="iconfont icongonghao" class="iconfont iconshijian" class="iconfont iconpingfen" class="iconfont iconxinxi" class="iconfont iconshezhi"-->
 		<!-- 时间选择器 -->
 		<!-- <u-picker mode="time" v-model="showtime" :params="params"></u-picker> -->
@@ -135,7 +139,14 @@
 				    // }
 				  }
 				})
-			}
+			},
+			// contact(){
+			// 	wx.contact({
+			// 		success(res){
+			// 			console.log(res);
+			// 		}
+			// 	})
+			// }
 		}
 	}
 </script>

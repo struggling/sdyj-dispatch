@@ -94,8 +94,6 @@
 			let typedata = uni.getStorageSync("typedata");
 			for (var typename in typedata) { //遍历对象属性名
 				if (option.id == typename) {
-					// console.log(typeof(typedata));
-					// console.log(typedata[typename]);
 					this.typename = typedata[typename];
 					console.log(this.typename);
 				}
@@ -103,7 +101,7 @@
 			uni.login({
 				provider: 'weixin',
 				success(res) {
-					console.log(res.code);
+					// console.log(res.code);
 					that.code = res.code
 				}
 			})
@@ -122,13 +120,13 @@
 			},
 			//获取手机号码
 			getPhoneNumber(e) {
-				console.log(e.detail.errMsg);
-				console.log(e.detail.iv);
-				console.log(e.detail.encryptedData);
-				let iv = e.detail.iv;
-				let encryptedData = e.detail.encryptedData;
-				let code = this.code;
-				let that = this;
+				// console.log(e.detail.errMsg);
+				// console.log(e.detail.iv);
+				// console.log(e.detail.encryptedData);
+				let iv = e.detail.iv,
+				encryptedData = e.detail.encryptedData,
+				code = this.code,
+				that = this;
 				//检查session——key是否过期
 				uni.checkSession({
 					success(res) {
@@ -177,15 +175,12 @@
 					uni.showToast({
 						title: "拒绝获取手机号码"
 					})
-
 				} else { //允许授权执行跳转
 					uni.showToast({
 						title: "正在获取手机号码"
 					})
-
 				}
 			},
-
 			//选中协议
 			checked() {
 				return this.flag = !this.flag
@@ -227,10 +222,6 @@
 					.add(this.phone, [{
 							type: 'required',
 							message: '手机号码不能为空'
-						},
-						{
-							type: 'phone',
-							message: '手机号码格式不正确'
 						}
 					])
 					.add(this.counttype, [{
@@ -248,8 +239,11 @@
 					uni.showToast({
 						title:"提交中"
 					});
+					//获取首页中缓存的经纬度,uid
 					let latitude = uni.getStorageSync("latitude");
-					let longitude = uni.getStorageSync("longitude")
+					let longitude = uni.getStorageSync("longitude");
+					let uuser_uid = uni.getStorageSync("user_uid");
+					console.log(uuser_uid);
 					uni.request({
 						url: "https://applet.51tiaoyin.com/public/applet/user/get_info",
 						method: "POST",
@@ -258,45 +252,27 @@
 							age: this.worktime,
 							phone: this.phonenum,
 							coord: latitude + "," + longitude,
-							type: this.counttype
+							type: this.counttype,
+							uid:uuser_uid
 						},
 						success(res) {
-							console.log(res);
+							// console.log(res);
+							//提交成功后的跳转到首页
+							uni.hideLoading({
+								title:"信息保存成功"
+							});
+							setTimeout(()=>{
+								uni.reLaunch({
+									url:"../index/index"
+								})
+							},1500)
+							
 						},
 						fail() {
 							console.log("失败：" + res);
 						}
 					})
-				}
-				// //姓名校验
-				// if(this.name == ""){
-				// 	uni.showToast({
-				// 		title:"姓名不能为空"
-				// 	});
-				// 	name = false;
-				// }else{
-
-				// }
-				// //手机号码校验
-				// if(this.phonenum == ""){
-				// 	uni.showToast({
-				// 		title:"手机号不能为空"
-				// 	})
-				// }
-				// //工作时间校验
-				// if(this.worktime == ""){
-				// 	uni.showToast({
-				// 		title:"工作时间不能为空"
-				// 	})
-				// }else{
-
-				// }
-				// if(this.counttype == ""){
-				// 	uni.showToast({
-				// 		title:"请选择下方服务类型"
-				// 	})
-				// }
-				
+				}			
 			}
 		},
 		onReady() {

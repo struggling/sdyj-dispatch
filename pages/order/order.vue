@@ -10,7 +10,7 @@
 						<!-- 待上门订单列表 -->
 						<template v-if="items.list.length>0">
 							<block v-for="(item,index1) in items.list" :key="index1">
-								<Settled :item="item" :index="index1"></Settled>
+								<Settled :item="item" :index="index1" :btn="items.btn"></Settled>
 							</block>
 						</template>
 						<template v-else>
@@ -52,8 +52,10 @@
 					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
 				},
 				// 自定义导航栏
+				user_uid:"",
 				swiperheight: 500,
 				tabIndex: 0,
+				tabclick:-1,
 				tabBars: [{
 						name: "待上门",
 						id: "daishangmen"
@@ -73,19 +75,31 @@
 				],
 				newslist: [
 					{
+						btn:[
+							"取消订单",
+							"立即上门"
+						],
 						loadtext: "上拉加载更多",
 						list: []
 
 					},
 					{
+						btn:[
+							"联系客服",
+						],
 						loadtext: "上拉加载更多",
 						list: []
 					},
 					{
+						btn:[
+							"取消订单",
+							"申请开票"
+						],
 						loadtext: "上拉加载更多",
 						list: []
 					},
-					{
+					{	
+						btn:[],
 						loadtext: "上拉加载更多",
 						list: []
 					},
@@ -93,6 +107,9 @@
 			}
 		},
 		onLoad() {
+			//检查登录授权
+			this.checklogin();
+			//设置容器高度
 			uni.getSystemInfo({
 				success: (res) => {
 					// console.log(res.windowHeight);
@@ -100,6 +117,7 @@
 					this.swiperheight = height;
 				}
 			});
+			this.user_uid = uni.getStorageSync('user_uid');
 			if(this.tabIndex == 0){
 				this.getlistdata();
 			}
@@ -143,140 +161,67 @@
 			//tabbar点击事件
 			tabtap(index) {
 				this.tabIndex = index;
-				let obj = this.getlistdata();
-				this.newslist[index].list.concat(obj);
-				console.log(this.newslist);
+				this.tabclick = index;
 			},
 			//滑动事件
 			tabChange(e) {
-				let obj = this.getlistdata();
-				// this.tabIndex = e.detail.current;
-				// this.newslist[e.detail.current].list.concat(obj);
-				// console.log(this.newslist);
-			},
-			getlistdata(){
-				const Random = Mock.Random;
-				Random.county();
-				Random.cname();
-				Random.city();
-				Random.datetime();
-				const orderData = Mock.mock({
-						'orderlist|3': [{
-							"time|1-10": 10,
-							"price|100-600": 600,
-							address: "@county(true)",
-							"distance|1-10.1": 1,
-							vtime: "@datetime()",
-							loadtext:"上拉加载更多",
-							"type|1": [{
-									"id|1": "家政服务",
-									"childrentype|1": [
-										"日常保洁",
-										"开荒保洁",
-										"地板养护",
-										"空气检测",
-										"甲醛治理",
-										"沙发清洗",
-										"窗帘清洗",
-										"收纳师",
-										"保姆",
-										"月嫂",
-										"做饭阿姨",
-										"上门除螨",
-										"消毒服务"
-									]
-								},
-								{
-									"id|1": "清洗服务",
-									"childrentype|1":[
-										"油烟机清洗",
-										"洗衣机清洗",
-										"冰箱清洗",
-										"热水器清洗",
-										"饮水机清洗",
-										"燃气罩清洗",
-										"电风扇清洗",
-										"微波炉清洗",
-										"沙发清洗",
-										"窗帘清洗",
-									]
-								},
-								{
-									"id|1": "安装维修",
-									"childrentype|1": [
-										"家电维修",
-										"锁具安装",
-										"管道疏通",
-										"卫浴维修",
-										"开锁换锁",
-										"壁纸壁画",
-										"地板安装",
-										"五金安装",
-										"卫浴安装",
-										"家具安装",
-										"家具维修",
-									]
-								},
-								{
-									"id|1": "搬运搬家",
-									"childrentype|1": [
-										"钢琴搬运",
-										"家庭搬家",
-										"企业搬家",
-										"车辆托运",
-									]
-								},
-								{
-									"id|1": "乐器维修",
-									"childrentype|1": [
-										"钢琴调音",
-										"钢琴维修",
-										"电子琴维修",
-										"古筝调音",
-										"古筝维修",
-										"吉他维修",
-										"风琴维修",
-									]
-								},
-								{
-									"id|1": "房屋装修",
-									"childrentype|1": [
-										"水电工",
-										"油漆工",
-										"木工",
-										"拆墙工",
-										"水暖工",
-										"泥水工",
-										"防水工",
-										"力工",
-										"打孔",
-										"安装工",
-									]
-								},
-							],
-							 "tool|1-3": [
-							    {
-							      "name|+1": [
-							        '毛巾',
-							        '托帕',
-							        '扳手大锤',
-							        '梯子',
-							        '掸子',
-							        '铲刀',
-							        '涂水',
-							        '擦地拖地器具',
-							        '吸尘吸水器具',
-							        '刮子',
-							        '加长杆'
-							      ]
-							    }
-							  ]
-						}]
-					}
+				this.tabIndex = e.detail.current;
 				
-				);
-				this.newslist[0].list = orderData.orderlist;
-				console.log(this.newslist[0].list );
+				if(this.tabclick != e.detail.current){
+					this.tabclick =  e.detail.current;
+					switch (this.tabIndex){
+						case 0:
+						this.getlistdata();
+						// this.newslist[0].list = 
+							break;
+						default:
+							break;
+					}
+				}else{
+					console.log("取消多次请求");
+				}
+				
+
+			},
+			//拉去待上门数据
+			getlistdata(){
+				let phone = uni.getStorageSync('phone');
+				let that = this;
+				if(phone){
+					uni.request({
+						url:"https://applet.51tiaoyin.com/public/applet/work/been",
+						method:"POST",
+						dataType:JSON,
+						data:{
+							uid:this.user_uid
+						},
+						success(res) {
+							console.log("待上门:"+res);
+							console.log(res);
+							const data = JSON.parse(res.data);
+							console.log(data);
+							if(data.code == 200){
+								that.newslist[0].list = data.data;
+								console.log(that.newslist[0].list);
+							}else{
+								uni.showToast({
+									title:"服务器无响应"
+								})
+							}
+							// this.newslist[0].list  =res.data
+						},
+						fail() {
+							uni.showToast({
+								title:"无网络..."
+							})
+						}
+					})
+				}else{
+					//如果没有手机说明用户没有注册跳转
+					uni.navigateTo({
+						url:"../settlement/settlement"
+					})
+				}
 			}
 		}
 	}

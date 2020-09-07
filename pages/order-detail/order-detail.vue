@@ -1,5 +1,9 @@
 <template>
 	<view>
+		<!-- 顶部自定义导航 -->
+		<u-navbar :is-back="true" title="订单详情" :height="height" :background="background" title-color="#ffffff"
+		 back-icon-color="#ffffff">
+		</u-navbar>
 		<view class="order-detail">
 			<view class="order-row">
 				<view class="order-td top iconfont icongerenzhongxin-zhong"><span>客户订单信息</span></view>
@@ -76,8 +80,17 @@
 	export default {
 		data() {
 			return {
-				
+				data:{},
+				height: "",
+				background: {
+					backgroundImage: "linear-gradient(90deg, #00ABEB, #54C3F1)",
+				},
 			}
+		},
+		onLoad(option) {
+			console.log(option.data);
+			this.data = option.data;
+			console.log(this.data);
 		},
 		methods: {
 			

@@ -31,38 +31,43 @@
 				<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
 					<swiper-item>
 						<scroll-view scroll-y class="list" @scrolltolower="loadmore" show-scrollbar="false">
-							<block v-for="(item,index) in orderlist" :key="index">
-								<view class="orderlist">
-									<view class="order-item">
-										<view class="item-l">
-											<view class="title">{{item.name}}<span>{{item.duration}}小时</span></view>
-											<view class="address">{{item.origin}}</view>
-											<view class="dtime">
-
-												<view class="distance">距离：&lt {{jl[index]}}公里</view>
-												<view class="vtime">上门时间：{{item.door_time}}</view>
+							<template v-if="orderlist.length>0">
+								<block v-for="(item,index) in orderlist" :key="index">
+									<view class="orderlist">
+										<view class="order-item">
+											<view class="item-l">
+												<view class="title">{{item.name}}<span>{{item.duration}}小时</span></view>
+												<view class="address">{{item.origin}}</view>
+												<view class="dtime">
+													<view class="distance">距离：&lt {{jl[index]}}公里</view>
+													<view class="vtime">上门时间：{{item.door_time}}</view>
+												</view>
+												<view class="tool">
+													<block v-for="(items,index1) in tool" :key="index1">
+														<view><span>{{items}}</span></view>
+														<view class="">{{items}}</view>
+													</block>
+												</view>
 											</view>
-											<view class="tool">
-												<block v-for="(items,index1) in tool" :key="index1">
-													<view class="">{{items}}</view>
-												</block>
-												
+											<view class="item-r">
+												<view class="price">{{item.budget}}元</view>
+												<view class="status theme" @tap="openModel(index)">立即抢单</view>
 											</view>
-										</view>
-										<view class="item-r">
-											<view class="price">{{item.budget}}元</view>
-											<view class="status theme" @tap="openModel">立即抢单</view>
 										</view>
 									</view>
-								</view>
-							</block>
+								</block>
+							</template>
+							<!-- nothing -->
+							<template v-else>
+								<noThing></noThing>
+							</template>
 							<!-- 上拉加载 -->
 							<load-more :loadtext="loadtext"></load-more>
 						</scroll-view>
 					</swiper-item>
 					<swiper-item>
 						<scroll-view scroll-y class="list" @scrolltolower="loadmore" show-scrollbar="false">
-							<block v-for="(item,index) in orderlist" :key="index">
+							<block v-for="(item,index) in takelist" :key="index">
 								<view class="orderlist">
 									<view class="order-item">
 										<view class="item-l">
@@ -114,11 +119,13 @@
 	// const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 	var bmap = require('../../libs/bmap-wx.js');
 	import loadMore from "../../components/common/load-more.vue";
-	import addTip from "../../components/struggler-uniapp-add-tip/struggler-uniapp-add-tip"
+	import addTip from "../../components/struggler-uniapp-add-tip/struggler-uniapp-add-tip";
+	import noThing from "../../components/common/no-thing.vue";
 	export default {
 		components: {
 			loadMore,
-			addTip
+			addTip,
+			noThing
 		},
 		data() {
 			return {
@@ -152,14 +159,11 @@
 					},
 
 				],
-				orderlist: [
-
-				],
+				orderlist: [],
+				takelist:[]
 			}
 		},
 		onReady() {
-
-
 		},
 		onLoad() {
 			// 检查登录是否过期
@@ -169,8 +173,34 @@
 						if (res.errMsg == 'checkSession:ok') {
 							console.log(res);
 							console.log('登录暂未过期');
-							console.log(uni.getStorageSync('user_uid'));
-							this.user_uid = uni.getStorageSync('user_uid')
+							this.user_uid = uni.getStorageSync('user_uid');//uid写在检查函数里面，
+							console.log("uid的值:"+this.user_uid);
+							uni.login({
+								success(res) {
+									let code = res.code;
+									uni.request({
+										url:"https://applet.51tiaoyin.com/public/applet/index",
+										dataType:JSON,
+										method:"GET",
+										header:"application/x-www-form-urlencoded",
+										data:{
+											code:code
+										},
+										success(res) {
+											// console.log(res);
+											const data = JSON.parse(res.data);
+											// console.log(data);
+											let phone = data.data.phone;
+											console.log(phone);
+											uni.setStorageSync("phone",phone);	
+										}
+									})
+								},
+								fail(res) {
+									console.log(res);
+								}
+							})
+							
 						}
 					},
 					fail: (err) => {
@@ -268,185 +298,61 @@
 				}
 			});
 
-			// mock数据
-			const Random = Mock.Random;
-			Random.county();
-			Random.cname();
-			Random.city();
-			Random.datetime();
-			const data = Mock.mock({
-				'list|5-20': [{
-					name: "@cname()",
-					city: '@city(true)',
-					"type|+1": [
-						"日常保洁",
-						"开荒保洁",
-						"上门除甲醛",
-						"上门维修",
-					]
-				}]
-
-			});
-			for (var i = 0; i < data.list.length; i++) {
-				var str = "恭喜--" + data.list[i].name + "--抢到" + data.list[i].city + "--" + data.list[i].type + "--订单";
-				this.notice.push(str);
-			}
-			console.log(this.notice);
-			const orderData = Mock.mock({
-					'orderlist|3': [{
-						"time|1-10": 10,
-						"price|100-600": 600,
-						address: "@county(true)",
-						"distance|1-10.1": 1,
-						vtime: "@datetime()",
-						loadtext: "上拉加载更多",
-						"type|1": [{
-								"id|1": "家政服务",
-								"childrentype|1": [
-									"日常保洁",
-									"开荒保洁",
-									"地板养护",
-									"空气检测",
-									"甲醛治理",
-									"沙发清洗",
-									"窗帘清洗",
-									"收纳师",
-									"保姆",
-									"月嫂",
-									"做饭阿姨",
-									"上门除螨",
-									"消毒服务"
-								]
-							},
-							{
-								"id|1": "清洗服务",
-								"childrentype|1": [
-									"油烟机清洗",
-									"洗衣机清洗",
-									"冰箱清洗",
-									"热水器清洗",
-									"饮水机清洗",
-									"燃气罩清洗",
-									"电风扇清洗",
-									"微波炉清洗",
-									"沙发清洗",
-									"窗帘清洗",
-								]
-							},
-							{
-								"id|1": "安装维修",
-								"childrentype|1": [
-									"家电维修",
-									"锁具安装",
-									"管道疏通",
-									"卫浴维修",
-									"开锁换锁",
-									"壁纸壁画",
-									"地板安装",
-									"五金安装",
-									"卫浴安装",
-									"家具安装",
-									"家具维修",
-								]
-							},
-							{
-								"id|1": "搬运搬家",
-								"childrentype|1": [
-									"钢琴搬运",
-									"家庭搬家",
-									"企业搬家",
-									"车辆托运",
-								]
-							},
-							{
-								"id|1": "乐器维修",
-								"childrentype|1": [
-									"钢琴调音",
-									"钢琴维修",
-									"电子琴维修",
-									"古筝调音",
-									"古筝维修",
-									"吉他维修",
-									"风琴维修",
-								]
-							},
-							{
-								"id|1": "房屋装修",
-								"childrentype|1": [
-									"水电工",
-									"油漆工",
-									"木工",
-									"拆墙工",
-									"水暖工",
-									"泥水工",
-									"防水工",
-									"力工",
-									"打孔",
-									"安装工",
-								]
-							},
-						],
-						"tool|1-3": [{
-							"name|+1": [
-								'毛巾',
-								'托帕',
-								'扳手大锤',
-								'梯子',
-								'掸子',
-								'铲刀',
-								'涂水',
-								'擦地拖地器具',
-								'吸尘吸水器具',
-								'刮子',
-								'加长杆'
-							]
-						}]
-					}]
-				}
-
-			);
-			console.log(orderData);
 			//判断用户是否注册服务工种,获取缓存里面的值
-			let isregister = true;
-			if (isregister) {
+			this.user_uid = uni.getStorageSync('user_uid');
+			let phone = uni.getStorageSync('phone');	
+			console.log("uid的值222:"+this.user_uid);
+			// let isregister = true;
+			if (phone) {
+				console.log("uid的值222:"+this.user_uid);
 				uni.request({
 					//首页待派单订单请求
 					url: "https://applet.51tiaoyin.com/public/applet/work/stay",
 					method: "POST",
 					dataType: JSON,
 					data: {
-						town: "杭州",
-						genre: "日常保洁",
+						town: "成都",
+						genre: ['日常保洁',"开荒保洁","上门除甲醛"],
 						uid: this.user_uid
 					},
 					success(res) {
+						console.log(res);
 						const data = JSON.parse(res.data);
 						console.log(data.data);
-						// console.log(res)
-						that.orderlist = data.data;
-						console.log(that.orderlist);
-						for (var i = 0; i < that.orderlist.length; i++) {
-							console.log(111);
-							var location = that.orderlist[i].longitude;
-							var tool = that.orderlist[i].label.split(" ");
-							console.log(location);
-							var longitude = location.split(",")[0];
-							var latitude = location.split(",")[1]
-							var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
-							   jl = Math.floor(jl/1000 * 10) / 10;
-							   that.jl.push(jl);
-							   that.tool.push(tool);
-							console.log(that.jl);
-							console.log(that.tool);
+						if(data.code == 200){
 							
+							// console.log(res)
+							that.orderlist = data.data;
+							console.log("订单列表:"+that.orderlist);
+							for (var i = 0; i < that.orderlist.length; i++) {
+								var location = that.orderlist[i].longitude;
+								var tool = that.orderlist[i].label.split(" ");
+								console.log(location);
+								var longitude = location.split(",")[0];
+								var latitude = location.split(",")[1]
+								var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
+								   jl = Math.floor(jl/1000 * 10) / 10;
+								   that.jl.push(jl);
+								   that.tool.push(tool);
+								console.log(that.jl);
+								console.log(that.tool);
+								
+							}
+						}else{
+							console.log('请求失败');
+							console.log(res);
 						}
+						
 					},
 					fail(err) {
 						console.log(err);
 					}
 				})
 			} else {
-				this.orderlist = orderData.orderlist;
+				//如果没有手机说明用户没有注册跳转
+				uni.navigateTo({
+					url:"../settlement/settlement"
+				})
 			}
 
 		},
@@ -718,13 +624,49 @@
 				console.log("xialashuju");
 				uni.stopPullDownRefresh();
 			},
-			// model
-			openModel() {
-				this.show = true;
-				uni.navigateTo({
-					url: "../settlement/settlement",
-					//"../wait-list/wait-list?latitude="+this.latitude+"&longitude"+
+			// model,发送抢单请求
+			openModel(index) {
+				let code  = this.orderlist[index].code;
+				let that = this;
+				//请求一次
+				uni.showToast({
+					title:indextag
 				})
+				let indextag = true;
+				if(indextag){
+					indextag = false;
+					uni.request({
+						url:"https://applet.51tiaoyin.com/public/applet/work/take",
+						method:"POST",
+						dataType:JSON,
+						data:{
+							uid:this.user_uid,
+							code:code,//订单编号
+							WorkNautica:[this.longitude,this.latitude],
+							phone:uni.getStorageSync("phone")
+							
+						},
+						success(res) {
+							console.log(res);
+							if(res.code = 200){
+								//抢单成功体醒
+								that.show = true;
+								//删除该订单
+								let arr = this.orderlist.splice(index,1);
+								console.log(arr);
+								
+							}else{
+								uni.showToast({
+									title:"无网络!"
+								})
+							}
+						},
+						fail() {
+							console.log(res);
+						}
+					})
+				}
+				
 			},
 			//closemode
 			close() {
@@ -734,12 +676,27 @@
 			openWaitlist() {
 				//判断用户类型值是否存在，
 				//接受一个判断师傅类型的参数
-				const urlpath = "'../wait-list/wait-list'";
-				const ydurl = "../settlement/settlement";
-				const openurl = "";
-				this.istype ? openurl = urlpath : openurl = ydurl;
-				uni.navigateTo({
-					url: openurl,
+				// const urlpath = "'../wait-list/wait-list'";
+				// const ydurl = "../settlement/settlement";
+				// const openurl = "";
+				// this.istype ? openurl = urlpath : openurl = ydurl;
+				// uni.navigateTo({
+				// 	url: openurl,
+				// })
+				uni.request({
+					url:"https://applet.51tiaoyin.com/public/applet/work/already",
+					method:"GET",
+					dataType:JSON,
+					data:{
+						uid:this.user_uid
+					},
+					success(res) {
+						console.log("已抢单");
+						console.log(res);
+					},
+					fail(res) {
+						console.log(res);
+					}
 				})
 
 			},

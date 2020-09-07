@@ -3,5 +3,7 @@
   "navigationBarBackgroundColor": "#f85f31",
   "navigationBarTitleText": "订单信息",
   "navigationBarTextStyle": "white",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-navbar": "/uview-ui/components/u-navbar/u-navbar"
+  }
 }

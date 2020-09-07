@@ -4,28 +4,96 @@ import App from './App'
 // 引入uivew-ui
 import uView from "uview-ui";
 
-//小程序登录授权全局函数
-// 封装全局登录函数
-// backpage, backtype 2个参数分别代表：
-// backpage : 登录后返回的页面
-// backtype : 打开页面的类型[1 : redirectTo 2 : switchTab]
-// Vue.prototype.checkLogin = function( backpage, backtype ){
-// 	// 同步获取本地数据（uid、随机码、用户名、头像）
-// 	var user_id = uni.getStorageSync('user_id');
-// 	var user_nu = uni.getStorageSync('user_nu');
-// 	var user_nm = uni.getStorageSync('user_nm');
-// 	var user_fa = uni.getStorageSync('user_fa');
-// 	if( user_id == '' || user_nu == '' || user_fa == ''){
-// 		// 使用重定向的方式跳转至登录页面
-// 		uni.redirectTo({url:'../login/login?backpage='+backpage+'&backtype='+backtype});
-// 		return false;
-// 	}
-// 	// 登录成功、已经登录返回数组 [用户 id, 用户随机码, 用户昵称, 用户头像]
-// 	return [user_id, user_nu, user_nm, user_fa];
-// }
 // 定义一个全局的请求地址
 // Vue.prototype.apiServer = 'http://0608.cc/'
-
+//定义全局的检查函数
+	Vue.prototype.checklogin= function(){
+			uni.checkSession({
+					success: (res) => {
+						if (res.errMsg == 'checkSession:ok') {
+							console.log(res);
+							console.log('登录暂未过期');
+							this.user_uid = uni.getStorageSync('user_uid');//uid写在检查函数里面，
+							console.log("uid的值:"+this.user_uid);
+							uni.login({
+								success(res) {
+									let code = res.code;
+									uni.request({
+										url:"https://applet.51tiaoyin.com/public/applet/index",
+										dataType:JSON,
+										method:"GET",
+										header:"application/x-www-form-urlencoded",
+										data:{
+											code:code
+										},
+										success(res) {
+											// console.log(res);
+											const data = JSON.parse(res.data);
+											// console.log(data);
+											let phone = data.data.phone;
+											console.log(phone);
+											uni.setStorageSync("phone",phone);	
+										}
+									})
+								},
+								fail(res) {
+									console.log(res);
+								}
+							})
+							
+						}
+					},
+					fail: (err) => {
+						//过期的话调用接口
+						uni.showModal({
+							cancelText: '取消',
+							confirmText: '确定',
+							title: '登录已过期,请重新登录',
+							success: (res) => {
+								if (res.confirm) {
+									uni.showLoading({
+										mask: true,
+										title: '登录中...'
+									})
+								}
+								uni.login({
+									provider: 'weixin',
+									success: (res) => {
+										console.log(res);
+										uni.request({
+											url: "https://applet.51tiaoyin.com/public/applet/",
+											method: "GET",
+											data: {
+												"code": res.code
+											},
+											success(res) {
+												console.log(res);
+												if (res.code = 300) {
+													uni.showToast({
+														title: "未登录",
+													})
+													uni.reLaunch({
+														url: "../login/login"
+													})
+												}
+												//用户已登录
+												if (res.code = 200) {
+													uni.showToast({
+														title: "请授权登录",
+													})
+													uni.reLaunch({
+														url: "../login/login"
+													})
+												}
+											}
+										})
+									}
+								})
+							}
+						});
+					},
+				})
+	}
 Vue.use(uView);
 
 Vue.config.productionTip = false
