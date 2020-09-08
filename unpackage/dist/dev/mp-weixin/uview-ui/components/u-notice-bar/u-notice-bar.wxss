@@ -25,14 +25,14 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.u-notice-bar-wrap.data-v-087a7280 {
+.u-notice-bar-wrap.data-v-03714a0c {
   overflow: hidden;
 }
-.u-notice-bar.data-v-087a7280 {
+.u-notice-bar.data-v-03714a0c {
   padding: 18rpx 24rpx;
   overflow: hidden;
 }
-.u-direction-row.data-v-087a7280 {
+.u-direction-row.data-v-03714a0c {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -43,7 +43,7 @@
   -webkit-justify-content: space-between;
           justify-content: space-between;
 }
-.u-left-icon.data-v-087a7280 {
+.u-left-icon.data-v-03714a0c {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -51,7 +51,7 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.u-notice-box.data-v-087a7280 {
+.u-notice-box.data-v-03714a0c {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
           flex: 1;
@@ -61,7 +61,7 @@
   overflow: hidden;
   margin-left: 12rpx;
 }
-.u-right-icon.data-v-087a7280 {
+.u-right-icon.data-v-03714a0c {
   margin-left: 12rpx;
   display: -webkit-box;
   display: -webkit-flex;
@@ -70,16 +70,16 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.u-notice-content.data-v-087a7280 {
+.u-notice-content.data-v-03714a0c {
   line-height: 1;
   white-space: nowrap;
   font-size: 26rpx;
-  -webkit-animation: u-loop-animation-data-v-087a7280 10s linear infinite both;
-          animation: u-loop-animation-data-v-087a7280 10s linear infinite both;
+  -webkit-animation: u-loop-animation-data-v-03714a0c 10s linear infinite both;
+          animation: u-loop-animation-data-v-03714a0c 10s linear infinite both;
   text-align: right;
   padding-left: 100%;
 }
-@-webkit-keyframes u-loop-animation-data-v-087a7280 {
+@-webkit-keyframes u-loop-animation-data-v-03714a0c {
 0% {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
@@ -89,7 +89,7 @@
             transform: translate3d(-100%, 0, 0);
 }
 }
-@keyframes u-loop-animation-data-v-087a7280 {
+@keyframes u-loop-animation-data-v-03714a0c {
 0% {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);

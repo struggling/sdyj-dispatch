@@ -2,28 +2,7 @@
 	<view>
 		<view class="orderlist">
 			<view class="order-item">
-				<view class="item-l">
-					<view class="title">{{item.name}}<span>{{item.duration}}小时</span></view>
-					<view class="address">{{item.origin}}</view>
-					<view class="dtime">
-						<view class="distance">距离:{{jl[index]}}公里</view>
-						<view class="vtime">上门时间:{{item.door_time}}</view>
-					</view>
-					<view class="tool">
-						<block v-for="(items,index1) in tool[0]" :key="index1">
-								<span>{{items}}</span>
-						</block>
-					</view>
-				</view>
-				<view class="item-r">
-					<view class="price">{{item.budget}}元</view>
-					<view class="status theme" @tap="openModel">立即抢单</view>
-				</view>
-			</view>
-		</view>
-		<view class="orderlist">
-			<view class="order-item">
-				<view class="item-l" @tap="openOrderdetail(index)">
+				<view class="item-l" @tap="goDetail(item)">
 					<view class="title">{{item.name}}<span>{{item.duration}}小时</span></view>
 					<view class="address">{{item.origin}}</view>
 					<view class="dtime">
@@ -89,15 +68,42 @@
 				console.log(this.index);
 				 this.$emit("openModel",this.index);
 			},
-			openOrderdetail(index){
-				// uni.$emit("itemData",{
-				// 	data:this.itemData
-				// });
-				uni.setStorageSync("data",this.itemData[index]);
+			// openOrderdetail(index){
+			// 	// uni.$emit("itemData",{
+			// 	// 	data:this.itemData
+			// 	// });
+			// 	uni.setStorageSync("data",this.itemData[index]);
+			// 	uni.navigateTo({
+			// 		url:"../../pages/order-detail/order-detail"
+			// 	})
+			// },
+			goDetail: function(item) {
+				let detail = {
+					Distance: item.Distance,
+					budget: item.budget,
+					code: item.code,
+					content: item.content,
+					delete: item.delete,
+					destination: item.destination,
+					door_time: item.door_time,
+					duration: item.duration,
+					label: item.label,
+					longitude: item.longitude,
+					name: item.name,
+					origin: item.origin,
+					send: item.send,
+					state: item.state,
+					tel: item.tel,
+					type: item.type,
+					uid: item.uid
+				};
 				uni.navigateTo({
-					url:"../../pages/order-detail/order-detail"
-				})
-			}
+					url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				});
+				// uni.navigateTo({
+				// 	url: '../list2detail-detail/list2detail-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				// });
+			},
 		}
 	}
 </script>

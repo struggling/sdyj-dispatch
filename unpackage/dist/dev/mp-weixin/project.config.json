@@ -10,7 +10,7 @@
     "minified": true
   },
   "compileType": "miniprogram",
-  "libVersion": "",
+  "libVersion": "2.9.2",
   "appid": "wxe7bb48c6264d17e1",
   "projectname": "sdyj-dispatch",
   "condition": {

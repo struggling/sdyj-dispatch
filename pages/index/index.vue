@@ -126,7 +126,8 @@
 
 				],
 				orderlist: [],
-				takelist:[]
+				takelist:[],
+				page:1
 			}
 		},
 		onReady() {
@@ -139,9 +140,10 @@
 			// 获取scoll-view高度值
 			uni.getSystemInfo({
 				success: (res) => {
-					console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(50);
+					// console.log(res.windowHeight);
+					let height = res.windowHeight - uni.upx2px(282);
 					this.swiperheight = height;
+					console.log(this.swiperheight);
 				}
 			});
 			// 获取用户地理位置经纬都
@@ -191,10 +193,14 @@
 			console.log("uid的值:"+this.user_uid);
 			// let isregister = true;
 			//首页待派单订单请求
-			if(phone){
+			if(!phone){
 				this.getWOrkstay()
 			}else{
-				this.getData()
+				console.log("打印假数据");
+				let orderList = this.getmock();
+				console.log(orderList);
+				this.orderlist = orderList.orderlist.slice(0,4);
+				console.log("数据长度为："+this.orderlist.length);
 			}
 			
 
@@ -227,248 +233,29 @@
 				this.loadtext = "加载中...";
 				console.log(this.loadtext);
 				// 加载后端获取的数据
-				for (var i = 0; i < 5; i++) {
-					const orderData = Mock.mock({
-							'orderlist|3': [{
-								"time|1-10": 10,
-								"price|100-600": 600,
-								address: "@county(true)",
-								"distance|1-10.1": 1,
-								vtime: "@datetime()",
-								loadtext: "上拉加载更多",
-								"type|1": [{
-										"id|1": "家政服务",
-										"childrentype|1": [
-											"日常保洁",
-											"开荒保洁",
-											"地板养护",
-											"空气检测",
-											"甲醛治理",
-											"沙发清洗",
-											"窗帘清洗",
-											"收纳师",
-											"保姆",
-											"月嫂",
-											"做饭阿姨",
-											"上门除螨",
-											"消毒服务"
-										]
-									},
-									{
-										"id|1": "清洗服务",
-										"childrentype|1": [
-											"油烟机清洗",
-											"洗衣机清洗",
-											"冰箱清洗",
-											"热水器清洗",
-											"饮水机清洗",
-											"燃气罩清洗",
-											"电风扇清洗",
-											"微波炉清洗",
-											"沙发清洗",
-											"窗帘清洗",
-										]
-									},
-									{
-										"id|1": "安装维修",
-										"childrentype|1": [
-											"家电维修",
-											"锁具安装",
-											"管道疏通",
-											"卫浴维修",
-											"开锁换锁",
-											"壁纸壁画",
-											"地板安装",
-											"五金安装",
-											"卫浴安装",
-											"家具安装",
-											"家具维修",
-										]
-									},
-									{
-										"id|1": "搬运搬家",
-										"childrentype|1": [
-											"钢琴搬运",
-											"家庭搬家",
-											"企业搬家",
-											"车辆托运",
-										]
-									},
-									{
-										"id|1": "乐器维修",
-										"childrentype|1": [
-											"钢琴调音",
-											"钢琴维修",
-											"电子琴维修",
-											"古筝调音",
-											"古筝维修",
-											"吉他维修",
-											"风琴维修",
-										]
-									},
-									{
-										"id|1": "房屋装修",
-										"childrentype|1": [
-											"水电工",
-											"油漆工",
-											"木工",
-											"拆墙工",
-											"水暖工",
-											"泥水工",
-											"防水工",
-											"力工",
-											"打孔",
-											"安装工",
-										]
-									},
-								],
-								"tool|1-3": [{
-									"name|+1": [
-										'毛巾',
-										'托帕',
-										'扳手大锤',
-										'梯子',
-										'掸子',
-										'铲刀',
-										'涂水',
-										'擦地拖地器具',
-										'吸尘吸水器具',
-										'刮子',
-										'加长杆'
-									]
-								}]
-							}]
-						}
-
-					);
-					const morelist = this.orderlist.concat(orderData.orderlist);
-					this.orderlist = morelist;
-				}
+				let pagesize = 3
+				let pagecount = this.orderlist.length/pagesize;
+				this.page++;
+				console.log("第几页："+this.page);
+				//假数据
+				let orderData = this.getmock();
+				//真数据
+				
 				console.log("加载后端获取的数据");
-
-				this.loadtext = "暂无更多数据";
-				console.log(this.loadtext);
+				if(pagesize>orderData.orderlist.slice(pagesize*(this.page-1)+1,pagesize*this.page+1).length){
+					this.loadtext = "暂无更多数据";
+					console.log(this.loadtext);
+					
+				}else{
+					let arr = orderData.orderlist.slice(pagesize*(this.page-1)+1,pagesize*this.page+1);
+					console.log(arr);
+					this.orderlist = this.orderlist.concat(arr);
+					this.loadtext = "上拉加载更多";
+					console.log(this.loadtext);
+					// console.log(this.orderlist);
+				}	
 			},
-			//下拉刷新获取数据
-			getData() {
-				const orderData = Mock.mock({
-						'orderlist|3': [{
-							"time|1-10": 10,
-							"price|100-600": 600,
-							address: "@county(true)",
-							"distance|1-10.1": 1,
-							vtime: "@datetime()",
-							loadtext: "上拉加载更多",
-							"type|1": [{
-									"id|1": "家政服务",
-									"childrentype|1": [
-										"日常保洁",
-										"开荒保洁",
-										"地板养护",
-										"空气检测",
-										"甲醛治理",
-										"沙发清洗",
-										"窗帘清洗",
-										"收纳师",
-										"保姆",
-										"月嫂",
-										"做饭阿姨",
-										"上门除螨",
-										"消毒服务"
-									]
-								},
-								{
-									"id|1": "清洗服务",
-									"childrentype|1": [
-										"油烟机清洗",
-										"洗衣机清洗",
-										"冰箱清洗",
-										"热水器清洗",
-										"饮水机清洗",
-										"燃气罩清洗",
-										"电风扇清洗",
-										"微波炉清洗",
-										"沙发清洗",
-										"窗帘清洗",
-									]
-								},
-								{
-									"id|1": "安装维修",
-									"childrentype|1": [
-										"家电维修",
-										"锁具安装",
-										"管道疏通",
-										"卫浴维修",
-										"开锁换锁",
-										"壁纸壁画",
-										"地板安装",
-										"五金安装",
-										"卫浴安装",
-										"家具安装",
-										"家具维修",
-									]
-								},
-								{
-									"id|1": "搬运搬家",
-									"childrentype|1": [
-										"钢琴搬运",
-										"家庭搬家",
-										"企业搬家",
-										"车辆托运",
-									]
-								},
-								{
-									"id|1": "乐器维修",
-									"childrentype|1": [
-										"钢琴调音",
-										"钢琴维修",
-										"电子琴维修",
-										"古筝调音",
-										"古筝维修",
-										"吉他维修",
-										"风琴维修",
-									]
-								},
-								{
-									"id|1": "房屋装修",
-									"childrentype|1": [
-										"水电工",
-										"油漆工",
-										"木工",
-										"拆墙工",
-										"水暖工",
-										"泥水工",
-										"防水工",
-										"力工",
-										"打孔",
-										"安装工",
-									]
-								},
-							],
-							"tool|1-3": [{
-								"name|+1": [
-									'毛巾',
-									'托帕',
-									'扳手大锤',
-									'梯子',
-									'掸子',
-									'铲刀',
-									'涂水',
-									'擦地拖地器具',
-									'吸尘吸水器具',
-									'刮子',
-									'加长杆'
-								]
-							}]
-						}]
-					}
 
-				);
-				const morelist = orderData.orderlist;
-				this.orderlist = morelist;
-				console.log("xialashuju");
-				uni.stopPullDownRefresh();
-			},
 			// model,发送抢单请求
 			openModel(index) {
 				let phone = uni.getStorageSync('phone');
@@ -524,120 +311,6 @@
 					        }
 					    }
 					});
-					//如果用户没有注册使用假数据
-					const orderData = Mock.mock({
-							'orderlist|3': [{
-								"time|1-10": 10,
-								"price|100-600": 600,
-								address: "@county(true)",
-								"distance|1-10.1": 1,
-								vtime: "@datetime()",
-								loadtext: "上拉加载更多",
-								"type|1": [{
-										"id|1": "家政服务",
-										"childrentype|1": [
-											"日常保洁",
-											"开荒保洁",
-											"地板养护",
-											"空气检测",
-											"甲醛治理",
-											"沙发清洗",
-											"窗帘清洗",
-											"收纳师",
-											"保姆",
-											"月嫂",
-											"做饭阿姨",
-											"上门除螨",
-											"消毒服务"
-										]
-									},
-									{
-										"id|1": "清洗服务",
-										"childrentype|1": [
-											"油烟机清洗",
-											"洗衣机清洗",
-											"冰箱清洗",
-											"热水器清洗",
-											"饮水机清洗",
-											"燃气罩清洗",
-											"电风扇清洗",
-											"微波炉清洗",
-											"沙发清洗",
-											"窗帘清洗",
-										]
-									},
-									{
-										"id|1": "安装维修",
-										"childrentype|1": [
-											"家电维修",
-											"锁具安装",
-											"管道疏通",
-											"卫浴维修",
-											"开锁换锁",
-											"壁纸壁画",
-											"地板安装",
-											"五金安装",
-											"卫浴安装",
-											"家具安装",
-											"家具维修",
-										]
-									},
-									{
-										"id|1": "搬运搬家",
-										"childrentype|1": [
-											"钢琴搬运",
-											"家庭搬家",
-											"企业搬家",
-											"车辆托运",
-										]
-									},
-									{
-										"id|1": "乐器维修",
-										"childrentype|1": [
-											"钢琴调音",
-											"钢琴维修",
-											"电子琴维修",
-											"古筝调音",
-											"古筝维修",
-											"吉他维修",
-											"风琴维修",
-										]
-									},
-									{
-										"id|1": "房屋装修",
-										"childrentype|1": [
-											"水电工",
-											"油漆工",
-											"木工",
-											"拆墙工",
-											"水暖工",
-											"泥水工",
-											"防水工",
-											"力工",
-											"打孔",
-											"安装工",
-										]
-									},
-								],
-								"tool|1-3": [{
-									"name|+1": [
-										'毛巾',
-										'托帕',
-										'扳手大锤',
-										'梯子',
-										'掸子',
-										'铲刀',
-										'涂水',
-										'擦地拖地器具',
-										'吸尘吸水器具',
-										'刮子',
-										'加长杆'
-									]
-								}]
-							}]
-						}
-					);
-					this.orderlist = orderData.orderList
 				}
 				let code  = this.orderlist[index].code;
 				let that = this;
@@ -825,6 +498,38 @@
 						console.log(err);
 					}
 				})
+			},
+			
+			//mock假数据
+			getmock(){
+				//如果用户没有注册使用假数据
+				const Random = Mock.Random;
+				Random.id();
+				Random.county();
+				Random.datetime()
+				const orderData = Mock.mock({
+						'orderlist|30-50': [{
+							"Distance|1-100.2":1,
+							"budget|100-500": 500,
+							code: '@id()',
+							"content|1": ["日常保洁","开荒保洁","上门除甲醛","家电维修"],
+							delete: 0,
+							destination: "",
+							door_time: '@datetime()',
+							duration: "时长：2小时",
+							label: "扫把 毛巾 洗洁精 擦玻器 吸尘器 除胶剂",
+							longitude: "120.17557880007,30.248398420426",
+							"name|1": ["日常保洁","开荒保洁","上门除甲醛","家电维修"],
+							origin: '@county(true)',
+							send: "开发者",
+							state: 1,
+							tel: "181****8028",
+							"type|1": ["日常保洁","开荒保洁","上门除甲醛","家电维修"],
+							uid: 1
+						}]
+					}
+				);
+				return orderData
 			}
 		},
 		
