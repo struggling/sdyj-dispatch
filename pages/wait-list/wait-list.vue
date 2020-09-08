@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 顶部自定义导航 -->
-		<u-navbar :is-back="true"  title="入驻引导" :height="height" :background="background" title-color="#ffffff" back-icon-color="#ffffff" >
+		<u-navbar :is-back="true"  title="订单详情" :height="height" :background="background" title-color="#ffffff" back-icon-color="#ffffff" >
 		</u-navbar>
 		<!-- map -->
 		<map :latitude="latitude" :longitude="longitude" :markers="covers"></map>

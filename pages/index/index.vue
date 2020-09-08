@@ -45,29 +45,11 @@
 							<load-more :loadtext="loadtext"></load-more>
 						</scroll-view>
 					</swiper-item>
+					//
 					<swiper-item>
 						<scroll-view scroll-y class="list" @scrolltolower="loadmore" show-scrollbar="false">
 							<block v-for="(item,index) in takelist" :key="index">
-								<view class="orderlist">
-									<view class="order-item">
-										<view class="item-l">
-											<view class="title">{{item.type.id}}/{{item.type.childrentype}}/<span>{{item.time}}小时</span></view>
-											<view class="address">{{item.address}}</view>
-											<view class="distance">距离：&lt {{item.distance}}公里</view>
-											<view class="tool">
-												<span>{items}</span>
-											</view>
-											<view class="vtime">上门时间：{{item.vtime}}</view>
-										</view>
-										<view class="item-r">
-											<view class="img">
-												<image src="../../static/logo.png" mode=""></image>
-											</view>
-											<view class="price">{{item.price}}元</view>
-											<view class="status" @tap="openWaitlist">平台审核中</view>
-										</view>
-									</view>
-								</view>
+								<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
 							</block>
 							<!-- 上拉加载 -->
 							<load-more :loadtext="loadtext"></load-more>
@@ -101,13 +83,15 @@
 	import loadMore from "../../components/common/load-more.vue";
 	import addTip from "../../components/struggler-uniapp-add-tip/struggler-uniapp-add-tip";
 	import noThing from "../../components/common/no-thing.vue";
-	import orderList from "../../components/index/orderlist.vue"
+	import orderList from "../../components/index/orderlist.vue";
+	import Already from "../../components/index/already.vue"
 	export default {
 		components: {
 			loadMore,
 			addTip,
 			noThing,
-			orderList
+			orderList,
+			Already
 		},
 		data() {
 			return {
@@ -150,97 +134,16 @@
 		onLoad() {
 			// 检查登录是否过期
 			var that = this;
-			uni.checkSession({
-					success: (res) => {
-						if (res.errMsg == 'checkSession:ok') {
-							console.log(res);
-							console.log('登录暂未过期');
-							this.user_uid = uni.getStorageSync('user_uid');//uid写在检查函数里面，
-							console.log("uid的值:"+this.user_uid);
-							//获取注册信息phone（判断用户是否登录）
-							uni.login({
-								success(res) {
-									let code = res.code;
-									uni.request({
-										url:"https://applet.51tiaoyin.com/public/applet/index",
-										dataType:JSON,
-										method:"GET",
-										header:"application/x-www-form-urlencoded",
-										data:{
-											code:code
-										},
-										success(res) {
-											// console.log(res);
-											const data = JSON.parse(res.data);
-											// console.log(data);
-											let phone = data.data.phone;
-											console.log(phone);
-											uni.setStorageSync("phone",phone);	
-										}
-									})
-								},
-								fail(res) {
-									console.log(res);
-								}
-							})
-							
-						}
-					},
-					fail: (err) => {
-						//过期的话调用接口
-						uni.showModal({
-							cancelText: '取消',
-							confirmText: '确定',
-							title: '登录已过期,请重新登录',
-							success: (res) => {
-								if (res.confirm) {
-									uni.showLoading({
-										mask: true,
-										title: '登录中...'
-									})
-								}
-								uni.login({
-									provider: 'weixin',
-									success: (res) => {
-										console.log(res);
-										uni.request({
-											url: "https://applet.51tiaoyin.com/public/applet/",
-											method: "GET",
-											data: {
-												"code": res.code
-											},
-											success(res) {
-												console.log(res);
-												if (res.code = 300) {
-													uni.showToast({
-														title: "未登录",
-													})
-													uni.reLaunch({
-														url: "../login/login"
-													})
-												}
-												//用户已登录
-												if (res.code = 200) {
-													uni.showToast({
-														title: "请授权登录",
-													})
-												}
-											}
-										})
-									}
-								})
-							}
-						});
-					},
-				}),
-				// 获取scoll-view高度值
-				uni.getSystemInfo({
-					success: (res) => {
-						console.log(res.windowHeight);
-						let height = res.windowHeight - uni.upx2px(50);
-						this.swiperheight = height;
-					}
-				});
+			//检查登录授权
+			this.checklogin();
+			// 获取scoll-view高度值
+			uni.getSystemInfo({
+				success: (res) => {
+					console.log(res.windowHeight);
+					let height = res.windowHeight - uni.upx2px(50);
+					this.swiperheight = height;
+				}
+			});
 			// 获取用户地理位置经纬都
 			uni.getLocation({
 				type: 'gcj02',
@@ -280,80 +183,19 @@
 					console.log("位置获取失败");
 				}
 			});
-			
 			// mock数据通知栏
-			const Random = Mock.Random;
-			Random.county();
-			Random.cname();
-			Random.city();
-			Random.datetime();
-			const data = Mock.mock({
-				'list|3': [{
-					name: "@cname()",
-					city: '@city(true)',
-					"type|+1": [
-						"日常保洁",
-						"开荒保洁",
-						"上门除甲醛",
-						"上门维修",
-					]
-				}]
-			});
-			for (var i = 0; i < data.list.length; i++) {
-				var str = "恭喜--" + data.list[i].name + "--抢到" + data.list[i].city + "--" + data.list[i].type + "--订单";
-				this.notice.push(str);
-			}
-			
+			this.getNavbar();
 			//判断用户是否注册服务工种,获取缓存里面的值
 			this.user_uid = uni.getStorageSync('user_uid');
 			let phone = uni.getStorageSync('phone');	
 			console.log("uid的值:"+this.user_uid);
 			// let isregister = true;
 			//首页待派单订单请求
-			uni.request({
-				url: "https://applet.51tiaoyin.com/public/applet/work/stay",
-				method: "POST",
-				dataType: JSON,
-				data: {
-					town: "成都",
-					genre: ['日常保洁',"开荒保洁","上门除甲醛"],
-					uid: this.user_uid
-				},
-				success(res) {
-					console.log(res);
-					const data = JSON.parse(res.data);
-					console.log(data.data);
-					if(data.code == 200){
-						// console.log(res)
-						that.orderlist = data.data;
-						console.log("订单列表:");
-						console.log(that.orderlist);
-						//计算经纬度距离和循环遍历工具要求
-						for (var i = 0; i < that.orderlist.length; i++) {
-							var location = that.orderlist[i].longitude;
-							var tool = that.orderlist[i].label.split(" ");
-							console.log(location);
-							var longitude = location.split(",")[0];
-							var latitude = location.split(",")[1]
-							var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
-							   jl = Math.floor(jl/1000 * 10) / 10;
-							   that.jl.push(jl);
-							   that.tool.push(tool);
-							console.log(that.jl);
-							console.log(that.tool);
-						}
-					}else{
-						console.log(res);
-						uni.showToast({
-							title:"无网络"
-						})
-					}
-					
-				},
-				fail(err) {
-					console.log(err);
-				}
-			})
+			if(phone){
+				this.getWOrkstay()
+			}else{
+				this.getData()
+			}
 			
 
 		},
@@ -372,8 +214,10 @@
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
 				if (this.tabIndex == 1) {
-					this.showpopup = true
+					this.showpopup = true;
+					this.getAlready();
 				}
+				
 			},
 			//上拉加载
 			loadmore() {
@@ -859,8 +703,131 @@
 				var result = Math.sin(flat) * Math.sin(tlat);
 				result += Math.cos(flat) * Math.cos(tlat) * Math.cos(flng - tlng);
 				return Math.acos(result) * FINAL;
+			},
+			
+			//获取通知栏信息
+			getNavbar(){
+				const Random = Mock.Random;
+				Random.county();
+				Random.cname();
+				Random.city();
+				Random.datetime();
+				const data = Mock.mock({
+					'list|3': [{
+						name: "@cname()",
+						city: '@city(true)',
+						"type|+1": [
+							"日常保洁",
+							"开荒保洁",
+							"上门除甲醛",
+							"上门维修",
+						]
+					}]
+				});
+				for (var i = 0; i < data.list.length; i++) {
+					var str = "恭喜--" + data.list[i].name + "--抢到" + data.list[i].city + "--" + data.list[i].type + "--订单";
+					this.notice.push(str);
+				}
+			},
+			
+			//获取待派单列表信息
+			getWOrkstay(){
+				let that  =this;
+				uni.request({
+					url: "https://applet.51tiaoyin.com/public/applet/work/stay",
+					method: "POST",
+					dataType: JSON,
+					data: {
+						town: "成都",
+						genre: ['日常保洁',"开荒保洁","上门除甲醛"],
+						uid: this.user_uid
+					},
+					success(res) {
+						console.log(res);
+						const data = JSON.parse(res.data);
+						console.log(data.data);
+						if(data.code == 200){
+							// console.log(res)
+							that.orderlist = data.data;
+							console.log("订单列表:");
+							console.log(that.orderlist);
+							//计算经纬度距离和循环遍历工具要求
+							for (var i = 0; i < that.orderlist.length; i++) {
+								var location = that.orderlist[i].longitude;
+								var tool = that.orderlist[i].label.split(" ");
+								console.log(location);
+								var longitude = location.split(",")[0];
+								var latitude = location.split(",")[1]
+								var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
+								   jl = Math.floor(jl/1000 * 10) / 10;
+								   that.jl.push(jl);
+								   that.tool.push(tool);
+								console.log(that.jl);
+								console.log(that.tool);
+							}
+						}else{
+							console.log(res);
+							uni.showToast({
+								title:"无网络"
+							})
+						}
+						
+					},
+					fail(err) {
+						console.log(err);
+					}
+				})
+			},
+			
+			
+			//获取已抢单列表信息
+			getAlready(){
+				let that  =this;
+				uni.request({
+					url: "https://applet.51tiaoyin.com/public/applet/work/already",
+					method: "POST",
+					dataType: JSON,
+					data: {
+						uid: this.user_uid
+					},
+					success(res) {
+						console.log(res);
+						const data = JSON.parse(res.data);
+						console.log(data.data);
+						if(data.code == 200){
+							// console.log(res)
+							that.takelist = data.data;
+							console.log("已抢单订单列表:");
+							console.log(that.takelist);
+							//计算经纬度距离和循环遍历工具要求
+							for (var i = 0; i < that.takelist.length; i++) {
+								var location = that.takelist[i].longitude;
+								var tool = that.takelist[i].label.split(" ");
+								console.log(location);
+								var longitude = location.split(",")[0];
+								var latitude = location.split(",")[1]
+								var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
+								   jl = Math.floor(jl/1000 * 10) / 10;
+								   that.jl.push(jl);
+								   that.tool.push(tool);
+								console.log(that.jl);
+								console.log(that.tool);
+							}
+						}else{
+							console.log(res);
+							uni.showToast({
+								title:"无网络"
+							})
+						}
+						
+					},
+					fail(err) {
+						console.log(err);
+					}
+				})
 			}
-		}
+		},
+		
 	}
 </script>
 

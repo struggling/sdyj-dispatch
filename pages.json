@@ -99,6 +99,12 @@
 				"navigationStyle":"custom"
 			}
         }
+        ,{
+            "path" : "pages/guide/guide",
+            "style" : {
+				"navigationStyle":"custom"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -1,6 +1,10 @@
 <template>
 	<view>
-		<view class="content">
+		<!-- 顶部自定义导航 -->
+		<u-navbar :is-back="true" title="个人信息" :height="height" :background="background" title-color="#ffffff"
+		 back-icon-color="#ffffff">
+		</u-navbar>
+		<view class="content" :style="{height:swiperheight+'px'}">
 			<!-- 用户基本数据 -->
 			<view class="p-data">
 				<view class="avatar">
@@ -69,7 +73,7 @@
 					</view>
 				</view>
 			</view>
-			<button @click="submit">保存信息</button>
+			<button @click="submit" class="theme">保存信息</button>
 			<!-- <u-upload  ref="uUpload" :action="action"></u-upload> -->
 			<u-upload style="opacity:0" :custom-btn="true" ref="uUpload" :show-upload-list="showUploadList" :action="action"
 			 :max-count="maxcount">
@@ -87,6 +91,11 @@
 	export default {
 		data() {
 			return {
+				swiperheight: 667,
+				height: "",
+				background: {
+					backgroundImage: "linear-gradient(90deg, #00ABEB, #54C3F1)",
+				},
 				show: false,
 				action: 'localhost', // 演示地址
 				name: "苏达强",
@@ -117,6 +126,16 @@
 				count: 5,
 				value: 4
 			}
+		},
+		onLoad() {
+			//设置容器高度
+			uni.getSystemInfo({
+				success: (res) => {
+					console.log(res.windowHeight);
+					let height = res.windowHeight - uni.upx2px(68);
+					this.swiperheight = height;
+				}
+			});
 		},
 		methods: {
 			submit() {

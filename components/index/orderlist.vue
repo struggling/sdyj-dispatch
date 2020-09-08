@@ -57,7 +57,25 @@
 		data() {
 			return {
 				index1:0,
-				itemData:[]
+				itemData:[{
+					Distance: 77.69,
+					budget: "120.00",
+					code: "J907637880720548",
+					content: "速度去",
+					delete: 0,
+					destination: "",
+					door_time: "2020-09-07 15:28:00",
+					duration: "时长：4小时",
+					label: "扫把 毛巾 洗洁精 擦玻器 吸尘器 除胶剂",
+					longitude: "103.98004403187,30.681640881022",
+					name: "测试小程序",
+					origin: "成都市青羊区万达广场",
+					send: "开发者",
+					state: 0,
+					tel: "181****8028",
+					type: "日常保洁",
+					uid: "4"
+				}]
 			}
 		},
 		onReady() {

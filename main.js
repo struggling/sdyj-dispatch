@@ -31,7 +31,7 @@ import uView from "uview-ui";
 											const data = JSON.parse(res.data);
 											// console.log(data);
 											let phone = data.data.phone;
-											console.log(phone);
+											console.log("手机号码"+phone);
 											uni.setStorageSync("phone",phone);	
 										}
 									})

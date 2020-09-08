@@ -3,7 +3,7 @@
 		<!-- 订单列表 -->
 		<view class="wait-list">
 			<view class="info">
-				<view class="parm">
+				<view class="parm" @tap="goDetail(item)">
 					<view class="parm-txt title">{{item.name}}/{{item.duration}}</view>
 					<view class="parm-txt">{{item.origin}}</view>
 					<view class="parm-txt">距离：&alt {{item.Distance}}公里</view>
@@ -15,8 +15,12 @@
 				</view>
 			</view>
 			<view class="btn-group">
-				<view class="btn">{{btn[0]}}</view>
-				<view class="btn active" @tap="openpage(index)">{{btn[1]}}</view>
+
+					<view v-show="btn[0] != '' " class="btn" @tap="deleteOrder(index)">{{btn[0]}}</view>
+				
+
+					<view v-show="btn[1] != '' " class="btn active" @tap="openpage(item)">{{btn[1]}}</view>
+				
 			</view>
 		</view>
 	</view>	
@@ -31,28 +35,95 @@
 		},
 		data() {
 			return {
-				data:[]
+				index1:0,
+				itemData:[]
 			}
 		},
 		onReady() {
 			console.log("要传递的值");
 			console.log(this.item);
-			
-			this.data.push(this.item);
-			console.log(this.data);
+			this.itemData.push(this.item);
+
 		},
 		methods:{
-			openpage(index){
-				console.log(this.data[index]);
-				switch (index){
-					case 0:
+			//跳转到详情页
+			goDetail: function(item) {
+				let detail = {
+					Distance: item.Distance,
+					budget: item.budget,
+					code: item.code,
+					content: item.content,
+					delete: item.delete,
+					destination: item.destination,
+					door_time: item.door_time,
+					duration: item.duration,
+					label: item.label,
+					longitude: item.longitude,
+					name: item.name,
+					origin: item.origin,
+					send: item.send,
+					state: item.state,
+					tel: item.tel,
+					type: item.type,
+					uid: item.uid
+				};
+				uni.navigateTo({
+					url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				});
+				// uni.navigateTo({
+				// 	url: '../list2detail-detail/list2detail-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				// });
+			},
+			openpage(item){
+				let server = {
+					Distance: item.Distance,
+					budget: item.budget,
+					code: item.code,
+					content: item.content,
+					delete: item.delete,
+					destination: item.destination,
+					door_time: item.door_time,
+					duration: item.duration,
+					label: item.label,
+					longitude: item.longitude,
+					name: item.name,
+					origin: item.origin,
+					send: item.send,
+					state: item.state,
+					tel: item.tel,
+					type: item.type,
+					uid: item.uid
+				};
+					if(this.btn[1] =="立即上门"){
 						uni.navigateTo({
-							url:'../../pages/order-detail/order-detail?data='+this.data[index]
+							url: '../../pages/dispatch-detail/dispatch-detail?serverDate=' + encodeURIComponent(JSON.stringify(server))
 						})
-						break;
-					default:
-						break;
+					}else{
+						this.go()
+					}
+			},
+			//删除订单
+			deleteOrder(index){
+				this.$emit("deleteOrder",index)
+			},
+			//拨打客服电话
+			go(){
+			 	uni.makePhoneCall({
+			 	
+			 	// 手机号
+			    phoneNumber: '400-0015-021', 
+			
+				// 成功回调
+				success: (res) => {
+					console.log('调用成功!')	
+				},
+			
+				// 失败回调
+				fail: (res) => {
+					console.log('调用失败!')
 				}
+				
+			  });
 			}
 		}
 	}

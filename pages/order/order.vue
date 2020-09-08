@@ -10,7 +10,7 @@
 						<!-- 待上门订单列表 -->
 						<template v-if="items.list.length>0">
 							<block v-for="(item,index1) in items.list" :key="index1">
-								<Settled :item="item" :index="index1" :btn="items.btn"></Settled>
+								<Settled :item="item" :index="index1" :btn="items.btn" @deleteOrder="deleteOrder"></Settled>
 							</block>
 						</template>
 						<template v-else>
@@ -85,6 +85,7 @@
 					},
 					{
 						btn:[
+							" ",
 							"联系客服",
 						],
 						loadtext: "上拉加载更多",
@@ -99,7 +100,10 @@
 						list: []
 					},
 					{	
-						btn:[],
+						btn:[
+							" ",
+							" ",
+						],
 						loadtext: "上拉加载更多",
 						list: []
 					},
@@ -119,9 +123,30 @@
 			});
 			 uni.$emit('updates',{msg:'页面更新'});
 			this.user_uid = uni.getStorageSync('user_uid');
-			if(this.tabIndex == 0){
-				this.getlistdata();
-			}
+			
+			//获取订单页面所有数据
+			this.getlistdata();
+			this.newslist[1].list= [
+				{
+					Distance: 1541.83,
+					budget: "70.00",
+					code: "J903134394979893",
+					content: "测试",
+					delete: 0,
+					destination: "",
+					door_time: "2020-09-03 14:09:00",
+					duration: "时长：2小时",
+					label: "扫把 毛巾 洗洁精 擦玻器 吸尘器 除胶剂",
+					longitude: "120.17557880007,30.248398420426",
+					name: "测试",
+					origin: "杭州市上城区无",
+					send: "开发者",
+					state: 1,
+					tel: "181****8028",
+					type: "日常保洁",
+					uid: 1
+				}
+			]
 		},
 		methods: {
 			//上拉加载更多
@@ -144,24 +169,53 @@
 			//tabbar点击事件
 			tabtap(index) {
 				this.tabIndex = index;
-				this.tabclick = index;
-				if(this.tabclick != e.detail.current){
-					this.tabclick =  e.detail.current;
-					switch (this.tabIndex){
-						case 0:
-						this.getlistdata();
-						// this.newslist[0].list = 
-							break;
-						default:
-							break;
-					}
-				}else{
-					console.log("取消多次请求");
-				}
+				console.log("当前点击"+index);
+				// if(this.tabclick != index){
+				// 	this.tabclick = index;
+				// 	switch (this.tabIndex){
+				// 		case 1:
+						
+				// 		// this.newslist[0].list = 
+				// 			break;
+				// 		case 2:
+				// 		//待上门订单
+				// 		this.getlistdata();
+				// 		// this.newslist[0].list = 
+				// 			break;
+				// 		case 3:
+				// 		//待上门订单
+				// 		// this.getlistdata();
+				// 		// this.newslist[0].list = 
+				// 			break;
+				// 		default:
+				// 			//待上门订单
+				// 			console.log("待上门订单");
+				// 			this.getlistdata();
+				// 			break;
+				// 	}
+				// }else{
+				// 	console.log("取消多次请求");
+				// }
 			},
 			//滑动事件
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
+				
+			},
+			deleteOrder(index){
+				uni.showModal({
+				    title: '提示',
+				    content: '确认删除此订单吗',
+				    success: function (res) {
+				        if (res.confirm) {
+				            console.log('用户点击确定');
+							this.newslist[0].list.splice(index,1);
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }
+				});
+				
 			},
 			//拉去待上门数据
 			getlistdata(){

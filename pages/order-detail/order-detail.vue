@@ -9,44 +9,44 @@
 				<view class="order-td top iconfont icongerenzhongxin-zhong"><span>客户订单信息</span></view>
 			</view>
 			<view class="order-row">
-				<view class="order-td iconfont icontongxunlu"><span>王先生 </span></view>
-				<view class="order-td r-box iconfont iconshouji"><span>1322****5123</span></view>
+				<view class="order-td iconfont icontongxunlu"><span>{{data.name}} </span></view>
+				<view class="order-td r-box iconfont iconshouji"><span>{{data.tel}}</span></view>
 			</view>
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips">服务类型:</view>
-					<view>家政保洁</view>
+					<view>{{data.type}}</view>
 				</view>
 				<view class="order-td r-box">
 					<view class="tips">服务时长：</view>
-					<view> 2小时</view>
+					<view> {{data.duration}}</view>
 				</view>
 			</view>
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips">上门时间:</view>
-					<view>2020.08.09 15:15</view>
+					<view>{{data.door_time}}</view>
 				 </view>
 				<view class="order-td"></view>
 			</view>
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips">位置: </view>
-					<view>镇江市淮海路236号-5 </view>
+					<view>{{data.origin}}</view>
 				</view>
 				<view class="order-td"></view>
 			</view>
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips">工具要求:</view>
-					<view>吸尘器  蒸汽机  除螨器  吸尘器  蒸汽机  除螨器</view>
+					<view>{{data.label}}</view>
 				</view>
 				<view class="order-td"></view>
 			</view>
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips">备注:</view>
-					<view>不要毛巾，哈哈啊哈哈哈，真的</view>
+					<view>{{data.content}}</view>
 				</view>
 				<view class="order-td"></view>
 			</view>
@@ -55,21 +55,21 @@
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips"> 订单状态:</view>
-					<view>未派单</view>
+					<view>未派单{{data.state}}</view>
 				</view>
 				<view class="order-td r-box">
 					<view class="tips">参考价格:</view>
-					<view>160元</view>
+					<view>{{data.budget}}</view>
 				</view>
 			</view>
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips">订单编号:</view>
-					<view>123456789644236</view>
+					<view>{{data.code}}</view>
 				</view>
 				<view class="order-td r-box">
 					<view class="tips">发布时间: </view>
-					<view>2020.08.08 15:15</view>
+					<view>{{data.door_time}}</view>
 				</view>
 			</view>
 		</view>
@@ -87,14 +87,20 @@
 				},
 			}
 		},
-		onLoad() {
-			let data = uni.getStorageSync("data");
-			console.log(data);
+		onLoad(event) {
+			// TODO 后面把参数名替换成 payload
+			const payload = event.detailDate || event.payload;
+			// 目前在某些平台参数会被主动 decode，暂时这样处理。
+			try {
+				this.data= JSON.parse(decodeURIComponent(payload));
+				console.log(this.data);
+			} catch (error) {
+				this.data = JSON.parse(payload);
+				console.log(this.data);
+			}
 		},
 		onReady() {
-				uni.$on('itemData',(data)=>{  
-					console.log(data.data);
-				})
+				
 			},
 		methods: {
 			
