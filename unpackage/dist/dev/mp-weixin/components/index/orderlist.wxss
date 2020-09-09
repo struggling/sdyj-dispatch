@@ -110,8 +110,8 @@
 
 
 /* orderlist */
-.orderlist.data-v-3fdb89ca {}
-.order-item.data-v-3fdb89ca {
+.orderlist.data-v-4844c404 {}
+.order-item.data-v-4844c404 {
 	/* border-bottom: 1upx solid #c3c3f6; */
 	border-top: 1rpx solid #c3c3f6;
 	display: -webkit-box;
@@ -125,37 +125,37 @@
 	padding-left: 25rpx;
 	padding-right: 25rpx;
 }
-.order-item .item-l .title.data-v-3fdb89ca {
+.order-item .item-l .title.data-v-4844c404 {
 	font-weight: bold;
 	font-size: 32rpx;
 	margin-bottom: 30rpx;
 	color: #101D37;
 }
-.order-item .item-l .address.data-v-3fdb89ca {
+.order-item .item-l .address.data-v-4844c404 {
 
 	font-size: 20rpx;
 	color: #969CA8;
 	margin-bottom: 30rpx;
 	font-weight: bold;
 }
-.order-item .dtime.data-v-3fdb89ca {
+.order-item .dtime.data-v-4844c404 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 }
-.order-item .item-l .distance.data-v-3fdb89ca {
+.order-item .item-l .distance.data-v-4844c404 {
 	font-size: 20rpx;
 	color: #00ABEB;
 	margin-bottom: 30rpx;
 	font-weight: bold;
 }
-.order-item .item-l .tool.data-v-3fdb89ca {
+.order-item .item-l .tool.data-v-4844c404 {
 	font-size: 20rpx;
 	color: #3072F6;
 	margin-bottom: 30rpx;
 	font-weight: bold;
 }
-.order-item .item-l .tool ._span.data-v-3fdb89ca {
+.order-item .item-l .tool ._span.data-v-4844c404 {
 	padding-left: 10rpx;
 	padding-right: 10rpx;
 	padding-top: 4rpx;
@@ -165,13 +165,13 @@
 	margin-right: 10rpx;
 	border-radius: 8rpx;
 }
-.order-item .item-l .vtime.data-v-3fdb89ca {
+.order-item .item-l .vtime.data-v-4844c404 {
 	color: #3072F6;
 	font-weight: bold;
 	font-size: 18rpx;
 	margin-left: 25rpx;
 }
-.order-item .item-r.data-v-3fdb89ca {
+.order-item .item-r.data-v-4844c404 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -182,21 +182,21 @@
 	text-align: center;
 	width: 220rpx;
 }
-.order-item .item-r .img image.data-v-3fdb89ca {
+.order-item .item-r .img image.data-v-4844c404 {
 	border-radius: 100%;
 	-webkit-flex-shrink: 0;
 	        flex-shrink: 0;
 	width: 168rpx;
 	height: 168rpx;
 }
-.order-item .item-r .price.data-v-3fdb89ca {
+.order-item .item-r .price.data-v-4844c404 {
 	color: #FA5741;
 	font-size: 28rpx;
 	font-weight: bold;
 	margin-top: 20rpx;
 	margin-bottom: 20rpx;
 }
-.order-item .item-r .status.data-v-3fdb89ca {
+.order-item .item-r .status.data-v-4844c404 {
 	height: 42rpx;
 	line-height: 42rpx;
 	font-size: 28rpx;
@@ -207,10 +207,10 @@
 	padding: 0 30rpx;
 	margin-top: 89rpx;
 }
-.success.data-v-3fdb89ca {
+.success.data-v-4844c404 {
 	background-color: #FA5741;
 }
-.fail.data-v-3fdb89ca {
+.fail.data-v-4844c404 {
 	background-color: #cccccc;
 }
 

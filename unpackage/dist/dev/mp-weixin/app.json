@@ -11,7 +11,8 @@
     "pages/login/login",
     "pages/settlement/settlement",
     "pages/register/register",
-    "pages/guide/guide"
+    "pages/guide/guide",
+    "pages/mydata/mydata"
   ],
   "subPackages": [],
   "window": {

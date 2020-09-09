@@ -75,16 +75,44 @@
 		},
 		methods: {
 			start(){
+				let that = this;
 				uni.showModal({
 					  title: '提示',
 					    content: '订单服务已结束,订单完成后可到订单中心查看结款状态',
 					    success: function (res) {
 					        if (res.confirm) {
 					            console.log('用户点击确定');
+								that.getAccomplish(that.data.code);
+								uni.navigateTo({
+									url:"../order/order"
+								})
 					        } else if (res.cancel) {
 					            console.log('用户点击取消');
 					        }
 					    }
+				})
+			},
+			//拉去用户订单完成信息
+			getAccomplish(code){
+				
+				uni.request({
+					url:this.$apiUrl+"work/accomplish",
+					method:"POST",
+					dataType:JSON,
+					data:{
+						uid:this.data.uid,
+						code:code,
+					},
+					success(res) {
+						console.log("完成订单");
+						console.log(res);
+					},
+					fail(res) {
+						console.log(res);
+						uni.showToast({
+							title:"服务器无响应"
+						})
+					}
 				})
 			}
 		}

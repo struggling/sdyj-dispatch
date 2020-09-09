@@ -53,6 +53,7 @@
 				},
 				// 自定义导航栏
 				user_uid:"",
+				code:"",//订单编号
 				swiperheight: 500,
 				tabIndex: 0,
 				tabclick:-1,
@@ -111,6 +112,12 @@
 			}
 		},
 		onLoad() {
+			// wx.hideShareMenu({
+			//   menus: ['shareTimeline'],//小程序分享到朋友圈按钮
+			//   success:(res)=>{
+			// 	  console.log(res);
+			//   }
+			// })
 			//检查登录授权
 			this.checklogin();
 			//设置容器高度
@@ -121,11 +128,13 @@
 					this.swiperheight = height;
 				}
 			});
-			 uni.$emit('updates',{msg:'页面更新'});
+			 // uni.$emit('updates',{msg:'页面更新'});
 			this.user_uid = uni.getStorageSync('user_uid');
 			
 			//获取订单页面所有数据
 			this.getlistdata();
+			this.getClose();
+			this.getEnd();
 			this.newslist[1].list= [
 				{
 					Distance: 1541.83,
@@ -161,9 +170,9 @@
 				//获取数据
 				setTimeout(() => {
 					//获取完成
-					let obj = this.getlistdata();
-					this.newslist[index].list.concat(obj);
-					this.newslist[index].loadtext = "上拉加载更多";
+					// let obj = this.getlistdata();
+					// this.newslist[index].list.concat(obj);
+					this.newslist[index].loadtext = "暂无更多数据";
 				}, 1000)
 			},
 			//tabbar点击事件
@@ -203,13 +212,18 @@
 				
 			},
 			deleteOrder(index){
+				let that = this;
 				uni.showModal({
 				    title: '提示',
-				    content: '确认删除此订单吗',
+				    content: '确认删除此订单吗？取消订单会影响个人信誉,降低平台对您派单量',
 				    success: function (res) {
 				        if (res.confirm) {
-				            console.log('用户点击确定');
-							this.newslist[0].list.splice(index,1);
+							let code = that.newslist[0].list.splice(index,1)[0].code;//当前删除的订单号
+							 console.log('用户点击确定'+code);
+							that.getlistCancel(code);
+							that.newslist[0].list.splice(index,1);
+							console.log("删除后还有几条订单");
+							console.log(that.newslist[0].list.length);
 				        } else if (res.cancel) {
 				            console.log('用户点击取消');
 				        }
@@ -223,7 +237,7 @@
 				let that = this;
 				if(phone){
 					uni.request({
-						url:"https://applet.51tiaoyin.com/public/applet/work/been",
+						url:this.$apiUrl+"work/been",
 						method:"POST",
 						dataType:JSON,
 						data:{
@@ -237,6 +251,8 @@
 							console.log(data);
 							if(data.code == 200){
 								that.newslist[0].list = data.data;
+								that.code = that.newslist[0].list.code;
+								console.log("待上门列表：");
 								console.log(that.newslist[0].list);
 							}else{
 								uni.showToast({
@@ -257,8 +273,109 @@
 						url:"../settlement/settlement"
 					})
 				}
+			},
+			
+			//拉去师傅取消订单
+			getlistCancel(code){
+				uni.request({
+					url:this.$apiUrl+"work/cancel",
+					method:"POST",
+					dataType:JSON,
+					data:{
+						uid:this.user_uid,
+						code:code,
+					},
+					success(res) {
+						console.log("取消订单");
+						console.log(res);
+					},
+					fail(res) {
+						console.log(res);
+						uni.showToast({
+							title:"服务器无响应"
+						})
+					}
+				})
+			},
+			
+			
+			//待结算订单
+			getClose(){
+				uni.request({
+					url:this.$apiUrl+"work/close",
+					method:"POST",
+					dataType:JSON,
+					data:{
+						uid:this.user_uid
+					},
+					success(res) {
+						console.log("待结算:");
+						console.log(res);
+						const data = JSON.parse(res.data);
+						console.log(data);
+						if(data.code == 200){
+							that.newslist[1].list = data.data;
+							// that.code = that.newslist[1].list.code;
+							console.log("待上门列表：");
+							console.log(that.newslist[1].list);
+						}else{
+							uni.showToast({
+								title:"服务器无响应"
+							})
+						}
+					},
+					fail() {
+						uni.showToast({
+							title:"无网络..."
+						})
+					}
+				})
+			},
+			
+			//已结算
+			getEnd(){
+				uni.request({
+					url:this.$apiUrl+"/work/end",
+					method:"POST",
+					dataType:JSON,
+					data:{
+						uid:this.user_uid
+					},
+					success(res) {
+						console.log("已结算:");
+						console.log(res);
+						const data = JSON.parse(res.data);
+						console.log(data);
+						if(data.code == 200){
+							that.newslist[1].list = data.data;
+							// that.code = that.newslist[1].list.code;
+							console.log("已结算列表：");
+							console.log(that.newslist[1].list);
+						}else{
+							uni.showToast({
+								title:"服务器无响应"
+							})
+						}
+					},
+					fail() {
+						uni.showToast({
+							title:"无网络..."
+						})
+					}
+				})
+			},
+		},
+		
+		//自定义分享页面
+		onShareAppMessage(e){
+			return {
+				title: this.$overShare.title,
+				path: this.$overShare.path,
+				imageUrl:this.$overShare.imageUrl,
+				
 			}
 		}
+		
 	}
 </script>
 

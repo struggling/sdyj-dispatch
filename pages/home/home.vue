@@ -11,11 +11,11 @@
 			</view>
 			<image :src="user_avatar" class="avatar" mode=""></image>
 			<view class="panel">
-				<view class="panel-item">
+				<view class="panel-item" @tap="openmydata">
 					<view class="icon">
 						<image src="../../static/home/icon1.png" mode=""></image>
 					</view>
-					<view class="txt" @tap="openinfo">个人数据</view>
+					<view class="txt">个人数据</view>
 				</view>
 				<view class="panel-item">
 					<view class="icon">
@@ -44,7 +44,7 @@
 		<view class="u-m-t-20">
 			<u-cell-group>
 				
-				<u-cell-item title="个人信息"></u-cell-item>
+				<u-cell-item title="个人信息" @tap="openinfo"></u-cell-item>
 				<u-cell-item  title="个人工号">0258</u-cell-item>
 				<u-cell-item  title="个人工作时间" @tap="showtime=true">{{timeval}}</u-cell-item>
 				<u-cell-item  title="评分指南">9.4分</u-cell-item>
@@ -76,6 +76,8 @@
 				//顶部导航栏
 				user_name:"",
 				user_avatar:"",
+				user_phone:"",
+				user_address:"",
 				pic: 'https://uviewui.com/common/logo.png',
 				show: true,
 				showtime: false,
@@ -110,6 +112,9 @@
 			this.checklogin();
 			this.user_name = uni.getStorageSync("user_name");
 			this.user_avatar = uni.getStorageSync("user_avatar");
+			this.user_phone = uni.getStorageSync("phone");
+			this.user_address = uni.getStorageSync("address");
+			// console.log(this.user_address);
 		},
 		methods: {
 			// 回调参数为包含多个元素的数组，每个元素分别反应每一列的选择情况
@@ -125,10 +130,28 @@
 					duration:1000
 				})
 			},
+			//打开个人数据页面
+			openmydata(){
+				let userdata = {
+					user_name : this.user_name,
+					user_avatar: this.user_avatar,
+					user_phone: this.user_phone,
+					user_address:this.user_address
+				}
+				uni.navigateTo({
+					url: "../mydata/mydata?userdata="+ encodeURIComponent(JSON.stringify(userdata))
+				});
+			},
 			//打开个人信息页面
 			openinfo(){
+				let userinfo = {
+					user_name : this.user_name,
+					user_avatar: this.user_avatar,
+					user_phone: this.user_phone,
+					user_address:this.user_address
+				}
 				uni.navigateTo({
-					url:"../myinfo/myinfo"
+					url:"../myinfo/myinfo?userinfo="+ encodeURIComponent(JSON.stringify(userinfo))
 				})
 			},
 			// 打开设置权限
@@ -136,20 +159,18 @@
 				wx.openSetting({
 				  success (res) {
 				    console.log(res.authSetting)
-				    // res.authSetting = {
-				    //   "scope.userInfo": true,
-				    //   "scope.userLocation": true
-				    // }
 				  }
 				})
 			},
-			// contact(){
-			// 	wx.contact({
-			// 		success(res){
-			// 			console.log(res);
-			// 		}
-			// 	})
-			// }
+		},
+		//自定义分享页面
+		onShareAppMessage(e){
+			return {
+				title: this.$overShare.title,
+				path: this.$overShare.path,
+				imageUrl:this.$overShare.imageUrl,
+				
+			}
 		}
 	}
 </script>
@@ -250,5 +271,8 @@
 		font-size: 32upx;
 		color: #FFFFFF;
 		line-height: 52upx;
+		flex: 1;
+		text-align: right;
+		padding-right: 10%;
 	}
 </style>

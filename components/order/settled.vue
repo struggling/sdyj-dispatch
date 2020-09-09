@@ -43,7 +43,6 @@
 			console.log("要传递的值");
 			console.log(this.item);
 			this.itemData.push(this.item);
-
 		},
 		methods:{
 			//跳转到详情页
@@ -127,7 +126,6 @@
 			}
 		}
 	}
-
 	
 </script>
 

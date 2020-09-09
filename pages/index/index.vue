@@ -45,7 +45,6 @@
 							<load-more :loadtext="loadtext"></load-more>
 						</scroll-view>
 					</swiper-item>
-					//
 					<swiper-item>
 						<scroll-view scroll-y class="list" @scrolltolower="loadmore" show-scrollbar="false">
 							<block v-for="(item,index) in takelist" :key="index">
@@ -95,6 +94,7 @@
 		},
 		data() {
 			return {
+				phone:1,
 				tool:[],
 				jl:[],
 				latitude: '',
@@ -167,9 +167,10 @@
 						success(res) {
 							// console.log(res.wxMarkerData[0].address);
 							const address = res.wxMarkerData[0].address.substring(3);
-							console.log(this);
+							// console.log(this);
 							that.address = address;
-
+							uni.setStorageSync('address', address);
+							// console.log(address);
 						},
 						fail(error) {
 							console.log(error);
@@ -189,19 +190,20 @@
 			this.getNavbar();
 			//判断用户是否注册服务工种,获取缓存里面的值
 			this.user_uid = uni.getStorageSync('user_uid');
-			let phone = uni.getStorageSync('phone');	
+			this.phone = uni.getStorageSync('phone');	
 			console.log("uid的值:"+this.user_uid);
 			// let isregister = true;
 			//首页待派单订单请求
-			if(!phone){
-				this.getWOrkstay()
-			}else{
-				console.log("打印假数据");
-				let orderList = this.getmock();
-				console.log(orderList);
-				this.orderlist = orderList.orderlist.slice(0,4);
-				console.log("数据长度为："+this.orderlist.length);
-			}
+			this.getWOrkstay();
+			// if(phone){
+				
+			// }else{
+			// 	console.log("打印假数据");
+			// 	// let orderList = this.getmock();
+			// 	console.log(orderList);
+			// 	this.orderlist = orderList.orderlist.slice(0,4);
+			// 	console.log("数据长度为："+this.orderlist.length);
+			// }
 			
 
 		},
@@ -407,7 +409,7 @@
 			getWOrkstay(){
 				let that  =this;
 				uni.request({
-					url: "https://applet.51tiaoyin.com/public/applet/work/stay",
+					url: this.$apiUrl+"work/stay",
 					method: "POST",
 					dataType: JSON,
 					data: {
@@ -455,49 +457,66 @@
 			
 			//获取已抢单列表信息
 			getAlready(){
-				let that  =this;
-				uni.request({
-					url: "https://applet.51tiaoyin.com/public/applet/work/already",
-					method: "POST",
-					dataType: JSON,
-					data: {
-						uid: this.user_uid
-					},
-					success(res) {
-						console.log(res);
-						const data = JSON.parse(res.data);
-						console.log(data.data);
-						if(data.code == 200){
-							// console.log(res)
-							that.takelist = data.data;
-							console.log("已抢单订单列表:");
-							console.log(that.takelist);
-							//计算经纬度距离和循环遍历工具要求
-							for (var i = 0; i < that.takelist.length; i++) {
-								var location = that.takelist[i].longitude;
-								var tool = that.takelist[i].label.split(" ");
-								console.log(location);
-								var longitude = location.split(",")[0];
-								var latitude = location.split(",")[1]
-								var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
-								   jl = Math.floor(jl/1000 * 10) / 10;
-								   that.jl.push(jl);
-								   that.tool.push(tool);
-								console.log(that.jl);
-								console.log(that.tool);
-							}
-						}else{
+				if(this.phone){
+					let that  =this;
+					uni.request({
+						url: $apiUrl+"work/already",
+						method: "POST",
+						dataType: JSON,
+						data: {
+							uid: this.user_uid
+						},
+						success(res) {
 							console.log(res);
-							uni.showToast({
-								title:"无网络"
-							})
+							const data = JSON.parse(res.data);
+							console.log(data.data);
+							if(data.code == 200){
+								// console.log(res)
+								that.takelist = data.data;
+								console.log("已抢单订单列表:");
+								console.log(that.takelist);
+								//计算经纬度距离和循环遍历工具要求
+								for (var i = 0; i < that.takelist.length; i++) {
+									var location = that.takelist[i].longitude;
+									var tool = that.takelist[i].label.split(" ");
+									console.log(location);
+									var longitude = location.split(",")[0];
+									var latitude = location.split(",")[1]
+									var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
+									   jl = Math.floor(jl/1000 * 10) / 10;
+									   that.jl.push(jl);
+									   that.tool.push(tool);
+									console.log(that.jl);
+									console.log(that.tool);
+								}
+							}else{
+								console.log(res);
+								uni.showToast({
+									title:"无网络"
+								})
+							}
+							
+						},
+						fail(err) {
+							console.log(err);
 						}
-						
-					},
-					fail(err) {
-						console.log(err);
-					}
-				})
+					})
+				}else{
+					uni.showModal({
+							title: '提示',
+							content: '未注册,请先到注册页面填写详细信息后',
+							success: function (res) {
+								if (res.confirm) {
+									console.log('用户点击确定');
+									uni.navigateTo({
+										url: '../settlement/settlement',
+									});
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						});
+				}
 			},
 			
 			//mock假数据
@@ -533,6 +552,15 @@
 			}
 		},
 		
+		//自定义分享页面
+		onShareAppMessage(e){
+			return {
+				title: this.$overShare.title,
+				path: this.$overShare.path,
+				imageUrl:this.$overShare.imageUrl,
+				
+			}
+		}
 	}
 </script>
 

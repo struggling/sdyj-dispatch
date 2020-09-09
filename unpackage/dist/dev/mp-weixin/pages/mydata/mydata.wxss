@@ -1,0 +1,136 @@
+
+page{background:#F2F2F2;width: 750rpx;overflow-x: hidden;}
+.qiun-padding{padding:2%; width:96%;}
+.qiun-wrap{display:-webkit-box;display:-webkit-flex;display:flex; -webkit-flex-wrap:wrap; flex-wrap:wrap;}
+.qiun-rows{display:-webkit-box;display:-webkit-flex;display:flex; -webkit-box-orient:horizontal !important; -webkit-box-direction:normal !important; -webkit-flex-direction:row !important; flex-direction:row !important;}
+.qiun-columns{display:-webkit-box;display:-webkit-flex;display:flex; -webkit-box-orient:vertical !important; -webkit-box-direction:normal !important; -webkit-flex-direction:column !important; flex-direction:column !important;}
+.qiun-common-mt{margin-top:10rpx;}
+.qiun-bg-white{background:#FFFFFF;}
+.qiun-title-bar{width:94%; padding:10rpx 2%; -webkit-flex-wrap:nowrap; flex-wrap:nowrap;}
+.qiun-title-dot-light{border-left: 10rpx solid #0ea391; padding-left: 10rpx; font-size: 32rpx;color: #000000}
+.qiun-charts{width: 700rpx; height:500rpx;background-color: #FFFFFF;}
+.charts{width: 700rpx; height:500rpx;background-color: #FFFFFF;}
+.mypanel{
+		position: relative;
+}
+.mypanel .bg{
+		width: 100%;
+		height: 508rpx;
+}
+.mypanel .bg image{
+		width: 100%;
+		height: 508rpx;
+}
+/* 用户信息 */
+.p-data {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		        align-items: center;
+		position: absolute;
+		top:50rpx;
+		padding-left: 25rpx;
+		padding-right: 25rpx;
+		width: 100%;
+}
+.p-data .avatar {
+		-webkit-flex-shrink: 0;
+		        flex-shrink: 0;
+		/* flex: 1; */
+}
+.p-data .avatar .u-avatar {
+		width: 160rpx !important;
+		height: 160rpx !important;
+		border-radius: 100%;
+		padding: 6rpx;
+		background-color: #FFFFFF !important;
+}
+.p-data .information {
+		padding-left: 60rpx;
+		color: #FFFFFF;
+}
+.p-data .information .rate {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		margin-bottom: 10rpx;
+}
+.p-data .information .rate .scroe {
+		padding-left: 20rpx;
+}
+.p-data .information .nickname {
+		font-size: 40rpx;
+		font-weight: bold;
+		margin-bottom: 10rpx;
+}
+.p-data .information .address {
+		font-size: 36rpx;
+		margin-bottom: 10rpx;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		/* justify-content: space-between; */
+}
+.p-data .information .address .add {
+		padding-left: 25rpx;
+}
+/* 日历选择 */
+.select-cal{
+		width: 94%;
+		height:100rpx;
+		border-radius: 12rpx;
+		background-color: #FFFFFF;
+		opacity: 0.32;
+		color: #000000;
+		position: absolute;
+		top: 200rpx;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		        justify-content: space-between;
+		padding-left: 25rpx;
+		padding-right: 25rpx;
+		margin-left: 25rpx;
+		margin-right: 25rpx;
+		margin-top: 60rpx;
+		font-size: 30rpx;
+		line-height: 100rpx;
+}
+.select-cal .txt{
+		font-size: 30rpx;
+		line-height: 100rpx;
+}
+/* .content{
+		padding-left: 25upx;
+		padding-right: 25upx;
+	} */
+.p-white{
+		background-color: #FFFFFF;
+		/* margin-left: 25upx;
+		margin-right: 25upx; */
+		padding-left: 25rpx;
+		padding-right: 25rpx;
+		border-radius: 12rpx;
+		margin-top: -200rpx;
+		z-index: 100;
+		position: absolute;
+		top: 789rpx;
+}
+.v-data{
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		        justify-content: space-between;
+		margin-top: 25rpx;
+		margin-bottom: 25rpx;
+}
+.v-data .txt{
+		text-align: center;
+}
+

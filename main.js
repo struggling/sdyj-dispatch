@@ -27,12 +27,33 @@ import uView from "uview-ui";
 											code:code
 										},
 										success(res) {
-											// console.log(res);
 											const data = JSON.parse(res.data);
-											// console.log(data);
-											let phone = data.data.phone;
-											console.log("手机号码"+phone);
-											uni.setStorageSync("phone",phone);	
+											console.log("请求类型");
+											console.log(data);
+											if(data.code ==200){
+												let phone = data.data.phone;
+
+												console.log("手机号码"+phone);
+												uni.setStorageSync("phone",phone);	
+											}else if(data.code ==300){
+												uni.showModal({
+												    title: '提示',
+												    content: '未登录',
+												    success: function (res) {
+												        if (res.confirm) {
+												            console.log('用户点击确定');
+															uni.navigateTo({
+																url: '../login/login',
+																success: res => {},
+																fail: () => {},
+																complete: () => {}
+															});
+												        } else if (res.cancel) {
+												            console.log('用户点击取消');
+												        }
+												    }
+												});
+											}
 										}
 									})
 								},
@@ -85,6 +106,12 @@ import uView from "uview-ui";
 														url: "../login/login"
 													})
 												}
+											},
+											fail(res){
+												console.log(res);
+												uni.showToast({
+													title: "无网络...",
+												})
 											}
 										})
 									}
@@ -93,7 +120,20 @@ import uView from "uview-ui";
 						});
 					},
 				})
-	}
+	};
+	
+//全局的分享内容
+Vue.prototype.$overShare = 	{
+	title: '易工单',
+	path: 'pages/index/index',
+	desc:"接单利器就用易工单",
+	imageUrl:"",
+};
+
+
+//全局的apiurl
+Vue.prototype.$apiUrl = 'https://applet.51tiaoyin.com/public/applet/'; 
+
 Vue.use(uView);
 
 Vue.config.productionTip = false

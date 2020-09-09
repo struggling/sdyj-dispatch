@@ -8,10 +8,10 @@
 			<!-- 用户基本数据 -->
 			<view class="p-data">
 				<view class="avatar">
-					<u-avatar :src="src"></u-avatar>
+					<u-avatar :src="data.user_avatar"></u-avatar>
 				</view>
 				<view class="information">
-					<view class="nickname">苏达强</view>
+					<view class="nickname">{{data.user_name}}</view>
 					<view class="rate">
 
 						<u-rate :count="count" v-model="value" inactive-color="#b2b2b2" active-color="#F86032"></u-rate>
@@ -20,7 +20,7 @@
 
 					<view class="address">
 						<view class="iconfont icondiliweizhi"></view>
-						<view class="add">眉山市 仁寿县</view>
+						<view class="add">{{data.user_address}}</view>
 					</view>
 				</view>
 			</view>
@@ -36,7 +36,7 @@
 							</view>
 						</block>
 						<block v-else>
-							<image src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg" mode=""></image>
+							<image :src="data.user_avatar" mode=""></image>
 						</block>
 						<!-- <image src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg" mode=""></image> -->
 
@@ -46,7 +46,7 @@
 			</view>
 			<view class="user-data">
 				<view class="user-avatar">
-					<view class="l-text">昵称</view>
+					<view class="l-text">{{data.user_name}}</view>
 					<view class="r-text">
 						<input type="text" value="" v-model="name" focus placeholder="更改昵称" />
 						<!-- <view class="txt" >{{name}}</view> -->
@@ -58,7 +58,7 @@
 				<view class="user-avatar">
 					<view class="l-text">手机号</view>
 					<view class="r-text">
-						<input type="text" value="" v-model="tel" focus placeholder="更改手机号码" />
+						<input type="text" value="" v-model="data.user_phone" focus placeholder="更改手机号码" />
 						<!-- <view class="txt">{{tel}}</view> -->
 						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
 					</view>
@@ -91,6 +91,7 @@
 	export default {
 		data() {
 			return {
+				data:{},
 				swiperheight: 667,
 				height: "",
 				background: {
@@ -98,8 +99,6 @@
 				},
 				show: false,
 				action: 'localhost', // 演示地址
-				name: "苏达强",
-				tel: "1996***5227",
 				maxcount: 1,
 				type:"家政保洁",
 				list: [{
@@ -127,7 +126,8 @@
 				value: 4
 			}
 		},
-		onLoad() {
+		onLoad(event) {
+			console.log("aaa");
 			//设置容器高度
 			uni.getSystemInfo({
 				success: (res) => {
@@ -136,6 +136,19 @@
 					this.swiperheight = height;
 				}
 			});
+			// TODO 后面把参数名替换成 payload
+			
+			console.log(event.userinfo );
+			const payload = event.userinfo || event.payload;
+			// 目前在某些平台参数会被主动 decode，暂时这样处理。
+			try {
+				this.data= JSON.parse(decodeURIComponent(payload));
+				
+				console.log(this.data);
+			} catch (error) {
+				this.data = JSON.parse(payload);
+				console.log(this.data);
+			}
 		},
 		methods: {
 			submit() {
@@ -157,9 +170,6 @@
 				this.type = e[0].label
 				
 			}
-		},
-		onLoad() {
-
 		},
 		onReady() {
 			// 得到整个组件对象，内部图片列表变量为"lists"
