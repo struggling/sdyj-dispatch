@@ -2,12 +2,12 @@
 	<view>
 		<view class="orderlist">
 			<view class="order-item">
-				<view class="item-l" @tap="openOrderdetail(index)">
+				<view class="item-l" @tap="goDetail(item)">
 					<view class="title">{{item.name}}/<span>{{item.duration}}</span></view>
 					<view class="address">{{item.origin}}</view>
 					<view class="distance">距离：{{item.Distance}}公里</view>
 					<view class="tool">
-						<block v-for="(items,index1) in tool[0]" :key="index1">
+						<block v-for="(items,index1) in label" :key="index1">
 								<span>{{items}}</span>
 						</block>
 					</view>
@@ -43,21 +43,35 @@
 			}
 		},
 		onReady() {
-			console.log(this.tool[0]);
-			this.itemData.push(this.item);
-			console.log(111);
-			console.log(this.itemData);
+			this.label = this.item.label.split(/[ ]+/);
+			console.log("标签");
+			console.log(this.label);
 		},
 		methods:{
-			openOrderdetail(index){
-				// uni.$emit("itemData",{
-				// 	data:this.itemData
-				// });
-				uni.setStorageSync("data",this.itemData[index]);
+			goDetail: function(item) {
+				let detail = {
+					Distance: item.Distance,
+					budget: item.budget,
+					code: item.code,
+					content: item.content,
+					delete: item.delete,
+					destination: item.destination,
+					door_time: item.door_time,
+					duration: item.duration,
+					label: item.label,
+					longitude: item.longitude,
+					name: item.name,
+					origin: item.origin,
+					send: item.send,
+					state: item.state,
+					tel: item.tel,
+					type: item.type,
+					uid: item.uid
+				};
 				uni.navigateTo({
-					url:"../../pages/order-detail/order-detail"
-				})
-			}
+					url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				});
+			},
 		}
 	}
 </script>

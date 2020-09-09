@@ -32,24 +32,27 @@ import uView from "uview-ui";
 											console.log(data);
 											if(data.code ==200){
 												let phone = data.data.phone;
-
-												console.log("手机号码"+phone);
+												let type  =data.data.type;
 												uni.setStorageSync("phone",phone);	
+												console.log("手机号码"+phone);
+												uni.setStorageSync("type",type);
+												console.log("服务类型"+type);
 											}else if(data.code ==300){
 												uni.showModal({
 												    title: '提示',
 												    content: '未登录',
+													confirmText:"去登录",
 												    success: function (res) {
 												        if (res.confirm) {
 												            console.log('用户点击确定');
 															uni.navigateTo({
 																url: '../login/login',
-																success: res => {},
-																fail: () => {},
-																complete: () => {}
 															});
-												        } else if (res.cancel) {
+												        } else if (res.cancel){
 												            console.log('用户点击取消');
+															uni.navigateTo({
+																url: '../login/login',
+															});
 												        }
 												    }
 												});
@@ -76,46 +79,14 @@ import uView from "uview-ui";
 										mask: true,
 										title: '登录中...'
 									})
+									uni.reLaunch({
+										url:"/pages/login/login.vue"
+									})
+								} else if (res.cancel) {
+									uni.reLaunch({
+										url:"/pages/login/login.vue"
+									})
 								}
-								uni.login({
-									provider: 'weixin',
-									success: (res) => {
-										console.log(res);
-										uni.request({
-											url: "https://applet.51tiaoyin.com/public/applet/",
-											method: "GET",
-											data: {
-												"code": res.code
-											},
-											success(res) {
-												console.log(res);
-												if (res.code = 300) {
-													uni.showToast({
-														title: "未登录",
-													})
-													uni.reLaunch({
-														url: "../login/login"
-													})
-												}
-												//用户已登录
-												if (res.code = 200) {
-													uni.showToast({
-														title: "请授权登录",
-													})
-													uni.reLaunch({
-														url: "../login/login"
-													})
-												}
-											},
-											fail(res){
-												console.log(res);
-												uni.showToast({
-													title: "无网络...",
-												})
-											}
-										})
-									}
-								})
 							}
 						});
 					},

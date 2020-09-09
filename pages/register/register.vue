@@ -24,7 +24,7 @@
 			<view class="from-group">
 				<view class="iconfont iconleixing1"></view>
 				<view class="line"></view>
-				<view class="input"><button type="default">{{counttype}}</button></view>
+				<view class="input"><button type="default" class="typebtn">{{counttype}}</button></view>
 			</view>
 
 			<!-- 类型选择 -->
@@ -405,4 +405,14 @@
 	}
 
 	.active {}
+	.typebtn{
+		color: #000000;
+		background: #FFFFFF !important;
+		border: none;
+		-webkit-appearance: none;
+
+	}
+	button::after{
+		border: none;
+	}
 </style>

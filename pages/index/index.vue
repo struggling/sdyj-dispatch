@@ -34,7 +34,6 @@
 							<template v-if="orderlist.length>0">
 								<block v-for="(item,index) in orderlist" :key="index">
 									<orderList :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></orderList>
-									
 								</block>
 							</template>
 							<!-- nothing -->
@@ -42,16 +41,22 @@
 								<noThing></noThing>
 							</template>
 							<!-- 上拉加载 -->
-							<load-more :loadtext="loadtext"></load-more>
+							<!-- <load-more :loadtext="loadtext"></load-more> -->
 						</scroll-view>
 					</swiper-item>
 					<swiper-item>
 						<scroll-view scroll-y class="list" @scrolltolower="loadmore" show-scrollbar="false">
-							<block v-for="(item,index) in takelist" :key="index">
-								<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
-							</block>
+							<template v-if="takelist.length>0">
+								<block v-for="(item,index) in takelist" :key="index">
+									<orderList :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></orderList>
+								</block>
+							</template>
+							<!-- nothing -->
+							<template v-else>
+								<noThing></noThing>
+							</template>
 							<!-- 上拉加载 -->
-							<load-more :loadtext="loadtext"></load-more>
+							<!-- <load-more :loadtext="loadtext"></load-more> -->
 						</scroll-view>
 					</swiper-item>
 				</swiper>
@@ -195,6 +200,7 @@
 			// let isregister = true;
 			//首页待派单订单请求
 			this.getWOrkstay();
+			this.getAlready();
 			// if(phone){
 				
 			// }else{
@@ -221,11 +227,6 @@
 			//滑动切换
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
-				if (this.tabIndex == 1) {
-					this.showpopup = true;
-					this.getAlready();
-				}
-				
 			},
 			//上拉加载
 			loadmore() {
@@ -282,9 +283,7 @@
 									//抢单成功体醒
 									that.show = true;
 									//删除该订单
-									let arr = that.orderlist.splice(index,1);
-									console.log(arr);
-									
+									 that.orderlist.splice(index,1);
 								}else{
 									uni.showToast({
 										title:"无网络!"
@@ -429,16 +428,14 @@
 							//计算经纬度距离和循环遍历工具要求
 							for (var i = 0; i < that.orderlist.length; i++) {
 								var location = that.orderlist[i].longitude;
-								var tool = that.orderlist[i].label.split(" ");
 								console.log(location);
 								var longitude = location.split(",")[0];
 								var latitude = location.split(",")[1]
 								var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
-								   jl = Math.floor(jl/1000 * 10) / 10;
-								   that.jl.push(jl);
-								   that.tool.push(tool);
+								jl = Math.floor(jl/1000 * 10) / 10;
+								that.jl = that.jl.concat(jl);
+								console.log("距离");
 								console.log(that.jl);
-								console.log(that.tool);
 							}
 						}else{
 							console.log(res);
@@ -457,66 +454,47 @@
 			
 			//获取已抢单列表信息
 			getAlready(){
-				if(this.phone){
-					let that  =this;
-					uni.request({
-						url: $apiUrl+"work/already",
-						method: "POST",
-						dataType: JSON,
-						data: {
-							uid: this.user_uid
-						},
-						success(res) {
+				let that  =this;
+				uni.request({
+					url: this.$apiUrl+"work/already",
+					method: "POST",
+					dataType: JSON,
+					data: {
+						uid: this.user_uid
+					},
+					success(res) {
+						console.log(res);
+						const data = JSON.parse(res.data);
+						console.log(data.data);
+						if(data.code == 200){
+							// console.log(res)
+							that.takelist = data.data;
+							console.log("已抢单订单列表:");
+							console.log(that.takelist);
+							//计算经纬度距离和循环遍历工具要求
+							for (var i = 0; i < that.orderlist.length; i++) {
+								var location = that.orderlist[i].longitude;
+								console.log(location);
+								var longitude = location.split(",")[0];
+								var latitude = location.split(",")[1]
+								var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
+								jl = Math.floor(jl/1000 * 10) / 10;
+								that.jl = that.jl.concat(jl);
+								console.log("距离");
+								console.log(that.jl);
+							}
+						}else{
 							console.log(res);
-							const data = JSON.parse(res.data);
-							console.log(data.data);
-							if(data.code == 200){
-								// console.log(res)
-								that.takelist = data.data;
-								console.log("已抢单订单列表:");
-								console.log(that.takelist);
-								//计算经纬度距离和循环遍历工具要求
-								for (var i = 0; i < that.takelist.length; i++) {
-									var location = that.takelist[i].longitude;
-									var tool = that.takelist[i].label.split(" ");
-									console.log(location);
-									var longitude = location.split(",")[0];
-									var latitude = location.split(",")[1]
-									var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
-									   jl = Math.floor(jl/1000 * 10) / 10;
-									   that.jl.push(jl);
-									   that.tool.push(tool);
-									console.log(that.jl);
-									console.log(that.tool);
-								}
-							}else{
-								console.log(res);
-								uni.showToast({
-									title:"无网络"
-								})
-							}
-							
-						},
-						fail(err) {
-							console.log(err);
+							uni.showToast({
+								title:"无网络"
+							})
 						}
-					})
-				}else{
-					uni.showModal({
-							title: '提示',
-							content: '未注册,请先到注册页面填写详细信息后',
-							success: function (res) {
-								if (res.confirm) {
-									console.log('用户点击确定');
-									uni.navigateTo({
-										url: '../settlement/settlement',
-									});
-								} else if (res.cancel) {
-									console.log('用户点击取消');
-								}
-							}
-						});
-				}
+						
+					},
+					fail(err) {
+						console.log(err);
+					}
+				})
 			},
 			
 			//mock假数据

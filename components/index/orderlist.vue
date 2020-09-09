@@ -3,15 +3,15 @@
 		<view class="orderlist">
 			<view class="order-item">
 				<view class="item-l" @tap="goDetail(item)">
-					<view class="title">{{item.name}}<span>{{item.duration}}小时</span></view>
+					<view class="title">{{item.type}}/<span>{{item.duration}}</span></view>
 					<view class="address">{{item.origin}}</view>
 					<view class="dtime">
 						<view class="distance">距离:{{jl[index]}}公里</view>
 						<view class="vtime">上门时间:{{item.door_time}}</view>
 					</view>
 					<view class="tool">
-						<block v-for="(items,index1) in tool[0]" :key="index1">
-								<span>{{items}}</span>
+						<block v-for="(items,index1) in label" :key="index1">
+							<span>{{items}}</span>
 						</block>
 					</view>
 				</view>
@@ -36,32 +36,13 @@
 		data() {
 			return {
 				index1:0,
-				itemData:[{
-					Distance: 77.69,
-					budget: "120.00",
-					code: "J907637880720548",
-					content: "速度去",
-					delete: 0,
-					destination: "",
-					door_time: "2020-09-07 15:28:00",
-					duration: "时长：4小时",
-					label: "扫把 毛巾 洗洁精 擦玻器 吸尘器 除胶剂",
-					longitude: "103.98004403187,30.681640881022",
-					name: "测试小程序",
-					origin: "成都市青羊区万达广场",
-					send: "开发者",
-					state: 0,
-					tel: "181****8028",
-					type: "日常保洁",
-					uid: "4"
-				}]
+				label:[]
 			}
 		},
 		onReady() {
-			console.log(this.tool[0]);
-			this.itemData.push(this.item);
-			console.log(111);
-			console.log(this.itemData);
+			this.label = this.item.label.split(/[ ]+/);
+			console.log("标签");
+			console.log(this.label);
 		},
 		methods:{
 			openModel(){
@@ -100,9 +81,6 @@
 				uni.navigateTo({
 					url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 				});
-				// uni.navigateTo({
-				// 	url: '../list2detail-detail/list2detail-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-				// });
 			},
 		}
 	}
@@ -122,12 +100,17 @@
 		padding-left: 25upx;
 		padding-right: 25upx;
 	}
+	.order-item .item-l{
+		width: 420upx;
+	}
 	
 	.order-item .item-l .title {
 		font-weight: bold;
 		font-size: 32upx;
 		margin-bottom: 30upx;
 		color: #101D37;
+		
+		
 	}
 	
 	.order-item .item-l .address {
@@ -154,6 +137,9 @@
 		color: #3072F6;
 		margin-bottom: 30upx;
 		font-weight: bold;
+		overflow:hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap
 	}
 	
 	.order-item .item-l .tool span {

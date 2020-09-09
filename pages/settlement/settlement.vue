@@ -150,25 +150,25 @@
 		justify-content: space-between;
 	}
 	.gird .gird-item{
-		width:206upx ;
-		height: 228upx;
+		width:338upx ;
+		height: 356upx;
 		border-radius: 12upx;
 		background-color: #000000;
 		text-align: center;
 		margin-top: 20upx;
 	}
 	.gird .gird-item image{
-		width: 170upx;
-		height: 146upx;
+		width: 298upx;
+		height: 256upx;
 		border-radius: 8upx;
 		margin-top: 15upx;
 	}
 	.gird .gird-item .btn{
-		width:148upx;
-		height: 36upx;
-		line-height: 36upx;
+		width:231upx;
+		height: 50upx;
+		line-height: 50upx;
 		border-radius: 8upx;
-		font-size: 16upx;
+		font-size: 30upx;
 		/* display: inline; */
 		margin: 0 auto;
 		margin-top: 10upx;

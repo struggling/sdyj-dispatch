@@ -269,9 +269,22 @@
 					})
 				}else{
 					//如果没有手机说明用户没有注册跳转
-					uni.navigateTo({
-						url:"../settlement/settlement"
-					})
+					uni.showModal({
+					    title: '提示',
+					    content: '请先完成师傅服务类型注册，在开始抢单',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								//如果没有手机说明用户没有注册跳转
+								uni.navigateTo({
+									url:"../settlement/settlement"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+								
+					        }
+					    }
+					});
 				}
 			},
 			
@@ -301,6 +314,7 @@
 			
 			//待结算订单
 			getClose(){
+				let that = this;
 				uni.request({
 					url:this.$apiUrl+"work/close",
 					method:"POST",
@@ -334,6 +348,7 @@
 			
 			//已结算
 			getEnd(){
+				let that = this;
 				uni.request({
 					url:this.$apiUrl+"/work/end",
 					method:"POST",
