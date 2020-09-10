@@ -72,26 +72,52 @@ import uView from "uview-ui";
 					},
 					fail: (err) => {
 						//过期的话调用接口
-						uni.showModal({
-							cancelText: '取消',
-							confirmText: '确定',
-							title: '登录已过期,请重新登录',
-							success: (res) => {
-								if (res.confirm) {
-									uni.showLoading({
-										mask: true,
-										title: '登录中...'
-									})
-									uni.reLaunch({
-										url:"/pages/login/login.vue"
-									})
-								} else if (res.cancel) {
-									uni.reLaunch({
-										url:"/pages/login/login.vue"
-									})
-								}
-							}
-						});
+												uni.showModal({
+													cancelText: '取消',
+													confirmText: '确定',
+													title: '登录已过期,请重新登录',
+													success: (res) => {
+														if (res.confirm) {
+															uni.showLoading({
+																mask: true,
+																title: '登录中...'
+															})
+														}
+														uni.login({
+															provider: 'weixin',
+															success: (res) => {
+																console.log(res);
+																uni.request({
+																	url: "https://applet.51tiaoyin.com/public/applet/",
+																	method: "GET",
+																	data: {
+																		"code": res.code
+																	},
+																	success(res) {
+																		console.log(res);
+																		if (res.code = 300) {
+																			uni.showToast({
+																				title: "未登录",
+																			})
+																			uni.reLaunch({
+																				url: "../login/login"
+																			})
+																		}
+																		//用户已登录
+																		if (res.code = 200) {
+																			uni.showToast({
+																				title: "请授权登录",
+																			})
+																			uni.reLaunch({
+																				url: "../login/login"
+																			})
+																		}
+																	}
+																})
+															}
+														})
+													}
+												});
 					},
 				})
 	};
