@@ -48,7 +48,7 @@
 						<scroll-view scroll-y class="list" @scrolltolower="loadmore" show-scrollbar="false">
 							<template v-if="takelist.length>0">
 								<block v-for="(item,index) in takelist" :key="index">
-									<orderList :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></orderList>
+									<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
 								</block>
 							</template>
 							<!-- nothing -->
@@ -110,7 +110,7 @@
 				address: "当前位置",
 				height: "",
 				background: {
-					backgroundImage: "linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
 				user_uid: "",
 				showpopup: false,
@@ -132,7 +132,8 @@
 				],
 				orderlist: [],
 				takelist:[],
-				page:1
+				page:1,
+				istake:false
 			}
 		},
 		onReady() {
@@ -152,9 +153,11 @@
 				}
 			});
 			// 获取用户地理位置经纬都
-			uni.getLocation({
+			wx.getLocation({
 				type: 'gcj02',
+				isHighAccuracy:true,
 				success(res) {
+					console.log(res);
 					console.log('当前位置的经度：' + res.longitude);
 					console.log('当前位置的纬度：' + res.latitude);
 					that.latitude = res.latitude;
@@ -199,8 +202,12 @@
 			console.log("uid的值:"+this.user_uid);
 			// let isregister = true;
 			//首页待派单订单请求
+			// setInterval(()=>{
+			// 	this.getWOrkstay();
+			// },3000)
 			this.getWOrkstay();
-			this.getAlready();
+			
+			
 			// if(phone){
 				
 			// }else{
@@ -214,7 +221,7 @@
 
 		},
 		onPullDownRefresh() {
-			// this.getData();
+			this.getWOrkstay();
 			console.log("下拉刷新");
 		},
 		methods: {
@@ -223,10 +230,18 @@
 			xuanzhong(index) {
 				this.tabIndex = index;
 				console.log(index);
+				// this.getWOrkstay();
 			},
 			//滑动切换
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
+				if(e.detail.current == 0){
+						this.getWOrkstay();
+				}
+				
+				if(e.detail.current == 1){
+						this.getAlready();
+				}
 			},
 			//上拉加载
 			loadmore() {
@@ -252,7 +267,7 @@
 				}else{
 					let arr = orderData.orderlist.slice(pagesize*(this.page-1)+1,pagesize*this.page+1);
 					console.log(arr);
-					this.orderlist = this.orderlist.concat(arr);
+					// this.orderlist = this.orderlist.concat(arr);//追加假数据
 					this.loadtext = "上拉加载更多";
 					console.log(this.loadtext);
 					// console.log(this.orderlist);
@@ -266,6 +281,10 @@
 					let indextag = true;
 					if(indextag){
 						indextag = false;
+						this.istake = true;
+						console.log(this.istake);
+						let that = this;
+						let code = that.orderlist[index].code;
 						uni.request({
 							url:"https://applet.51tiaoyin.com/public/applet/work/take",
 							method:"POST",
@@ -407,13 +426,16 @@
 			//获取待派单列表信息
 			getWOrkstay(){
 				let that  =this;
+				let str = uni.getStorageSync("type");
+				console.log(str);
+				let type = str.split(",");
 				uni.request({
 					url: this.$apiUrl+"work/stay",
 					method: "POST",
 					dataType: JSON,
 					data: {
-						town: "成都",
-						genre: ['日常保洁',"开荒保洁","上门除甲醛"],
+						town: "眉山市",
+						genre: type,
 						uid: this.user_uid
 					},
 					success(res) {
@@ -437,7 +459,12 @@
 								console.log("距离");
 								console.log(that.jl);
 							}
-						}else{
+						}else if(data.code == 300){
+							uni.showToast({
+								title:"该地区没有相关工单"
+							})
+						}
+						else{
 							console.log(res);
 							uni.showToast({
 								title:"无网络"
@@ -483,7 +510,13 @@
 								console.log("距离");
 								console.log(that.jl);
 							}
-						}else{
+						}
+						else if(data.code == 300){
+							uni.showToast({
+								title:"该地区没有相关工单"
+							})
+						}
+						else{
 							console.log(res);
 							uni.showToast({
 								title:"无网络"
@@ -602,7 +635,7 @@
 	}
 
 	.tab-bar .active {
-		background: linear-gradient(90deg, #00ABEB, #54C3F1);
+		background: linear-gradient(90deg,  #54C3F1, #00ABEB);
 	}
 
 	uni-scroll-view .uni-scroll-view::-webkit-scrollbar {

@@ -31,21 +31,21 @@
 					</view>
 					<view class="txt">
 						<image src="../../static/settlement/ioon.png" mode=""></image>
-						<span>海量订单、精准推送</span>
+						<span>订单管理、专业有序</span>
 					</view>
 					
 				</view>
 			</view>
 			<view class="ensure" style="margin-top: 40upx;">
-				<view class="title">入驻优势</view>
+				<view class="title">入驻要求</view>
 				<view class="panel">
 					<view class="txt">
 						<image src="../../static/settlement/ioon.png" mode=""></image>
-						<span>海量订单、精准推送</span>
+						<span>技能傍身、服务专业</span>
 					</view>
 					<view class="txt">
 						<image src="../../static/settlement/ioon.png" mode=""></image>
-						<span>海量订单、精准推送</span>
+						<span>积极向上、热情大方</span>
 					</view>
 				</view>
 			</view>
@@ -58,12 +58,10 @@
 		data() {
 			return {
 				pic:[
-					"../../static/settlement/jzbj.png",
-					"../../static/settlement/jdwx.png",
-					"../../static/settlement/jdqx.png",
 					"../../static/settlement/gqty.png",
 					"../../static/settlement/gqby.png",
-					"../../static/settlement/cjq.png",
+					"../../static/settlement/jzbj.png",
+					"../../static/settlement/jdwx.png",
 				],
 				background1:[
 					"background-color: #F8F5D5",
@@ -77,7 +75,7 @@
 				typedata:{},
 				height:"",
 				background:{
-					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
 			}
 		},
@@ -199,8 +197,9 @@
 		padding-right: 25upx;
 	}
 	.ensure .panel image{
-		width: 28upx;
-		height: 28upx;
+		width: 24upx;
+		height:24upx;
+		margin-right: 15upx;
 	}
 	.ensure .panel .txt{
 		padding-left: 20upx;

@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni-app:///main.js"],"names":["createPage","Page"],"mappings":";;;;wEAAA,qBACA,sBACA,wI,mDACAA,EAAWC,a","file":"pagesA/pages/wait-list/wait-list.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pagesA/pages/wait-list/wait-list.vue'\ncreatePage(Page)"],"sourceRoot":""}

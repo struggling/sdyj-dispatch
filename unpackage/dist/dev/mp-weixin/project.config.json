@@ -10,11 +10,9 @@
 		"minified": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.9.2",
+	"libVersion": "",
 	"appid": "wxe7bb48c6264d17e1",
 	"projectname": "sdyj-dispatch",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -39,6 +37,13 @@
 		"miniprogram": {
 			"current": -1,
 			"list": [
+				{
+					"id": -1,
+					"name": "pages/guide/guide",
+					"pathName": "pages/guide/guide",
+					"query": "",
+					"scene": null
+				},
 				{
 					"id": -1,
 					"name": "pages/settlement/settlement",

@@ -8,37 +8,42 @@
 		<!-- orderDetail -->
 		<view class="orderDetail">
 			<view class=" iconfont icongerenzhongxin-zhong">
-				<span style="padding-left: 25upx;">客户订单信息</span>
+				<span style="padding-left: 25upx;">订单信息</span>
 			</view>
 			<view class="parameter">
 				<view class=" iconfont icontongxunlu">
-					<span style="padding-left: 25upx;">王先生</span>
+					<span style="padding-left: 25upx;">{{data.name}}</span>
 				</view>
 				<view class="r-txt">
-					<span style="padding-left: 25upx;">服务类型：家政保洁</span>
+					<span style="padding-left: 25upx;">服务类型：{{data.type}}</span>
 				</view>
 			</view>
 			<view class="parameter">
 				<view class=" iconfont iconshouji">
-					<span style="padding-left: 25upx;">1322****5123</span>
+					<span style="padding-left: 25upx;">{{data.tel}}</span>
 				</view>
-				<view class="r-txt ">
-					<span style="padding-left: 25upx;">参考价格：160元</span>
+				<view class="r-txt "  style="font-size: 24upx;">
+					<span style="padding-left: 25upx;">费用：{{data.budget}}元</span>
 				</view>
 			</view>
 			<view class="parameter">
-				<view class=" r-txt">
-					<span>服务时长：2小时</span>
+				<view class="r-txt " style="font-size: 24upx;">
+					<span >上门时间：
+					{{data.door_time.substring(5,data.door_time.length-3)}}
+					</span>
 				</view>
-				<view class="r-txt ">
-					<span style="padding-left: 25upx;">人员要求：2人</span>
-				</view>
+				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
+					<span>{{data.duration}}</span>
+				</view>				
 			</view>
-			<view class="parameter">位置：四川省眉山市仁寿县中城国际社区24栋1单元202</view>
-			<view class="parameter">工具要求：吸尘器    蒸汽机   除螨器   吸尘器    蒸汽机   除螨器</view>
-			<view class="parameter">备注：不要毛巾，哈哈啊哈哈哈，真的不要毛巾，哈哈啊哈哈哈 真的不要毛巾，哈哈啊哈哈哈，真的</view>
-			<button type="default" class="theme">立即抢单</button>
-			<image src="../../static/logo.png" mode=""></image>
+			<view class="parameter">位置：{{data.origin}}</view>
+			<view class="parameter">工具要求：{{data.label}}</view>
+			<view class="parameter">备注：{{data.content}}</view>
+			<view class="btngroup">
+				<button type="default" class="theme" @tap="navlociton">导航目标</button>
+				<button type="default" class="theme" @tap="opentake">立即抢单</button>
+			</view>
+			<!-- <image src="../../static/logo.png" mode=""></image> -->
 		</view>
 	</view>
 </template>
@@ -49,8 +54,9 @@
 			return {
 				height:"",
 				background:{
-					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
+				data:{},
 				id: 0, // 使用 marker点击事件 需要填写id
 				title: 'map',
 				latitude: 29.993299,
@@ -61,23 +67,114 @@
 					latitude: 29.994521,
 					longitude: 104.154741,
 					iconPath: '../../static/wait-list/location.png',
-					width:20,
-					height:20,
-					content:'唐山迁安',//文本
-				}, 
-				{
-					latitude: 29.992511,
-					longitude: 104.151347,
-					iconPath: '../../static/wait-list/location.png'
+					width:50,
+					height:50,
+					content:'客户地址',//文本
 				},
+				{
+					id: 1, 
+					latitude: 29.994521,
+					longitude: 104.154741,
+					iconPath: '../../static/wait-list/location.png',
+					width:50,
+					height:50,
+					content:'我的地址',//文本
+				}
 				]
 			}
 		},
-		onLoad() {
-			
+		onLoad(event) {
+			// TODO 后面把参数名替换成 payload
+			const payload = event.detailDate || event.payload;
+			// 目前在某些平台参数会被主动 decode，暂时这样处理。
+			try {
+				this.data= JSON.parse(decodeURIComponent(payload));
+				console.log(this.data);
+				let loction = this.data.longitude.split(",");
+				console.log(loction);
+				this.latitude = loction[1];
+				this.longitude  =loction[0];
+				this.covers[0].latitude = loction[1];
+				this.covers[0].longitude  =loction[0];
+				this.covers[1].longitude=uni.getStorageSync('longitude');
+				this.covers[1].latitude=uni.getStorageSync('latitude');
+			} catch (error) {
+				this.data = JSON.parse(payload);
+				console.log(this.data);
+			}
 		},
 		methods: {
-
+			navlociton(){
+				uni.getLocation({
+				    type: 'gcj02', //返回可以用于uni.openLocation的经纬度
+				    success:(res)=> {
+				        const latitude = this.latitude;
+				        const longitude = this.longitude;
+				        uni.openLocation({
+				            latitude: latitude,
+				            longitude: longitude,
+				            success: function () {
+				                console.log('success');
+				            }
+				        });
+				    }
+				});
+			},
+			opentake(){
+				
+				let phone = uni.getStorageSync('phone');
+				let user_uid = uni.getStorageSync('user_uid');
+				let code = this.data.code;
+				if (phone) {
+						uni.request({
+							url:"https://applet.51tiaoyin.com/public/applet/work/take",
+							method:"POST",
+							dataType:JSON,
+							data:{
+								uid:user_uid,
+								code:code,//订单编号
+								WorkNautica:[this.longitude,this.latitude],
+								phone:phone
+							},
+							success(res) {
+								console.log(res);
+								
+								if(res.code = 200){
+									//抢单成功体醒
+									uni.showToast({
+										title:"抢单成功"
+									})
+									//删除该订单
+									
+								}else{
+									uni.showToast({
+										title:"无网络!"
+									})
+								}
+							},
+							fail() {
+								console.log(res);
+							}
+						})
+				} else {
+					uni.showModal({
+					    title: '提示',
+					    content: '请先完成师傅服务类型注册，在抢单',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								//如果没有手机说明用户没有注册跳转
+								uni.navigateTo({
+									url:"../settlement/settlement"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+								
+					        }
+					    }
+					});
+				}
+			}
 		}
 	}
 </script>
@@ -146,11 +243,15 @@
 		background-color:#F86032 ;
 		color: #FFFFFF;
 		border-radius: 8upx;
-		width: 482upx;
+		width: 300upx;
 		height:76upx ;
 		font-size: 40upx;
 		line-height: 76upx;
 		margin:40upx auto;
+	}
+	.btngroup{
+		display: flex;
+		justify-content: space-between;
 	}
 	/* 修改小程序的默认button样式 */
 	button{

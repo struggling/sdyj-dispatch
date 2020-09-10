@@ -33,10 +33,13 @@ import uView from "uview-ui";
 											if(data.code ==200){
 												let phone = data.data.phone;
 												let type  =data.data.type;
+												let uid  =data.data.uid;
 												uni.setStorageSync("phone",phone);	
 												console.log("手机号码"+phone);
 												uni.setStorageSync("type",type);
 												console.log("服务类型"+type);
+												uni.setStorageSync("uid",uid);
+												console.log("uid标识"+uid);
 											}else if(data.code ==300){
 												uni.showModal({
 												    title: '提示',

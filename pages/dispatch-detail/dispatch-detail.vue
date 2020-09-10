@@ -53,7 +53,7 @@
 				// 自定义导航栏
 				height:"",
 				background:{
-					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
 				// 自定义导航栏
 				data:{}

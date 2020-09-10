@@ -5,27 +5,27 @@
                 <view class="page-section-spacing">
                     <swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" indicator-active-color="#00ABEB">
                         <swiper-item>
-                            <view class="swiper-item uni-bg-red">
-								<image src="../../static/guide/guide1.png" mode=""></image>
+                            <view class="swiper-item">
+								<image src="../../static/guide/guide1.jpg" mode=""></image>
 								<view class="text">轻轻一点 接单神器</view>
 								<view class="text1 " @tap="openindex">跳过</view>
 								</view>
                         </swiper-item>
                         <swiper-item>
-                            <view class="swiper-item uni-bg-green">
-								<image src="../../static/guide/guide2.png" mode=""></image>
+                            <view class="swiper-item">
+								<image src="../../static/guide/guide2.jpg" mode=""></image>
 								<view class="text">就近抢单  方便快捷</view>
 							</view>
                         </swiper-item>
                         <swiper-item>
-                            <view class="swiper-item uni-bg-blue">
-								<image src="../../static/guide/guide3.png" mode=""></image>
+                            <view class="swiper-item">
+								<image src="../../static/guide/guide3.jpg" mode=""></image>
 								<view class="text">确认完成  费用秒到账</view>
 							</view>
                         </swiper-item>
 						<swiper-item>
-						    <view class="swiper-item uni-bg-blue">
-								<image src="../../static/guide/guide4.png" mode=""></image>
+						    <view class="swiper-item">
+								<image src="../../static/guide/guide4.jpg" mode=""></image>
 								<view class="text btn" @tap="openindex">立即体验</view>
 							</view>
 						</swiper-item>
@@ -96,13 +96,14 @@
 	}
 	.swiper-item image{
 		width: 100%;
-		height: 1200upx;
+		height: 570upx;
 	}
 	swiper{
 		height: 1200upx !important;
 	}
 	.swiper-item{
 		position: relative;
+		padding-top: 246upx;
 	}
 	.swiper-item .text{
 		position: absolute;
@@ -125,7 +126,9 @@
 		border: 2upx solid #00ABEB;
 		border-radius: 20upx;
 		padding: 25upx;
+		width: 400upx !important;
+		color:#00ABEB !important;
 		width: 400upx;
-		color:#00ABEB ;
+		margin: 0 25%;
 	}
 </style>

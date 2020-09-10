@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni-app:///main.js"],"names":["createPage","Page"],"mappings":";;;;wEAAA,qBACA,sBACA,0I,mDACAA,EAAWC,a","file":"pagesA/pages/settlement/settlement.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pagesA/pages/settlement/settlement.vue'\ncreatePage(Page)"],"sourceRoot":""}

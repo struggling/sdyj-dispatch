@@ -29,10 +29,23 @@
 
 			<!-- 类型选择 -->
 			<view class="typecontent">
-				<view class="title">当前选择种类</view>
+				<!-- <view class="title">当前选择种类</view>
 				<view class="onelist">
 					<view class="list theme">{{typefy}}</view>
-				</view>
+				</view> -->
+				<!-- <image src="../../static/settlement/longgqby.png" mode=""></image> -->
+				<block v-if="typefy=='钢琴调音'">
+					<image :src="longtype.longgqty" mode=""></image>
+				</block>
+				<block v-if="typefy=='钢琴搬运'">
+					<image :src="longtype.longgyby" mode=""></image>
+				</block>
+				<block v-if="typefy=='家政服务'">
+					<image :src="longtype.longjzbj" mode=""></image>
+				</block>
+				<block v-if="typefy=='家电维修'">
+					<image :src="longtype.longjdwx" mode=""></image>
+				</block>
 				<view class="title">种类</view>
 				<view class="onelist">
 					<block v-for="(item,index) in typename" :key="index">
@@ -43,7 +56,7 @@
 			<!-- 协议 -->
 			<view class="xieyi">
 				<view :class="[check,{'theme':flag,'':flag}]" @tap="checked"></view>
-				确定同意<span>《协议》</span>
+				<view class="text">确定同意<navigator url="../agreement/agreement">《协议》</navigator></view>
 			</view>
 			<!-- 提交 -->
 			<button type="default" class="btn theme" @tap="submit()"> 确定提交</button>
@@ -60,7 +73,7 @@
 				isget:true,
 				sumstring: [],
 				postData: [],
-				flag: true,
+				flag: false,
 				check: "check",
 				ischeck: false,
 				code: "",
@@ -75,8 +88,14 @@
 				typename: [],
 				height: "",
 				background: {
-					backgroundImage: "linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
+				longtype:{
+					longjzbj:"../../static/settlement/longjzbj.png",
+					longgqty:"../../static/settlement/longgqty.png",
+					longgyby:"../../static/settlement/longgqby.png",
+					longjdwx:"../../static/settlement/longjdwx.png",
+				}
 			}
 		},
 		computed: {
@@ -245,7 +264,12 @@
 						title:errorMsg
 					});
 					// console.error(errorMsg)
-				} else {
+				} else if(!this.flag){
+					uni.showToast({
+						title:"请同意协议"
+					});
+				}
+				else {
 					uni.showToast({
 						title:"提交中"
 					});
@@ -347,8 +371,12 @@
 		padding-left: 25upx;
 		padding-right: 25upx;
 		margin-top: 25upx;
+		padding-bottom: 25upx;
 	}
-
+	
+	.typecontent  image{
+		height: 220upx;
+	}
 	.typecontent .title {
 		color: #808080;
 		font-size: 30upx;
@@ -376,12 +404,16 @@
 
 	.xieyi {
 		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
-	.xieyi span {
+	.xieyi navigator {
 		text-decoration: solid;
 		color: #0A98D5;
 		margin-bottom: 25upx;
+		display: inline;
 	}
 
 	.btn {
@@ -398,15 +430,17 @@
 
 	/* 选中协议 */
 	.check {
-		width: 40upx;
-		height: 40upx;
+		padding-right: 15upx;
+		width: 30upx;
+		height: 30upx;
 		border-radius: 100%;
-		background-color: #18B566;
+		/* background-color: #18B566; */
+		border: 8upx solid #00ABEB;
 	}
 
 	.active {}
 	.typebtn{
-		color: #000000;
+		color: #000000 !important;
 		background: #FFFFFF !important;
 		border: none;
 		-webkit-appearance: none;

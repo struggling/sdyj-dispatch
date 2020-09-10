@@ -95,7 +95,7 @@
 				swiperheight: 667,
 				height: "",
 				background: {
-					backgroundImage: "linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
 				show: false,
 				action: 'localhost', // 演示地址

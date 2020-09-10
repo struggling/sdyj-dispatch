@@ -25,7 +25,7 @@
 	@import './common/uni.css';
 	/* 全局主题颜色theme */
 	.theme{
-		background: linear-gradient(90deg, #00ABEB, #54C3F1);
+		background: linear-gradient(90deg, #54C3F1, #00ABEB);
 	}
 	
 	/* 顶部导航栏自定义 */

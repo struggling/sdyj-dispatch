@@ -33,84 +33,84 @@
 				"navigationBarTitleText": "个人中心",
 				"navigationBarTextStyle":"white"
 			}
-        }
-        ,{
-            "path" : "pages/wait-list/wait-list",
-            "style" : {
-				"navigationStyle":"custom",
-				"navigationBarBackgroundColor":"#f85f31",
-				"navigationBarTitleText": "待派单",
-				"navigationBarTextStyle":"white"
-			}
-        }
-        ,{
-            "path" : "pages/apply-bill/apply-bill",
-            "style" : {
-				"navigationStyle":"custom",
-				"navigationBarBackgroundColor":"#f85f31",
-				"navigationBarTitleText": "申请开票",
-				"navigationBarTextStyle":"white"
-			}
-        }
-        ,{
-            "path" : "pages/order-detail/order-detail",
-            "style" : {
-				"navigationStyle":"custom",
-				"navigationBarBackgroundColor":"#f85f31",
-				"navigationBarTitleText": "订单信息",
-				"navigationBarTextStyle":"white"
-			}
-        }
-        ,{
-            "path" : "pages/dispatch-detail/dispatch-detail",
-            "style" : {
-				"navigationStyle":"custom",
-				"navigationBarBackgroundColor":"#f85f31",
-				"navigationBarTitleText": "接单详情",
-				"navigationBarTextStyle":"white"
-			}
-        }
-        ,{
-            "path" : "pages/myinfo/myinfo",
-            "style" : {
-				"navigationStyle":"custom",
-				"navigationBarBackgroundColor":"#f85f31",
-				"navigationBarTitleText": "个人信息",
-				"navigationBarTextStyle":"white"
-			}
-        }
-        ,{
-            "path" : "pages/login/login",
-            "style" : {
-				"navigationStyle":"custom",
-				"navigationBarBackgroundColor":"#f85f31",
-				"navigationBarTitleText": "登陆授权",
-				"navigationBarTextStyle":"white"}
-        }
-        ,{
-            "path" : "pages/settlement/settlement",
-            "style" : {
-				"navigationStyle":"custom"
-			}
-        }
-        ,{
-            "path" : "pages/register/register",
-            "style" : {
-				"navigationStyle":"custom"
-			}
-        }
-        ,{
-            "path" : "pages/guide/guide",
-            "style" : {
-				"navigationStyle":"custom"
-			}
-        }
-        ,{
-            "path" : "pages/mydata/mydata",
-            "style" : {
-				"navigationStyle":"custom"
-			}
-        }
+        },
+		{
+		            "path" : "pages/wait-list/wait-list",
+		            "style" : {
+						"navigationStyle":"custom",
+						"navigationBarBackgroundColor":"#f85f31",
+						"navigationBarTitleText": "待派单",
+						"navigationBarTextStyle":"white"
+					}
+		        }
+		        ,{
+		            "path" : "pages/apply-bill/apply-bill",
+		            "style" : {
+						"navigationStyle":"custom",
+						"navigationBarBackgroundColor":"#f85f31",
+						"navigationBarTitleText": "申请开票",
+						"navigationBarTextStyle":"white"
+					}
+		        }
+		        ,{
+		            "path" : "pages/order-detail/order-detail",
+		            "style" : {
+						"navigationStyle":"custom",
+						"navigationBarBackgroundColor":"#f85f31",
+						"navigationBarTitleText": "订单信息",
+						"navigationBarTextStyle":"white"
+					}
+		        }
+		        ,{
+		            "path" : "pages/dispatch-detail/dispatch-detail",
+		            "style" : {
+						"navigationStyle":"custom",
+						"navigationBarBackgroundColor":"#f85f31",
+						"navigationBarTitleText": "接单详情",
+						"navigationBarTextStyle":"white"
+					}
+		        }
+		        ,{
+		            "path" : "pages/myinfo/myinfo",
+		            "style" : {
+						"navigationStyle":"custom",
+						"navigationBarBackgroundColor":"#f85f31",
+						"navigationBarTitleText": "个人信息",
+						"navigationBarTextStyle":"white"
+					}
+		        }
+		        ,{
+		            "path" : "pages/login/login",
+		            "style" : {
+						"navigationStyle":"custom",
+						"navigationBarBackgroundColor":"#f85f31",
+						"navigationBarTitleText": "登陆授权",
+						"navigationBarTextStyle":"white"}
+		        },
+				{
+				            "path" : "pages/settlement/settlement",
+				            "style" : {
+								"navigationStyle":"custom"
+							}
+				        }
+				        ,{
+				            "path" : "pages/register/register",
+				            "style" : {
+								"navigationStyle":"custom"
+							}
+				        }
+				        ,{
+				            "path" : "pages/guide/guide",
+				            "style" : {
+								"navigationStyle":"custom"
+							}
+				        }
+				        ,{
+				            "path" : "pages/mydata/mydata",
+				            "style" : {
+								"navigationStyle":"custom"
+							}
+				        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -145,4 +145,23 @@
 			}
 		]
 	}
+	 // "subPackages": [{
+	 //        "root": "pagesA",
+	 //        "pages": [{
+	 //            "path": "list/list",
+	 //            "style": { ...}
+	 //        }]
+	 //    }, {
+	 //        "root": "pagesB",
+	 //        "pages": [{
+	 //            "path": "detail/detail",
+	 //            "style": { ...}
+	 //        }]
+	 //    }],
+	 //    "preloadRule": {
+	 //        "pagesA/list/list": {
+	 //            "network": "all",
+	 //            "packages": ["pagesA"]
+	 //        }
+	 //    }
 }

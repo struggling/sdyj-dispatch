@@ -49,7 +49,7 @@
 				// 自定义导航栏
 				height:"",
 				background:{
-					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
 				// 自定义导航栏
 				user_uid:"",
@@ -135,27 +135,6 @@
 			this.getlistdata();
 			this.getClose();
 			this.getEnd();
-			this.newslist[1].list= [
-				{
-					Distance: 1541.83,
-					budget: "70.00",
-					code: "J903134394979893",
-					content: "测试",
-					delete: 0,
-					destination: "",
-					door_time: "2020-09-03 14:09:00",
-					duration: "时长：2小时",
-					label: "扫把 毛巾 洗洁精 擦玻器 吸尘器 除胶剂",
-					longitude: "120.17557880007,30.248398420426",
-					name: "测试",
-					origin: "杭州市上城区无",
-					send: "开发者",
-					state: 1,
-					tel: "181****8028",
-					type: "日常保洁",
-					uid: 1
-				}
-			]
 		},
 		methods: {
 			//上拉加载更多

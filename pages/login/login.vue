@@ -29,7 +29,7 @@
 				isCanUse:true,
 				height:"",
 				background:{
-					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
 			};
 		},
@@ -65,7 +65,7 @@
 												setTimeout(
 												()=>{
 												uni.reLaunch({
-													url:"../index/index"
+													url:"../guide/guide"
 												})	
 												},1500);
 												// 把用户信息写入缓存

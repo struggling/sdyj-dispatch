@@ -68,7 +68,7 @@
 				address:"",
 				height:"",
 				background:{
-					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
 				type:"个人",
 				bill:"增值税电子普通发票",
