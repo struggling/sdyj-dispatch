@@ -213,6 +213,7 @@
 				
 				if(e.detail.current == 1){
 						this.getAlready();
+						this.$refs.popup.open();
 				}
 			},
 			//上拉加载
@@ -348,31 +349,10 @@
 				})
 
 			},
-			//计算两点直线路径
+			
 			
 
-			countDistance(la1, lo1, la2, lo2) {
-				var FINAL = 6378137.0
-				/** 
-				 * 求某个经纬度的值的角度值 
-				 * @param {Object} d 
-				 */
-				function calcDegree(d) {
-					return d * Math.PI / 180.0;
-				}
-				/** 
-				 * 根据两点经纬度值，获取两地的实际相差的距离 
-				 * @param {Object} f    第一点的坐标位置[latitude,longitude] 
-				 * @param {Object} t    第二点的坐标位置[latitude,longitude] 
-				 */
-				var flat = calcDegree(la1);
-				var flng = calcDegree(lo1);
-				var tlat = calcDegree(la2);
-				var tlng = calcDegree(lo2);
-				var result = Math.sin(flat) * Math.sin(tlat);
-				result += Math.cos(flat) * Math.cos(tlat) * Math.cos(flng - tlng);
-				return Math.acos(result) * FINAL;
-			},
+			
 			
 			//获取通知栏信息
 			getNavbar(){
@@ -426,32 +406,33 @@
 							console.log("订单列表:");
 							console.log(that.orderlist);
 							//计算经纬度距离和循环遍历工具要求
-							for (var i = 0; i < that.orderlist.length; i++) {
-								var location = that.orderlist[i].longitude;
-								// console.log(location);
-								// let index = str .lastIndexOf(">")
-								//客户距离
-								let str1 = location.split(",")[0];
-								str1 = str1.substring(0,9);
-								let str2 = location.split(",")[1];
-								str2 = str2.substring(0,9);
-								console.log("str1-"+str1);
-								var longitude = str1;
-								var latitude = str2;
-								//计算距离
-								let latitude1 = uni.getStorageSync("latitude");
-								let longitude1 = uni.getStorageSync("longitude");
-								//我的距离
-								console.log(that.latitude);
-								console.log(that.longitude);
-								console.log(latitude);
-								console.log(longitude);
-								var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
-								jl = Math.floor(jl/1000 * 10) / 10;
-								that.jl = that.jl.concat(jl);
-								console.log("距离");
-								console.log(that.jl);
-							}
+							// for (var i = 0; i < that.orderlist.length; i++) {
+							// 	console.log("订单数据长度"+that.orderlist.length);
+							// 	var location = that.orderlist[i].longitude;
+							// 	// console.log(location);
+							// 	// let index = str .lastIndexOf(">")
+							// 	//客户距离
+							// 	let str1 = location.split(",")[0];
+							// 	str1 = str1.substring(0,9);
+							// 	let str2 = location.split(",")[1];
+							// 	str2 = str2.substring(0,9);
+							// 	console.log("str1-"+str1);
+							// 	var longitude = str1;
+							// 	var latitude = str2;
+							// 	//计算距离
+							// 	let latitude1 = uni.getStorageSync("latitude");
+							// 	let longitude1 = uni.getStorageSync("longitude");
+							// 	//我的距离
+							// 	console.log(that.latitude);
+							// 	console.log(that.longitude);
+							// 	console.log(latitude);
+							// 	console.log(longitude);
+							// 	var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
+							// 	jl = Math.floor(jl/1000 * 10) / 10;
+							// 	that.jl = that.jl.concat(jl);
+							// 	console.log("距离");
+							// 	console.log(that.jl);
+							// }
 						}else if(data.code == 300){
 							uni.showToast({
 								title:"该地区没有相关工单"
@@ -482,7 +463,7 @@
 					data: {
 						uid: this.user_uid
 					},
-					 async success(res) {
+					 success(res) {
 						console.log(res);
 						const data = JSON.parse(res.data);
 						console.log(data.data);
@@ -493,8 +474,9 @@
 							// console.log(that.takelist);
 							// // var jl = await that.countDistance( 39.923423,116.368904,116.387271,39.922501);
 							// // console.log("距离"+jl);
-							// //计算经纬度距离和循环遍历工具要求
+							// //计算经纬度距离
 							for (var i = 0; i < that.orderlist.length; i++) {
+								console.log("订单数据长度"+that.orderlist.length);
 								var location = that.orderlist[i].longitude;
 								// console.log(location);
 								// let index = str .lastIndexOf(">")
@@ -523,7 +505,8 @@
 						}
 						else if(data.code == 300){
 							uni.showToast({
-								title:"该地区没有相关工单"
+								title:"无最新工单",
+								duration:2000
 							})
 						}
 						else{

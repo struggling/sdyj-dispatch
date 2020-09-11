@@ -6,7 +6,7 @@
 					<view class="title">{{item.type}}/<span>{{item.duration}}</span></view>
 					<view class="address">{{item.origin}}</view>
 					<view class="dtime">
-						<view class="distance">距离:{{jl[index]}}公里</view>
+						<view class="distance">距离:{{distance}}公里</view>
 						
 					</view>
 					<view class="tool">
@@ -18,7 +18,7 @@
 				<view class="item-r">
 					<view class="price">{{item.budget}}元</view>
 					<view class="vtime">上门时间:
-					<view>{{this.item.door_time.substring(5,this.item.door_time.length-3)}}</view>
+					<view>{{item.door_time.substring(5,item.door_time.length-3)}}</view>
 					</view>
 					<view class="status theme" @tap.stop="openModel">立即抢单</view>
 				</view>
@@ -42,15 +42,21 @@
 				index1:0,
 				label:[],
 				// door_time:""
+				distance:[]
 			}
 		},
 		onReady() {
 			// this.label = this.item.label.split(/[ ]+/);
-			 this.label = this.item.label.split(",");
-			console.log("标签");
-			console.log(this.label);
+			
+				this.label = this.item.label.split(",");
+				console.log("标签");
+				console.log(this.label);
+				this.getDistance();
+			
 			// this.door_time =this.item.door_time.substring(5,this.item.door_time.length-3);
 		},
+		
+		
 		methods:{
 			openModel(){
 				console.log(this.index);
@@ -65,6 +71,7 @@
 			// 		url:"../../pages/order-detail/order-detail"
 			// 	})
 			// },
+			//跳转到导航详情页
 			goDetail: function(item) {
 				let detail = {
 					Distance: item.Distance,
@@ -89,6 +96,47 @@
 					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 					url: '../../pages/wait-list/wait-list?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 				});
+			},
+			//计算距离
+			getDistance(){
+				console.log("计算属性"+this.items);
+				let location = this.item.longitude;
+				let str1 = location.split(",")[0];
+				str1 = str1.substring(0,9);
+				let str2 = location.split(",")[1];
+				str2 = str2.substring(0,9);
+				var longitude = str1;
+				var latitude = str2;
+				let latitude1 = uni.getStorageSync("latitude");
+				let longitude1 = uni.getStorageSync("longitude");
+				var jl = this.countDistance(latitude1, longitude1, latitude, longitude);
+				jl = Math.floor(jl/1000 * 10) / 10;
+				this.distance = jl;
+				console.log("距离");
+				console.log(this.distance);
+			},
+			//计算两点直线路径
+			countDistance(la1, lo1, la2, lo2) {
+				var FINAL = 6378137.0
+				/** 
+				 * 求某个经纬度的值的角度值 
+				 * @param {Object} d 
+				 */
+				function calcDegree(d) {
+					return d * Math.PI / 180.0;
+				}
+				/** 
+				 * 根据两点经纬度值，获取两地的实际相差的距离 
+				 * @param {Object} f    第一点的坐标位置[latitude,longitude] 
+				 * @param {Object} t    第二点的坐标位置[latitude,longitude] 
+				 */
+				var flat = calcDegree(la1);
+				var flng = calcDegree(lo1);
+				var tlat = calcDegree(la2);
+				var tlng = calcDegree(lo2);
+				var result = Math.sin(flat) * Math.sin(tlat);
+				result += Math.cos(flat) * Math.cos(tlat) * Math.cos(flng - tlng);
+				return Math.acos(result) * FINAL;
 			},
 		}
 	}

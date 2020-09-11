@@ -29,7 +29,7 @@
 			<view class="parameter">
 				<view class="r-txt " style="font-size: 24upx;">
 					<span >上门时间：
-					{{this.data.door_time.substring(5,this.data.door_time.length-3)}}
+					{{data.door_time.substring(5,data.door_time.length-3)}}
 					</span>
 					
 				</view>
@@ -148,9 +148,10 @@
 				//         });
 				//     }
 				// });
-				uni.openLocation({
-					latitude:that.latitude,
-					longitude:that.longitude,
+				console.log(that.latitude);
+				wx.openLocation({
+					latitude:Number(that.latitude) ,
+					longitude: Number(that.longitude) ,
 					success() {
 						console.log("成功");
 					}
@@ -161,6 +162,7 @@
 				let phone = uni.getStorageSync('phone');
 				let user_uid = uni.getStorageSync('user_uid');
 				let code = this.data.code;
+				console.log("phone"+phone);
 				if (phone) {
 						uni.request({
 							url:"https://applet.51tiaoyin.com/public/applet/work/take",

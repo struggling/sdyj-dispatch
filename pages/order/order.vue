@@ -237,7 +237,12 @@
 								that.code = that.newslist[0].list.code;
 								console.log("待上门列表：");
 								console.log(that.newslist[0].list);
-							}else{
+							}else if(data.code == 300){
+								uni.showToast({
+									title:"暂无数据"
+								})
+							}
+							else{
 								uni.showToast({
 									title:"服务器无响应"
 								})
