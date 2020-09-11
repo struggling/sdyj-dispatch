@@ -21,11 +21,11 @@
 				<view class="line"></view>
 				<view class="input"><button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">{{phonenum}}</button></view>
 			</view>
-			<view class="from-group">
+			<!-- <view class="from-group">
 				<view class="iconfont iconleixing1"></view>
 				<view class="line"></view>
 				<view class="input"><button type="default" class="typebtn">{{counttype}}</button></view>
-			</view>
+			</view> -->
 
 			<!-- 类型选择 -->
 			<view class="typecontent">
@@ -270,9 +270,9 @@
 					});
 				}
 				else {
-					uni.showToast({
+					uni.showLoading({
 						title:"提交中"
-					});
+					})
 					//获取首页中缓存的经纬度,uid
 					let latitude = uni.getStorageSync("latitude");
 					let longitude = uni.getStorageSync("longitude");
@@ -293,13 +293,13 @@
 							// console.log(res);
 							//提交成功后的跳转到首页
 							uni.hideLoading({
-								title:"信息保存成功"
+								title:"注册成功"
 							});
 							setTimeout(()=>{
 								uni.reLaunch({
 									url:"../index/index"
 								})
-							},1500)
+							},2500)
 							
 						},
 						fail() {

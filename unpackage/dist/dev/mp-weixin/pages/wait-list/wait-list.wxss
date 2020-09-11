@@ -180,6 +180,47 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* map */
 uni-map.data-v-70637098 {
 	position: relative;
@@ -263,5 +304,8 @@ label.data-v-70637098{
 /* 修改小程序的默认button样式 */
 button.data-v-70637098{
 	-webkit-appearance:none
+}
+.active.data-v-70637098{
+	background-color: #CCCCCC;
 }
 

@@ -1,22 +1,26 @@
 <template>
 	<view>
 		<view class="orderlist">
-			<view class="order-item">
-				<view class="item-l" @tap="goDetail(item)">
-					<view class="title">{{item.name}}/<span>{{item.duration}}</span></view>
+			<view class="order-item" @tap="goDetail(item)">
+				<view class="item-l">
+					<view class="title">{{item.type}}/<span>{{item.duration}}</span></view>
 					<view class="address">{{item.origin}}</view>
-					<view class="distance">距离：{{item.Distance}}公里</view>
+					<view class="dtime">
+						<view class="distance">距离:{{jl[index]}}公里</view>
+						
+					</view>
 					<view class="tool">
 						<block v-for="(items,index1) in label" :key="index1">
-								<span>{{items}}</span>
+							<span>{{items}}</span>
 						</block>
 					</view>
-					<view class="vtime">上门时间：{{item.door_time}}</view>
 				</view>
 				<view class="item-r">
 					<view class="price">{{item.budget}}元</view>
-					
-					<view class="status" @tap="openWaitlist">{{state[item.state]}}</view>
+					<view class="vtime">上门时间:
+					<view>{{this.item.door_time.substring(5,this.item.door_time.length-3)}}</view>
+					</view>
+					<view class="status">{{state[item.state]}}</view>
 				</view>
 			</view>
 		</view>
@@ -39,11 +43,13 @@
 					"审核失败"
 				],
 				index1:0,
-				itemData:[]
+				itemData:[],
+				label:[],
 			}
 		},
 		onReady() {
-			this.label = this.item.label.split(/[ ]+/);
+			console.log(this.item.label);
+			this.label = this.item.label.split(",");
 			console.log("标签");
 			console.log(this.label);
 		},
@@ -77,7 +83,7 @@
 </script>
 
 <style scoped>
-	/* orderlist */
+/* orderlist */
 	.orderlist {}
 	
 	.order-item {
@@ -90,19 +96,24 @@
 		padding-left: 25upx;
 		padding-right: 25upx;
 	}
+	.order-item .item-l{
+		width: 420upx;
+	}
 	
 	.order-item .item-l .title {
 		font-weight: bold;
 		font-size: 32upx;
 		margin-bottom: 30upx;
 		color: #101D37;
+		
+		
 	}
 	
 	.order-item .item-l .address {
 	
-		font-size: 20upx;
+		font-size: 28upx;
 		color: #969CA8;
-		margin-bottom: 30upx;
+		margin-bottom: 15upx;
 		font-weight: bold;
 	}
 	
@@ -111,17 +122,20 @@
 	}
 	
 	.order-item .item-l .distance {
-		font-size: 20upx;
+		font-size: 28upx;
 		color: #00ABEB;
-		margin-bottom: 30upx;
+		margin-bottom: 15upx;
 		font-weight: bold;
 	}
 	
 	.order-item .item-l .tool {
-		font-size: 20upx;
+		font-size: 28upx;
 		color: #3072F6;
-		margin-bottom: 30upx;
+		margin-bottom: 15upx;
 		font-weight: bold;
+		overflow:hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap
 	}
 	
 	.order-item .item-l .tool span {
@@ -135,10 +149,10 @@
 		border-radius: 8upx;
 	}
 	
-	.order-item .item-l .vtime {
+	.order-item .item-r .vtime {
 		color: #3072F6;
 		font-weight: bold;
-		font-size: 18upx;
+		font-size: 24upx;
 		/* margin-left: 25upx; */
 	
 	}
@@ -147,8 +161,7 @@
 		display: flex;
 		flex-direction: column;
 		text-align: center;
-		width: 220upx;
-		flex:1
+		width: 260upx;
 	}
 	
 	.order-item .item-r .img image {
@@ -162,20 +175,22 @@
 		color: #FA5741;
 		font-size: 28upx;
 		font-weight: bold;
-		margin-top: 20upx;
 		margin-bottom: 20upx;
 	}
 	
 	.order-item .item-r .status {
 		height: 42upx;
+		width: 180upx;
+		margin-left: 50upx;
 		line-height: 42upx;
 		font-size: 28upx;
 		font-weight: bold;
 		color: #FFFFFF;
-		background-color: #FA5741;
+		background-color: #CCCCCC;
 		border-radius: 20upx;
 		padding: 0 30upx;
-		margin-top: 89upx;
+		margin-top: 15upx;
+		z-index: 100;
 	}
 	
 	.success {

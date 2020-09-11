@@ -1,6 +1,5 @@
 {
   "navigationStyle": "custom",
-  "enablePullDownRefresh": true,
   "disableScroll": true,
   "navigationBarBackgroundColor": "#00ABEB",
   "navigationBarTitleText": "接单池",

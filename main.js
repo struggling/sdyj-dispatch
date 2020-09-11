@@ -6,7 +6,7 @@ import uView from "uview-ui";
 
 // 定义一个全局的请求地址
 // Vue.prototype.apiServer = 'http://0608.cc/'
-//定义全局的检查函数
+//定义全局的检查登录函数
 	Vue.prototype.checklogin= function(){
 			uni.checkSession({
 					success: (res) => {
@@ -72,55 +72,64 @@ import uView from "uview-ui";
 					},
 					fail: (err) => {
 						//过期的话调用接口
-												uni.showModal({
-													cancelText: '取消',
-													confirmText: '确定',
-													title: '登录已过期,请重新登录',
-													success: (res) => {
-														if (res.confirm) {
-															uni.showLoading({
-																mask: true,
-																title: '登录中...'
-															})
-														}
-														uni.login({
-															provider: 'weixin',
-															success: (res) => {
-																console.log(res);
-																uni.request({
-																	url: "https://applet.51tiaoyin.com/public/applet/",
-																	method: "GET",
-																	data: {
-																		"code": res.code
-																	},
-																	success(res) {
-																		console.log(res);
-																		if (res.code = 300) {
-																			uni.showToast({
-																				title: "未登录",
-																			})
-																			uni.reLaunch({
-																				url: "../login/login"
-																			})
-																		}
-																		//用户已登录
-																		if (res.code = 200) {
-																			uni.showToast({
-																				title: "请授权登录",
-																			})
-																			uni.reLaunch({
-																				url: "../login/login"
-																			})
-																		}
-																	}
-																})
-															}
-														})
-													}
-												});
+						uni.showModal({
+							cancelText: '取消',
+							confirmText: '确定',
+							title: '登录已过期,请重新登录',
+							success: (res) => {
+								if (res.confirm) {
+									uni.showLoading({
+										mask: true,
+										title: '登录中...'
+									})
+								}
+								uni.reLaunch({
+									url: "../login/login"
+								})
+								// uni.login({
+								// 	provider: 'weixin',
+								// 	success: (res) => {
+								// 		console.log(res);
+								// 		uni.request({
+								// 			url: "https://applet.51tiaoyin.com/public/applet/",
+								// 			method: "GET",
+								// 			data: {
+								// 				"code": res.code
+								// 			},
+								// 			success(res) {
+								// 				console.log(res);
+								// 				if (res.code = 300) {
+								// 					uni.showToast({
+								// 						title: "未登录",
+								// 					})
+								// 					uni.reLaunch({
+								// 						url: "../login/login"
+								// 					})
+								// 				}
+								// 				//用户已登录
+								// 				if (res.code = 200) {
+								// 					uni.showToast({
+								// 						title: "请授权登录",
+								// 					})
+								// 					uni.reLaunch({
+								// 						url: "../login/login"
+								// 					})
+								// 				}else{
+								// 					uni.showToast({
+								// 						title:"获取信息失败，请检查网络"
+								// 					})
+								// 				}
+								// 			}
+								// 		})
+								// 	}
+								// })
+							}
+						});
 					},
 				})
 	};
+
+
 	
 //全局的分享内容
 Vue.prototype.$overShare = 	{
@@ -132,7 +141,7 @@ Vue.prototype.$overShare = 	{
 
 
 //全局的apiurl
-Vue.prototype.$apiUrl = 'https://applet.51tiaoyin.com/public/applet/'; 
+Vue.prototype.$apiUrl = 'https://yigongdan.com/public/applet/'; 
 
 Vue.use(uView);
 

@@ -9,7 +9,7 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationStyle":"custom",
-				"enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
+				// "enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
 				"disableScroll":true,
 				"navigationBarBackgroundColor":"#00ABEB",
 				"navigationBarTitleText": "接单池",
@@ -111,6 +111,10 @@
 								"navigationStyle":"custom"
 							}
 				        }
+        ,{
+            "path" : "pages/test/test",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -111,6 +111,13 @@
 				],
 			}
 		},
+		onShow() {
+			this.checklogin();
+			//获取订单页面所有数据
+			this.getlistdata();
+			this.getClose();
+			this.getEnd();
+		},
 		onLoad() {
 			// wx.hideShareMenu({
 			//   menus: ['shareTimeline'],//小程序分享到朋友圈按钮
@@ -123,7 +130,7 @@
 			//设置容器高度
 			uni.getSystemInfo({
 				success: (res) => {
-					// console.log(res.windowHeight);
+					console.log(res.windowHeight);
 					let height = res.windowHeight - uni.upx2px(100);
 					this.swiperheight = height;
 				}
@@ -131,10 +138,7 @@
 			 // uni.$emit('updates',{msg:'页面更新'});
 			this.user_uid = uni.getStorageSync('user_uid');
 			
-			//获取订单页面所有数据
-			this.getlistdata();
-			this.getClose();
-			this.getEnd();
+			
 		},
 		methods: {
 			//上拉加载更多

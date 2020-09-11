@@ -1,8 +1,8 @@
 <template>
 	<view>
 		<!-- 自定义导航栏 -->
-		<u-navbar :is-back="false" title="抢单池" :height="height" :background="background" title-color="#ffffff">
-			<view class="slot-wrap">
+		<u-navbar :is-back="false" title="接单池" :height="height" :background="background" title-color="#ffffff">
+			<view class="slot-wrap" @tap="openlocation">
 				{{address}}
 			</view>
 		</u-navbar>
@@ -28,9 +28,12 @@
 			</view>
 			<!-- 列表 -->
 			<view class="uni-tab-bar">
-				<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
+				<swiper class="swiper-box" :style="{height:swiperheight+'px'}"  :current="tabIndex" @change="tabChange">
 					<swiper-item>
-						<scroll-view scroll-y class="list" @scrolltolower="loadmore" show-scrollbar="false">
+						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore" refresher-enabled="true"
+						:refresher-triggered="triggered"
+            :refresher-threshold="30"  @refresherpulling="onPulling"
+            @refresherrefresh="onRefresh" @refresherrestore="onRestore" @refresherabort="onAbort">
 							<template v-if="orderlist.length>0">
 								<block v-for="(item,index) in orderlist" :key="index">
 									<orderList :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></orderList>
@@ -41,11 +44,11 @@
 								<noThing></noThing>
 							</template>
 							<!-- 上拉加载 -->
-							<!-- <load-more :loadtext="loadtext"></load-more> -->
+							<load-more :loadtext="loadtext"></load-more>
 						</scroll-view>
 					</swiper-item>
 					<swiper-item>
-						<scroll-view scroll-y class="list" @scrolltolower="loadmore" show-scrollbar="false">
+						<scroll-view scroll-y class="list" @scrolltolower="loadmore" refresher-enabled="true">
 							<template v-if="takelist.length>0">
 								<block v-for="(item,index) in takelist" :key="index">
 									<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
@@ -99,6 +102,7 @@
 		},
 		data() {
 			return {
+				 triggered: true,
 				phone:1,
 				tool:[],
 				jl:[],
@@ -138,62 +142,30 @@
 		},
 		onReady() {
 		},
-		onLoad() {
-			// 检查登录是否过期
-			var that = this;
+		onShow() {
 			//检查登录授权
+			// 检查登录是否过期
+			
+			this.getAuthorizeInfo();
+			this.getWOrkstay();
+		},
+		onLoad() {
 			this.checklogin();
+			var that = this;
+			 this._freshing = false;
+			 setTimeout(() => {
+			     this.triggered = true;
+			 }, 1000);
 			// 获取scoll-view高度值
 			uni.getSystemInfo({
 				success: (res) => {
 					// console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(282);
+					let height = res.windowHeight - uni.upx2px(300);
 					this.swiperheight = height;
 					console.log(this.swiperheight);
 				}
 			});
-			// 获取用户地理位置经纬都
-			wx.getLocation({
-				type: 'gcj02',
-				isHighAccuracy:true,
-				success(res) {
-					console.log(res);
-					console.log('当前位置的经度：' + res.longitude);
-					console.log('当前位置的纬度：' + res.latitude);
-					that.latitude = res.latitude;
-					that.longitude = res.longitude;
-					//注册页面经纬度缓存
-					uni.setStorageSync('longitude', res.longitude);
-					uni.setStorageSync('latitude', res.latitude);
-					//百度地图
-					var BMap = new bmap.BMapWX({
-						ak: 'q58GRKnjyQGGXI72GMdHKBBUaHEIKSyc'
-					});
-					BMap.regeocoding({
-						location: res.latitude + "," + res.longitude,
-						// location:"116.409443,39.909843",
-						success(res) {
-							// console.log(res.wxMarkerData[0].address);
-							const address = res.wxMarkerData[0].address.substring(3);
-							// console.log(this);
-							that.address = address;
-							uni.setStorageSync('address', address);
-							// console.log(address);
-						},
-						fail(error) {
-							console.log(error);
-							console.log("失败");
-						}
-
-					})
-				},
-				fail() {
-					uni.showToast({
-						title: "拒绝获取当前位置"
-					})
-					console.log("位置获取失败");
-				}
-			});
+			
 			// mock数据通知栏
 			this.getNavbar();
 			//判断用户是否注册服务工种,获取缓存里面的值
@@ -205,8 +177,8 @@
 			// setInterval(()=>{
 			// 	this.getWOrkstay();
 			// },3000)
-			this.getWOrkstay();
-			
+			// this.getWOrkstay();
+			// this.getWOrkstay();
 			
 			// if(phone){
 				
@@ -220,10 +192,10 @@
 			
 
 		},
-		onPullDownRefresh() {
-			this.getWOrkstay();
-			console.log("下拉刷新");
-		},
+		// onPullDownRefresh() {
+		// 	this.getWOrkstay();
+		// 	console.log("下拉刷新");
+		// },
 		methods: {
 			// tabs通知swiper切换
 			//tabbar点击事件
@@ -248,30 +220,32 @@
 				if (this.loadtext != "上拉加载更多") {
 					return;
 				}
-				this.loadtext = "加载中...";
-				console.log(this.loadtext);
-				// 加载后端获取的数据
-				let pagesize = 3
-				let pagecount = this.orderlist.length/pagesize;
-				this.page++;
-				console.log("第几页："+this.page);
-				//假数据
-				let orderData = this.getmock();
-				//真数据
+				this.loadtext = "暂无更多数据";
+				let data = this.getWOrkstay();
+				this.orderlist = this.orderlist.concat(data);
+				// console.log(this.loadtext);
+				// // 加载后端获取的数据
+				// let pagesize = 3
+				// let pagecount = this.orderlist.length/pagesize;
+				// this.page++;
+				// console.log("第几页："+this.page);
+				// //假数据
+				// let orderData = this.getmock();
+				// //真数据
 				
-				console.log("加载后端获取的数据");
-				if(pagesize>orderData.orderlist.slice(pagesize*(this.page-1)+1,pagesize*this.page+1).length){
-					this.loadtext = "暂无更多数据";
-					console.log(this.loadtext);
+				// console.log("加载后端获取的数据");
+				// if(pagesize>orderData.orderlist.slice(pagesize*(this.page-1)+1,pagesize*this.page+1).length){
+				// 	this.loadtext = "暂无更多数据";
+				// 	console.log(this.loadtext);
 					
-				}else{
-					let arr = orderData.orderlist.slice(pagesize*(this.page-1)+1,pagesize*this.page+1);
-					console.log(arr);
-					// this.orderlist = this.orderlist.concat(arr);//追加假数据
-					this.loadtext = "上拉加载更多";
-					console.log(this.loadtext);
-					// console.log(this.orderlist);
-				}	
+				// }else{
+				// 	let arr = orderData.orderlist.slice(pagesize*(this.page-1)+1,pagesize*this.page+1);
+				// 	console.log(arr);
+				// 	// this.orderlist = this.orderlist.concat(arr);//追加假数据
+				// 	this.loadtext = "上拉加载更多";
+				// 	console.log(this.loadtext);
+				// 	// console.log(this.orderlist);
+				// }	
 			},
 
 			// model,发送抢单请求
@@ -375,6 +349,8 @@
 
 			},
 			//计算两点直线路径
+			
+
 			countDistance(la1, lo1, la2, lo2) {
 				var FINAL = 6378137.0
 				/** 
@@ -425,6 +401,8 @@
 			
 			//获取待派单列表信息
 			getWOrkstay(){
+				// console.log("data里面的地理精度");
+				// console.log(this.latitude);
 				let that  =this;
 				let str = uni.getStorageSync("type");
 				console.log(str);
@@ -450,10 +428,25 @@
 							//计算经纬度距离和循环遍历工具要求
 							for (var i = 0; i < that.orderlist.length; i++) {
 								var location = that.orderlist[i].longitude;
-								console.log(location);
-								var longitude = location.split(",")[0];
-								var latitude = location.split(",")[1]
-								var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
+								// console.log(location);
+								// let index = str .lastIndexOf(">")
+								//客户距离
+								let str1 = location.split(",")[0];
+								str1 = str1.substring(0,9);
+								let str2 = location.split(",")[1];
+								str2 = str2.substring(0,9);
+								console.log("str1-"+str1);
+								var longitude = str1;
+								var latitude = str2;
+								//计算距离
+								let latitude1 = uni.getStorageSync("latitude");
+								let longitude1 = uni.getStorageSync("longitude");
+								//我的距离
+								console.log(that.latitude);
+								console.log(that.longitude);
+								console.log(latitude);
+								console.log(longitude);
+								var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
 								jl = Math.floor(jl/1000 * 10) / 10;
 								that.jl = that.jl.concat(jl);
 								console.log("距离");
@@ -489,22 +482,39 @@
 					data: {
 						uid: this.user_uid
 					},
-					success(res) {
+					 async success(res) {
 						console.log(res);
 						const data = JSON.parse(res.data);
 						console.log(data.data);
 						if(data.code == 200){
 							// console.log(res)
 							that.takelist = data.data;
-							console.log("已抢单订单列表:");
-							console.log(that.takelist);
-							//计算经纬度距离和循环遍历工具要求
+							// console.log("已抢单订单列表:");
+							// console.log(that.takelist);
+							// // var jl = await that.countDistance( 39.923423,116.368904,116.387271,39.922501);
+							// // console.log("距离"+jl);
+							// //计算经纬度距离和循环遍历工具要求
 							for (var i = 0; i < that.orderlist.length; i++) {
 								var location = that.orderlist[i].longitude;
-								console.log(location);
-								var longitude = location.split(",")[0];
-								var latitude = location.split(",")[1]
-								var jl = that.countDistance(that.latitude, that.longitude, latitude, longitude);
+								// console.log(location);
+								// let index = str .lastIndexOf(">")
+								//客户距离
+								let str1 = location.split(",")[0];
+								str1 = str1.substring(0,9);
+								let str2 = location.split(",")[1];
+								str2 = str2.substring(0,9);
+								console.log("str1-"+str1);
+								var longitude = str1;
+								var latitude = str2;
+								//计算距离
+								let latitude1 = uni.getStorageSync("latitude");
+								let longitude1 = uni.getStorageSync("longitude");
+								//我的距离
+								console.log(that.latitude);
+								console.log(that.longitude);
+								console.log(latitude);
+								console.log(longitude);
+								var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
 								jl = Math.floor(jl/1000 * 10) / 10;
 								that.jl = that.jl.concat(jl);
 								console.log("距离");
@@ -560,6 +570,114 @@
 					}
 				);
 				return orderData
+			},
+			// 位置授权
+			getAuthorizeInfo(){
+				const that = this;
+				uni.authorize({
+					scope: 'scope.userLocation',
+					success() { // 允许授权
+						that.getLocationInfo();
+					},
+					fail(){    // 拒绝授权
+						that.openConfirm();
+						that.address ="未授权";
+						console.log("你拒绝了授权，无法获得周边信息")
+					}
+				})
+			},
+			// 获取地理位置
+			// 获取用户地理位置经纬都
+			getLocationInfo(){
+				let that  = this;
+			    uni.getLocation({
+			    	type: 'gcj02',
+			    	isHighAccuracy:true,
+			    	success(res) {
+			    		console.log(res);
+			    		console.log('当前位置的经度：' + res.longitude);
+			    		console.log('当前位置的纬度：' + res.latitude);
+			    		that.latitude = res.latitude;
+			    		that.longitude = res.longitude;
+			    		//注册页面经纬度缓存
+			    		uni.setStorageSync('longitude', res.longitude);
+			    		uni.setStorageSync('latitude', res.latitude);
+			    		//百度地图
+			    		var BMap = new bmap.BMapWX({
+			    			ak: 'q58GRKnjyQGGXI72GMdHKBBUaHEIKSyc'
+			    		});
+			    		BMap.regeocoding({
+			    			location: res.latitude + "," + res.longitude,
+			    			// location:"116.409443,39.909843",
+			    			success(res) {
+			    				// console.log(res.wxMarkerData[0].address);
+			    				const address = res.wxMarkerData[0].address.substring(3);
+			    				// console.log(this);
+			    				that.address = address;
+			    				uni.setStorageSync('address', address);
+			    				// console.log(address);
+			    			},
+			    			fail(error) {
+			    				console.log(error);
+			    				console.log("失败");
+			    			}
+			    
+			    		})
+			    	},
+			    	fail(res) {
+			    		console.log(res);
+			    		
+			    	}
+			    });
+			},
+			
+			// 再次获取授权
+			// 当用户第一次拒绝后再次请求授权
+			openConfirm(){
+				let that = this;
+				uni.showModal({
+					title: '请求授权当前位置',
+					content: '需要获取您的地理位置，请确认授权',
+					success: (res)=> {
+						if (res.confirm) {
+							uni.openSetting({
+							  success(res) {
+							    console.log(res.authSetting)
+								// that.getLocationInfo();
+							  }
+							});// 打开地图权限设置
+						} else if (res.cancel) {
+							uni.showToast({
+								title: '你拒绝了授权，无法获得周边信息',
+								icon: 'none',
+								duration: 1000
+							})
+						}
+					}
+				});
+			},
+			//控件被下拉
+			onPulling(e) {
+			    console.log("onpulling", e);
+			},
+			//触发
+			onRefresh() {
+			    if (this._freshing) return;
+			    this._freshing = true;
+			    setTimeout(() => {
+			        this.triggered = false;
+			        this._freshing = false;
+			    }, 3000)
+			},
+			//复位
+			onRestore() {
+			    this.triggered = 'restore'; // 需要重置
+			    console.log("onRestore");
+				this.getWOrkstay();
+			},
+			//终止
+			onAbort() {
+			    console.log("onAbort");
 			}
 		},
 		
@@ -640,16 +758,16 @@
 
 	uni-scroll-view .uni-scroll-view::-webkit-scrollbar {
 		/* 隐藏滚动条，但依旧具备可以滚动的功能 */
-		display: none
+		/* display: none */
 	}
 
 	/* xss中添加以下样式代码 */
 	/*隐藏滚动条*/
-	::-webkit-scrollbar {
+	/* ::-webkit-scrollbar {
 		width: 0;
 		height: 0;
 		color: transparent;
-	}
+	} */
 
 	
 </style>

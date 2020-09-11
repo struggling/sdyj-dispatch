@@ -18,12 +18,13 @@
 				<view class="item-r">
 					<view class="price">{{item.budget}}元</view>
 					<view class="vtime">上门时间:
-					<view>{{item.door_time.substring(5,item.door_time.length-3)}}</view>
+					<view>{{this.item.door_time.substring(5,this.item.door_time.length-3)}}</view>
 					</view>
 					<view class="status theme" @tap.stop="openModel">立即抢单</view>
 				</view>
 			</view>
 		</view>
+		
 	</view>
 	
 </template>
@@ -39,13 +40,16 @@
 		data() {
 			return {
 				index1:0,
-				label:[]
+				label:[],
+				// door_time:""
 			}
 		},
 		onReady() {
-			this.label = this.item.label.split(/[ ]+/);
+			// this.label = this.item.label.split(/[ ]+/);
+			 this.label = this.item.label.split(",");
 			console.log("标签");
 			console.log(this.label);
+			// this.door_time =this.item.door_time.substring(5,this.item.door_time.length-3);
 		},
 		methods:{
 			openModel(){

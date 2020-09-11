@@ -576,6 +576,124 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 顶部导航栏自定义 */
 .slot-wrap.data-v-57280228 {
 	display: -webkit-box;
@@ -641,15 +759,15 @@
 }
 uni-scroll-view .uni-scroll-view.data-v-57280228::-webkit-scrollbar {
 	/* 隐藏滚动条，但依旧具备可以滚动的功能 */
-	display: none
+	/* display: none */
 }
 /* xss中添加以下样式代码 */
 /*隐藏滚动条*/
-.data-v-57280228::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
 	width: 0;
 	height: 0;
 	color: transparent;
-}
+} */
 
 
 

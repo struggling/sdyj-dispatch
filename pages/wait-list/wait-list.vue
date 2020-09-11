@@ -29,8 +29,9 @@
 			<view class="parameter">
 				<view class="r-txt " style="font-size: 24upx;">
 					<span >上门时间：
-					{{data.door_time.substring(5,data.door_time.length-3)}}
+					{{this.data.door_time.substring(5,this.data.door_time.length-3)}}
 					</span>
+					
 				</view>
 				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
 					<span>{{data.duration}}</span>
@@ -41,7 +42,7 @@
 			<view class="parameter">备注：{{data.content}}</view>
 			<view class="btngroup">
 				<button type="default" class="theme" @tap="navlociton">导航目标</button>
-				<button type="default" class="theme" @tap="opentake">立即抢单</button>
+				<button type="default" class="theme" @tap="opentake" :style="{'active':isactive}">立即抢单</button>
 			</view>
 			<!-- <image src="../../static/logo.png" mode=""></image> -->
 		</view>
@@ -57,6 +58,7 @@
 					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
 				data:{},
+				isactive:false,
 				id: 0, // 使用 marker点击事件 需要填写id
 				title: 'map',
 				latitude: 29.993299,
@@ -69,17 +71,43 @@
 					iconPath: '../../static/wait-list/location.png',
 					width:50,
 					height:50,
-					content:'客户地址',//文本
+					label:{//为标记点旁边增加标签
+							content:'客户地址',//文本
+							color:'#F76350',//文本颜色
+							anchorX:0,//label的坐标，原点是 marker 对应的经纬度
+							anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
+	// 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
+	// 					    y:116.39742,
+								bgColor:'#fff',//背景色
+								padding:5,//文本边缘留白
+							borderWidth:1,//边框宽度
+							borderColor:'#D84C29',//边框颜色							
+							textAlign:'right'//文本对齐方式。
+						 },
+						 
 				},
-				{
-					id: 1, 
-					latitude: 29.994521,
-					longitude: 104.154741,
-					iconPath: '../../static/wait-list/location.png',
-					width:50,
-					height:50,
-					content:'我的地址',//文本
-				}
+					{
+						id: 1, 
+						latitude: 29.994521,
+						longitude: 104.154741,
+						iconPath: '../../static/wait-list/location.png',
+						width:50,
+						height:50,
+						label:{//为标记点旁边增加标签
+												content:'我的地址',//文本
+												color:'#F76350',//文本颜色
+												anchorX:0,//label的坐标，原点是 marker 对应的经纬度
+												anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
+						// 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
+						// 					    y:116.39742,
+													bgColor:'#fff',//背景色
+													padding:5,//文本边缘留白
+												borderWidth:1,//边框宽度
+												borderColor:'#D84C29',//边框颜色							
+												textAlign:'right'//文本对齐方式。
+											 }
+											 
+					}
 				]
 			}
 		},
@@ -105,20 +133,28 @@
 		},
 		methods: {
 			navlociton(){
-				uni.getLocation({
-				    type: 'gcj02', //返回可以用于uni.openLocation的经纬度
-				    success:(res)=> {
-				        const latitude = this.latitude;
-				        const longitude = this.longitude;
-				        uni.openLocation({
-				            latitude: latitude,
-				            longitude: longitude,
-				            success: function () {
-				                console.log('success');
-				            }
-				        });
-				    }
-				});
+				let that  = this;
+				// uni.getLocation({
+				//     type: 'gcj02', //返回可以用于uni.openLocation的经纬度
+				//     success: function (res) {
+				//         const latitude = that.latitude;
+				//         const longitude = that.longitude;
+				//         uni.openLocation({
+				//             latitude: latitude,
+				//             longitude: longitude,
+				//             success: function () {
+				//                 console.log('success');
+				//             }
+				//         });
+				//     }
+				// });
+				uni.openLocation({
+					latitude:that.latitude,
+					longitude:that.longitude,
+					success() {
+						console.log("成功");
+					}
+				})
 			},
 			opentake(){
 				
@@ -146,9 +182,14 @@
 									})
 									//删除该订单
 									
+								}else if(res.code = 400){
+									uni.showToast({
+										title:"此订单已抢过!"
+									});
+									this.isactive = true;
 								}else{
 									uni.showToast({
-										title:"无网络!"
+										title:"服务器无响应"
 									})
 								}
 							},
@@ -256,5 +297,8 @@
 	/* 修改小程序的默认button样式 */
 	button{
 		-webkit-appearance:none
+	}
+	.active{
+		background-color: #CCCCCC;
 	}
 </style>

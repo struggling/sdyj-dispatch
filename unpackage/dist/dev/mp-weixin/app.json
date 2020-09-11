@@ -12,7 +12,8 @@
     "pages/settlement/settlement",
     "pages/register/register",
     "pages/guide/guide",
-    "pages/mydata/mydata"
+    "pages/mydata/mydata",
+    "pages/test/test"
   ],
   "subPackages": [],
   "window": {
