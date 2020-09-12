@@ -18,9 +18,17 @@
 					<view>{{data.type}}</view>
 				</view>
 				<view class="order-td r-box">
-					<view class="tips">服务时长：</view>
-					<view> {{data.duration}}</view>
+					<view class="tips">价格</view>
+					<view> {{data.budget}}</view>
 				</view>
+			</view>
+			<!-- 参考价格 -->
+			<view class="order-row">
+				<view class="order-td">
+					<view class="tips">服务时长：</view>
+					<view>{{data.duration}}</view>
+				</view>
+				<view class="order-td"></view>
 			</view>
 			<view class="order-row">
 				<view class="order-td">
@@ -29,6 +37,7 @@
 				 </view>
 				<view class="order-td"></view>
 			</view>
+			
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips">位置: </view>
@@ -36,6 +45,7 @@
 				</view>
 				<view class="order-td"></view>
 			</view>
+			
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips">工具要求:</view>
@@ -55,7 +65,7 @@
 			<view class="order-row">
 				<view class="order-td">
 					<view class="tips"> 订单状态:</view>
-					<view>未派单{{data.state}}</view>
+					<view>{{status}}</view>
 				</view>
 				<view class="order-td r-box">
 					<view class="tips">参考价格:</view>
@@ -69,7 +79,7 @@
 				</view>
 				<view class="order-td r-box">
 					<view class="tips">发布时间: </view>
-					<view>{{data.door_time}}</view>
+					<view>{{dataDoortime}}</view>
 				</view>
 			</view>
 		</view>
@@ -85,6 +95,34 @@
 				background: {
 					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
+			}
+		},
+		computed:{
+			status:function(){
+				switch (this.data.state){
+					case 0:
+					this.data.state = "已抢单";
+					break;
+					case 1:
+					this.data.state = "待上门";
+					break;
+					case 2:
+					this.data.state = "待结算";
+					break;
+					case 3:
+					this.data.state = "已结算";
+					break;
+					case 4:
+					this.data.state = "已取消";
+					break;
+					default:
+						break;
+				}
+				return this.data.state
+			},
+			dataDoortime:function(){
+				console.log(this.data);
+				return  this.data.door_time.substring(5,this.data.door_time.length-3)
 			}
 		},
 		onLoad(event) {
@@ -104,6 +142,15 @@
 			},
 		methods: {
 			
+		},
+		//自定义分享页面
+		onShareAppMessage(e){
+			return {
+				title: this.$overShare.title,
+				path: this.$overShare.path,
+				imageUrl:this.$overShare.imageUrl,
+				
+			}
 		}
 	}
 </script>
@@ -119,7 +166,7 @@
 	.order-row{
 		display: flex;
 		justify-content: space-between;
-		font-size: 30upx;
+		font-size: 40upx;
 		color: #554D45;
 		padding: 12upx;
 		text-align: left;
@@ -129,14 +176,17 @@
 	}
 	.tips{
 		color: #B4B4B4;
-		font-size: 24upx;
+		font-size: 28upx;
 		margin-bottom: 20upx;
 	}
 	.top{
-		font: 30upx;
+		font: 40upx;
 		font-weight: bold;
 	}
 	.order-td span{
 		padding-left: 20upx;
+	}
+	.order-td view{
+		font-size: 32upx;
 	}
 </style>

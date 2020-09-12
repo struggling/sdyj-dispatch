@@ -6,11 +6,13 @@
 		<view class="uni-tab-bar">
 			<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
 				<swiper-item v-for="(items,index) in newslist" :key="index">
-					<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)">
+					<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)" refresher-enabled="true" :refresher-triggered="triggered"
+            :refresher-threshold="30"  @refresherpulling="onPulling"
+            @refresherrefresh="onRefresh" @refresherrestore="onRestore(index)" @refresherabort="onAbort">
 						<!-- 待上门订单列表 -->
 						<template v-if="items.list.length>0">
 							<block v-for="(item,index1) in items.list" :key="index1">
-								<Settled :item="item" :index="index1" :btn="items.btn" @deleteOrder="deleteOrder"></Settled>
+								<Settled :item="item" :index="index1" :keys="index" :btn="items.btn" :color="items.color" @deleteOrder="deleteOrder"></Settled>
 							</block>
 						</template>
 						<template v-else>
@@ -55,6 +57,7 @@
 				user_uid:"",
 				code:"",//订单编号
 				swiperheight: 500,
+				triggered: true,
 				tabIndex: 0,
 				tabclick:-1,
 				tabBars: [{
@@ -94,8 +97,8 @@
 					},
 					{
 						btn:[
-							"取消订单",
-							"申请开票"
+							"取消订单"
+							
 						],
 						loadtext: "上拉加载更多",
 						list: []
@@ -106,7 +109,8 @@
 							" ",
 						],
 						loadtext: "上拉加载更多",
-						list: []
+						list: [],
+						color:"#cccccc"
 					},
 				],
 			}
@@ -115,8 +119,7 @@
 			this.checklogin();
 			//获取订单页面所有数据
 			this.getlistdata();
-			this.getClose();
-			this.getEnd();
+			
 		},
 		onLoad() {
 			// wx.hideShareMenu({
@@ -131,10 +134,14 @@
 			uni.getSystemInfo({
 				success: (res) => {
 					console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(100);
+					let height = res.windowHeight - uni.upx2px(243);
 					this.swiperheight = height;
 				}
 			});
+			this._freshing = false;
+			setTimeout(() => {
+			    this.triggered = true;
+			}, 1000);
 			 // uni.$emit('updates',{msg:'页面更新'});
 			this.user_uid = uni.getStorageSync('user_uid');
 			
@@ -192,13 +199,27 @@
 			//滑动事件
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
-				
+				switch (e.detail.current){
+					case 1:
+					this.getClose();
+					break;
+					case 2:
+					this.getEnd();
+					break;
+					case 3:
+					this.getlistCancel();
+					break;
+					default:
+					this.getlistdata();
+					break;
+				}
 			},
 			deleteOrder(index){
+				//uid code
 				let that = this;
 				uni.showModal({
 				    title: '提示',
-				    content: '确认删除此订单吗？取消订单会影响个人信誉,降低平台对您派单量',
+				    content: '确认取消此订单吗？取消订单会影响个人信誉,降低平台对您派单量',
 				    success: function (res) {
 				        if (res.confirm) {
 							let code = that.newslist[0].list.splice(index,1)[0].code;//当前删除的订单号
@@ -207,6 +228,21 @@
 							that.newslist[0].list.splice(index,1);
 							console.log("删除后还有几条订单");
 							console.log(that.newslist[0].list.length);
+							uni.request({
+								url:that.$apiUrl+"work/cancel",
+								method: "POST",
+								dataType: JSON,
+								data: {
+									code:code,
+									uid: that.user_uid
+								},
+								success(res) {
+									console.log(res);
+								},
+								fail(res) {
+									console.log(res);	
+								}
+							})
 				        } else if (res.cancel) {
 				            console.log('用户点击取消');
 				        }
@@ -276,19 +312,37 @@
 				}
 			},
 			
-			//拉去师傅取消订单
-			getlistCancel(code){
+			//拉去师傅已取消订单
+			getlistCancel(){
+				let that =this;
 				uni.request({
-					url:this.$apiUrl+"work/cancel",
+					url:this.$apiUrl+"work/off",
 					method:"POST",
 					dataType:JSON,
 					data:{
 						uid:this.user_uid,
-						code:code,
 					},
 					success(res) {
 						console.log("取消订单");
 						console.log(res);
+						const data = JSON.parse(res.data);
+						console.log(data);
+						if(data.code == 200){
+							that.newslist[3].list = data.data;
+							that.code = that.newslist[3].list.code;
+							console.log("取消订单：");
+							console.log(that.newslist[3].list);
+						}else if(data.code == 300){
+							uni.showToast({
+								title:"暂无数据"
+							})
+						}
+						else{
+							uni.showToast({
+								title:"服务器无响应"
+							})
+						}
+						
 					},
 					fail(res) {
 						console.log(res);
@@ -367,6 +421,46 @@
 					}
 				})
 			},
+			//控件被下拉
+			onPulling(e) {
+			    console.log("onpulling", e);
+			},
+			//触发
+			onRefresh() {
+			    if (this._freshing) return;
+			    this._freshing = true;
+				// if(this.orderlist)
+			    setTimeout(() => {
+			        this.triggered = false;
+			        this._freshing = false;
+			    }, 1000)
+			},
+			//复位
+			onRestore(index) {
+			    this.triggered = 'restore'; // 需要重置
+			    console.log("onRestore");
+				console.log(index);
+				// switch (index){
+				// 	case 0:
+				// 		this.getlistdata();
+				// 		break;
+				// 	case 1:
+				// 		this.getClose();
+				// 		break;	
+				// 	case 0:
+				// 		this.getEnd();
+				// 		break;
+				// 	case 3:
+				// 		this.getlistCancel();
+				// 		break;			
+				// 	default:
+				// 		break;
+				// }
+			},
+			//终止
+			onAbort() {
+			    console.log("onAbort");
+			}
 		},
 		
 		//自定义分享页面

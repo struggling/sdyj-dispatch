@@ -174,6 +174,15 @@
 		onReady() {
 			// 得到整个组件对象，内部图片列表变量为"lists"
 			this.lists = this.$refs.uUpload.lists;
+		},
+		//自定义分享页面
+		onShareAppMessage(e){
+			return {
+				title: this.$overShare.title,
+				path: this.$overShare.path,
+				imageUrl:this.$overShare.imageUrl,
+				
+			}
 		}
 	}
 </script>

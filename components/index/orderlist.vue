@@ -42,7 +42,8 @@
 				index1:0,
 				label:[],
 				// door_time:""
-				distance:[]
+				distance:[],
+				orderlist:[]
 			}
 		},
 		onReady() {
@@ -55,7 +56,26 @@
 			
 			// this.door_time =this.item.door_time.substring(5,this.item.door_time.length-3);
 		},
-		
+		computed:{
+			sortOrderlist:function(){
+				var arr = [
+				    {name:'zopp',age:0},
+				    {name:'gpp',age:18},
+				    {name:'yjj',age:8}
+				];
+				this.item.longitude  = this.distance;
+				this.orderlist = this.orderList.push(this.item);
+				function compare(property){
+				    return function(a,b){
+				        var value1 = a[property];
+				        var value2 = b[property];
+				        return value1 - value2;
+				    }
+				}
+				console.log("排序");
+				console.log(this.orderlist.sort(compare('longitude')))
+			}
+		},
 		
 		methods:{
 			openModel(){
@@ -249,7 +269,7 @@
 		background-color: #FA5741;
 		border-radius: 20upx;
 		padding: 0 30upx;
-		margin-top: 15upx;
+		margin-top: 36upx;
 		z-index: 100;
 	}
 	

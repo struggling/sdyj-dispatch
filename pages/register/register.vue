@@ -290,11 +290,12 @@
 							uid:uuser_uid
 						},
 						success(res) {
-							// console.log(res);
+							console.log(res);
 							//提交成功后的跳转到首页
 							uni.hideLoading({
 								title:"注册成功"
 							});
+							uni.setStorageSync("gonghao",res.id);
 							setTimeout(()=>{
 								uni.reLaunch({
 									url:"../index/index"

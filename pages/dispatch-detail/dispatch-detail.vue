@@ -115,6 +115,15 @@
 					}
 				})
 			}
+		},
+		//自定义分享页面
+		onShareAppMessage(e){
+			return {
+				title: this.$overShare.title,
+				path: this.$overShare.path,
+				imageUrl:this.$overShare.imageUrl,
+				
+			}
 		}
 	}
 </script>

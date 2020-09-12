@@ -2,11 +2,11 @@
 	<view>
 		<!-- 订单列表 -->
 		<view class="wait-list">
-			<view class="info">
+			<view class="info" >
 				<view class="parm" @tap="goDetail(item)">
 					<view class="parm-txt title">{{item.name}}/{{item.duration}}</view>
 					<view class="parm-txt">{{item.origin}}</view>
-					<view class="parm-txt">距离：&alt {{item.Distance}}公里</view>
+					<view class="parm-txt">距离：{{item.Distance}}公里</view>
 					<view class="parm-txt"><span>{{item.label}}</span></view>
 					<view class="parm-txt">上门时间：{{item.door_time}}</view>
 				</view>
@@ -15,12 +15,12 @@
 				</view>
 			</view>
 			<view class="btn-group">
-
-					<view v-show="btn[0] != '' " class="btn" @tap="deleteOrder(index)">{{btn[0]}}</view>
-				
-
-					<view v-show="btn[1] != '' " class="btn active" @tap="openpage(item)">{{btn[1]}}</view>
-				
+				<template v-if="btn[0] != ' '">
+					<view class="btn" @tap="deleteOrder(index)">{{btn[0]}}</view>
+				</template>
+				<template v-if="btn[0] != ' '">
+					<view class="btn active" @tap="openpage(item)">{{btn[1]}}</view>
+				</template>
 			</view>
 		</view>
 	</view>	
@@ -31,17 +31,21 @@
 		props:{
 			item: Object,
 			index: Number,
-			btn:Array
+			btn:Array,
+			keys:Number,
+			color:String
 		},
 		data() {
 			return {
 				index1:0,
-				itemData:[]
+				itemData:[],
+				cancel:'background:#cccccc'
 			}
 		},
 		onReady() {
 			console.log("要传递的值");
 			console.log(this.item);
+			console.log(this.key);
 			this.itemData.push(this.item);
 		},
 		methods:{

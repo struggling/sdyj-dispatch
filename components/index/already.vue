@@ -10,7 +10,7 @@
 						
 					</view>
 					<view class="tool">
-						<block v-for="(items,index1) in label" :key="index1">
+						<block v-for="(items,index1) in countlabel" :key="index1">
 							<span>{{items}}</span>
 						</block>
 					</view>
@@ -18,7 +18,7 @@
 				<view class="item-r">
 					<view class="price">{{item.budget}}元</view>
 					<view class="vtime">上门时间:
-					<view>{{item.door_time.substring(5,item.door_time.length-3)}}</view>
+					<view>{{countDoortime}}</view>
 					</view>
 					<view class="status">{{state[item.state]}}</view>
 				</view>
@@ -48,8 +48,17 @@
 				distance:[]
 			}
 		},
+		computed:{
+			countlabel:function(){
+				console.log(this.label);
+				return  this.item.label.split(",");
+			},
+			countDoortime:function(){
+				return this.item.door_time.substring(5,this.item.door_time.length-3)
+			}
+		},
 		onReady() {
-			this.label = this.item.label.split(",");
+			
 			console.log("标签");
 			console.log(this.label);
 			this.getDistance();
@@ -231,7 +240,7 @@
 		background-color: #CCCCCC;
 		border-radius: 20upx;
 		padding: 0 30upx;
-		margin-top: 15upx;
+		margin-top: 36upx;
 		z-index: 100;
 	}
 	

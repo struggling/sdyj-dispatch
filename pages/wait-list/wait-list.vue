@@ -29,7 +29,7 @@
 			<view class="parameter">
 				<view class="r-txt " style="font-size: 24upx;">
 					<span >上门时间：
-					{{data.door_time.substring(5,data.door_time.length-3)}}
+					{{dataDoortime}}
 					</span>
 					
 				</view>
@@ -42,9 +42,11 @@
 			<view class="parameter">备注：{{data.content}}</view>
 			<view class="btngroup">
 				<button type="default" class="theme" @tap="navlociton">导航目标</button>
-				<button type="default" class="theme" @tap="opentake" :style="{'active':isactive}">立即抢单</button>
+				<button type="default"  @tap="opentake" :clsss="{'active':isactive,'theme':istheme}">立即抢单</button>
 			</view>
 			<!-- <image src="../../static/logo.png" mode=""></image> -->
+			<!-- model -->
+			<u-modal v-model="show" :content="content"></u-modal>
 		</view>
 	</view>
 </template>
@@ -53,6 +55,9 @@
 	export default {
 		data() {
 			return {
+				istheme:true,
+				show: false,
+				content: '您已经成功参与抢单，该订单需要平台工作人员进行人工审核；审核通过后请到“订单”列表查看具体订单信息并且联系客户预约上门进行服务',
 				height:"",
 				background:{
 					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
@@ -71,44 +76,50 @@
 					iconPath: '../../static/wait-list/location.png',
 					width:50,
 					height:50,
-					label:{//为标记点旁边增加标签
-							content:'客户地址',//文本
-							color:'#F76350',//文本颜色
-							anchorX:0,//label的坐标，原点是 marker 对应的经纬度
-							anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
-	// 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
-	// 					    y:116.39742,
-								bgColor:'#fff',//背景色
-								padding:5,//文本边缘留白
-							borderWidth:1,//边框宽度
-							borderColor:'#D84C29',//边框颜色							
-							textAlign:'right'//文本对齐方式。
-						 },
+	// 				label:{//为标记点旁边增加标签
+	// 						content:'客户地址',//文本
+	// 						color:'#F76350',//文本颜色
+	// 						anchorX:0,//label的坐标，原点是 marker 对应的经纬度
+	// 						anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
+	// // 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
+	// // 					    y:116.39742,
+	// 						bgColor:'#fff',//背景色
+	// 						padding:5,//文本边缘留白
+	// 						borderWidth:1,//边框宽度
+	// 						borderColor:'#D84C29',//边框颜色							
+	// 						textAlign:'right'//文本对齐方式。
+	// 					 },
 						 
 				},
 					{
-						id: 1, 
-						latitude: 29.994521,
-						longitude: 104.154741,
-						iconPath: '../../static/wait-list/location.png',
-						width:50,
-						height:50,
-						label:{//为标记点旁边增加标签
-												content:'我的地址',//文本
-												color:'#F76350',//文本颜色
-												anchorX:0,//label的坐标，原点是 marker 对应的经纬度
-												anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
-						// 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
-						// 					    y:116.39742,
-													bgColor:'#fff',//背景色
-													padding:5,//文本边缘留白
-												borderWidth:1,//边框宽度
-												borderColor:'#D84C29',//边框颜色							
-												textAlign:'right'//文本对齐方式。
-											 }
+						// id: 1, 
+						// latitude: 29.994521,
+						// longitude: 104.154741,
+						// iconPath: '../../static/wait-list/location.png',
+						// width:50,
+						// height:50,
+		// 				label:{//为标记点旁边增加标签
+		// 						content:'我的地址',//文本
+		// 						color:'#F76350',//文本颜色
+		// 						anchorX:0,//label的坐标，原点是 marker 对应的经纬度
+		// 						anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
+		// // 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
+		// // 					    y:116.39742,
+		// 						bgColor:'#fff',//背景色
+		// 						padding:5,//文本边缘留白
+		// 						borderWidth:1,//边框宽度
+		// 						borderColor:'#D84C29',//边框颜色							
+		// 						textAlign:'right'//文本对齐方式。
+		// 				}
 											 
 					}
 				]
+			}
+		},
+		computed:{
+			dataDoortime:function(){
+				console.log(this.data);
+				return  this.data.door_time.substring(5,this.data.door_time.length-3)
 			}
 		},
 		onLoad(event) {
@@ -122,10 +133,10 @@
 				console.log(loction);
 				this.latitude = loction[1];
 				this.longitude  =loction[0];
-				this.covers[0].latitude = loction[1];
-				this.covers[0].longitude  =loction[0];
-				this.covers[1].longitude=uni.getStorageSync('longitude');
-				this.covers[1].latitude=uni.getStorageSync('latitude');
+				// this.covers[0].latitude = loction[1];
+				// this.covers[0].longitude  =loction[0];
+				this.covers[0].longitude=uni.getStorageSync('longitude');
+				this.covers[0].latitude=uni.getStorageSync('latitude');
 			} catch (error) {
 				this.data = JSON.parse(payload);
 				console.log(this.data);
@@ -158,7 +169,7 @@
 				})
 			},
 			opentake(){
-				
+				let that =this;
 				let phone = uni.getStorageSync('phone');
 				let user_uid = uni.getStorageSync('user_uid');
 				let code = this.data.code;
@@ -176,19 +187,21 @@
 							},
 							success(res) {
 								console.log(res);
-								
-								if(res.code = 200){
+								// console.log(res);
+								const data = JSON.parse(res.data);
+								console.log(data.code);
+								if(data.code == 200){
 									//抢单成功体醒
-									uni.showToast({
-										title:"抢单成功"
-									})
-									//删除该订单
 									
-								}else if(res.code = 400){
+									//提醒订单
+									that.show = true;
+									that.isactive = true;
+								}else if(data.code == 400){
 									uni.showToast({
 										title:"此订单已抢过!"
 									});
-									this.isactive = true;
+									
+									
 								}else{
 									uni.showToast({
 										title:"服务器无响应"
@@ -217,6 +230,15 @@
 					    }
 					});
 				}
+			}
+		},
+		//自定义分享页面
+		onShareAppMessage(e){
+			return {
+				title: this.$overShare.title,
+				path: this.$overShare.path,
+				imageUrl:this.$overShare.imageUrl,
+				
 			}
 		}
 	}

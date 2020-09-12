@@ -33,7 +33,7 @@
 						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore" refresher-enabled="true"
 						:refresher-triggered="triggered"
             :refresher-threshold="30"  @refresherpulling="onPulling"
-            @refresherrefresh="onRefresh" @refresherrestore="onRestore" @refresherabort="onAbort">
+            @refresherrefresh="onRefresh" @refresherrestore="onRestore(1)" @refresherabort="onAbort">
 							<template v-if="orderlist.length>0">
 								<block v-for="(item,index) in orderlist" :key="index">
 									<orderList :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></orderList>
@@ -48,7 +48,9 @@
 						</scroll-view>
 					</swiper-item>
 					<swiper-item>
-						<scroll-view scroll-y class="list" @scrolltolower="loadmore" refresher-enabled="true">
+						<scroll-view scroll-y class="list" @scrolltolower="loadmore" refresher-enabled="true" :refresher-triggered="triggered"
+            :refresher-threshold="30"  @refresherpulling="onPulling"
+            @refresherrefresh="onRefresh" @refresherrestore="onRestore(2)" @refresherabort="onAbort">
 							<template v-if="takelist.length>0">
 								<block v-for="(item,index) in takelist" :key="index">
 									<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
@@ -64,17 +66,22 @@
 					</swiper-item>
 				</swiper>
 			</view>
+			<!-- 动态数字角标提醒 -->
+			<u-badge type="error" :count="badgecont" style="position: absolute;
+top: 248upx;
+left: 720upx;
+"></u-badge>
 			<!-- model -->
 			<u-modal v-model="show" :content="content"></u-modal>
 			<!-- popup -->
-			<u-popup v-model="showpopup" mode="center" border-radius="8" width="80%" ref="popup">
+			<!-- <u-popup v-model="showpopup" mode="center" border-radius="8" width="80%" ref="popup">
 				<view>
 					<view class="iconfont iconclose" style="text-align: right;font-size: 40upx;color: #CCCCCC;padding-right: 20upx;padding-top: 20upx;"
 					 @tap="close"></view>
 					<h2 style="text-align: center;font-size: 40upx;font-weight: bold;margin-top: 30upx;margin-bottom: 60upx;">温馨提示</h2>
 					<p style="padding-left: 50upx;padding-right: 50upx;margin-bottom: 30upx;line-height: 1.8;">您已经成功参与抢单，该订单需要平台工作人员进行人工审核；审核通过后请到“订单”列表查看具体订单信息并且联系客户预约上门进行服务</p>
 				</view>
-			</u-popup>
+			</u-popup> -->
 		</view>
 	</view>
 
@@ -102,6 +109,7 @@
 		},
 		data() {
 			return {
+				badgecont:2,
 				 triggered: true,
 				phone:1,
 				tool:[],
@@ -119,7 +127,7 @@
 				user_uid: "",
 				showpopup: false,
 				show: false,
-				content: '恭喜您抢单成功，请前往已抢单界面查看详情！',
+				content: '您已经成功参与抢单，该订单需要平台工作人员进行人工审核；审核通过后请到“订单”列表查看具体订单信息并且联系客户预约上门进行服务',
 				loadtext: "上拉加载更多",
 				notice: [],
 				swiperheight: 500,
@@ -142,6 +150,7 @@
 		},
 		onReady() {
 		},
+		
 		onShow() {
 			//检查登录授权
 			// 检查登录是否过期
@@ -213,7 +222,7 @@
 				
 				if(e.detail.current == 1){
 						this.getAlready();
-						this.$refs.popup.open();
+						// this.$refs.popup.open();
 				}
 			},
 			//上拉加载
@@ -277,6 +286,7 @@
 									//抢单成功体醒
 									that.show = true;
 									//删除该订单
+									that.badgecont++
 									 that.orderlist.splice(index,1);
 								}else{
 									uni.showToast({
@@ -647,16 +657,23 @@
 			onRefresh() {
 			    if (this._freshing) return;
 			    this._freshing = true;
+				// if(this.orderlist)
 			    setTimeout(() => {
 			        this.triggered = false;
 			        this._freshing = false;
-			    }, 3000)
+			    }, 1000)
 			},
 			//复位
-			onRestore() {
+			onRestore(index) {
 			    this.triggered = 'restore'; // 需要重置
 			    console.log("onRestore");
-				this.getWOrkstay();
+				if(index == 1){
+					this.getWOrkstay();
+				}
+				if(index == 1){
+					this.getAlready();
+				}
+				
 			},
 			//终止
 			onAbort() {
@@ -689,7 +706,14 @@
 		margin-top: 2upx;
 		font-size: 22upx;
 	}
-
+	/* 数字角标 */
+	.badge {
+			background-color: blue;
+			color: white;
+			position: absolute;
+			top: 200upx;
+			right: 20upx;
+		}
 	.status_bar {
 		height: var(--status-bar-height);
 		width: 100%;
