@@ -25,7 +25,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.u-badge.data-v-2b1712d8 {
+.u-badge.data-v-5dc9285c {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: inline-flex;
@@ -39,34 +39,34 @@
   padding: 4rpx 8rpx;
   border-radius: 100rpx;
 }
-.u-badge--bg--primary.data-v-2b1712d8 {
-  background-color: #2979ff;
+.u-badge--bg--primary.data-v-5dc9285c {
+    background-color: #2979ff;
 }
-.u-badge--bg--error.data-v-2b1712d8 {
-  background-color: #fa3534;
+.u-badge--bg--error.data-v-5dc9285c {
+    background-color: #fa3534;
 }
-.u-badge--bg--success.data-v-2b1712d8 {
-  background-color: #19be6b;
+.u-badge--bg--success.data-v-5dc9285c {
+    background-color: #19be6b;
 }
-.u-badge--bg--info.data-v-2b1712d8 {
-  background-color: #909399;
+.u-badge--bg--info.data-v-5dc9285c {
+    background-color: #909399;
 }
-.u-badge--bg--warning.data-v-2b1712d8 {
-  background-color: #ff9900;
+.u-badge--bg--warning.data-v-5dc9285c {
+    background-color: #ff9900;
 }
-.u-badge-dot.data-v-2b1712d8 {
+.u-badge-dot.data-v-5dc9285c {
   height: 16rpx;
   width: 16rpx;
   border-radius: 100rpx;
   line-height: 1;
 }
-.u-badge-mini.data-v-2b1712d8 {
+.u-badge-mini.data-v-5dc9285c {
   -webkit-transform: scale(0.8);
           transform: scale(0.8);
   -webkit-transform-origin: center center;
           transform-origin: center center;
 }
-.u-info.data-v-2b1712d8 {
+.u-info.data-v-5dc9285c {
   background: #909399;
   color: #fff;
 }

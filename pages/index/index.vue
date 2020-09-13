@@ -30,10 +30,9 @@
 			<view class="uni-tab-bar">
 				<swiper class="swiper-box" :style="{height:swiperheight+'px'}"  :current="tabIndex" @change="tabChange">
 					<swiper-item>
-						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore" refresher-enabled="true"
-						:refresher-triggered="triggered"
-            :refresher-threshold="30"  @refresherpulling="onPulling"
-            @refresherrefresh="onRefresh" @refresherrestore="onRestore(1)" @refresherabort="onAbort">
+						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore" refresher-enabled="true" :refresher-triggered="triggered"
+            :refresher-threshold="100" refresher-background="lightgreen" @refresherpulling="onPulling"
+            @refresherrefresh="onRefresh" @refresherrestore="onRestore" @refresherabort="onAbort">
 							<template v-if="orderlist.length>0">
 								<block v-for="(item,index) in orderlist" :key="index">
 									<orderList :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></orderList>
@@ -48,9 +47,7 @@
 						</scroll-view>
 					</swiper-item>
 					<swiper-item>
-						<scroll-view scroll-y class="list" @scrolltolower="loadmore" refresher-enabled="true" :refresher-triggered="triggered"
-            :refresher-threshold="30"  @refresherpulling="onPulling"
-            @refresherrefresh="onRefresh" @refresherrestore="onRestore(2)" @refresherabort="onAbort">
+						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore" >
 							<template v-if="takelist.length>0">
 								<block v-for="(item,index) in takelist" :key="index">
 									<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
@@ -110,7 +107,7 @@ left: 720upx;
 		data() {
 			return {
 				badgecont:2,
-				 triggered: true,
+				triggered: true,
 				phone:1,
 				tool:[],
 				jl:[],
@@ -158,13 +155,52 @@ left: 720upx;
 			this.getAuthorizeInfo();
 			this.getWOrkstay();
 		},
+		
+		computed:{
+			//重新排序待派单订单
+			sortOrderlist:function(){
+				var arr = [
+				    {name:'zopp',age:0},
+				    {name:'gpp',age:18},
+				    {name:'yjj',age:8}
+				];
+				for (var i = 0; i < this.orderlist.length; i++) {
+					
+					let location = this.orderlist[i].longitude;
+					let str1 = location.split(",")[0];
+					str1 = str1.substring(0,9);
+					let str2 = location.split(",")[1];
+					str2 = str2.substring(0,9);
+					var longitude = str1;
+					var latitude = str2;
+					let latitude1 = uni.getStorageSync("latitude");
+					let longitude1 = uni.getStorageSync("longitude");
+					var jl = this.countDistance(latitude1, longitude1, latitude, longitude);
+					jl = Math.floor(jl/1000 * 10) / 10;
+					this.distance = jl;
+					console.log("距离");
+					
+					this.orderlist[i].longitude = jl;
+					
+				}
+				console.log(this.orderlist);
+				function compare(property){
+				    return function(a,b){
+				        var value1 = a[property];
+				        var value2 = b[property];
+				        return value1 - value2;
+				    }
+				}
+				console.log("排序");
+				console.log(this.orderlist);
+				console.log(this.orderlist.sort(compare('longitude')))
+			}
+		},
+		
 		onLoad() {
 			this.checklogin();
 			var that = this;
-			 this._freshing = false;
-			 setTimeout(() => {
-			     this.triggered = true;
-			 }, 1000);
+			
 			// 获取scoll-view高度值
 			uni.getSystemInfo({
 				success: (res) => {
@@ -198,13 +234,18 @@ left: 720upx;
 			// 	this.orderlist = orderList.orderlist.slice(0,4);
 			// 	console.log("数据长度为："+this.orderlist.length);
 			// }
-			
+			//scoll-view内下拉刷新
+			this._freshing = false;
+			 // setTimeout(() => {
+			 //                this.triggered = true;
+			 //            }, 1000)
 
 		},
 		// onPullDownRefresh() {
 		// 	this.getWOrkstay();
 		// 	console.log("下拉刷新");
 		// },
+		
 		methods: {
 			// tabs通知swiper切换
 			//tabbar点击事件
@@ -361,7 +402,30 @@ left: 720upx;
 			},
 			
 			
-
+			//计算距离
+			//计算两点直线路径
+			countDistance(la1, lo1, la2, lo2) {
+				var FINAL = 6378137.0
+				/** 
+				 * 求某个经纬度的值的角度值 
+				 * @param {Object} d 
+				 */
+				function calcDegree(d) {
+					return d * Math.PI / 180.0;
+				}
+				/** 
+				 * 根据两点经纬度值，获取两地的实际相差的距离 
+				 * @param {Object} f    第一点的坐标位置[latitude,longitude] 
+				 * @param {Object} t    第二点的坐标位置[latitude,longitude] 
+				 */
+				var flat = calcDegree(la1);
+				var flng = calcDegree(lo1);
+				var tlat = calcDegree(la2);
+				var tlng = calcDegree(lo2);
+				var result = Math.sin(flat) * Math.sin(tlat);
+				result += Math.cos(flat) * Math.cos(tlat) * Math.cos(flng - tlng);
+				return Math.acos(result) * FINAL;
+			},
 			
 			
 			//获取通知栏信息
@@ -413,6 +477,7 @@ left: 720upx;
 						if(data.code == 200){
 							// console.log(res)
 							that.orderlist = data.data;
+							// this.triggered = true;
 							console.log("订单列表:");
 							console.log(that.orderlist);
 							//计算经纬度距离和循环遍历工具要求
@@ -654,31 +719,29 @@ left: 720upx;
 			    console.log("onpulling", e);
 			},
 			//触发
-			onRefresh() {
+			onRefresh(){
 			    if (this._freshing) return;
-			    this._freshing = true;
+			    // this._freshing = true;
 				// if(this.orderlist)
 			    setTimeout(() => {
+					console.log("1111");
+					//设定一个数据返回成功的变量判断
 			        this.triggered = false;
 			        this._freshing = false;
-			    }, 1000)
+			    }, 3000)
 			},
 			//复位
 			onRestore(index) {
 			    this.triggered = 'restore'; // 需要重置
 			    console.log("onRestore");
-				if(index == 1){
-					this.getWOrkstay();
-				}
-				if(index == 1){
-					this.getAlready();
-				}
+				
 				
 			},
 			//终止
 			onAbort() {
 			    console.log("onAbort");
 			}
+
 		},
 		
 		//自定义分享页面

@@ -6,9 +6,9 @@
 		<view class="uni-tab-bar">
 			<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
 				<swiper-item v-for="(items,index) in newslist" :key="index">
-					<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)" refresher-enabled="true" :refresher-triggered="triggered"
+					<scroll-view scroll-y class="list"  refresher-enabled="true" :refresher-triggered="triggered"
             :refresher-threshold="30"  @refresherpulling="onPulling"
-            @refresherrefresh="onRefresh" @refresherrestore="onRestore(index)" @refresherabort="onAbort">
+            @refresherrefresh="onRefresh" @refresherrestore="onRestore" @refresherabort="onAbort">
 						<!-- 待上门订单列表 -->
 						<template v-if="items.list.length>0">
 							<block v-for="(item,index1) in items.list" :key="index1">
@@ -57,7 +57,7 @@
 				user_uid:"",
 				code:"",//订单编号
 				swiperheight: 500,
-				triggered: true,
+				triggered: false,
 				tabIndex: 0,
 				tabclick:-1,
 				tabBars: [{
@@ -139,9 +139,7 @@
 				}
 			});
 			this._freshing = false;
-			setTimeout(() => {
-			    this.triggered = true;
-			}, 1000);
+			this.triggered =true;
 			 // uni.$emit('updates',{msg:'页面更新'});
 			this.user_uid = uni.getStorageSync('user_uid');
 			
@@ -433,13 +431,13 @@
 			    setTimeout(() => {
 			        this.triggered = false;
 			        this._freshing = false;
-			    }, 1000)
+			    }, 3000)
 			},
 			//复位
-			onRestore(index) {
+			onRestore() {
 			    this.triggered = 'restore'; // 需要重置
 			    console.log("onRestore");
-				console.log(index);
+				// console.log(index);
 				// switch (index){
 				// 	case 0:
 				// 		this.getlistdata();

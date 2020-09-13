@@ -6,7 +6,7 @@
 					<view class="title">{{item.type}}/<span>{{item.duration}}</span></view>
 					<view class="address">{{item.origin}}</view>
 					<view class="dtime">
-						<view class="distance">距离:{{distance}}公里</view>
+						<view class="distance">距离:{{item.longitude}}公里</view>
 						
 					</view>
 					<view class="tool">
@@ -52,30 +52,11 @@
 				this.label = this.item.label.split(",");
 				console.log("标签");
 				console.log(this.label);
-				this.getDistance();
+				// this.getDistance();
 			
 			// this.door_time =this.item.door_time.substring(5,this.item.door_time.length-3);
 		},
-		computed:{
-			sortOrderlist:function(){
-				var arr = [
-				    {name:'zopp',age:0},
-				    {name:'gpp',age:18},
-				    {name:'yjj',age:8}
-				];
-				this.item.longitude  = this.distance;
-				this.orderlist = this.orderList.push(this.item);
-				function compare(property){
-				    return function(a,b){
-				        var value1 = a[property];
-				        var value2 = b[property];
-				        return value1 - value2;
-				    }
-				}
-				console.log("排序");
-				console.log(this.orderlist.sort(compare('longitude')))
-			}
-		},
+		
 		
 		methods:{
 			openModel(){
@@ -117,47 +98,7 @@
 					url: '../../pages/wait-list/wait-list?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 				});
 			},
-			//计算距离
-			getDistance(){
-				console.log("计算属性"+this.items);
-				let location = this.item.longitude;
-				let str1 = location.split(",")[0];
-				str1 = str1.substring(0,9);
-				let str2 = location.split(",")[1];
-				str2 = str2.substring(0,9);
-				var longitude = str1;
-				var latitude = str2;
-				let latitude1 = uni.getStorageSync("latitude");
-				let longitude1 = uni.getStorageSync("longitude");
-				var jl = this.countDistance(latitude1, longitude1, latitude, longitude);
-				jl = Math.floor(jl/1000 * 10) / 10;
-				this.distance = jl;
-				console.log("距离");
-				console.log(this.distance);
-			},
-			//计算两点直线路径
-			countDistance(la1, lo1, la2, lo2) {
-				var FINAL = 6378137.0
-				/** 
-				 * 求某个经纬度的值的角度值 
-				 * @param {Object} d 
-				 */
-				function calcDegree(d) {
-					return d * Math.PI / 180.0;
-				}
-				/** 
-				 * 根据两点经纬度值，获取两地的实际相差的距离 
-				 * @param {Object} f    第一点的坐标位置[latitude,longitude] 
-				 * @param {Object} t    第二点的坐标位置[latitude,longitude] 
-				 */
-				var flat = calcDegree(la1);
-				var flng = calcDegree(lo1);
-				var tlat = calcDegree(la2);
-				var tlng = calcDegree(lo2);
-				var result = Math.sin(flat) * Math.sin(tlat);
-				result += Math.cos(flat) * Math.cos(tlat) * Math.cos(flng - tlng);
-				return Math.acos(result) * FINAL;
-			},
+			
 		}
 	}
 </script>
