@@ -45,7 +45,7 @@
 			<u-cell-group>
 				
 				<u-cell-item title="个人信息" @tap="openinfo"></u-cell-item>
-				<u-cell-item  title="个人工号">0258</u-cell-item>
+				<u-cell-item  title="个人工号">{{number}}</u-cell-item>
 				<u-cell-item  title="个人工作时间" @tap="showtime=true">{{timeval}}</u-cell-item>
 				<u-cell-item  title="评分指南">9.4分</u-cell-item>
 				<u-cell-item  title="意见反馈"> <button send-message-title="分享标题" send-message-img="分享的单个图片链接" show-message-card="true"  class='details_button' open-type='contact' plain>
@@ -78,6 +78,7 @@
 				user_avatar:"",
 				user_phone:"",
 				user_address:"",
+				number:'',
 				pic: 'https://uviewui.com/common/logo.png',
 				show: true,
 				showtime: false,
@@ -114,6 +115,7 @@
 			this.user_avatar = uni.getStorageSync("user_avatar");
 			this.user_phone = uni.getStorageSync("phone");
 			this.user_address = uni.getStorageSync("address");
+			this.number = uni.getStorageSync("number");
 			// console.log(this.user_address);
 		},
 		methods: {

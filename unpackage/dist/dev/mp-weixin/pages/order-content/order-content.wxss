@@ -1,0 +1,103 @@
+
+.content.data-v-3b7cf03c{
+	background: -webkit-linear-gradient(left, #54C3F1,#00ABEB);
+	background: linear-gradient(90deg, #54C3F1,#00ABEB);
+	padding-top: 1px;
+	padding-bottom: 30px;
+}
+.content .text.data-v-3b7cf03c{
+	margin: 0 35%;
+	padding-top: 30rpx;
+	text-align: center;
+	/* padding-bottom: 94upx; */
+	color: #FFFFFF;
+}
+.content .text1.data-v-3b7cf03c{
+	font-size: 30rpx;
+}
+.content .text1.data-v-3b7cf03c{
+	font-size: 40rpx;
+}
+.order-detail.data-v-3b7cf03c{
+	background-color: #FFFFFF;
+	border-radius: 12rpx;
+	margin: 58rpx 25rpx;
+	padding-left: 25rpx;
+	padding-right: 25rpx;
+}
+.order-detail .contact.data-v-3b7cf03c{
+	margin: 80rpx 20%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding-top: 80rpx;
+}
+.order-detail .contact .name.data-v-3b7cf03c{
+	text-align: center;
+}
+.order-detail .contact .name .sever.data-v-3b7cf03c{
+	font-size: 34rpx;
+}
+.order-detail .contact .name .seve1.data-v-3b7cf03c{
+	font-size: 26rpx;
+	color: #CCCCCC;
+}
+.order-detail .textdetail.data-v-3b7cf03c{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding-top: 25rpx;
+	padding-bottom: 25rpx;
+}
+.btn.data-v-3b7cf03c{
+	width: 356rpx;
+	height: 80rpx;
+	background: #FFFFFF;
+	border-radius: 12rpx;
+	color:#00ABEB;
+	margin: 0 auto;
+	line-height: 80rpx;
+	font-size: 32rpx;
+	border: none;
+	-webkit-appearance:none
+}
+map.data-v-3b7cf03c{
+	position: relative;
+	width: 100%;
+	height: 300rpx;
+	display: block;
+}
+.btngroup.data-v-3b7cf03c{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding-left: 25rpx;
+	padding-right: 25rpx;
+}
+/* 修改小程序的默认button样式 */
+button.data-v-3b7cf03c{
+	-webkit-appearance:none;
+	height: 32px !important;
+	line-height: 56rpx !important;
+	color: #FFFFFF;
+	font-size: 32rpx;
+}
+button.data-v-3b7cf03c::after{
+	border: none;
+}
+.active.data-v-3b7cf03c{
+	background-color: #ff5500;
+}
+.active1.data-v-3b7cf03c{
+	background-color: #cccccc;
+}
+

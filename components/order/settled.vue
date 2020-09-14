@@ -4,21 +4,29 @@
 		<view class="wait-list">
 			<view class="info" >
 				<view class="parm" @tap="goDetail(item)">
-					<view class="parm-txt title">{{item.name}}/{{item.duration}}</view>
+					<view class="parm-txt title">{{item.type}}/{{item.duration}}</view>
 					<view class="parm-txt">{{item.origin}}</view>
-					<view class="parm-txt">距离：{{item.Distance}}公里</view>
+					<template v-if="item.Distance">
+						<view class="parm-txt">距离：{{item.Distance}}公里</view>
+					</template>
+					
 					<view class="parm-txt"><span>{{item.label}}</span></view>
 					<view class="parm-txt">上门时间：{{item.door_time}}</view>
+					<template v-if="item.reason">
+						<view  class="parm-txt">取消原因：{{item.reason}}</view>
+					</template>
+					
 				</view>
 				<view class="parm">
 					<view class="price">{{item.budget}}元</view>
+					<!-- <view class="reason">取消原因{{item.reason}}</view> -->
 				</view>
 			</view>
 			<view class="btn-group">
 				<template v-if="btn[0] != ' '">
 					<view class="btn" @tap="deleteOrder(index)">{{btn[0]}}</view>
 				</template>
-				<template v-if="btn[0] != ' '">
+				<template v-if="btn[1] != ' '">
 					<view class="btn active" @tap="openpage(item)">{{btn[1]}}</view>
 				</template>
 			</view>
@@ -71,7 +79,7 @@
 					uid: item.uid
 				};
 				uni.navigateTo({
-					url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					url: '../../pages/order-content/order-content?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 				});
 				// uni.navigateTo({
 				// 	url: '../list2detail-detail/list2detail-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
@@ -137,7 +145,7 @@
 	/* 订单列表 */
 	.wait-list{
 		
-		border-bottom: 1upx solid #c5c4d5;
+		/* border-bottom: 1upx solid #c5c4d5; */
 		padding-top: 50upx;
 	}
 	.wait-list .btn-group{
@@ -162,7 +170,7 @@
 	.parm{
 		line-height: 28upx;
 	}
-	uni-view{
+	view{
 		line-height: 2.15;
 	}
 	.parm .title{

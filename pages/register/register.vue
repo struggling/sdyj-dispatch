@@ -55,7 +55,8 @@
 			</view>
 			<!-- 协议 -->
 			<view class="xieyi">
-				<view :class="[check,{'theme':flag,'':flag}]" @tap="checked"></view>
+				<view :class="{'checkbox':flag,'':flag}"></view>
+				<view :class="[check,]" @tap="checked"></view>
 				<view class="text">确定同意<navigator url="../agreement/agreement">《协议》</navigator></view>
 			</view>
 			<!-- 提交 -->
@@ -408,6 +409,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		position: relative;
 	}
 
 	.xieyi navigator {
@@ -415,6 +417,7 @@
 		color: #0A98D5;
 		margin-bottom: 25upx;
 		display: inline;
+		
 	}
 
 	.btn {
@@ -436,9 +439,17 @@
 		height: 30upx;
 		border-radius: 100%;
 		/* background-color: #18B566; */
-		border: 8upx solid #00ABEB;
+		border: 4upx solid #00ABEB;
 	}
-
+	.checkbox{
+		width: 15upx;
+		height: 15upx;
+		border-radius: 100%;
+		position: absolute;
+		top: 8upx;
+		left: 232upx;
+		background-color: #00ABEB;
+	}
 	.active {}
 	.typebtn{
 		color: #000000 !important;

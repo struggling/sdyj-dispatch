@@ -43,12 +43,12 @@
 
 
 /* 订单列表 */
-.wait-list.data-v-7b1c635a{
+.wait-list.data-v-71a0494e{
 	
 	border-bottom: 1rpx solid #c5c4d5;
 	padding-top: 50rpx;
 }
-.wait-list .btn-group.data-v-7b1c635a{
+.wait-list .btn-group.data-v-71a0494e{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -59,12 +59,12 @@
 	-webkit-justify-content: flex-end;
 	        justify-content: flex-end;
 }
-.btn-group .active.data-v-7b1c635a{
+.btn-group .active.data-v-71a0494e{
 	background-color: #FA5741;
 	color: #FFFFFF !important;
 	border: none !important;
 }
-.info.data-v-7b1c635a{
+.info.data-v-71a0494e{
 	padding-left: 25rpx;
 	padding-right: 25rpx;
 	border-bottom: 1rpx solid #c5c4d5;
@@ -78,26 +78,26 @@
 	-webkit-justify-content: space-between;
 	        justify-content: space-between;
 }
-.parm.data-v-7b1c635a{
+.parm.data-v-71a0494e{
 	line-height: 28rpx;
 }
-uni-view.data-v-7b1c635a{
+uni-view.data-v-71a0494e{
 	line-height: 2.15;
 }
-.parm .title.data-v-7b1c635a{
+.parm .title.data-v-71a0494e{
 	font-size: 32rpx;
 	font-weight: bold;
 }
-.parm .price.data-v-7b1c635a{
+.parm .price.data-v-71a0494e{
 	text-align: center;
 	color:#FA5741 ;
 }
-.parm .pic image.data-v-7b1c635a{
+.parm .pic image.data-v-71a0494e{
 	width: 168rpx;
 	height: 168rpx;
 	border-radius: 100%;
 }
-.btn-group .btn.data-v-7b1c635a {
+.btn-group .btn.data-v-71a0494e {
 	font-size: 28rpx;
 	border-radius: 28rpx;
 	border: 1rpx solid #CCCCCC;

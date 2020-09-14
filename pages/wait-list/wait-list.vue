@@ -75,56 +75,23 @@
 					longitude: 104.154741,
 					iconPath: '../../static/wait-list/location.png',
 					width:50,
-					height:50,
-	// 				label:{//为标记点旁边增加标签
-	// 						content:'客户地址',//文本
-	// 						color:'#F76350',//文本颜色
-	// 						anchorX:0,//label的坐标，原点是 marker 对应的经纬度
-	// 						anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
-	// // 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
-	// // 					    y:116.39742,
-	// 						bgColor:'#fff',//背景色
-	// 						padding:5,//文本边缘留白
-	// 						borderWidth:1,//边框宽度
-	// 						borderColor:'#D84C29',//边框颜色							
-	// 						textAlign:'right'//文本对齐方式。
-	// 					 },
-						 
+					height:50,				 
 				},
 					{
-						// id: 1, 
-						// latitude: 29.994521,
-						// longitude: 104.154741,
-						// iconPath: '../../static/wait-list/location.png',
-						// width:50,
-						// height:50,
-		// 				label:{//为标记点旁边增加标签
-		// 						content:'我的地址',//文本
-		// 						color:'#F76350',//文本颜色
-		// 						anchorX:0,//label的坐标，原点是 marker 对应的经纬度
-		// 						anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
-		// // 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
-		// // 					    y:116.39742,
-		// 						bgColor:'#fff',//背景色
-		// 						padding:5,//文本边缘留白
-		// 						borderWidth:1,//边框宽度
-		// 						borderColor:'#D84C29',//边框颜色							
-		// 						textAlign:'right'//文本对齐方式。
-		// 				}
-											 
+						id: 1, 
+						latitude: 29.994521,
+						longitude: 104.154741,
+						iconPath: '../../static/wait-list/location1.png',
+						width:50,
+						height:50,								 
 					}
 				]
 			}
 		},
-		computed:{
-			dataDoortime:function(){
-				console.log(this.data);
-				return  this.data.door_time.substring(5,this.data.door_time.length-3)
-			}
-		},
+		
 		onLoad(event) {
 			// TODO 后面把参数名替换成 payload
-			const payload = event.detailDate || event.payload;
+			const payload = event.detailDate;
 			// 目前在某些平台参数会被主动 decode，暂时这样处理。
 			try {
 				this.data= JSON.parse(decodeURIComponent(payload));
@@ -133,32 +100,27 @@
 				console.log(loction);
 				this.latitude = loction[1];
 				this.longitude  =loction[0];
-				// this.covers[0].latitude = loction[1];
-				// this.covers[0].longitude  =loction[0];
-				this.covers[0].longitude=uni.getStorageSync('longitude');
-				this.covers[0].latitude=uni.getStorageSync('latitude');
+				this.covers[0].latitude = loction[1];
+				this.covers[0].longitude  =loction[0];
+				this.covers[1].longitude=uni.getStorageSync('longitude');
+				this.covers[1].latitude=uni.getStorageSync('latitude');
 			} catch (error) {
 				this.data = JSON.parse(payload);
 				console.log(this.data);
+			};
+			
+		},
+		computed:{
+			dataDoortime(){
+				if(this.data){
+					console.log(this.data);
+					return  this.data.door_time.substring(5,this.data.door_time.length-3)
+				}
 			}
 		},
 		methods: {
 			navlociton(){
 				let that  = this;
-				// uni.getLocation({
-				//     type: 'gcj02', //返回可以用于uni.openLocation的经纬度
-				//     success: function (res) {
-				//         const latitude = that.latitude;
-				//         const longitude = that.longitude;
-				//         uni.openLocation({
-				//             latitude: latitude,
-				//             longitude: longitude,
-				//             success: function () {
-				//                 console.log('success');
-				//             }
-				//         });
-				//     }
-				// });
 				console.log(that.latitude);
 				wx.openLocation({
 					latitude:Number(that.latitude) ,
@@ -172,11 +134,13 @@
 				let that =this;
 				let phone = uni.getStorageSync('phone');
 				let user_uid = uni.getStorageSync('user_uid');
+				let badgecont = uni.getStorageSync("badgecont");
 				let code = this.data.code;
 				console.log("phone"+phone);
+				console.log(user_uid);
 				if (phone) {
 						uni.request({
-							url:"https://applet.51tiaoyin.com/public/applet/work/take",
+							url:this.$apiUrl+"work/take",
 							method:"POST",
 							dataType:JSON,
 							data:{
@@ -190,23 +154,36 @@
 								// console.log(res);
 								const data = JSON.parse(res.data);
 								console.log(data.code);
-								if(data.code == 200){
-									//抢单成功体醒
-									
-									//提醒订单
-									that.show = true;
-									that.isactive = true;
-								}else if(data.code == 400){
-									uni.showToast({
-										title:"此订单已抢过!"
-									});
-									
-									
-								}else{
-									uni.showToast({
-										title:"服务器无响应"
-									})
+								switch (data.code){
+									case 200:
+										//抢单成功体醒
+										//提醒订单
+										that.show = true;
+										that.isactive = true;
+										badgecont++;
+										uni.$emit('updatebadgecont',{badgecont:badgecont});
+										uni.navigateTo({
+											url:"../index/index?e=1"
+										})
+										break;
+									case 300:
+										uni.showToast({
+											title:data.msg
+										});
+										that.isactive = true;
+										break;
+									case 400:
+										uni.showToast({
+											title:data.msg
+										})
+										break;	
+									default:
+										uni.showToast({
+											title:data.mag
+										})
+										break;
 								}
+								
 							},
 							fail() {
 								console.log(res);
@@ -321,6 +298,9 @@
 	/* 修改小程序的默认button样式 */
 	button{
 		-webkit-appearance:none
+	}
+	button::after {
+		border: none;
 	}
 	.active{
 		background-color: #CCCCCC;

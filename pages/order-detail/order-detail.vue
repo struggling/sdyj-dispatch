@@ -68,8 +68,8 @@
 					<view>{{status}}</view>
 				</view>
 				<view class="order-td r-box">
-					<view class="tips">参考价格:</view>
-					<view>{{data.budget}}</view>
+					<view class="tips">发布者:</view>
+					<view>{{data.send}}</view>
 				</view>
 			</view>
 			<view class="order-row">

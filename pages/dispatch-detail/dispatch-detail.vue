@@ -84,7 +84,7 @@
 					            console.log('用户点击确定');
 								that.getAccomplish(that.data.code);
 								uni.navigateTo({
-									url:"../order/order"
+									url:"../order/order?e=1"
 								})
 					        } else if (res.cancel) {
 					            console.log('用户点击取消');
@@ -100,12 +100,16 @@
 					method:"POST",
 					dataType:JSON,
 					data:{
-						uid:this.data.uid,
+						uid:uni.getStorageSync("user_uid"),
 						code:code,
 					},
 					success(res) {
 						console.log("完成订单");
 						console.log(res);
+						uni.navigateTo({
+							url:"../order/order"
+						})
+						
 					},
 					fail(res) {
 						console.log(res);

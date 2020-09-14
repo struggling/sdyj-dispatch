@@ -30,9 +30,7 @@
 			<view class="uni-tab-bar">
 				<swiper class="swiper-box" :style="{height:swiperheight+'px'}"  :current="tabIndex" @change="tabChange">
 					<swiper-item>
-						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore" refresher-enabled="true" :refresher-triggered="triggered"
-            :refresher-threshold="100" refresher-background="lightgreen" @refresherpulling="onPulling"
-            @refresherrefresh="onRefresh" @refresherrestore="onRestore" @refresherabort="onAbort">
+						<scroll-view  scroll-y="true" class="list"  >
 							<template v-if="orderlist.length>0">
 								<block v-for="(item,index) in orderlist" :key="index">
 									<orderList :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></orderList>
@@ -43,11 +41,11 @@
 								<noThing></noThing>
 							</template>
 							<!-- 上拉加载 -->
-							<load-more :loadtext="loadtext"></load-more>
+							<!-- <load-more :loadtext="loadtext"></load-more> -->
 						</scroll-view>
 					</swiper-item>
 					<swiper-item>
-						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore" >
+						<scroll-view  scroll-y="true" class="list"  >
 							<template v-if="takelist.length>0">
 								<block v-for="(item,index) in takelist" :key="index">
 									<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
@@ -106,7 +104,7 @@ left: 720upx;
 		},
 		data() {
 			return {
-				badgecont:2,
+				badgecont:0,
 				triggered: true,
 				phone:1,
 				tool:[],
@@ -154,16 +152,13 @@ left: 720upx;
 			
 			this.getAuthorizeInfo();
 			this.getWOrkstay();
+			
+			
 		},
 		
 		computed:{
 			//重新排序待派单订单
 			sortOrderlist:function(){
-				var arr = [
-				    {name:'zopp',age:0},
-				    {name:'gpp',age:18},
-				    {name:'yjj',age:8}
-				];
 				for (var i = 0; i < this.orderlist.length; i++) {
 					
 					let location = this.orderlist[i].longitude;
@@ -183,7 +178,6 @@ left: 720upx;
 					this.orderlist[i].longitude = jl;
 					
 				}
-				console.log(this.orderlist);
 				function compare(property){
 				    return function(a,b){
 				        var value1 = a[property];
@@ -191,13 +185,16 @@ left: 720upx;
 				        return value1 - value2;
 				    }
 				}
+				return this.oriderlist = this.orderlist.sort(compare('longitude'));
 				console.log("排序");
-				console.log(this.orderlist);
-				console.log(this.orderlist.sort(compare('longitude')))
+				console.log(this.orderlist.sort(compare('longitude')));
 			}
 		},
 		
-		onLoad() {
+		onLoad(event) {
+			let tabbar = event.e;
+			console.log(tabbar);
+			this.tabIndex = tabbar;
 			this.checklogin();
 			var that = this;
 			
@@ -215,7 +212,8 @@ left: 720upx;
 			this.getNavbar();
 			//判断用户是否注册服务工种,获取缓存里面的值
 			this.user_uid = uni.getStorageSync('user_uid');
-			this.phone = uni.getStorageSync('phone');	
+			this.phone = uni.getStorageSync('phone');
+			uni.setStorageSync("badgecont",this.badgecont);
 			console.log("uid的值:"+this.user_uid);
 			// let isregister = true;
 			//首页待派单订单请求
@@ -239,6 +237,14 @@ left: 720upx;
 			 // setTimeout(() => {
 			 //                this.triggered = true;
 			 //            }, 1000)
+			 //监听数字图标动向
+			uni.$on('updatebadgecont',function(badgecont){
+			         console.log('监听到事件来自 update ，携带参数 msg 为：' + badgecont.badgecont);
+					 this.badgecont = badgecont.badgecont;
+			});
+			// let data = this.getmock();
+			// this.orderlist = data.orderlist;
+			// console.log(this.orderlist);
 
 		},
 		// onPullDownRefresh() {
@@ -311,7 +317,7 @@ left: 720upx;
 						let that = this;
 						let code = that.orderlist[index].code;
 						uni.request({
-							url:"https://applet.51tiaoyin.com/public/applet/work/take",
+							url:this.$apiUrl+"work/take",
 							method:"POST",
 							dataType:JSON,
 							data:{
@@ -328,7 +334,7 @@ left: 720upx;
 									that.show = true;
 									//删除该订单
 									that.badgecont++
-									 that.orderlist.splice(index,1);
+									 // that.orderlist.splice(index,1);
 								}else{
 									uni.showToast({
 										title:"无网络!"
@@ -384,7 +390,7 @@ left: 720upx;
 				// 	url: openurl,
 				// })
 				uni.request({
-					url:"https://applet.51tiaoyin.com/public/applet/work/already",
+					url:this.$apiUrl+"work/already",
 					method:"GET",
 					dataType:JSON,
 					data:{
@@ -550,9 +556,9 @@ left: 720upx;
 							// // var jl = await that.countDistance( 39.923423,116.368904,116.387271,39.922501);
 							// // console.log("距离"+jl);
 							// //计算经纬度距离
-							for (var i = 0; i < that.orderlist.length; i++) {
-								console.log("订单数据长度"+that.orderlist.length);
-								var location = that.orderlist[i].longitude;
+							for (var i = 0; i < that.takelist.length; i++) {
+								console.log("订单数据长度"+that.takelist.length);
+								var location = that.takelist[i].longitude;
 								// console.log(location);
 								// let index = str .lastIndexOf(">")
 								//客户距离
@@ -573,7 +579,7 @@ left: 720upx;
 								console.log(longitude);
 								var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
 								jl = Math.floor(jl/1000 * 10) / 10;
-								that.jl = that.jl.concat(jl);
+								that.jl = jl;
 								console.log("距离");
 								console.log(that.jl);
 							}
@@ -715,32 +721,32 @@ left: 720upx;
 				});
 			},
 			//控件被下拉
-			onPulling(e) {
-			    console.log("onpulling", e);
-			},
-			//触发
-			onRefresh(){
-			    if (this._freshing) return;
-			    // this._freshing = true;
-				// if(this.orderlist)
-			    setTimeout(() => {
-					console.log("1111");
-					//设定一个数据返回成功的变量判断
-			        this.triggered = false;
-			        this._freshing = false;
-			    }, 3000)
-			},
-			//复位
-			onRestore(index) {
-			    this.triggered = 'restore'; // 需要重置
-			    console.log("onRestore");
+			// onPulling(e) {
+			//     console.log("onpulling", e);
+			// },
+			// //触发
+			// onRefresh(){
+			//     if (this._freshing) return;
+			//     // this._freshing = true;
+			// 	// if(this.orderlist)
+			//     setTimeout(() => {
+			// 		console.log("1111");
+			// 		//设定一个数据返回成功的变量判断
+			//         this.triggered = false;
+			//         this._freshing = false;
+			//     }, 3000)
+			// },
+			// //复位
+			// onRestore(index) {
+			//     this.triggered = 'restore'; // 需要重置
+			//     console.log("onRestore");
 				
 				
-			},
-			//终止
-			onAbort() {
-			    console.log("onAbort");
-			}
+			// },
+			// //终止
+			// onAbort() {
+			//     console.log("onAbort");
+			// }
 
 		},
 		

@@ -6,9 +6,7 @@
 		<view class="uni-tab-bar">
 			<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
 				<swiper-item v-for="(items,index) in newslist" :key="index">
-					<scroll-view scroll-y class="list"  refresher-enabled="true" :refresher-triggered="triggered"
-            :refresher-threshold="30"  @refresherpulling="onPulling"
-            @refresherrefresh="onRefresh" @refresherrestore="onRestore" @refresherabort="onAbort">
+					<scroll-view scroll-y class="list"  refresher-enabled="false" >
 						<!-- 待上门订单列表 -->
 						<template v-if="items.list.length>0">
 							<block v-for="(item,index1) in items.list" :key="index1">
@@ -19,11 +17,24 @@
 							<noThing></noThing>
 						</template>
 						<!-- 上拉加载 -->
-						<loadMore :loadtext="items.loadtext"></loadMore>
+						<!-- <loadMore :loadtext="items.loadtext"></loadMore> -->
 					</scroll-view>
 				</swiper-item>
 			</swiper>
 		</view>
+		
+		<!-- 弹出输入取消框 -->
+		<view :hidden="userFeedbackHidden" class="popup_content">
+					<view class="popup_title">您的取消订单</view>
+					<view class="popup_textarea_item">
+						<textarea class="popup_textarea" placeholder='填写取消订单的详细原因...' v-model="feedbackContent">
+						</textarea>
+						<view @click="submitFeedback()">
+							<button class="popup_button">提交说明</button>
+						</view>
+					</view>
+				</view>
+		<view class="popup_overlay" :hidden="userFeedbackHidden" @click="hideDiv()"></view>
 	</view>
 </template>
 
@@ -48,6 +59,9 @@
 		},
 		data() {
 			return {
+				 userFeedbackHidden: true, // 默认隐藏
+				 feedbackContent: '' ,// 用户反馈内容
+				 issubmit:false,
 				// 自定义导航栏
 				height:"",
 				background:{
@@ -121,20 +135,23 @@
 			this.getlistdata();
 			
 		},
-		onLoad() {
+		onLoad(event) {
 			// wx.hideShareMenu({
 			//   menus: ['shareTimeline'],//小程序分享到朋友圈按钮
 			//   success:(res)=>{
 			// 	  console.log(res);
 			//   }
 			// })
+			let tabbar = event.e;
+			console.log(tabbar);
+			this.tabIndex = tabbar;
 			//检查登录授权
 			this.checklogin();
 			//设置容器高度
 			uni.getSystemInfo({
 				success: (res) => {
 					console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(243);
+					let height = res.windowHeight - uni.upx2px(239);
 					this.swiperheight = height;
 				}
 			});
@@ -221,26 +238,15 @@
 				    success: function (res) {
 				        if (res.confirm) {
 							let code = that.newslist[0].list.splice(index,1)[0].code;//当前删除的订单号
+							uni.setStorageSync("code",code);
 							 console.log('用户点击确定'+code);
 							that.getlistCancel(code);
-							that.newslist[0].list.splice(index,1);
+							that.showDiv();
+							console.log("原因："+that.feedbackContent);
+							// that.newslist[0].list.splice(index,1);
 							console.log("删除后还有几条订单");
 							console.log(that.newslist[0].list.length);
-							uni.request({
-								url:that.$apiUrl+"work/cancel",
-								method: "POST",
-								dataType: JSON,
-								data: {
-									code:code,
-									uid: that.user_uid
-								},
-								success(res) {
-									console.log(res);
-								},
-								fail(res) {
-									console.log(res);	
-								}
-							})
+							
 				        } else if (res.cancel) {
 				            console.log('用户点击取消');
 				        }
@@ -420,44 +426,80 @@
 				})
 			},
 			//控件被下拉
-			onPulling(e) {
-			    console.log("onpulling", e);
+			// onPulling(e) {
+			//     console.log("onpulling", e);
+			// },
+			// //触发
+			// onRefresh() {
+			//     if (this._freshing) return;
+			//     this._freshing = true;
+			// 	// if(this.orderlist)
+			//     setTimeout(() => {
+			//         this.triggered = false;
+			//         this._freshing = false;
+			//     }, 3000)
+			// },
+			// //复位
+			// onRestore() {
+			//     this.triggered = 'restore'; // 需要重置
+			//     console.log("onRestore");
+			// 	// console.log(index);
+			// 	// switch (index){
+			// 	// 	case 0:
+			// 	// 		this.getlistdata();
+			// 	// 		break;
+			// 	// 	case 1:
+			// 	// 		this.getClose();
+			// 	// 		break;	
+			// 	// 	case 0:
+			// 	// 		this.getEnd();
+			// 	// 		break;
+			// 	// 	case 3:
+			// 	// 		this.getlistCancel();
+			// 	// 		break;			
+			// 	// 	default:
+			// 	// 		break;
+			// 	// }
+			// },
+			// //终止
+			// onAbort() {
+			//     console.log("onAbort");
+			// },
+			//弹出框方法
+			showDiv() { // 显示输入弹出框
+				this.userFeedbackHidden = false;
 			},
-			//触发
-			onRefresh() {
-			    if (this._freshing) return;
-			    this._freshing = true;
-				// if(this.orderlist)
-			    setTimeout(() => {
-			        this.triggered = false;
-			        this._freshing = false;
-			    }, 3000)
+			hideDiv() { // 隐藏输入弹出框
+				this.userFeedbackHidden = true;
 			},
-			//复位
-			onRestore() {
-			    this.triggered = 'restore'; // 需要重置
-			    console.log("onRestore");
-				// console.log(index);
-				// switch (index){
-				// 	case 0:
-				// 		this.getlistdata();
-				// 		break;
-				// 	case 1:
-				// 		this.getClose();
-				// 		break;	
-				// 	case 0:
-				// 		this.getEnd();
-				// 		break;
-				// 	case 3:
-				// 		this.getlistCancel();
-				// 		break;			
-				// 	default:
-				// 		break;
-				// }
-			},
-			//终止
-			onAbort() {
-			    console.log("onAbort");
+			submitFeedback() { // 提交反馈
+ 
+				var that =this;
+			   // 提交反馈内容
+			   this.issubmit = true;
+				console.log(that.feedbackContent);
+				that.hideDiv();
+				let code  = uni.getStorageSync("code");
+				console.log("当前code："+code);
+				if(that.issubmit){
+					uni.request({
+						url:that.$apiUrl+"work/cancel",
+						method: "POST",
+						dataType: JSON,
+						data: {
+							code:code,
+							uid: that.user_uid,
+							reason:that.feedbackContent
+							
+						},
+						success(res) {
+							console.log(res);
+						},
+						fail(res) {
+							console.log(res);	
+						}
+					})
+				}
 			}
 		},
 		
@@ -474,8 +516,66 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	view{
-		line-height: 2.25;
+		line-height: 2.25 !important;
 	}
+	/* 输入提示框 */
+	.popup_overlay {
+	 
+			position: fixed;
+			top: 0%;
+			left: 0%;
+			width: 100%;
+			height: 100%;
+			background-color: black;
+			z-index: 1001;
+			-moz-opacity: 0.8;
+			opacity: .80;
+			filter: alpha(opacity=88);
+		}
+	 
+		.popup_content {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			width: 520upx;
+			height: 550upx;
+			margin-left: -270upx;
+			margin-top: -270upx;
+			border: 10px solid white;
+			background-color: white;
+			z-index: 1002;
+			overflow: auto;
+			border-radius: 20upx;
+		}
+	 
+		.popup_title {
+			padding-top: 20upx;
+			width: 480upx;
+			text-align: center;
+			font-size: 32upx;
+		}
+	 
+		.popup_textarea_item {
+			padding-top: 5upx;
+			height: 240upx;
+			width: 440upx;
+			background-color: #F1F1F1;
+			margin-top: 30upx;
+			margin-left: 20upx;
+		}
+	 
+		.popup_textarea {
+			width: 410upx;
+			font-size: 26upx;
+			margin-left: 20upx;
+		}
+	 
+		.popup_button {
+			color: white;
+			background-color: #4399FC;
+			border-radius: 20upx;
+		}
+		
 </style>

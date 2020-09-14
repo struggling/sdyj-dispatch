@@ -19,7 +19,7 @@ import uView from "uview-ui";
 								success(res) {
 									let code = res.code;
 									uni.request({
-										url:"https://applet.51tiaoyin.com/public/applet/index",
+										url:"https://yigongdan.com/public/applet/index",
 										dataType:JSON,
 										method:"GET",
 										header:"application/x-www-form-urlencoded",
@@ -34,12 +34,18 @@ import uView from "uview-ui";
 												let phone = data.data.phone;
 												let type  =data.data.type;
 												let uid  =data.data.uid;
+												let name  =data.data.name;
+												let number = data.data.number;
 												uni.setStorageSync("phone",phone);	
 												console.log("手机号码"+phone);
 												uni.setStorageSync("type",type);
 												console.log("服务类型"+type);
 												uni.setStorageSync("uid",uid);
 												console.log("uid标识"+uid);
+												uni.setStorageSync("name",name);
+												console.log("用户姓名"+name);
+												uni.setStorageSync("number",number);
+												console.log("用户编号"+number);
 											}else if(data.code ==300){
 												uni.showModal({
 												    title: '提示',

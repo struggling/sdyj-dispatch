@@ -39,6 +39,8 @@
 		color:#969696;
 		font-weight: bold;
 		margin-left: 30upx;
+		height: 50px;
+
 	}
 	.uni-tab-bar .active {
 	color: #00ABEB;

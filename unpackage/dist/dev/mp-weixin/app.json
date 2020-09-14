@@ -13,7 +13,8 @@
     "pages/register/register",
     "pages/guide/guide",
     "pages/mydata/mydata",
-    "pages/test/test"
+    "pages/test/test",
+    "pages/order-content/order-content"
   ],
   "subPackages": [],
   "window": {
@@ -53,6 +54,5 @@
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap15.json"
+  "usingComponents": {}
 }
