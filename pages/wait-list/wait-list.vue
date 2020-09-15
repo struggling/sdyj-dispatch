@@ -4,7 +4,7 @@
 		<u-navbar :is-back="true"  title="订单详情" :height="height" :background="background" title-color="#ffffff" back-icon-color="#ffffff" >
 		</u-navbar>
 		<!-- map -->
-		<map :latitude="latitude" :longitude="longitude" :markers="covers"></map>
+		<map :latitude="latitude" :longitude="longitude" :markers="covers" :scale="scale"></map>
 		<!-- orderDetail -->
 		<view class="orderDetail">
 			<view class=" iconfont icongerenzhongxin-zhong">
@@ -64,34 +64,33 @@
 				},
 				data:{},
 				isactive:false,
-				id: 0, // 使用 marker点击事件 需要填写id
+				id:0, // 使用 marker点击事件 需要填写id
 				title: 'map',
-				latitude: 29.993299,
-				longitude: 104.154709,
-				covers: [
-					{
-					id: 0, 
-					latitude: 29.994521,
-					longitude: 104.154741,
+				scale:10,
+				latitude: 39.909,
+				longitude: 116.39742,
+				covers: [{
+					latitude: 39.909,
+					longitude: 116.39742,
 					iconPath: '../../static/wait-list/location.png',
-					width:50,
-					height:50,				 
-				},
-					{
-						id: 1, 
-						latitude: 29.994521,
-						longitude: 104.154741,
-						iconPath: '../../static/wait-list/location1.png',
-						width:50,
-						height:50,								 
-					}
-				]
+					width:30,
+					height:30,
+					
+				}, {
+					latitude: 39.90,
+					longitude: 116.39,
+					iconPath: '../../static/wait-list/location1.png',
+					width:30,
+					height:30,
+				}]
 			}
+
 		},
 		
 		onLoad(event) {
 			// TODO 后面把参数名替换成 payload
 			const payload = event.detailDate;
+			
 			// 目前在某些平台参数会被主动 decode，暂时这样处理。
 			try {
 				this.data= JSON.parse(decodeURIComponent(payload));
@@ -160,7 +159,10 @@
 										//提醒订单
 										that.show = true;
 										that.isactive = true;
-										badgecont++;
+										let badgecont = 0;
+										// that.$badge++;
+										badgecont ++;
+										// console.log(this.$badge);
 										uni.$emit('updatebadgecont',{badgecont:badgecont});
 										uni.navigateTo({
 											url:"../index/index?e=1"

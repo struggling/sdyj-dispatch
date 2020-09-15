@@ -6,7 +6,7 @@
 					<view class="title">{{item.type}}/<span>{{item.duration}}</span></view>
 					<view class="address">{{item.origin}}</view>
 					<view class="dtime">
-						<view class="distance">距离:{{item.longitude}}公里</view>
+						<view class="distance">距离:{{item.jl}}公里</view>
 						
 					</view>
 					<view class="tool">
@@ -35,7 +35,7 @@
 			item:Object,
 			index:Number,
 			tool:Array,
-			jl:Array
+			distance:Array
 		},
 		data() {
 			return {
@@ -91,7 +91,8 @@
 					state: item.state,
 					tel: item.tel,
 					type: item.type,
-					uid: item.uid
+					uid: item.uid,
+					jl:item.jl
 				};
 				uni.navigateTo({
 					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))

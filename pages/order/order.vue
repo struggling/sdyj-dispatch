@@ -6,7 +6,7 @@
 		<view class="uni-tab-bar">
 			<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
 				<swiper-item v-for="(items,index) in newslist" :key="index">
-					<scroll-view scroll-y class="list"  refresher-enabled="false" >
+					<scroll-view scroll-y class="list"   >
 						<!-- 待上门订单列表 -->
 						<template v-if="items.list.length>0">
 							<block v-for="(item,index1) in items.list" :key="index1">
@@ -130,8 +130,12 @@
 			}
 		},
 		onShow() {
+			
 			this.checklogin();
 			//获取订单页面所有数据
+			this.user_uid = uni.getStorageSync('uid');
+			console.log("取出uid:");
+			console.log("取出uid:"+this.user_uid);
 			this.getlistdata();
 			
 		},
@@ -158,7 +162,7 @@
 			this._freshing = false;
 			this.triggered =true;
 			 // uni.$emit('updates',{msg:'页面更新'});
-			this.user_uid = uni.getStorageSync('user_uid');
+			this.user_uid = uni.getStorageSync('uid');
 			
 			
 		},
@@ -270,6 +274,7 @@
 							console.log();
 							console.log("待上门:"+res);
 							console.log(res);
+							uni.stopPullDownRefresh();
 							const data = JSON.parse(res.data);
 							console.log(data);
 							if(data.code == 200){
@@ -329,6 +334,7 @@
 					success(res) {
 						console.log("取消订单");
 						console.log(res);
+						uni.stopPullDownRefresh();
 						const data = JSON.parse(res.data);
 						console.log(data);
 						if(data.code == 200){
@@ -371,6 +377,7 @@
 					success(res) {
 						console.log("待结算:");
 						console.log(res);
+						uni.stopPullDownRefresh();
 						const data = JSON.parse(res.data);
 						console.log(data);
 						if(data.code == 200){
@@ -405,6 +412,7 @@
 					success(res) {
 						console.log("已结算:");
 						console.log(res);
+						uni.stopPullDownRefresh();
 						const data = JSON.parse(res.data);
 						console.log(data);
 						if(data.code == 200){
@@ -503,6 +511,14 @@
 			}
 		},
 		
+		
+		onPullDownRefresh() {
+			this.getlistdata();
+			this.getClose();
+			this.getEnd();
+			this.getlistCancel();
+			console.log("下拉刷新");
+		},
 		//自定义分享页面
 		onShareAppMessage(e){
 			return {
@@ -577,5 +593,14 @@
 			background-color: #4399FC;
 			border-radius: 20upx;
 		}
-		
+		button{
+			-webkit-appearance:none;
+			height: 26px !important;
+			line-height: 42upx !important;
+			color: #00abeb;
+			font-size: 32upx;
+		}
+		button::after{
+			border: none;
+		}
 </style>

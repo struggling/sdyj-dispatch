@@ -13,8 +13,8 @@ import uView from "uview-ui";
 						if (res.errMsg == 'checkSession:ok') {
 							console.log(res);
 							console.log('登录暂未过期');
-							this.user_uid = uni.getStorageSync('user_uid');//uid写在检查函数里面，
-							console.log("uid的值:"+this.user_uid);
+							let user_uid = uni.getStorageSync('user_uid');//uid写在检查函数里面，
+							console.log("uid的值:"+user_uid);
 							uni.login({
 								success(res) {
 									let code = res.code;
@@ -149,6 +149,8 @@ Vue.prototype.$overShare = 	{
 //全局的apiurl
 Vue.prototype.$apiUrl = 'https://yigongdan.com/public/applet/'; 
 
+//全局的图标提示数字
+Vue.prototype.$badge = 0;
 Vue.use(uView);
 
 Vue.config.productionTip = false

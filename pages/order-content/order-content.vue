@@ -4,7 +4,7 @@
 		<u-navbar :is-back="true" back-icon-color="#ffffff"  title="订单详情" :height="height" :background="background" title-color="#ffffff"></u-navbar>
 		<swiperTabHead :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
 		<!-- map -->
-		<map :latitude="latitude" :longitude="longitude" :markers="covers"></map>
+		<map :latitude="latitude" :longitude="longitude" :markers="covers" :scale="scale"></map>
 		<view class="content" :style="{height:swiperheight+'px'}">
 			<!-- <view class="text">恭喜您接单成功！</view>
 			<view class="text">等待上门</view> -->
@@ -51,8 +51,14 @@
 			</view>
 			<view class="btngroup">
 				<button type="default" class="active" @tap="navlociton">导航目标</button>
-				<button type="default" class="active"  open-type='contact'>客服电话</button>
-				<button type="default" class="active1">服务完成</button>
+				<button type="default" class="active"  open-type='contact'>在线客户</button>
+				<!-- <template v-if="data.index==0"> -->
+					<button type="default" class="active2" @tap="start">完成服务</button>
+				<!-- </template> -->
+				<!-- <template v-else> -->
+					<!-- <button type="default" class="active1" @tap="complate">完成服务</button> -->
+				<!-- </template> -->
+
 			</view>
 		</view>
 	</view>
@@ -66,60 +72,28 @@
 				data:{},
 				height:"",
 				swiperheight:500,
+				scale:10,
 				background:{
 					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
-				id: 0, // 使用 marker点击事件 需要填写id
-							title: 'map',
-							latitude: 29.993299,
-							longitude: 104.154709,
-							scale:6,//地图层
-							covers: [
-								{
-								id: 0, 
-								latitude: 29.994521,
-								longitude: 104.154741,
-								iconPath: '../../static/wait-list/location.png',
-								width:50,
-								height:50,
-				// 				label:{//为标记点旁边增加标签
-				// 						content:'客户地址',//文本
-				// 						color:'#F76350',//文本颜色
-				// 						anchorX:0,//label的坐标，原点是 marker 对应的经纬度
-				// 						anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
-				// // 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
-				// // 					    y:116.39742,
-				// 						bgColor:'#fff',//背景色
-				// 						padding:5,//文本边缘留白
-				// 						borderWidth:1,//边框宽度
-				// 						borderColor:'#D84C29',//边框颜色							
-				// 						textAlign:'right'//文本对齐方式。
-				// 					 },
-									 
-							},
-								{
-									id: 1, 
-									latitude: 29.994521,
-									longitude: 104.154741,
-									iconPath: '../../static/wait-list/location1.png',
-									width:50,
-									height:50,
-					// 				label:{//为标记点旁边增加标签
-					// 						content:'我的地址',//文本
-					// 						color:'#F76350',//文本颜色
-					// 						anchorX:0,//label的坐标，原点是 marker 对应的经纬度
-					// 						anchorY:-80,//label的坐标，原点是 marker 对应的经纬度 
-					// // 					    x:39.909,//这个组件微信在1.2.0以后就废弃了
-					// // 					    y:116.39742,
-					// 						bgColor:'#fff',//背景色
-					// 						padding:5,//文本边缘留白
-					// 						borderWidth:1,//边框宽度
-					// 						borderColor:'#D84C29',//边框颜色							
-					// 						textAlign:'right'//文本对齐方式。
-					// 				}
-														 
-								}
-							]
+				id:0, // 使用 marker点击事件 需要填写id
+				title: 'map',
+				latitude: 39.909,
+				longitude: 116.39742,
+				covers: [{
+					latitude: 39.909,
+					longitude: 116.39742,
+					iconPath: '../../static/wait-list/location.png',
+					width:30,
+					height:30,
+					
+				}, {
+					latitude: 39.90,
+					longitude: 116.39,
+					iconPath: '../../static/wait-list/location1.png',
+					width:30,
+					height:30,
+				}]
 			}
 		},
 		onLoad(event) {
@@ -183,6 +157,73 @@
 				}
 				
 			  });
+			},
+			// complate(){
+			// 	uni.showModal({
+			// 	    title: '提示',
+			// 	    content: '订单已完成,不可点击',
+			// 	    success: function (res) {
+			// 	        if (res.confirm) {
+			// 	            console.log('用户点击确定');
+			// 	        } else if (res.cancel) {
+			// 	            console.log('用户点击取消');
+			// 	        }
+			// 	    }
+			// 	});
+			// },
+			start(){
+				let that = this;
+				uni.showModal({
+					  title: '提示',
+					    content: '订单完成后可到订单中心查看结款状态',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								that.getAccomplish(that.data.code);
+								uni.navigateTo({
+									url:"../order/order?e=1"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+				})
+			},
+			//拉去用户订单完成信息
+			getAccomplish(code){
+				
+				uni.request({
+					url:this.$apiUrl+"work/accomplish",
+					method:"POST",
+					dataType:JSON,
+					data:{
+						uid:uni.getStorageSync("uid"),
+						code:code,
+					},
+					success(res) {
+						console.log("完成订单");
+						console.log(res);
+						uni.navigateTo({
+							url:"../order/order"
+						})
+						
+					},
+					fail(res) {
+						console.log(res);
+						uni.showToast({
+							title:"服务器无响应"
+						})
+					}
+				})
+			}
+		},
+		//自定义分享页面
+		onShareAppMessage(e){
+			return {
+				title: this.$overShare.title,
+				path: this.$overShare.path,
+				imageUrl:this.$overShare.imageUrl,
+				
 			}
 		}
 	}
@@ -252,7 +293,7 @@
 	map{
 		position: relative;
 		width: 100%;
-		height: 300upx;
+		height: 600upx;
 		display: block;
 	}
 	.btngroup{
@@ -266,16 +307,19 @@
 		-webkit-appearance:none;
 		height: 32px !important;
 		line-height: 56upx !important;
-		color: #FFFFFF;
+		color: #00abeb;
 		font-size: 32upx;
 	}
 	button::after{
 		border: none;
 	}
 	.active{
-		background-color: #ff5500;
+		background-color: #ffffff;
 	}
 	.active1{
 		background-color: #cccccc;
+	}
+	.active1{
+		background-color: #ff5500;
 	}
 </style>

@@ -2,7 +2,7 @@
 	<view>
 		<!-- 自定义导航栏 -->
 		<u-navbar :is-back="false" title="接单池" :height="height" :background="background" title-color="#ffffff">
-			<view class="slot-wrap" @tap="openlocation">
+			<view class="slot-wrap" @tap="openConfirm">
 				{{address}}
 			</view>
 		</u-navbar>
@@ -33,7 +33,7 @@
 						<scroll-view  scroll-y="true" class="list"  >
 							<template v-if="orderlist.length>0">
 								<block v-for="(item,index) in orderlist" :key="index">
-									<orderList :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></orderList>
+									<orderList :item="item" :index="index" :tool="tool" :distance="distance" @openModel="openModel"></orderList>
 								</block>
 							</template>
 							<!-- nothing -->
@@ -62,7 +62,7 @@
 				</swiper>
 			</view>
 			<!-- 动态数字角标提醒 -->
-			<u-badge type="error" :count="badgecont" style="position: absolute;
+			<u-badge type="error" :count="badgeconts" style="position: absolute;
 top: 248upx;
 left: 720upx;
 "></u-badge>
@@ -104,7 +104,8 @@ left: 720upx;
 		},
 		data() {
 			return {
-				badgecont:0,
+				distance:[],
+				badgeconts:1,
 				triggered: true,
 				phone:1,
 				tool:[],
@@ -149,18 +150,25 @@ left: 720upx;
 		onShow() {
 			//检查登录授权
 			// 检查登录是否过期
-			
+			// async function (){
+				
+			// }
+			//判断用户是否注册服务工种,获取缓存里面的值
+			this.user_uid = uni.getStorageSync('uid');
+			this.phone = uni.getStorageSync('phone');
 			this.getAuthorizeInfo();
 			this.getWOrkstay();
-			
-			
+			console.log("重新排序");
+			uni.$on('updatebadgecont',function(badgecont){
+			         console.log('监听到事件来自 update ，携带参数 msg 为：' + badgecont.badgecont);
+					 this.badgeconts =this.badgeconts + badgecont.badgecont;
+			});
 		},
 		
 		computed:{
 			//重新排序待派单订单
-			sortOrderlist:function(){
+			sortOrderlist(){
 				for (var i = 0; i < this.orderlist.length; i++) {
-					
 					let location = this.orderlist[i].longitude;
 					let str1 = location.split(",")[0];
 					str1 = str1.substring(0,9);
@@ -172,10 +180,10 @@ left: 720upx;
 					let longitude1 = uni.getStorageSync("longitude");
 					var jl = this.countDistance(latitude1, longitude1, latitude, longitude);
 					jl = Math.floor(jl/1000 * 10) / 10;
-					this.distance = jl;
+					// this.distance =this.distance.push(jl);
 					console.log("距离");
-					
-					this.orderlist[i].longitude = jl;
+					console.log(this.distance);
+					this.orderlist[i].jl = jl;
 					
 				}
 				function compare(property){
@@ -185,10 +193,11 @@ left: 720upx;
 				        return value1 - value2;
 				    }
 				}
-				return this.oriderlist = this.orderlist.sort(compare('longitude'));
+				return this.orderlist.sort(compare('longitude'));
 				console.log("排序");
 				console.log(this.orderlist.sort(compare('longitude')));
-			}
+			},
+			
 		},
 		
 		onLoad(event) {
@@ -211,9 +220,9 @@ left: 720upx;
 			// mock数据通知栏
 			this.getNavbar();
 			//判断用户是否注册服务工种,获取缓存里面的值
-			this.user_uid = uni.getStorageSync('user_uid');
-			this.phone = uni.getStorageSync('phone');
-			uni.setStorageSync("badgecont",this.badgecont);
+			// this.user_uid = uni.getStorageSync('uid');
+			// this.phone = uni.getStorageSync('phone');
+			// uni.setStorageSync("badgecont",this.badgecont);
 			console.log("uid的值:"+this.user_uid);
 			// let isregister = true;
 			//首页待派单订单请求
@@ -238,19 +247,21 @@ left: 720upx;
 			 //                this.triggered = true;
 			 //            }, 1000)
 			 //监听数字图标动向
-			uni.$on('updatebadgecont',function(badgecont){
-			         console.log('监听到事件来自 update ，携带参数 msg 为：' + badgecont.badgecont);
-					 this.badgecont = badgecont.badgecont;
-			});
+			// uni.$on('updatebadgecont',function(badgecont){
+			//          console.log('监听到事件来自 update ，携带参数 msg 为：' + badgecont.badgecont);
+			// 		 // this.badgecont = badgecont.badgecont;
+			// });
 			// let data = this.getmock();
 			// this.orderlist = data.orderlist;
 			// console.log(this.orderlist);
-
+			console.log(this.$badge);
+			
 		},
-		// onPullDownRefresh() {
-		// 	this.getWOrkstay();
-		// 	console.log("下拉刷新");
-		// },
+		onPullDownRefresh() {
+			this.getWOrkstay();
+			this.getAlready();
+			console.log("下拉刷新");
+		},
 		
 		methods: {
 			// tabs通知swiper切换
@@ -333,8 +344,10 @@ left: 720upx;
 									//抢单成功体醒
 									that.show = true;
 									//删除该订单
-									that.badgecont++
-									 // that.orderlist.splice(index,1);
+									
+									
+									that.badgeconts++;
+									 that.orderlist.splice(index,1);
 								}else{
 									uni.showToast({
 										title:"无网络!"
@@ -465,6 +478,7 @@ left: 720upx;
 				// console.log(this.latitude);
 				let that  =this;
 				let str = uni.getStorageSync("type");
+				let town = uni.getStorageSync("town")
 				console.log(str);
 				let type = str.split(",");
 				uni.request({
@@ -472,12 +486,13 @@ left: 720upx;
 					method: "POST",
 					dataType: JSON,
 					data: {
-						town: "眉山市",
+						town:town ,
 						genre: type,
 						uid: this.user_uid
 					},
 					success(res) {
 						console.log(res);
+						uni.stopPullDownRefresh();
 						const data = JSON.parse(res.data);
 						console.log(data.data);
 						if(data.code == 200){
@@ -548,6 +563,7 @@ left: 720upx;
 						console.log(res);
 						const data = JSON.parse(res.data);
 						console.log(data.data);
+						uni.stopPullDownRefresh();
 						if(data.code == 200){
 							// console.log(res)
 							that.takelist = data.data;
@@ -680,6 +696,14 @@ left: 720upx;
 			    				that.address = address;
 			    				uni.setStorageSync('address', address);
 			    				// console.log(address);
+								const towns = res.wxMarkerData[0].address.indexOf("省");
+								const shi = res.wxMarkerData[0].address.indexOf("市");
+								console.log("省下表"+towns);
+								console.log("市下表"+shi);
+								const town = res.wxMarkerData[0].address.substring(towns+1,shi+1);
+								console.log(town);
+								uni.setStorageSync('town', town);
+								// that.getWOrkstay();
 			    			},
 			    			fail(error) {
 			    				console.log(error);
@@ -747,6 +771,7 @@ left: 720upx;
 			// onAbort() {
 			//     console.log("onAbort");
 			// }
+			
 
 		},
 		

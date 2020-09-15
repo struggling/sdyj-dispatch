@@ -54,5 +54,14 @@ view.data-v-127632e4{
 		background-color: #4399FC;
 		border-radius: 20rpx;
 }
-	
+button.data-v-127632e4{
+		-webkit-appearance:none;
+		height: 26px !important;
+		line-height: 42rpx !important;
+		color: #00abeb;
+		font-size: 32rpx;
+}
+button.data-v-127632e4::after{
+		border: none;
+}
 

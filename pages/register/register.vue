@@ -225,24 +225,24 @@
 					.init()
 					.add(this.name, [{
 							type: 'required',
-							message: '用户名不能为空'
+							message: '用户名为空'
 						},
 						{
 							type: 'min:2',
-							message: '用户名长度不能小于2位!'
+							message: '用户名小于2位!'
 						},
 						{
 							type: 'max:6',
-							message: '用户名长度不能大于6位!'
+							message: '用户名大于6位!'
 						}
 					])
 					.add(this.worktime, [{
 							type: 'required',
-							message: '手机号码不能为空'
+							message: '手机号码为空'
 						},
 						{
 							type: 'max:2',
-							message: '工龄必须输入数字',
+							message: '工龄必须数字',
 							callback :(value, message) =>  {
 								var reg = '\d{2}';
 							      return reg.test(value) ? void 0 : message 
@@ -251,12 +251,16 @@
 					])
 					.add(this.phone, [{
 							type: 'required',
-							message: '手机号码不能为空'
+							message: '手机号码为空'
 						}
 					])
 					.add(this.counttype, [{
 							type: 'required',
-							message: '服务类型不能为空'
+							message: '服务类型为空'
+						},
+						{
+							type: 'min:6',
+							message: '选择服务类型'
 						},
 					])
 				const errorMsg = validator.validation()
@@ -272,13 +276,13 @@
 				}
 				else {
 					uni.showLoading({
-						title:"提交中"
+						title:"注册成功"
 					})
 					//获取首页中缓存的经纬度,uid
 					let latitude = uni.getStorageSync("latitude");
 					let longitude = uni.getStorageSync("longitude");
-					let uuser_uid = uni.getStorageSync("user_uid");
-					console.log(uuser_uid);
+					let user_uid = uni.getStorageSync("uid");
+					console.log(user_uid);
 					uni.request({
 						url: "https://applet.51tiaoyin.com/public/applet/user/get_info",
 						method: "POST",
@@ -288,7 +292,7 @@
 							phone: this.phonenum,
 							coord: latitude + "," + longitude,
 							type: this.counttype,
-							uid:uuser_uid
+							uid:user_uid
 						},
 						success(res) {
 							console.log(res);
@@ -299,7 +303,7 @@
 							uni.setStorageSync("gonghao",res.id);
 							setTimeout(()=>{
 								uni.reLaunch({
-									url:"../index/index"
+									url:"../home/home"
 								})
 							},2500)
 							
