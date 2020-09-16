@@ -46,6 +46,10 @@ import uView from "uview-ui";
 												console.log("用户姓名"+name);
 												uni.setStorageSync("number",number);
 												console.log("用户编号"+number);
+												uni.setStorageSync('user_name', data.data.wechat_name);
+												uni.setStorageSync('user_avatar', data.data.wechat_img);
+												console.log("用户姓名"+data.data.wechat_name);
+												console.log("用户头像"+data.data.wechat_img);
 											}else if(data.code ==300){
 												uni.showModal({
 												    title: '提示',
@@ -151,6 +155,14 @@ Vue.prototype.$apiUrl = 'https://yigongdan.com/public/applet/';
 
 //全局的图标提示数字
 Vue.prototype.$badge = 0;
+
+// 在main.js注册全局组件
+import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue"
+import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue"
+Vue.component('mescroll-body', MescrollBody)
+Vue.component('mescroll-uni', MescrollUni)	
+
+
 Vue.use(uView);
 
 Vue.config.productionTip = false

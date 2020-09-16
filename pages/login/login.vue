@@ -73,7 +73,7 @@
 												// console.log(res.data.data);
 												uni.setStorageSync('user_name', data.data.wechat_name);
 												uni.setStorageSync('user_avatar', data.data.wechat_img);
-												uni.setStorageSync('user_uid', data.data.uid);
+												uni.setStorageSync('uid', data.data.uid);
 											}else{
 												uni.showToast({
 													title: "服务器无响应"

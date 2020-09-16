@@ -1,6 +1,5 @@
 {
   "navigationStyle": "custom",
-  "enablePullDownRefresh": true,
   "navigationBarBackgroundColor": "#00ABEB",
   "navigationBarTitleText": "接单中心",
   "navigationBarTextStyle": "white",

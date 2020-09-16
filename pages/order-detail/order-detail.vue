@@ -121,8 +121,12 @@
 				return this.data.state
 			},
 			dataDoortime:function(){
-				console.log(this.data);
-				return  this.data.door_time.substring(5,this.data.door_time.length-3)
+				
+				if(this.data.door_time){
+					console.log(this.data.door_time);
+					return  this.data.door_time.substring(5,this.data.door_time.length-3)
+				}
+				
 			}
 		},
 		onLoad(event) {

@@ -71,7 +71,7 @@
 				name:'',
 				data:{},
 				height:"",
-				swiperheight:500,
+				swiperheight:558,
 				scale:10,
 				background:{
 					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
@@ -118,14 +118,14 @@
 				console.log(this.data);
 			};
 			this.name = uni.getStorageSync("name");
-			uni.getSystemInfo({
-				success: (res) => {
-					// console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(136);
-					this.swiperheight = height;
-					console.log(this.swiperheight);
-				}
-			});
+			// uni.getSystemInfo({
+			// 	success: (res) => {
+			// 		// console.log(res.windowHeight);
+			// 		let height = res.windowHeight - uni.upx2px(600);
+			// 		this.swiperheight = height;
+			// 		console.log(this.swiperheight);
+			// 	}
+			// });
 		},
 		methods: {
 			navlociton(){
@@ -180,9 +180,6 @@
 					        if (res.confirm) {
 					            console.log('用户点击确定');
 								that.getAccomplish(that.data.code);
-								uni.navigateTo({
-									url:"../order/order?e=1"
-								})
 					        } else if (res.cancel) {
 					            console.log('用户点击取消');
 					        }
@@ -191,7 +188,6 @@
 			},
 			//拉去用户订单完成信息
 			getAccomplish(code){
-				
 				uni.request({
 					url:this.$apiUrl+"work/accomplish",
 					method:"POST",
@@ -203,9 +199,26 @@
 					success(res) {
 						console.log("完成订单");
 						console.log(res);
-						uni.navigateTo({
-							url:"../order/order"
-						})
+						let data = JSON.parse(res.data);
+						console.log(data);
+						switch (data.code){
+							case 200:
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1500);
+								break;
+							case 300:
+							uni.showToast({
+								title:"该订单已经完成了",
+								duration:2000
+							})
+								break;
+							default:
+								break;
+						}
+						
 						
 					},
 					fail(res) {

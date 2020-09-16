@@ -17,19 +17,19 @@
 					</view>
 					<view class="txt">个人数据</view>
 				</view>
-				<view class="panel-item">
+				<view class="panel-item" @tap="showcoder">
 					<view class="icon">
 						<image src="../../static/home/icon3.png" mode=""></image>
 					</view>
 					<view class="txt">我的积分</view>
 				</view>
-				<view class="panel-item">
+				<view class="panel-item" @tap="showcoder">
 					<view class="icon">
 						<image src="../../static/home/icon2.png" mode=""></image>
 					</view>
 					<view class="txt">积分商城</view>
 				</view>
-				<view class="panel-item">
+				<view class="panel-item" @tap="go">
 					<view class="icon">
 						<image src="../../static/home/icon3.png" mode=""></image>
 					</view>
@@ -71,7 +71,7 @@
 				//顶部导航栏
 				height:"",
 				background:{
-					backgroundImage:"linear-gradient(90deg, #00ABEB, #54C3F1)",
+					backgroundImage:"linear-gradient(90deg,  #54C3F1,#00ABEB)",
 				},
 				//顶部导航栏
 				user_name:"",
@@ -164,6 +164,31 @@
 				  }
 				})
 			},
+			//开发中
+			showcoder(){
+				uni.showToast({
+					title:"开发中"
+				})
+			},
+			//拨打客服电话
+			go(){
+			 	uni.makePhoneCall({
+			 	
+			 	// 手机号
+			    phoneNumber: '400-0015-021', 
+			
+				// 成功回调
+				success: (res) => {
+					console.log('调用成功!')	
+				},
+			
+				// 失败回调
+				fail: (res) => {
+					console.log('调用失败!')
+				}
+				
+			  });
+			}
 		},
 		//自定义分享页面
 		onShareAppMessage(e){
@@ -178,6 +203,9 @@
 </script>
 
 <style lang="scss">
+	// .u-cell-group{
+	// 	background-color: #CCCCCC;
+	// }
 	page {
 		background-color: #ededed;
 	}

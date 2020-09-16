@@ -132,7 +132,7 @@
 			opentake(){
 				let that =this;
 				let phone = uni.getStorageSync('phone');
-				let user_uid = uni.getStorageSync('user_uid');
+				let user_uid = uni.getStorageSync('uid');
 				let badgecont = uni.getStorageSync("badgecont");
 				let code = this.data.code;
 				console.log("phone"+phone);
@@ -164,9 +164,11 @@
 										badgecont ++;
 										// console.log(this.$badge);
 										uni.$emit('updatebadgecont',{badgecont:badgecont});
-										uni.navigateTo({
-											url:"../index/index?e=1"
-										})
+										setTimeout(()=>{
+											uni.navigateBack({
+											    delta: 1
+											});
+										},3000);
 										break;
 									case 300:
 										uni.showToast({

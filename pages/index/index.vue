@@ -6,6 +6,7 @@
 				{{address}}
 			</view>
 		</u-navbar>
+		<mescroll-body :sticky="true" ref="mescrollRef" @init="mescrollInit" @down="downCallback" >
 		<!-- 自定义收藏我的小程序 -->
 		<add-tip :tip="tip" :duration="duration" />
 		<view class="content">
@@ -27,13 +28,14 @@
 				</block>
 			</view>
 			<!-- 列表 -->
+			
 			<view class="uni-tab-bar">
 				<swiper class="swiper-box" :style="{height:swiperheight+'px'}"  :current="tabIndex" @change="tabChange">
 					<swiper-item>
-						<scroll-view  scroll-y="true" class="list"  >
+						<scroll-view  scroll-y="true" class="list">
 							<template v-if="orderlist.length>0">
 								<block v-for="(item,index) in orderlist" :key="index">
-									<orderList :item="item" :index="index" :tool="tool" :distance="distance" @openModel="openModel"></orderList>
+									<orderList :item="item" :index="index" :tool="tool"  @openModel="openModel"></orderList>
 								</block>
 							</template>
 							<!-- nothing -->
@@ -61,6 +63,7 @@
 					</swiper-item>
 				</swiper>
 			</view>
+			
 			<!-- 动态数字角标提醒 -->
 			<u-badge type="error" :count="badgeconts" style="position: absolute;
 top: 248upx;
@@ -78,6 +81,7 @@ left: 720upx;
 				</view>
 			</u-popup> -->
 		</view>
+		</mescroll-body>
 	</view>
 
 
@@ -93,8 +97,10 @@ left: 720upx;
 	import addTip from "../../components/struggler-uniapp-add-tip/struggler-uniapp-add-tip";
 	import noThing from "../../components/common/no-thing.vue";
 	import orderList from "../../components/index/orderlist.vue";
-	import Already from "../../components/index/already.vue"
+	import Already from "../../components/index/already.vue";
+	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	export default {
+		mixins: [MescrollMixin],
 		components: {
 			loadMore,
 			addTip,
@@ -105,7 +111,7 @@ left: 720upx;
 		data() {
 			return {
 				distance:[],
-				badgeconts:1,
+				badgeconts:0,
 				triggered: true,
 				phone:1,
 				tool:[],
@@ -159,10 +165,7 @@ left: 720upx;
 			this.getAuthorizeInfo();
 			this.getWOrkstay();
 			console.log("重新排序");
-			uni.$on('updatebadgecont',function(badgecont){
-			         console.log('监听到事件来自 update ，携带参数 msg 为：' + badgecont.badgecont);
-					 this.badgeconts =this.badgeconts + badgecont.badgecont;
-			});
+			
 		},
 		
 		computed:{
@@ -182,7 +185,7 @@ left: 720upx;
 					jl = Math.floor(jl/1000 * 10) / 10;
 					// this.distance =this.distance.push(jl);
 					console.log("距离");
-					console.log(this.distance);
+					// console.log(this.distance);
 					this.orderlist[i].jl = jl;
 					
 				}
@@ -224,46 +227,35 @@ left: 720upx;
 			// this.phone = uni.getStorageSync('phone');
 			// uni.setStorageSync("badgecont",this.badgecont);
 			console.log("uid的值:"+this.user_uid);
-			// let isregister = true;
-			//首页待派单订单请求
-			// setInterval(()=>{
-			// 	this.getWOrkstay();
-			// },3000)
-			// this.getWOrkstay();
-			// this.getWOrkstay();
-			
-			// if(phone){
-				
-			// }else{
-			// 	console.log("打印假数据");
-			// 	// let orderList = this.getmock();
-			// 	console.log(orderList);
-			// 	this.orderlist = orderList.orderlist.slice(0,4);
-			// 	console.log("数据长度为："+this.orderlist.length);
-			// }
-			//scoll-view内下拉刷新
-			this._freshing = false;
-			 // setTimeout(() => {
-			 //                this.triggered = true;
-			 //            }, 1000)
-			 //监听数字图标动向
-			// uni.$on('updatebadgecont',function(badgecont){
-			//          console.log('监听到事件来自 update ，携带参数 msg 为：' + badgecont.badgecont);
-			// 		 // this.badgecont = badgecont.badgecont;
-			// });
+			//加载mock假数据
 			// let data = this.getmock();
 			// this.orderlist = data.orderlist;
 			// console.log(this.orderlist);
-			console.log(this.$badge);
+			this._freshing = false;
+			uni.$on('updatebadgecont',function(badgecont){
+			         console.log('监听到事件来自 update ，携带参数 msg 为：' + badgecont.badgecont);
+					 that.badgeconts++;
+					 that.tabIndex = 1;
+					 console.log(that.badgeconts);
+			});
 			
 		},
-		onPullDownRefresh() {
-			this.getWOrkstay();
-			this.getAlready();
-			console.log("下拉刷新");
-		},
+		// onPullDownRefresh() {
+		// 	this.getWOrkstay();
+		// 	this.getAlready();
+		// 	console.log("下拉刷新");
+		// },
 		
 		methods: {
+			/*下拉刷新的回调 */
+			downCallback() {
+				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
+				// loadSwiper();
+				this.getWOrkstay();
+				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+				
+			},
+			
 			// tabs通知swiper切换
 			//tabbar点击事件
 			xuanzhong(index) {
@@ -492,11 +484,12 @@ left: 720upx;
 					},
 					success(res) {
 						console.log(res);
-						uni.stopPullDownRefresh();
+						// uni.stopPullDownRefresh();
 						const data = JSON.parse(res.data);
 						console.log(data.data);
 						if(data.code == 200){
 							// console.log(res)
+							that.mescroll.endSuccess();
 							that.orderlist = data.data;
 							// this.triggered = true;
 							console.log("订单列表:");
@@ -563,7 +556,7 @@ left: 720upx;
 						console.log(res);
 						const data = JSON.parse(res.data);
 						console.log(data.data);
-						uni.stopPullDownRefresh();
+						// uni.stopPullDownRefresh();
 						if(data.code == 200){
 							// console.log(res)
 							that.takelist = data.data;
@@ -745,34 +738,7 @@ left: 720upx;
 				});
 			},
 			//控件被下拉
-			// onPulling(e) {
-			//     console.log("onpulling", e);
-			// },
-			// //触发
-			// onRefresh(){
-			//     if (this._freshing) return;
-			//     // this._freshing = true;
-			// 	// if(this.orderlist)
-			//     setTimeout(() => {
-			// 		console.log("1111");
-			// 		//设定一个数据返回成功的变量判断
-			//         this.triggered = false;
-			//         this._freshing = false;
-			//     }, 3000)
-			// },
-			// //复位
-			// onRestore(index) {
-			//     this.triggered = 'restore'; // 需要重置
-			//     console.log("onRestore");
-				
-				
-			// },
-			// //终止
-			// onAbort() {
-			//     console.log("onAbort");
-			// }
 			
-
 		},
 		
 		//自定义分享页面
