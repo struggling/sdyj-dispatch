@@ -10,7 +10,7 @@
 			"style": {
 				"navigationStyle":"custom",
 				// "enablePullDownRefresh": true,  //设置为true表示当前页面开启下拉刷新
-				// "disableScroll":true,
+				"disableScroll":true,
 				"navigationBarBackgroundColor":"#00ABEB",
 				"navigationBarTitleText": "接单池",
 				"navigationBarTextStyle":"white"

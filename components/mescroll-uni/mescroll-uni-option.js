@@ -27,8 +27,9 @@ const GlobalOption = {
 		},
 		empty: {
 			use: true, // 是否显示空布局
-			icon: "https://www.mescroll.com/img/mescroll-empty.png", // 图标路径 (建议放入static目录, 如 /static/img/mescroll-empty.png )
-			tip: '~ 空空如也 ~' // 提示
+			icon: "../../../static/nothing.png", // 图标路径 (建议放入static目录, 如 /static/img/mescroll-empty.png )
+			tip: '~ 空空如也 ~' ,// 提示
+			top: "300rpx",
 		}
 	}
 }

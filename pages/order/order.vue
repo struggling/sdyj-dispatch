@@ -3,7 +3,7 @@
 		<!-- 自定义导航栏 -->
 		<u-navbar :is-back="false"  title="订单中心" :height="height" :background="background" title-color="#ffffff"></u-navbar>
 		<swiperTabHead :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" ></swiperTabHead>
-		<mescroll-body :sticky="true" ref="mescrollRef" @init="mescrollInit" @down="downCallback" >
+		<!-- <mescroll-body :sticky="true" ref="mescrollRef" @init="mescrollInit" @down="downCallback" > -->
 		<view class="uni-tab-bar">
 			<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
 				<swiper-item v-for="(items,index) in newslist" :key="index">
@@ -23,7 +23,7 @@
 				</swiper-item>
 			</swiper>
 		</view>
-		</mescroll-body>
+		<!-- </mescroll-body> -->
 		<!-- 弹出输入取消框 -->
 		<view :hidden="userFeedbackHidden" class="popup_content">
 					<view class="popup_title">您的取消订单</view>
@@ -170,17 +170,17 @@
 			
 		},
 		methods: {
-			/*下拉刷新的回调 */
-			downCallback() {
-				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
-				// loadSwiper();
-				this.getlistdata();
-				this.getClose();
-				this.getEnd();
-				this.getlistCancel();
-				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+			// /*下拉刷新的回调 */
+			// downCallback() {
+			// 	// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
+			// 	// loadSwiper();
+			// 	this.getlistdata();
+			// 	this.getClose();
+			// 	this.getEnd();
+			// 	this.getlistCancel();
+			// 	// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
 				
-			},
+			// },
 			//上拉加载更多
 			loadmore(index) {
 				console.log(index);

@@ -1,17 +1,20 @@
 {
   "navigationStyle": "custom",
+  "disableScroll": true,
   "navigationBarBackgroundColor": "#00ABEB",
   "navigationBarTitleText": "接单池",
   "navigationBarTextStyle": "white",
   "usingComponents": {
     "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
     "u-notice-bar": "/uview-ui/components/u-notice-bar/u-notice-bar",
+    "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
     "u-badge": "/uview-ui/components/u-badge/u-badge",
     "u-modal": "/uview-ui/components/u-modal/u-modal",
     "load-more": "/components/common/load-more",
     "add-tip": "/components/struggler-uniapp-add-tip/struggler-uniapp-add-tip",
     "no-thing": "/components/common/no-thing",
     "order-list": "/components/index/orderlist",
-    "already": "/components/index/already"
+    "already": "/components/index/already",
+    "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty"
   }
 }

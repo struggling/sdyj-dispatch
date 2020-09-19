@@ -1,9 +1,9 @@
 
-view.data-v-127632e4{
+view.data-v-3f7a9344{
 	line-height: 2.25 !important;
 }
 /* 输入提示框 */
-.popup_overlay.data-v-127632e4 {
+.popup_overlay.data-v-3f7a9344 {
  
 		position: fixed;
 		top: 0%;
@@ -16,7 +16,7 @@ view.data-v-127632e4{
 		opacity: .80;
 		filter: alpha(opacity=88);
 }
-.popup_content.data-v-127632e4 {
+.popup_content.data-v-3f7a9344 {
 		position: fixed;
 		top: 50%;
 		left: 50%;
@@ -30,13 +30,13 @@ view.data-v-127632e4{
 		overflow: auto;
 		border-radius: 20rpx;
 }
-.popup_title.data-v-127632e4 {
+.popup_title.data-v-3f7a9344 {
 		padding-top: 20rpx;
 		width: 480rpx;
 		text-align: center;
 		font-size: 32rpx;
 }
-.popup_textarea_item.data-v-127632e4 {
+.popup_textarea_item.data-v-3f7a9344 {
 		padding-top: 5rpx;
 		height: 240rpx;
 		width: 440rpx;
@@ -44,24 +44,24 @@ view.data-v-127632e4{
 		margin-top: 30rpx;
 		margin-left: 20rpx;
 }
-.popup_textarea.data-v-127632e4 {
+.popup_textarea.data-v-3f7a9344 {
 		width: 410rpx;
 		font-size: 26rpx;
 		margin-left: 20rpx;
 }
-.popup_button.data-v-127632e4 {
+.popup_button.data-v-3f7a9344 {
 		color: white;
 		background-color: #4399FC;
 		border-radius: 20rpx;
 }
-button.data-v-127632e4{
+button.data-v-3f7a9344{
 		-webkit-appearance:none;
 		height: 26px !important;
 		line-height: 42rpx !important;
 		color: #00abeb;
 		font-size: 32rpx;
 }
-button.data-v-127632e4::after{
+button.data-v-3f7a9344::after{
 		border: none;
 }
 

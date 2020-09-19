@@ -6,7 +6,6 @@
 				{{address}}
 			</view>
 		</u-navbar>
-		<mescroll-body :sticky="true" ref="mescrollRef" @init="mescrollInit" @down="downCallback" >
 		<!-- 自定义收藏我的小程序 -->
 		<add-tip :tip="tip" :duration="duration" />
 		<view class="content">
@@ -31,44 +30,57 @@
 			
 			<view class="uni-tab-bar">
 				<swiper class="swiper-box" :style="{height:swiperheight+'px'}"  :current="tabIndex" @change="tabChange">
+					
 					<swiper-item>
 						<scroll-view  scroll-y="true" class="list">
-							<template v-if="orderlist.length>0">
-								<block v-for="(item,index) in orderlist" :key="index">
-									<orderList :item="item" :index="index" :tool="tool"  @openModel="openModel"></orderList>
-								</block>
-							</template>
+							<mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" >
+								<template v-if="orderlist.length>0">
+									<block v-for="(item,index) in orderlist" :key="index">
+										<orderList :item="item" :index="index" :tool="tool"  @openModel="openModel"></orderList>
+									</block>
+								</template>
+							
 							<!-- nothing -->
-							<template v-else>
-								<noThing></noThing>
-							</template>
+								<template v-else>
+									<noThing></noThing>
+								</template>
+							</mescroll-uni>
 							<!-- 上拉加载 -->
 							<!-- <load-more :loadtext="loadtext"></load-more> -->
 						</scroll-view>
 					</swiper-item>
 					<swiper-item>
 						<scroll-view  scroll-y="true" class="list"  >
-							<template v-if="takelist.length>0">
+							<!-- <template v-if="takelist.length>0">
 								<block v-for="(item,index) in takelist" :key="index">
 									<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
 								</block>
-							</template>
+							</template> -->
 							<!-- nothing -->
-							<template v-else>
-								<noThing></noThing>
-							</template>
+							
+							<mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" >
+								<template v-if="takelist.length>0">
+									<block v-for="(item,index) in takelist" :key="index">
+										<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
+									</block>
+								</template>
+							
+							<!-- nothing -->
+								<!-- <mescroll-empty v-if="orderlist.length==0" ></mescroll-empty> -->
+								<template v-else>
+									<noThing></noThing>
+								</template>
+							</mescroll-uni>
 							<!-- 上拉加载 -->
 							<!-- <load-more :loadtext="loadtext"></load-more> -->
 						</scroll-view>
 					</swiper-item>
+					
 				</swiper>
 			</view>
 			
 			<!-- 动态数字角标提醒 -->
-			<u-badge type="error" :count="badgeconts" style="position: absolute;
-top: 248upx;
-left: 720upx;
-"></u-badge>
+			<u-badge type="error" :count="badgeconts" style="position: absolute;top: 248upx;left: 720upx;"></u-badge>
 			<!-- model -->
 			<u-modal v-model="show" :content="content"></u-modal>
 			<!-- popup -->
@@ -81,7 +93,6 @@ left: 720upx;
 				</view>
 			</u-popup> -->
 		</view>
-		</mescroll-body>
 	</view>
 
 
@@ -89,7 +100,7 @@ left: 720upx;
 
 <script>
 	const Mock = require("../../common//mock.mp.js");
-
+	import md5 from "../../common/md5.min.js";
 	//引入小程序微信小程序JavaScriptSDK
 	// const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 	var bmap = require('../../libs/bmap-wx.js');
@@ -99,6 +110,7 @@ left: 720upx;
 	import orderList from "../../components/index/orderlist.vue";
 	import Already from "../../components/index/already.vue";
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
+	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
 	export default {
 		mixins: [MescrollMixin],
 		components: {
@@ -106,10 +118,26 @@ left: 720upx;
 			addTip,
 			noThing,
 			orderList,
-			Already
+			Already,
+			MescrollEmpty
 		},
 		data() {
 			return {
+				upOption:{
+					use:false
+				},
+				downOption:{
+					auto:false,
+					// empty:{
+					//   use : true ,
+					//   icon : null ,
+					//   tip : "暂无相关数据",
+					//   btnText : "",
+					//   fixed: false,
+					//   top: "100rpx",
+					//   zIndex: 99
+					// }
+				},
 				distance:[],
 				badgeconts:0,
 				triggered: true,
@@ -465,80 +493,111 @@ left: 720upx;
 			},
 			
 			//获取待派单列表信息
-			getWOrkstay(){
+			async getWOrkstay(){
 				// console.log("data里面的地理精度");
 				// console.log(this.latitude);
 				let that  =this;
 				let str = uni.getStorageSync("type");
-				let town = uni.getStorageSync("town")
+				let town = uni.getStorageSync("town");
+				let cookie = uni.getStorageSync("cookie")
 				console.log(str);
-				let type = str.split(",");
-				uni.request({
-					url: this.$apiUrl+"work/stay",
-					method: "POST",
-					dataType: JSON,
-					data: {
-						town:town ,
-						genre: type,
-						uid: this.user_uid
+				let type = str.split(",");				
+				const res = await this.$myRequest({
+					url:'work/stay',
+					data:{
+						"town":town ,
+						"genre": type,
+						"uid": this.user_uid,
 					},
-					success(res) {
-						console.log(res);
-						// uni.stopPullDownRefresh();
-						const data = JSON.parse(res.data);
-						console.log(data.data);
-						if(data.code == 200){
-							// console.log(res)
-							that.mescroll.endSuccess();
-							that.orderlist = data.data;
-							// this.triggered = true;
-							console.log("订单列表:");
-							console.log(that.orderlist);
-							//计算经纬度距离和循环遍历工具要求
-							// for (var i = 0; i < that.orderlist.length; i++) {
-							// 	console.log("订单数据长度"+that.orderlist.length);
-							// 	var location = that.orderlist[i].longitude;
-							// 	// console.log(location);
-							// 	// let index = str .lastIndexOf(">")
-							// 	//客户距离
-							// 	let str1 = location.split(",")[0];
-							// 	str1 = str1.substring(0,9);
-							// 	let str2 = location.split(",")[1];
-							// 	str2 = str2.substring(0,9);
-							// 	console.log("str1-"+str1);
-							// 	var longitude = str1;
-							// 	var latitude = str2;
-							// 	//计算距离
-							// 	let latitude1 = uni.getStorageSync("latitude");
-							// 	let longitude1 = uni.getStorageSync("longitude");
-							// 	//我的距离
-							// 	console.log(that.latitude);
-							// 	console.log(that.longitude);
-							// 	console.log(latitude);
-							// 	console.log(longitude);
-							// 	var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
-							// 	jl = Math.floor(jl/1000 * 10) / 10;
-							// 	that.jl = that.jl.concat(jl);
-							// 	console.log("距离");
-							// 	console.log(that.jl);
-							// }
-						}else if(data.code == 300){
-							uni.showToast({
-								title:"该地区没有相关工单"
-							})
-						}
-						else{
-							console.log(res);
-							uni.showToast({
-								title:"无网络"
-							})
-						}
-						
-					},
-					fail(err) {
-						console.log(err);
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						this.mescroll.endSuccess();
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
 					}
 				})
+				//这里只需要传入不同的接口地址就可以
+				console.log(res);
+				
+				// uni.request({
+				// 	url: this.$apiUrl+"work/stay",
+				// 	method: "POST",
+				// 	dataType: JSON,
+				// 	header:{
+				// 		'content-type': 'application/x-www-form-urlencoded',
+				// 		 'cookie':cookie//读取cookie
+				// 	},
+				// 	data: {
+				// 		"town":town ,
+				// 		"genre": type,
+				// 		"uid": this.user_uid,
+				// 		"token":token
+				// 	},
+				// 	success(res) {
+				// 		console.log(res);
+				// 		// uni.stopPullDownRefresh();
+				// 		const data = JSON.parse(res.data);
+				// 		console.log(data.data);
+				// 		if(data.code == 200){
+				// 			// console.log(res)
+				// 			that.mescroll.endSuccess();
+				// 			that.orderlist = data.data;
+				// 			// this.triggered = true;
+				// 			console.log("订单列表:");
+				// 			console.log(that.orderlist);
+				// 			//计算经纬度距离和循环遍历工具要求
+				// 			// for (var i = 0; i < that.orderlist.length; i++) {
+				// 			// 	console.log("订单数据长度"+that.orderlist.length);
+				// 			// 	var location = that.orderlist[i].longitude;
+				// 			// 	// console.log(location);
+				// 			// 	// let index = str .lastIndexOf(">")
+				// 			// 	//客户距离
+				// 			// 	let str1 = location.split(",")[0];
+				// 			// 	str1 = str1.substring(0,9);
+				// 			// 	let str2 = location.split(",")[1];
+				// 			// 	str2 = str2.substring(0,9);
+				// 			// 	console.log("str1-"+str1);
+				// 			// 	var longitude = str1;
+				// 			// 	var latitude = str2;
+				// 			// 	//计算距离
+				// 			// 	let latitude1 = uni.getStorageSync("latitude");
+				// 			// 	let longitude1 = uni.getStorageSync("longitude");
+				// 			// 	//我的距离
+				// 			// 	console.log(that.latitude);
+				// 			// 	console.log(that.longitude);
+				// 			// 	console.log(latitude);
+				// 			// 	console.log(longitude);
+				// 			// 	var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
+				// 			// 	jl = Math.floor(jl/1000 * 10) / 10;
+				// 			// 	that.jl = that.jl.concat(jl);
+				// 			// 	console.log("距离");
+				// 			// 	console.log(that.jl);
+				// 			// }
+				// 		}else if(data.code == 300){
+				// 			uni.showToast({
+				// 				title:"该地区没有相关工单"
+				// 			})
+				// 		}
+				// 		else{
+				// 			console.log(res);
+				// 			uni.showToast({
+				// 				title:"无网络"
+				// 			})
+				// 		}
+						
+				// 	},
+				// 	fail(err) {
+				// 		console.log(err);
+				// 	}
+				// })
 			},
 			
 			

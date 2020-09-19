@@ -23,6 +23,7 @@
 </template>
 
 <script>
+	import md5 from "../../common/md5.min.js";
 	export default {
 		data() {
 			return {
@@ -36,28 +37,33 @@
 		methods: {
 			// 用户点击授权
 			wxGetUserInfo() {
+				let that = this;
 				uni.login({
 					success(res) {
 						let code = res.code
 						//获取用户信息
 						uni.getUserInfo({
 							success(data) {
-								// console.log(data);
+								console.log(data);
+								let token = md5("code="+code+"&iv="+data.iv+"&encryptedData="+data.encryptedData+"0a88a84a25948b4f37f622b3a3ff9fc0");
 								uni.request({
-										url: "https://applet.51tiaoyin.com/public/applet/login/",
+										url: that.$apiUrl+"login/index",
 										method: "GET",
 										dataType:JSON,
 										data: {
 											"code": code,
-											"iv": data.iv,
-											"encryptedData": data.encryptedData
+											"iv":data.iv,
+											"encryptedData": data.encryptedData,
+											"token":token
 										},
 										success(res) {
 											// JSON.stringify(res.data.wechat_name);
 											console.log(res);
+											
 											console.log(JSON.parse(res.data));
 											const data = JSON.parse(res.data);
 											console.log(data.data.uid);
+											uni.setStorageSync("cookie",data.data.session_id);
 											if(data.code == 200){
 												uni.showLoading({
 												    title: '登录中'
@@ -100,7 +106,7 @@
 			},
 		},
 		onLoad() {
-			
+			// console.log(md5);
 		}
 	}
 </script>

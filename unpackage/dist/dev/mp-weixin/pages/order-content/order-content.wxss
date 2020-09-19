@@ -1,31 +1,31 @@
 
-.content.data-v-3b7cf03c{
+.content.data-v-4ed73fb6{
 	background: -webkit-linear-gradient(left, #54C3F1,#00ABEB);
 	background: linear-gradient(90deg, #54C3F1,#00ABEB);
 	padding-top: 1px;
 	padding-bottom: 30px;
 }
-.content .text.data-v-3b7cf03c{
+.content .text.data-v-4ed73fb6{
 	margin: 0 35%;
 	padding-top: 30rpx;
 	text-align: center;
 	/* padding-bottom: 94upx; */
 	color: #FFFFFF;
 }
-.content .text1.data-v-3b7cf03c{
+.content .text1.data-v-4ed73fb6{
 	font-size: 30rpx;
 }
-.content .text1.data-v-3b7cf03c{
+.content .text1.data-v-4ed73fb6{
 	font-size: 40rpx;
 }
-.order-detail.data-v-3b7cf03c{
+.order-detail.data-v-4ed73fb6{
 	background-color: #FFFFFF;
 	border-radius: 12rpx;
 	margin: 58rpx 25rpx;
 	padding-left: 25rpx;
 	padding-right: 25rpx;
 }
-.order-detail .contact.data-v-3b7cf03c{
+.order-detail .contact.data-v-4ed73fb6{
 	margin: 80rpx 20%;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -35,17 +35,17 @@
 	        justify-content: space-between;
 	padding-top: 80rpx;
 }
-.order-detail .contact .name.data-v-3b7cf03c{
+.order-detail .contact .name.data-v-4ed73fb6{
 	text-align: center;
 }
-.order-detail .contact .name .sever.data-v-3b7cf03c{
+.order-detail .contact .name .sever.data-v-4ed73fb6{
 	font-size: 34rpx;
 }
-.order-detail .contact .name .seve1.data-v-3b7cf03c{
+.order-detail .contact .name .seve1.data-v-4ed73fb6{
 	font-size: 26rpx;
 	color: #CCCCCC;
 }
-.order-detail .textdetail.data-v-3b7cf03c{
+.order-detail .textdetail.data-v-4ed73fb6{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -55,7 +55,7 @@
 	padding-top: 25rpx;
 	padding-bottom: 25rpx;
 }
-.btn.data-v-3b7cf03c{
+.btn.data-v-4ed73fb6{
 	width: 356rpx;
 	height: 80rpx;
 	background: #FFFFFF;
@@ -67,13 +67,13 @@
 	border: none;
 	-webkit-appearance:none
 }
-map.data-v-3b7cf03c{
+map.data-v-4ed73fb6{
 	position: relative;
 	width: 100%;
 	height: 600rpx;
 	display: block;
 }
-.btngroup.data-v-3b7cf03c{
+.btngroup.data-v-4ed73fb6{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -84,23 +84,23 @@ map.data-v-3b7cf03c{
 	padding-right: 25rpx;
 }
 /* 修改小程序的默认button样式 */
-button.data-v-3b7cf03c{
+button.data-v-4ed73fb6{
 	-webkit-appearance:none;
 	height: 32px !important;
 	line-height: 56rpx !important;
 	color: #00abeb;
 	font-size: 32rpx;
 }
-button.data-v-3b7cf03c::after{
+button.data-v-4ed73fb6::after{
 	border: none;
 }
-.active.data-v-3b7cf03c{
+.active.data-v-4ed73fb6{
 	background-color: #ffffff;
 }
-.active1.data-v-3b7cf03c{
+.active1.data-v-4ed73fb6{
 	background-color: #cccccc;
 }
-.active1.data-v-3b7cf03c{
+.active1.data-v-4ed73fb6{
 	background-color: #ff5500;
 }
 
