@@ -141,96 +141,76 @@
 			},
 			//获取手机号码
 			getPhoneNumber(e) {
+				console.log("手机号返回信息");
+				console.log(e);
 				
-				if(this.isget){
-					this.isget =false;
-					let iv = e.detail.iv,
-					encryptedData = e.detail.encryptedData,
-					code = this.code,
-					that = this;
-					//检查session——key是否过期
-					uni.checkSession({
-						success(res) {
-							console.log(res);
-							that.$myRequest({
-								url:'user/get_phone',
-								data:{
-									"code": code,
-									"iv": iv,
-									"encryptedData": encryptedData
-								},
-								methods:"GET"
-								
-							}).then(res=>{
-							// 	console.log(res);
-							// const data = JSON.parse(res.data);
-								if(res.data.code == 200){
-									console.log(res.data.msg);
-									this.phonenum = data.data;
-								}else if(res.data.code == 300){
-									console.log(res.data.msg);
-									this.mescroll.endSuccess();
-								}else{
-									console.log(res.data.msg)
-								}
-							})
-							// uni.request({
-							// 	url: "https://applet.51tiaoyin.com/public/applet/user/get_phone",
-							// 	method: 'GET',
-							// 	dataType: JSON,
-							// 	data: {
-							// 		"code": code,
-							// 		"iv": iv,
-							// 		"encryptedData": encryptedData
-							// 	},
-							// 	success(res) {
-							// 		console.log(res.data);
-							// 		let data = JSON.parse(res.data);
-							// 		console.log(data);
-							// 		if (data.code == 200) {
-							// 			// console.log(this);
-							// 			console.log(data.data);
-							// 			that.phonenum = data.data;
-							// 		} else {
-							// 			uni.showToast({
-							// 				title: "没有获取手机号",
-							// 				duration: 1500
-							// 			})
-							// 		}
-							// 	},
-							// 	fail(res) {
-							// 		console.log(res)
-							// 	}
-							// })
-						},
-						fail(err) {
-							// session_key 已经失效，需要重新执行登录流程
-							uni.login({
-								success: res => {
-									that.data.code = res.code
-								}
-							})
-						}
-					})
-				}else{
-					uni.showToast({
-						title:"手机号码已存在"
-					})
-				}
-				// console.log(e.detail.errMsg);
+				// // console.log(e.detail.errMsg);
 				// console.log(e.detail.iv);
 				// console.log(e.detail.encryptedData);
 				
 
 				// 	//-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
-				if (e.detail.errMsg == 'getPhoneNumber:user deny') { //用户点击拒绝
+				if (e.detail.errMsg == "getPhoneNumber:fail user deny") { //用户点击拒绝
 					uni.showToast({
 						title: "拒绝获取手机号码"
 					})
 				} else { //允许授权执行跳转
-					uni.showToast({
-						title: "正在获取手机号码"
-					})
+					uni.showLoading({
+						title: "获取中",
+						duration:1500
+					});
+					if(this.isget){
+						this.isget =false;
+						let iv = e.detail.iv,
+						encryptedData = e.detail.encryptedData,
+						code = this.code,
+						that = this;
+						//检查session——key是否过期
+						uni.checkSession({
+							success(res) {
+								console.log(res);
+								that.$myRequest({
+									url:'user/get_phone',
+									data:{
+										"code": code,
+										"iv": iv,
+										"encryptedData": encryptedData
+									},
+									methods:"GET"
+									
+								}).then(res=>{
+									console.log(res);
+								// const data = JSON.parse(res.data);
+									if(res.data.code == 200){
+										console.log(res.data.msg);
+										that.phonenum = res.data.data;
+										uni.hideLoading({
+											title:"获取成功",
+											duration:1500
+										})
+									}else if(res.data.code == 300){
+										console.log(res.data.msg);
+										// this.mescroll.endSuccess();
+									}else{
+										console.log(res.data.msg)
+									}
+								})
+								
+							},
+							fail(err) {
+								// session_key 已经失效，需要重新执行登录流程
+								uni.login({
+									success: res => {
+										that.data.code = res.code
+									}
+								})
+							}
+						})
+					}else{
+						uni.showToast({
+							title:"手机号码已存在"
+						})
+					}
 				}
 			},
 			//选中协议
@@ -254,8 +234,8 @@
 							message: '用户名小于2位!'
 						},
 						{
-							type: 'max:6',
-							message: '用户名大于6位!'
+							type: 'max:8',
+							message: '用户名大于8位!'
 						}
 					])
 					.add(this.worktime, [{
@@ -331,7 +311,7 @@
 								uni.reLaunch({
 									url:"../home/home"
 								})
-							},2500)
+							},1500)
 						}else if(res.data.code == 300){
 							console.log(res.data.msg);
 							

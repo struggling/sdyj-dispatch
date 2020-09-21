@@ -195,6 +195,10 @@
 			this.getAuthorizeInfo();
 			this.checklogin();
 			setTimeout(()=>{
+				uni.hideLoading({
+					title:"加载中",
+					duration:1500
+				})
 				this.getWOrkstay();
 			},1500);
 			
@@ -290,7 +294,7 @@
 				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
 				setTimeout(()=>{
 					this.mescroll.endSuccess();
-					console.log('111');
+					// console.log('111');
 				},1500)
 			},
 			
@@ -524,38 +528,72 @@
 			
 			//获取待派单列表信息
 			async getWOrkstay(){
-				// console.log("data里面的地理精度");
-				// console.log(this.latitude);
-				let that  =this;
-				let str = uni.getStorageSync("type");
-				let town = uni.getStorageSync("town");
-				// this.mescroll.endSuccess();
-				// console.log(cookie);
-				let type = str.split(",");
-				// await this.getAllClass();
-				this.$myRequest({
-					url:'work/stay',
-					data:{
-						"town":town ,
-						"genre": type,
-						"uid": this.user_uid,
-					},
-					methods:"POST"
-					
-				}).then(res=>{
-				// 	console.log(res);
-				// const data = JSON.parse(res.data);
-					if(res.data.code == 200){
-						console.log(res.data.msg);
-						// this.mescroll.endSuccess();
-						this.orderlist = res.data.data;
-					}else if(res.data.code == 300){
-						console.log(res.data.msg);
-						// this.mescroll.endSuccess();
-					}else{
-						console.log(res.data.msg)
-					}
-				})
+				let phone = uni.getStorageSync('phone');
+				if(phone){
+					// console.log("data里面的地理精度");
+					// console.log(this.latitude);
+					let that  =this;
+					let str = uni.getStorageSync("type");
+					let town = uni.getStorageSync("town");
+					// this.mescroll.endSuccess();
+					// console.log(cookie);
+					let type = str.split(",");
+					// await this.getAllClass();
+					this.$myRequest({
+						url:'work/stay',
+						data:{
+							"town":town ,
+							"genre": type,
+							"uid": this.user_uid,
+						},
+						methods:"POST"
+						
+					}).then(res=>{
+					// 	console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+							// this.mescroll.endSuccess();
+							this.orderlist = res.data.data;
+										
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+							// this.mescroll.endSuccess();
+						}else{
+							console.log(res.data.msg)
+						}
+					})
+				}else{
+					let that  =this;
+					let town = uni.getStorageSync("town");
+					// this.mescroll.endSuccess();
+					// console.log(cookie);
+
+					// await this.getAllClass();
+					this.$myRequest({
+						url:'work/stay',
+						data:{
+							"town":town ,
+							"uid": this.user_uid,
+						},
+						methods:"POST"
+						
+					}).then(res=>{
+					// 	console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+							// this.mescroll.endSuccess();
+							this.orderlist = res.data.data;
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+							// this.mescroll.endSuccess();
+						}else{
+							console.log(res.data.msg)
+						}
+					})
+				}
+				
 				//这里只需要传入不同的接口地址就可以
 				// console.log(res);
 

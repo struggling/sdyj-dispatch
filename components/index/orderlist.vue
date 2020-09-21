@@ -48,10 +48,11 @@
 		},
 		onReady() {
 			// this.label = this.item.label.split(/[ ]+/);
-			
-				this.label = this.item.label.split(",");
-				console.log("标签");
-				console.log(this.label);
+				if(this.item.label){
+					this.label = this.item.label.split(",");
+					console.log("标签");
+					console.log(this.label);
+				}
 				// this.getDistance();
 			
 			// this.door_time =this.item.door_time.substring(5,this.item.door_time.length-3);
