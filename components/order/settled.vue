@@ -1,53 +1,75 @@
 <template>
 	<view>
 		<!-- 订单列表 -->
-		<view class="wait-list">
-			<view class="info" >
-				<view class="parm" @tap="goDetail(item)">
-					<view class="parm-txt title">{{item.type}}/{{item.duration}}</view>
-					<view class="parm-txt">{{item.origin}}</view>
-					<template v-if="item.Distance">
-						<view class="parm-txt">距离：{{item.Distance}}公里</view>
-					</template>
-					
-					<view class="parm-txt"><span>{{item.label}}</span></view>
-					<view class="parm-txt">上门时间：{{item.door_time}}</view>
-					<template v-if="item.reason">
-						<view  class="parm-txt">取消原因：{{item.reason}}</view>
-					</template>
-					
+		<!-- <mescroll-uni :ref="'mescrollRef'+index" @init="mescrollInit" height="100%" top="60" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @emptyclick="emptyClick"> -->
+			<view class="wait-list">
+				<view class="info" >
+					<view class="parm" @tap="goDetail(item)">
+						<view class="parm-txt title">{{item.type}}/{{item.duration}}</view>
+						<view class="parm-txt">{{item.origin}}</view>
+						<template v-if="item.Distance">
+							<view class="parm-txt">距离：{{item.Distance}}公里</view>
+						</template>
+						
+						<view class="parm-txt"><span>{{item.label}}</span></view>
+						<view class="parm-txt">上门时间：{{item.door_time}}</view>
+						<template v-if="item.reason">
+							<view  class="parm-txt">取消原因：{{item.reason}}</view>
+						</template>
+						
+					</view>
+					<view class="parm">
+						<view class="price">{{item.budget}}元</view>
+						<!-- <view class="reason">取消原因{{item.reason}}</view> -->
+					</view>
 				</view>
-				<view class="parm">
-					<view class="price">{{item.budget}}元</view>
-					<!-- <view class="reason">取消原因{{item.reason}}</view> -->
+				<view class="btn-group">
+					<template v-if="btn[0] != ' '">
+						<view class="btn" @tap="deleteOrder(index)">{{btn[0]}}</view>
+					</template>
+					<template v-if="btn[1] != ' '">
+						<template v-if="btn[1] == '联系客服'">
+							<button type="default" open-type="contact" class="btn active">{{btn[1]}}</button>
+						</template>
+						<template v-else>
+							<view class="btn active" @tap="openpage(item)">{{btn[1]}}</view>
+						</template>
+						
+						
+						
+					</template>
 				</view>
 			</view>
-			<view class="btn-group">
-				<template v-if="btn[0] != ' '">
-					<view class="btn" @tap="deleteOrder(index)">{{btn[0]}}</view>
-				</template>
-				<template v-if="btn[1] != ' '">
-					<view class="btn active" @tap="openpage(item)">{{btn[1]}}</view>
-				</template>
-			</view>
-		</view>
+		<!-- </mescroll-uni> -->
+		
 	</view>	
 </template>
 
 <script>
+	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
+	import MescrollMoreItemMixin from "@/components/mescroll-uni/mixins/mescroll-more-item.js";
+	
 	export default {
+		mixins: [MescrollMixin,MescrollMoreItemMixin], 
 		props:{
 			item: Object,
 			index: Number,
 			btn:Array,
 			keys:Number,
-			color:String
+			color:String,
+			isclick:Boolean
 		},
 		data() {
 			return {
 				index1:0,
 				itemData:[],
-				cancel:'background:#cccccc'
+				cancel:'background:#cccccc',
+				upOption:{
+					use:false
+				},
+				downOption:{
+					auto:false,
+				},
 			}
 		},
 		onReady() {
@@ -57,6 +79,8 @@
 			this.itemData.push(this.item);
 		},
 		methods:{
+			
+			
 			//跳转到详情页
 			goDetail: function(item) {
 				let detail = {
@@ -78,9 +102,11 @@
 					type: item.type,
 					uid: item.uid
 				};
-				uni.navigateTo({
-					url: '../../pages/order-content/order-content?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-				});
+				if(this.isclick){
+					uni.navigateTo({
+						url: '../../pages/order-content/order-content?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					});
+				}
 				// uni.navigateTo({
 				// 	url: '../list2detail-detail/list2detail-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 				// });
@@ -107,7 +133,7 @@
 				};
 					if(this.btn[1] =="立即上门"){
 						uni.navigateTo({
-							url: '../../pages/dispatch-detail/dispatch-detail?serverDate=' + encodeURIComponent(JSON.stringify(server))
+							url: '../../pages/order-content/order-content?detailDate=' + encodeURIComponent(JSON.stringify(server))
 						})
 					}else{
 						this.go()
@@ -153,6 +179,7 @@
 		justify-content: end;
 		padding: 15upx;
 		justify-content: flex-end;
+		border-bottom: 1upx solid #c5c4d5;
 	}
 	.btn-group .active{
 		background-color: #00AAEB;
@@ -162,7 +189,7 @@
 	.info{
 		padding-left: 25upx;
 		padding-right: 25upx;
-		border-bottom: 1upx solid #c5c4d5;
+		
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -195,5 +222,12 @@
 		padding-right: 20upx;
 		line-height: 1.5;
 		margin-left: 48upx;
+		border-bottom: 1upx solid #c5c4d5 !important;
+	}
+	button{
+		-webkit-appearance: none;
+	}
+	button::after{
+		border: none;
 	}
 </style>

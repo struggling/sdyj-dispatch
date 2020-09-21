@@ -8,6 +8,7 @@
     "u-cell-group": "/uview-ui/components/u-cell-group/u-cell-group",
     "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
     "u-select": "/uview-ui/components/u-select/u-select",
-    "u-calendar": "/uview-ui/components/u-calendar/u-calendar"
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "ren-calendar": "/components/ren-calendar/ren-calendar"
   }
 }

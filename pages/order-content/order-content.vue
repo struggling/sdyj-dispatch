@@ -30,7 +30,7 @@
 					</view>
 					<view class="textdetail">
 						<view class="">{{data.duration}}</view>
-						<view class="">客户电话: {{data.tel}}</view>
+						<view class="" @tap="gouser">客户电话: {{data.tel}}</view>
 					</view>
 					<view class="textdetail">
 						<view class="">工具要求:{{data.label}}</view>
@@ -71,7 +71,7 @@
 				name:'',
 				data:{},
 				height:"",
-				swiperheight:558,
+				swiperheight:442,
 				scale:10,
 				background:{
 					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
@@ -118,14 +118,14 @@
 				console.log(this.data);
 			};
 			this.name = uni.getStorageSync("name");
-			// uni.getSystemInfo({
-			// 	success: (res) => {
-			// 		// console.log(res.windowHeight);
-			// 		let height = res.windowHeight - uni.upx2px(600);
-			// 		this.swiperheight = height;
-			// 		console.log(this.swiperheight);
-			// 	}
-			// });
+			uni.getSystemInfo({
+				success: (res) => {
+					// console.log(res.windowHeight);
+					let height = res.windowHeight - uni.upx2px(480);
+					this.swiperheight = height;
+					console.log(this.swiperheight);
+				}
+			});
 		},
 		methods: {
 			navlociton(){
@@ -188,46 +188,93 @@
 			},
 			//拉去用户订单完成信息
 			getAccomplish(code){
-				uni.request({
-					url:this.$apiUrl+"work/accomplish",
-					method:"POST",
-					dataType:JSON,
+				this.$myRequest({
+					url:'work/accomplish',
 					data:{
 						uid:uni.getStorageSync("uid"),
 						code:code,
 					},
-					success(res) {
-						console.log("完成订单");
-						console.log(res);
-						let data = JSON.parse(res.data);
-						console.log(data);
-						switch (data.code){
-							case 200:
-							setTimeout(()=>{
-								uni.navigateBack({
-								    delta: 1
-								});
-							},1500);
-								break;
-							case 300:
-							uni.showToast({
-								title:"该订单已经完成了",
-								duration:2000
-							})
-								break;
-							default:
-								break;
-						}
-						
-						
-					},
-					fail(res) {
-						console.log(res);
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						setTimeout(()=>{
+						uni.navigateBack({
+							delta: 1
+							});
+						},1500);
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
 						uni.showToast({
-							title:"服务器无响应"
+							title:"该订单已经完成了",
+							duration:2000
 						})
+					}else{
+						console.log(res.data.msg)
 					}
 				})
+				// uni.request({
+				// 	url:this.$apiUrl+"work/accomplish",
+				// 	method:"POST",
+				// 	dataType:JSON,
+				// 	data:{
+				// 		uid:uni.getStorageSync("uid"),
+				// 		code:code,
+				// 	},
+				// 	success(res) {
+				// 		console.log("完成订单");
+				// 		console.log(res);
+				// 		let data = JSON.parse(res.data);
+				// 		console.log(data);
+				// 		switch (data.code){
+				// 			case 200:
+				// 			setTimeout(()=>{
+				// 				uni.navigateBack({
+				// 				    delta: 1
+				// 				});
+				// 			},1500);
+				// 				break;
+				// 			case 300:
+				// 			uni.showToast({
+				// 				title:"该订单已经完成了",
+				// 				duration:2000
+				// 			})
+				// 				break;
+				// 			default:
+				// 				break;
+				// 		}
+						
+						
+				// 	},
+				// 	fail(res) {
+				// 		console.log(res);
+				// 		uni.showToast({
+				// 			title:"服务器无响应"
+				// 		})
+				// 	}
+				// })
+			},
+			//拨打客服电话
+			gouser(){
+			 	uni.makePhoneCall({
+			 	
+			 	// 手机号
+			    phoneNumber: this.data.tel,
+			
+				// 成功回调
+				success: (res) => {
+					console.log('调用成功!')	
+				},
+			
+				// 失败回调
+				fail: (res) => {
+					console.log('调用失败!')
+				}
+				
+			  });
 			}
 		},
 		//自定义分享页面

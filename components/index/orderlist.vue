@@ -35,14 +35,14 @@
 			item:Object,
 			index:Number,
 			tool:Array,
-			distance:Array
+			// distance:Array
 		},
 		data() {
 			return {
 				index1:0,
 				label:[],
 				// door_time:""
-				distance:[],
+				// distance:[],
 				orderlist:[]
 			}
 		},

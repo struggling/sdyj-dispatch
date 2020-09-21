@@ -25,6 +25,22 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.content {
+  position: relative;
+}
+.signed {
+  width: 115rpx;
+  height: 44rpx;
+  background: -webkit-linear-gradient(left, #00ABEB, #54C3F1);
+  background: linear-gradient(90deg, #00ABEB, #54C3F1);
+  border-radius: 22rpx;
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  text-align: center;
+  line-height: 44rpx;
+  color: #ffffff;
+}
 page {
   background-color: #ededed;
 }
@@ -33,7 +49,7 @@ page {
   height: 44px;
 }
 .camera:active {
-    background-color: #ededed;
+  background-color: #ededed;
 }
 .details_button {
   opacity: 0;

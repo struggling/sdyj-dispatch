@@ -8,6 +8,7 @@
 		</u-navbar>
 		<!-- 自定义收藏我的小程序 -->
 		<add-tip :tip="tip" :duration="duration" />
+		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 		<view class="content">
 
 			<!-- 地理位置 -->
@@ -33,7 +34,7 @@
 					
 					<swiper-item>
 						<scroll-view  scroll-y="true" class="list">
-							<mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" >
+							<!-- <mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" > -->
 								<template v-if="orderlist.length>0">
 									<block v-for="(item,index) in orderlist" :key="index">
 										<orderList :item="item" :index="index" :tool="tool"  @openModel="openModel"></orderList>
@@ -44,7 +45,7 @@
 								<template v-else>
 									<noThing></noThing>
 								</template>
-							</mescroll-uni>
+							<!-- </mescroll-uni> -->
 							<!-- 上拉加载 -->
 							<!-- <load-more :loadtext="loadtext"></load-more> -->
 						</scroll-view>
@@ -58,7 +59,7 @@
 							</template> -->
 							<!-- nothing -->
 							
-							<mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" >
+							<!-- <mescroll-uni ref="mescrollRef1" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" > -->
 								<template v-if="takelist.length>0">
 									<block v-for="(item,index) in takelist" :key="index">
 										<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
@@ -70,7 +71,7 @@
 								<template v-else>
 									<noThing></noThing>
 								</template>
-							</mescroll-uni>
+							<!-- </mescroll-uni> -->
 							<!-- 上拉加载 -->
 							<!-- <load-more :loadtext="loadtext"></load-more> -->
 						</scroll-view>
@@ -80,7 +81,7 @@
 			</view>
 			
 			<!-- 动态数字角标提醒 -->
-			<u-badge type="error" :count="badgeconts" style="position: absolute;top: 248upx;left: 720upx;"></u-badge>
+			<u-badge type="error" :count="badgeconts" style="position: absolute;top: 110upx;left: 720upx;"></u-badge>
 			<!-- model -->
 			<u-modal v-model="show" :content="content"></u-modal>
 			<!-- popup -->
@@ -93,6 +94,7 @@
 				</view>
 			</u-popup> -->
 		</view>
+		 </mescroll-body>
 	</view>
 
 
@@ -138,7 +140,7 @@
 					//   zIndex: 99
 					// }
 				},
-				distance:[],
+				// distance:[],
 				badgeconts:0,
 				triggered: true,
 				phone:1,
@@ -191,7 +193,11 @@
 			this.user_uid = uni.getStorageSync('uid');
 			this.phone = uni.getStorageSync('phone');
 			this.getAuthorizeInfo();
-			this.getWOrkstay();
+			this.checklogin();
+			setTimeout(()=>{
+				this.getWOrkstay();
+			},1500);
+			
 			console.log("重新排序");
 			
 		},
@@ -235,7 +241,7 @@
 			let tabbar = event.e;
 			console.log(tabbar);
 			this.tabIndex = tabbar;
-			this.checklogin();
+			// this.checklogin();
 			var that = this;
 			
 			// 获取scoll-view高度值
@@ -280,8 +286,12 @@
 				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
 				// loadSwiper();
 				this.getWOrkstay();
+				this.getAlready();
 				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
-				
+				setTimeout(()=>{
+					this.mescroll.endSuccess();
+					console.log('111');
+				},1500)
 			},
 			
 			// tabs通知swiper切换
@@ -295,50 +305,24 @@
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
 				if(e.detail.current == 0){
-						this.getWOrkstay();
+						// this.getWOrkstay();
 				}
 				
 				if(e.detail.current == 1){
 						this.getAlready();
 						// this.$refs.popup.open();
+						this.badgeconts = 0;
 				}
 			},
 			//上拉加载
 			loadmore() {
-				if (this.loadtext != "上拉加载更多") {
-					return;
-				}
-				this.loadtext = "暂无更多数据";
-				let data = this.getWOrkstay();
-				this.orderlist = this.orderlist.concat(data);
-				// console.log(this.loadtext);
-				// // 加载后端获取的数据
-				// let pagesize = 3
-				// let pagecount = this.orderlist.length/pagesize;
-				// this.page++;
-				// console.log("第几页："+this.page);
-				// //假数据
-				// let orderData = this.getmock();
-				// //真数据
 				
-				// console.log("加载后端获取的数据");
-				// if(pagesize>orderData.orderlist.slice(pagesize*(this.page-1)+1,pagesize*this.page+1).length){
-				// 	this.loadtext = "暂无更多数据";
-				// 	console.log(this.loadtext);
-					
-				// }else{
-				// 	let arr = orderData.orderlist.slice(pagesize*(this.page-1)+1,pagesize*this.page+1);
-				// 	console.log(arr);
-				// 	// this.orderlist = this.orderlist.concat(arr);//追加假数据
-				// 	this.loadtext = "上拉加载更多";
-				// 	console.log(this.loadtext);
-				// 	// console.log(this.orderlist);
-				// }	
 			},
 
 			// model,发送抢单请求
 			openModel(index) {
 				let phone = uni.getStorageSync('phone');
+				console.log(phone);
 				if (phone) {
 					let indextag = true;
 					if(indextag){
@@ -347,37 +331,64 @@
 						console.log(this.istake);
 						let that = this;
 						let code = that.orderlist[index].code;
-						uni.request({
-							url:this.$apiUrl+"work/take",
-							method:"POST",
-							dataType:JSON,
+						this.$myRequest({
+							url:'work/take',
 							data:{
 								uid:this.user_uid,
 								code:code,//订单编号
 								WorkNautica:[this.longitude,this.latitude],
 								phone:phone
 							},
-							success(res) {
-								console.log(res);
-								console.log("当前点击的为："+index);
-								if(res.code = 200){
-									//抢单成功体醒
-									that.show = true;
-									//删除该订单
-									
-									
-									that.badgeconts++;
-									 that.orderlist.splice(index,1);
-								}else{
-									uni.showToast({
-										title:"无网络!"
-									})
-								}
-							},
-							fail() {
-								console.log(res);
+							methods:"POST"
+							
+						}).then(res=>{
+							console.log(res);
+						// const data = JSON.parse(res.data);
+							if(res.data.code == 200){
+								console.log(res.msg);
+								this.badgeconts++;
+								this.orderlist.splice(index,1);
+								this.show = true;
+								this.takelist = res.data.data;
+								// this.mescroll.endSuccess();
+							}else if(res.data.code == 300){
+								console.log(res.msg);
+								// this.mescroll.endSuccess();
+							}else{
+								console.log(res.msg)
 							}
 						})
+						// uni.request({
+						// 	url:this.$apiUrl+"work/take",
+						// 	method:"POST",
+						// 	dataType:JSON,
+						// 	data:{
+						// 		uid:this.user_uid,
+						// 		code:code,//订单编号
+						// 		WorkNautica:[this.longitude,this.latitude],
+						// 		phone:phone
+						// 	},
+						// 	success(res) {
+						// 		console.log(res);
+						// 		console.log("当前点击的为："+index);
+						// 		if(res.code = 200){
+						// 			//抢单成功体醒
+						// 			that.show = true;
+						// 			//删除该订单
+									
+									
+						// 			that.badgeconts++;
+						// 			 that.orderlist.splice(index,1);
+						// 		}else{
+						// 			uni.showToast({
+						// 				title:"无网络!"
+						// 			})
+						// 		}
+						// 	},
+						// 	fail() {
+						// 		console.log(res);
+						// 	}
+						// })
 					}
 				} else {
 					uni.showModal({
@@ -469,27 +480,46 @@
 			
 			//获取通知栏信息
 			getNavbar(){
-				const Random = Mock.Random;
-				Random.county();
-				Random.cname();
-				Random.city();
-				Random.datetime();
-				const data = Mock.mock({
-					'list|3': [{
-						name: "@cname()",
-						city: '@city(true)',
-						"type|+1": [
-							"日常保洁",
-							"开荒保洁",
-							"上门除甲醛",
-							"上门维修",
-						]
-					}]
-				});
-				for (var i = 0; i < data.list.length; i++) {
-					var str = "恭喜--" + data.list[i].name + "--抢到" + data.list[i].city + "--" + data.list[i].type + "--订单";
-					this.notice.push(str);
-				}
+				this.$myRequest({
+					url:'work/msg',
+					data:{},
+					methods:"GET"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+						this.notice = res.data.data;
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+				// const Random = Mock.Random;
+				// Random.county();
+				// Random.cname();
+				// Random.city();
+				// Random.datetime();
+				// const data = Mock.mock({
+				// 	'list|3': [{
+				// 		name: "@cname()",
+				// 		city: '@city(true)',
+				// 		"type|+1": [
+				// 			"日常保洁",
+				// 			"开荒保洁",
+				// 			"上门除甲醛",
+				// 			"上门维修",
+				// 		]
+				// 	}]
+				// });
+				// for (var i = 0; i < data.list.length; i++) {
+				// 	var str = "恭喜--" + data.list[i].name + "--抢到" + data.list[i].city + "--" + data.list[i].type + "--订单";
+				// 	this.notice.push(str);
+				// }
 			},
 			
 			//获取待派单列表信息
@@ -499,10 +529,11 @@
 				let that  =this;
 				let str = uni.getStorageSync("type");
 				let town = uni.getStorageSync("town");
-				let cookie = uni.getStorageSync("cookie")
-				console.log(str);
-				let type = str.split(",");				
-				const res = await this.$myRequest({
+				// this.mescroll.endSuccess();
+				// console.log(cookie);
+				let type = str.split(",");
+				// await this.getAllClass();
+				this.$myRequest({
 					url:'work/stay',
 					data:{
 						"town":town ,
@@ -516,17 +547,18 @@
 				// const data = JSON.parse(res.data);
 					if(res.data.code == 200){
 						console.log(res.data.msg);
-						this.mescroll.endSuccess();
+						// this.mescroll.endSuccess();
+						this.orderlist = res.data.data;
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
-						this.mescroll.endSuccess();
+						// this.mescroll.endSuccess();
 					}else{
 						console.log(res.data.msg)
 					}
 				})
 				//这里只需要传入不同的接口地址就可以
-				console.log(res);
-				
+				// console.log(res);
+
 				// uni.request({
 				// 	url: this.$apiUrl+"work/stay",
 				// 	method: "POST",
@@ -548,7 +580,8 @@
 				// 		console.log(data.data);
 				// 		if(data.code == 200){
 				// 			// console.log(res)
-				// 			that.mescroll.endSuccess();
+				
+				// 			// that.mescroll.endSuccess();
 				// 			that.orderlist = data.data;
 				// 			// this.triggered = true;
 				// 			console.log("订单列表:");
@@ -603,73 +636,94 @@
 			
 			//获取已抢单列表信息
 			getAlready(){
-				let that  =this;
-				uni.request({
-					url: this.$apiUrl+"work/already",
-					method: "POST",
-					dataType: JSON,
-					data: {
-						uid: this.user_uid
+				this.$myRequest({
+					url:'work/already',
+					data:{
+						"uid": this.user_uid,
 					},
-					 success(res) {
-						console.log(res);
-						const data = JSON.parse(res.data);
-						console.log(data.data);
-						// uni.stopPullDownRefresh();
-						if(data.code == 200){
-							// console.log(res)
-							that.takelist = data.data;
-							// console.log("已抢单订单列表:");
-							// console.log(that.takelist);
-							// // var jl = await that.countDistance( 39.923423,116.368904,116.387271,39.922501);
-							// // console.log("距离"+jl);
-							// //计算经纬度距离
-							for (var i = 0; i < that.takelist.length; i++) {
-								console.log("订单数据长度"+that.takelist.length);
-								var location = that.takelist[i].longitude;
-								// console.log(location);
-								// let index = str .lastIndexOf(">")
-								//客户距离
-								let str1 = location.split(",")[0];
-								str1 = str1.substring(0,9);
-								let str2 = location.split(",")[1];
-								str2 = str2.substring(0,9);
-								console.log("str1-"+str1);
-								var longitude = str1;
-								var latitude = str2;
-								//计算距离
-								let latitude1 = uni.getStorageSync("latitude");
-								let longitude1 = uni.getStorageSync("longitude");
-								//我的距离
-								console.log(that.latitude);
-								console.log(that.longitude);
-								console.log(latitude);
-								console.log(longitude);
-								var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
-								jl = Math.floor(jl/1000 * 10) / 10;
-								that.jl = jl;
-								console.log("距离");
-								console.log(that.jl);
-							}
-						}
-						else if(data.code == 300){
-							uni.showToast({
-								title:"无最新工单",
-								duration:2000
-							})
-						}
-						else{
-							console.log(res);
-							uni.showToast({
-								title:"无网络"
-							})
-						}
-						
-					},
-					fail(err) {
-						console.log(err);
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						this.takelist = res.data.data;
+						// this.mescroll.endSuccess();
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
 					}
 				})
+				// let that  =this;
+				// uni.request({
+				// 	url: this.$apiUrl+"work/already",
+				// 	method: "POST",
+				// 	dataType: JSON,
+				// 	data: {
+				// 		uid: this.user_uid
+				// 	},
+				// 	 success(res) {
+				// 		console.log(res);
+				// 		const data = JSON.parse(res.data);
+				// 		console.log(data.data);
+				// 		// uni.stopPullDownRefresh();
+				// 		if(data.code == 200){
+				// 			// console.log(res)
+				// 			that.takelist = data.data;
+				// 			// console.log("已抢单订单列表:");
+				// 			// console.log(that.takelist);
+				// 			// // var jl = await that.countDistance( 39.923423,116.368904,116.387271,39.922501);
+				// 			// // console.log("距离"+jl);
+				// 			// //计算经纬度距离
+				// 			for (var i = 0; i < that.takelist.length; i++) {
+				// 				console.log("订单数据长度"+that.takelist.length);
+				// 				var location = that.takelist[i].longitude;
+				// 				// console.log(location);
+				// 				// let index = str .lastIndexOf(">")
+				// 				//客户距离
+				// 				let str1 = location.split(",")[0];
+				// 				str1 = str1.substring(0,9);
+				// 				let str2 = location.split(",")[1];
+				// 				str2 = str2.substring(0,9);
+				// 				console.log("str1-"+str1);
+				// 				var longitude = str1;
+				// 				var latitude = str2;
+				// 				//计算距离
+				// 				let latitude1 = uni.getStorageSync("latitude");
+				// 				let longitude1 = uni.getStorageSync("longitude");
+				// 				//我的距离
+				// 				console.log(that.latitude);
+				// 				console.log(that.longitude);
+				// 				console.log(latitude);
+				// 				console.log(longitude);
+				// 				var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
+				// 				jl = Math.floor(jl/1000 * 10) / 10;
+				// 				that.jl = jl;
+				// 				console.log("距离");
+				// 				console.log(that.jl);
+				// 			}
+				// 		}
+				// 		else if(data.code == 300){
+				// 			uni.showToast({
+				// 				title:"无最新工单",
+				// 				duration:2000
+				// 			})
+				// 		}
+				// 		else{
+				// 			console.log(res);
+				// 			uni.showToast({
+				// 				title:"无网络"
+				// 			})
+				// 		}
+						
+				// 	},
+				// 	fail(err) {
+				// 		console.log(err);
+				// 	}
+				// })
 			},
 			
 			//mock假数据
@@ -796,8 +850,17 @@
 					}
 				});
 			},
+			
 			//控件被下拉
 			
+			getAllClass(){
+			    return new Promise((resolve, reject) => {
+					
+                resolve(this.checklogin());
+
+			       
+			    })
+			}
 		},
 		
 		//自定义分享页面

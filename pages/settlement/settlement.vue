@@ -80,28 +80,50 @@
 			}
 		},
 		onLoad() {
-			uni.request({
-				url:"https://applet.51tiaoyin.com/public/applet/user/item",
-				method:"GET",
-				success:(res)=> {
-					console.log(res);
-					if(res.data.code == 200){
-						const list = res.data.data;
-						for(var i in list){
-							 this.type.push(i);
-							 this.typedata = list;
-							console.log(this.type);
-							uni.setStorageSync("typedata",list);
-						}
-						
-					}else{
-						console.log(res.data.code);
+			this.$myRequest({
+				url:'user/item',
+				data:{}
+			}).then(res=>{
+				console.log(res);
+			// const data = JSON.parse(res.data);
+				if(res.data.code == 200){
+					console.log(res.data.msg);
+					const list = res.data.data;
+					for(var i in list){
+						 this.type.push(i);
+						 this.typedata = list;
+						console.log(this.type);
+						uni.setStorageSync("typedata",list);
 					}
-				},
-				fail(err) {
-					console.log(err);	
+				}else if(res.data.code == 300){
+					console.log(res.data.msg);
+			
+				}else{
+					console.log(res.data.msg)
 				}
 			})
+			// uni.request({
+			// 	url:"https://applet.51tiaoyin.com/public/applet/user/item",
+			// 	method:"GET",
+			// 	success:(res)=> {
+			// 		console.log(res);
+			// 		if(res.data.code == 200){
+			// 			const list = res.data.data;
+			// 			for(var i in list){
+			// 				 this.type.push(i);
+			// 				 this.typedata = list;
+			// 				console.log(this.type);
+			// 				uni.setStorageSync("typedata",list);
+			// 			}
+						
+			// 		}else{
+			// 			console.log(res.data.code);
+			// 		}
+			// 	},
+			// 	fail(err) {
+			// 		console.log(err);	
+			// 	}
+			// })
 		},
 		methods: {
 			openregister(fulei){

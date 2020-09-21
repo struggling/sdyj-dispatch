@@ -94,30 +94,57 @@
 			},
 			//拉去用户订单完成信息
 			getAccomplish(code){
-				
-				uni.request({
-					url:this.$apiUrl+"work/accomplish",
-					method:"POST",
-					dataType:JSON,
+				 this.$myRequest({
+					url:'work/accomplish',
 					data:{
-						uid:uni.getStorageSync("user_uid"),
+						uid:uni.getStorageSync("uid"),
 						code:code,
 					},
-					success(res) {
-						console.log("完成订单");
-						console.log(res);
-						uni.navigateTo({
-							url:"../order/order"
-						})
-						
-					},
-					fail(res) {
-						console.log(res);
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						setTimeout(()=>{
+						uni.navigateBack({
+							delta: 1
+							});
+						},1500);
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
 						uni.showToast({
-							title:"服务器无响应"
+							title:"该订单已经完成了",
+							duration:2000
 						})
+					}else{
+						console.log(res.data.msg)
 					}
 				})
+				// uni.request({
+				// 	url:this.$apiUrl+"work/accomplish",
+				// 	method:"POST",
+				// 	dataType:JSON,
+				// 	data:{
+				// 		uid:uni.getStorageSync("user_uid"),
+				// 		code:code,
+				// 	},
+				// 	success(res) {
+				// 		console.log("完成订单");
+				// 		console.log(res);
+				// 		uni.navigateTo({
+				// 			url:"../order/order"
+				// 		})
+						
+				// 	},
+				// 	fail(res) {
+				// 		console.log(res);
+				// 		uni.showToast({
+				// 			title:"服务器无响应"
+				// 		})
+				// 	}
+				// })
 			}
 		},
 		//自定义分享页面

@@ -2,23 +2,35 @@
 	<view>
 		<!-- 自定义导航栏 -->
 		<u-navbar :is-back="false"  title="订单中心" :height="height" :background="background" title-color="#ffffff"></u-navbar>
+		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 		<swiperTabHead :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" ></swiperTabHead>
 		<!-- <mescroll-body :sticky="true" ref="mescrollRef" @init="mescrollInit" @down="downCallback" > -->
 		<view class="uni-tab-bar">
 			<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
 				<swiper-item v-for="(items,index) in newslist" :key="index">
-					<scroll-view scroll-y class="list"   >
+					<scroll-view  scroll-y="true" class="list">
+					<!-- <mescroll-uni :ref="'mescrollRef'+index" @init="mescrollInit" height="100%" top="60" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @emptyclick="emptyClick"> -->
+					<!-- <scroll-view scroll-y class="list"   > -->
 						<!-- 待上门订单列表 -->
+						
+							<!-- 数据列表 -->
+
+					
 						<template v-if="items.list.length>0">
 							<block v-for="(item,index1) in items.list" :key="index1">
-								<Settled :item="item" :index="index1" :keys="index" :btn="items.btn" :color="items.color" @deleteOrder="deleteOrder"></Settled>
+								
+								<Settled :item="item" :index="index1" :keys="index" :btn="items.btn" :color="items.color" :isclick="items.isclick" @deleteOrder="deleteOrder" ></Settled>
+					
 							</block>
 						</template>
 						<template v-else>
 							<noThing></noThing>
 						</template>
+						
 						<!-- 上拉加载 -->
 						<!-- <loadMore :loadtext="items.loadtext"></loadMore> -->
+					<!-- </scroll-view> -->
+					<!-- </mescroll-uni> -->
 					</scroll-view>
 				</swiper-item>
 			</swiper>
@@ -36,6 +48,7 @@
 					</view>
 				</view>
 		<view class="popup_overlay" :hidden="userFeedbackHidden" @click="hideDiv()"></view>
+		</mescroll-body>
 	</view>
 </template>
 
@@ -65,6 +78,12 @@
 				 userFeedbackHidden: true, // 默认隐藏
 				 feedbackContent: '' ,// 用户反馈内容
 				 issubmit:false,
+				 upOption:{
+				 	use:false
+				 },
+				 downOption:{
+				 	auto:false,
+				 },
 				// 自定义导航栏
 				height:"",
 				background:{
@@ -100,6 +119,7 @@
 							"取消订单",
 							"立即上门"
 						],
+						isclick:true,
 						loadtext: "上拉加载更多",
 						list: []
 
@@ -109,14 +129,16 @@
 							" ",
 							"联系客服",
 						],
+						isclick:false,
 						loadtext: "上拉加载更多",
 						list: []
 					},
 					{
 						btn:[
-							"取消订单"
-							
+							" ",
+							" "
 						],
+						isclick:false,
 						loadtext: "上拉加载更多",
 						list: []
 					},
@@ -125,6 +147,7 @@
 							" ",
 							" ",
 						],
+						isclick:false,
 						loadtext: "上拉加载更多",
 						list: [],
 						color:"#cccccc"
@@ -158,12 +181,12 @@
 			uni.getSystemInfo({
 				success: (res) => {
 					console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(239);
+					let height = res.windowHeight - uni.upx2px(265);
 					this.swiperheight = height;
 				}
 			});
-			this._freshing = false;
-			this.triggered =true;
+			// this._freshing = false;
+			// this.triggered =true;
 			 // uni.$emit('updates',{msg:'页面更新'});
 			this.user_uid = uni.getStorageSync('uid');
 			
@@ -171,16 +194,21 @@
 		},
 		methods: {
 			// /*下拉刷新的回调 */
-			// downCallback() {
-			// 	// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
-			// 	// loadSwiper();
-			// 	this.getlistdata();
-			// 	this.getClose();
-			// 	this.getEnd();
-			// 	this.getlistCancel();
-			// 	// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
-				
-			// },
+			downCallback() {
+				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
+				// loadSwiper();
+				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+				// this.mescroll.resetUpScroll()
+				this.getlistdata();
+				this.getClose();
+				this.getEnd();
+				this.getlistCancel();
+				console.log("下拉刷新");
+				setTimeout(()=>{
+					this.mescroll.endSuccess();
+					console.log('111');
+				},1500)
+			},
 			//上拉加载更多
 			loadmore(index) {
 				console.log(index);
@@ -202,32 +230,7 @@
 			tabtap(index) {
 				this.tabIndex = index;
 				console.log("当前点击"+index);
-				// if(this.tabclick != index){
-				// 	this.tabclick = index;
-				// 	switch (this.tabIndex){
-				// 		case 1:
-						
-				// 		// this.newslist[0].list = 
-				// 			break;
-				// 		case 2:
-				// 		//待上门订单
-				// 		this.getlistdata();
-				// 		// this.newslist[0].list = 
-				// 			break;
-				// 		case 3:
-				// 		//待上门订单
-				// 		// this.getlistdata();
-				// 		// this.newslist[0].list = 
-				// 			break;
-				// 		default:
-				// 			//待上门订单
-				// 			console.log("待上门订单");
-				// 			this.getlistdata();
-				// 			break;
-				// 	}
-				// }else{
-				// 	console.log("取消多次请求");
-				// }
+				
 			},
 			//滑动事件
 			tabChange(e) {
@@ -277,44 +280,65 @@
 				let phone = uni.getStorageSync('phone');
 				let that = this;
 				if(phone){
-					uni.request({
-						url:this.$apiUrl+"work/been",
-						method:"POST",
-						dataType:JSON,
-						data:{
-							uid:this.user_uid
-						},
-						success(res) {
-							console.log();
-							console.log("待上门:"+res);
-							console.log(res);
-							uni.stopPullDownRefresh();
-							const data = JSON.parse(res.data);
-							console.log(data);
-							if(data.code == 200){
-								that.newslist[0].list = data.data;
-								that.code = that.newslist[0].list.code;
-								that.mescroll.endSuccess();
-								console.log("待上门列表：");
-								console.log(that.newslist[0].list);
-							}else if(data.code == 300){
-								uni.showToast({
-									title:"暂无数据"
-								})
-							}
-							else{
-								uni.showToast({
-									title:"服务器无响应"
-								})
-							}
-							// this.newslist[0].list  =res.data
-						},
-						fail() {
-							uni.showToast({
-								title:"无网络..."
-							})
-						}
-					})
+				this.$myRequest({
+					url:'work/been',
+					data:{
+						uid:this.user_uid,
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						this.newslist[0].list =res.data.data;
+						// this.mescroll.endSuccess();
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
+					}
+				})	
+					// uni.request({
+					// 	url:this.$apiUrl+"work/been",
+					// 	method:"POST",
+					// 	dataType:JSON,
+					// 	data:{
+					// 		uid:this.user_uid
+					// 	},
+					// 	success(res) {
+					// 		console.log();
+					// 		console.log("待上门:"+res);
+					// 		console.log(res);
+					// 		uni.stopPullDownRefresh();
+					// 		const data = JSON.parse(res.data);
+					// 		console.log(data);
+					// 		if(data.code == 200){
+					// 			that.newslist[0].list = data.data;
+					// 			that.code = that.newslist[0].list.code;
+					// 			that.mescroll.endSuccess();
+					// 			console.log("待上门列表：");
+					// 			console.log(that.newslist[0].list);
+					// 		}else if(data.code == 300){
+					// 			uni.showToast({
+					// 				title:"暂无数据"
+					// 			})
+					// 		}
+					// 		else{
+					// 			uni.showToast({
+					// 				title:"服务器无响应"
+					// 			})
+					// 		}
+					// 		// this.newslist[0].list  =res.data
+					// 	},
+					// 	fail() {
+					// 		uni.showToast({
+					// 			title:"无网络..."
+					// 		})
+					// 	}
+					// })
 				}else{
 					//如果没有手机说明用户没有注册跳转
 					uni.showModal({
@@ -338,118 +362,178 @@
 			
 			//拉去师傅已取消订单
 			getlistCancel(){
-				let that =this;
-				uni.request({
-					url:this.$apiUrl+"work/off",
-					method:"POST",
-					dataType:JSON,
+				// let that =this;
+				this.$myRequest({
+					url:'work/off',
 					data:{
 						uid:this.user_uid,
 					},
-					success(res) {
-						console.log("取消订单");
-						console.log(res);
-						uni.stopPullDownRefresh();
-						const data = JSON.parse(res.data);
-						console.log(data);
-						if(data.code == 200){
-							that.newslist[3].list = data.data;
-							that.code = that.newslist[3].list.code;
-							that.mescroll.endSuccess();
-							console.log("取消订单：");
-							console.log(that.newslist[3].list);
-						}else if(data.code == 300){
-							uni.showToast({
-								title:"暂无数据"
-							})
-						}
-						else{
-							uni.showToast({
-								title:"服务器无响应"
-							})
-						}
-						
-					},
-					fail(res) {
-						console.log(res);
-						uni.showToast({
-							title:"服务器无响应"
-						})
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						this.newslist[3].list = res.data.data;
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+				
+					}else{
+						console.log(res.data.msg)
 					}
-				})
+				})	
+				// uni.request({
+				// 	url:this.$apiUrl+"work/off",
+				// 	method:"POST",
+				// 	dataType:JSON,
+				// 	data:{
+				// 		uid:this.user_uid,
+				// 	},
+				// 	success(res) {
+				// 		console.log("取消订单");
+				// 		console.log(res);
+				// 		uni.stopPullDownRefresh();
+				// 		const data = JSON.parse(res.data);
+				// 		console.log(data);
+				// 		if(data.code == 200){
+				// 			that.newslist[3].list = data.data;
+				// 			that.code = that.newslist[3].list.code;
+				// 			that.mescroll.endSuccess();
+				// 			console.log("取消订单：");
+				// 			console.log(that.newslist[3].list);
+				// 		}else if(data.code == 300){
+				// 			uni.showToast({
+				// 				title:"暂无数据"
+				// 			})
+				// 		}
+				// 		else{
+				// 			uni.showToast({
+				// 				title:"服务器无响应"
+				// 			})
+				// 		}
+						
+				// 	},
+				// 	fail(res) {
+				// 		console.log(res);
+				// 		uni.showToast({
+				// 			title:"服务器无响应"
+				// 		})
+				// 	}
+				// })
 			},
 			
 			
 			//待结算订单
 			getClose(){
-				let that = this;
-				uni.request({
-					url:this.$apiUrl+"work/close",
-					method:"POST",
-					dataType:JSON,
+				// let that = this;
+				this.$myRequest({
+					url:'work/close',
 					data:{
-						uid:this.user_uid
+						uid:this.user_uid,
 					},
-					success(res) {
-						console.log("待结算:");
-						console.log(res);
-						uni.stopPullDownRefresh();
-						const data = JSON.parse(res.data);
-						console.log(data);
-						if(data.code == 200){
-							that.newslist[1].list = data.data;
-							that.mescroll.endSuccess();
-							// that.code = that.newslist[1].list.code;
-							console.log("待上门列表：");
-							console.log(that.newslist[1].list);
-						}else{
-							uni.showToast({
-								title:"服务器无响应"
-							})
-						}
-					},
-					fail() {
-						uni.showToast({
-							title:"无网络..."
-						})
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						this.newslist[1].list = res.data.data;
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+				
+					}else{
+						console.log(res.data.msg)
 					}
-				})
+				})	
+				// uni.request({
+				// 	url:this.$apiUrl+"work/close",
+				// 	method:"POST",
+				// 	dataType:JSON,
+				// 	data:{
+				// 		uid:this.user_uid
+				// 	},
+				// 	success(res) {
+				// 		console.log("待结算:");
+				// 		console.log(res);
+				// 		uni.stopPullDownRefresh();
+				// 		const data = JSON.parse(res.data);
+				// 		console.log(data);
+				// 		if(data.code == 200){
+				// 			that.newslist[1].list = data.data;
+				// 			that.mescroll.endSuccess();
+				// 			// that.code = that.newslist[1].list.code;
+				// 			console.log("待上门列表：");
+				// 			console.log(that.newslist[1].list);
+				// 		}else{
+				// 			uni.showToast({
+				// 				title:"服务器无响应"
+				// 			})
+				// 		}
+				// 	},
+				// 	fail() {
+				// 		uni.showToast({
+				// 			title:"无网络..."
+				// 		})
+				// 	}
+				// })
 			},
 			
 			//已结算
 			getEnd(){
-				let that = this;
-				uni.request({
-					url:this.$apiUrl+"/work/end",
-					method:"POST",
-					dataType:JSON,
+				this.$myRequest({
+					url:'work/end',
 					data:{
-						uid:this.user_uid
+						uid:this.user_uid,
 					},
-					success(res) {
-						console.log("已结算:");
-						console.log(res);
-						uni.stopPullDownRefresh();
-						const data = JSON.parse(res.data);
-						console.log(data);
-						if(data.code == 200){
-							that.newslist[1].list = data.data;
-							// that.code = that.newslist[1].list.code;
-							that.mescroll.endSuccess();
-							console.log("已结算列表：");
-							console.log(that.newslist[1].list);
-						}else{
-							uni.showToast({
-								title:"服务器无响应"
-							})
-						}
-					},
-					fail() {
-						uni.showToast({
-							title:"无网络..."
-						})
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						this.newslist[2].list = res.data.data;
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+				
+					}else{
+						console.log(res.data.msg)
 					}
-				})
+				})	
+				// let that = this;
+				// uni.request({
+				// 	url:this.$apiUrl+"/work/end",
+				// 	method:"POST",
+				// 	dataType:JSON,
+				// 	data:{
+				// 		uid:this.user_uid
+				// 	},
+				// 	success(res) {
+				// 		console.log("已结算:");
+				// 		console.log(res);
+				// 		uni.stopPullDownRefresh();
+				// 		const data = JSON.parse(res.data);
+				// 		console.log(data);
+				// 		if(data.code == 200){
+				// 			that.newslist[1].list = data.data;
+				// 			// that.code = that.newslist[1].list.code;
+				// 			that.mescroll.endSuccess();
+				// 			console.log("已结算列表：");
+				// 			console.log(that.newslist[1].list);
+				// 		}else{
+				// 			uni.showToast({
+				// 				title:"服务器无响应"
+				// 			})
+				// 		}
+				// 	},
+				// 	fail() {
+				// 		uni.showToast({
+				// 			title:"无网络..."
+				// 		})
+				// 	}
+				// })
 			},
 			//控件被下拉
 			// onPulling(e) {
@@ -499,7 +583,7 @@
 				this.userFeedbackHidden = true;
 			},
 			submitFeedback() { // 提交反馈
- 
+				
 				var that =this;
 			   // 提交反馈内容
 			   this.issubmit = true;
@@ -508,23 +592,44 @@
 				let code  = uni.getStorageSync("code");
 				console.log("当前code："+code);
 				if(that.issubmit){
-					uni.request({
-						url:that.$apiUrl+"work/cancel",
-						method: "POST",
-						dataType: JSON,
-						data: {
+					this.$myRequest({
+						url:'work/cancel',
+						data:{
 							code:code,
-							uid: that.user_uid,
-							reason:that.feedbackContent
-							
+							uid: this.user_uid,
+							reason:this.feedbackContent
 						},
-						success(res) {
-							console.log(res);
-						},
-						fail(res) {
-							console.log(res);	
+						methods:"POST"
+						
+					}).then(res=>{
+					// 	console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+					
+						}else{
+							console.log(res.data.msg)
 						}
 					})
+					// uni.request({
+					// 	url:that.$apiUrl+"work/cancel",
+					// 	method: "POST",
+					// 	dataType: JSON,
+					// 	data: {
+					// 		code:code,
+					// 		uid: that.user_uid,
+					// 		reason:that.feedbackContent
+							
+					// 	},
+					// 	success(res) {
+					// 		console.log(res);
+					// 	},
+					// 	fail(res) {
+					// 		console.log(res);	
+					// 	}
+					// })
 				}
 			}
 		},
@@ -593,7 +698,7 @@
 	 
 		.popup_textarea_item {
 			padding-top: 5upx;
-			height: 240upx;
+			height: 242upx;
 			width: 440upx;
 			background-color: #F1F1F1;
 			margin-top: 30upx;
@@ -604,6 +709,7 @@
 			width: 410upx;
 			font-size: 26upx;
 			margin-left: 20upx;
+			height:242upx;
 		}
 	 
 		.popup_button {
@@ -614,9 +720,10 @@
 		button{
 			-webkit-appearance:none;
 			height: 26px !important;
-			line-height: 42upx !important;
+			line-height: 56upx !important;
 			color: #00abeb;
 			font-size: 32upx;
+			margin-top: 60upx;
 		}
 		button::after{
 			border: none;

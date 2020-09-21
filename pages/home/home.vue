@@ -7,7 +7,7 @@
 			<image class="bgimg" src="../../static/home/home.png" mode=""></image>
 			<view class="text">
 				<view class="nickname">{{user_name}}</view>
-				<view class="sign" @tap="showsign = true">点击签到</view>
+				<view class="sign" @tap="showpopup = true">点击签到</view>
 			</view>
 			<image :src="user_avatar" class="avatar" mode=""></image>
 			<view class="panel">
@@ -51,6 +51,7 @@
 				<u-cell-item  title="意见反馈"> <button send-message-title="分享标题" send-message-img="分享的单个图片链接" show-message-card="true"  class='details_button' open-type='contact' plain>
 		 </button></u-cell-item>
 				<u-cell-item  title="设置" @tap="openset"></u-cell-item>
+				<u-cell-item  title="订阅消息" @tap="requestMsg"></u-cell-item>
 			</u-cell-group>
 		</view>
 		 
@@ -59,15 +60,33 @@
 		<!-- <u-picker mode="time" v-model="showtime" :params="params"></u-picker> -->
 		<u-select v-model="showtime" mode="mutil-column" :list="list" @confirm="confirm"></u-select>
 		<!-- 签到时间 -->
-		<u-calendar v-model="showsign" :mode="mode" :change-year="false" @change="change"></u-calendar>
+		<!-- <u-calendar v-model="showsign" :mode="mode" :change-year="false" @change="change"></u-calendar> -->
+		<u-popup v-model="showpopup" mode="center" border-radius="8" width="80%" ref="popup">
+			<view class="content">
+				<view class="signed theme" @tap="Sign">签到</view>
+				<ren-calendar ref='ren' :markDays='markDays' :open="true" :disabledAfter='true' :collapsible="false"  @onDayClick='onDayClick'></ren-calendar>
+			    <!-- <view class="change">选中日期：{{curDate}}</view> -->
+			</view>
+		</u-popup>
+		
 
 	</view>
 </template>
 
 <script>
+	import RenCalendar from '@/components/ren-calendar/ren-calendar.vue'
 	export default {
+		components:{
+			RenCalendar
+		},
 		data() {
 			return {
+				template_id1:"",
+				template_id2:"",
+				template_id3:"",
+				showpopup:false,
+				curDate:'',
+				markDays:[],
 				//顶部导航栏
 				height:"",
 				background:{
@@ -117,8 +136,101 @@
 			this.user_address = uni.getStorageSync("address");
 			this.number = uni.getStorageSync("number");
 			// console.log(this.user_address);
+			this.SignList();
+		},
+		onReady() {
+		    let today = this.$refs.ren.getToday().date;
+		    this.curDate = today;
+		    this.markDays.push(today);
 		},
 		methods: {
+			//日历
+			onDayClick(data){
+			    this.curDate = data.date;
+			},
+			SignList(){
+				this.$myRequest({
+					url:'user/SignList',
+					methods:"POST",
+					data:{}
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						console.log(res.data);
+						console.log(res);
+						this.markDays = res.data.data;
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+					}else{
+						console.log(res.data.msg)
+					}
+				})	
+			},
+			Sign(){
+				this.$myRequest({
+					url:'user/Sign',
+					methods:"POST",
+					data:{
+						time:this.curDate
+					}
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						console.log(res);
+						uni.showToast({
+							title:res.data.msg
+						})
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showToast({
+							title:res.data.msg
+						})
+					}else{
+						console.log(res.data.msg)
+					}
+				})	
+			},
+			//订阅消息
+			async requestMsg(){
+				
+				await this.$myRequest({
+					url:'user/getTemplateid',
+					data:{},
+				}).then(res=>{
+					console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						console.log(res.data.data);
+						this.template_id1 = res.data.data[0];
+						this.template_id2 = res.data.data[1];
+						this.template_id3 = res.data.data[2];
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+				// console.log(res.data);
+				wx.requestSubscribeMessage({
+				  tmplIds: [this.template_id1,this.template_id2,this.template_id3],
+				  success (res) {
+					  console.log("模板");
+					  console.log(res);
+					   if (res['c-QfMnWBUDkg2CIlBJDOYaGj6Bpn-p6g9HuKUi8LrXY'] === 'accept'){
+					               wx.showToast({
+					                 title: '订阅OK！',
+					                 duration: 1000,
+					    })
+					}
+				  }
+				})
+			},
 			// 回调参数为包含多个元素的数组，每个元素分别反应每一列的选择情况
 			confirm(e) {
 				console.log(e);
@@ -206,6 +318,21 @@
 	// .u-cell-group{
 	// 	background-color: #CCCCCC;
 	// }
+	.content{
+		position: relative;
+	}
+	.signed{
+		width: 115upx;
+		height: 44upx;
+		background: linear-gradient(90deg, #00ABEB, #54C3F1);
+		border-radius: 22upx;
+		position: absolute;
+		top: 8px;
+		right: 12px;
+		text-align: center;
+		line-height: 44upx;
+		color: #ffffff;
+	}
 	page {
 		background-color: #ededed;
 	}

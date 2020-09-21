@@ -138,61 +138,95 @@
 				console.log("phone"+phone);
 				console.log(user_uid);
 				if (phone) {
-						uni.request({
-							url:this.$apiUrl+"work/take",
-							method:"POST",
-							dataType:JSON,
-							data:{
-								uid:user_uid,
-								code:code,//订单编号
-								WorkNautica:[this.longitude,this.latitude],
-								phone:phone
-							},
-							success(res) {
-								console.log(res);
-								// console.log(res);
-								const data = JSON.parse(res.data);
-								console.log(data.code);
-								switch (data.code){
-									case 200:
-										//抢单成功体醒
-										//提醒订单
-										that.show = true;
-										that.isactive = true;
-										let badgecont = 0;
-										// that.$badge++;
-										badgecont ++;
-										// console.log(this.$badge);
-										uni.$emit('updatebadgecont',{badgecont:badgecont});
-										setTimeout(()=>{
-											uni.navigateBack({
-											    delta: 1
-											});
-										},3000);
-										break;
-									case 300:
-										uni.showToast({
-											title:data.msg
-										});
-										that.isactive = true;
-										break;
-									case 400:
-										uni.showToast({
-											title:data.msg
-										})
-										break;	
-									default:
-										uni.showToast({
-											title:data.mag
-										})
-										break;
-								}
+					this.$myRequest({
+						url:'work/take',
+						data:{
+							uid:user_uid,
+							code:code,//订单编号
+							WorkNautica:[this.longitude,this.latitude],
+							phone:phone
+						},
+						methods:"POST"
+						
+					}).then(res=>{
+					// 	console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+							that.show = true;
+							that.isactive = true;
+							let badgecont = 0;
+							// that.$badge++;
+							badgecont ++;
+							// console.log(this.$badge);
+							uni.$emit('updatebadgecont',{badgecont:badgecont});
+							setTimeout(()=>{
+								uni.navigateBack({
+									delta: 1
+								});
+							},3000);
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+							
+						}else{
+							console.log(res.data.msg)
+						}
+					})
+						// uni.request({
+						// 	url:this.$apiUrl+"work/take",
+						// 	method:"POST",
+						// 	dataType:JSON,
+						// 	data:{
+						// 		uid:user_uid,
+						// 		code:code,//订单编号
+						// 		WorkNautica:[this.longitude,this.latitude],
+						// 		phone:phone
+						// 	},
+						// 	success(res) {
+						// 		console.log(res);
+						// 		// console.log(res);
+						// 		const data = JSON.parse(res.data);
+						// 		console.log(data.code);
+						// 		switch (data.code){
+						// 			case 200:
+						// 				//抢单成功体醒
+						// 				//提醒订单
+						// 				that.show = true;
+						// 				that.isactive = true;
+						// 				let badgecont = 0;
+						// 				// that.$badge++;
+						// 				badgecont ++;
+						// 				// console.log(this.$badge);
+						// 				uni.$emit('updatebadgecont',{badgecont:badgecont});
+						// 				setTimeout(()=>{
+						// 					uni.navigateBack({
+						// 					    delta: 1
+						// 					});
+						// 				},3000);
+						// 				break;
+						// 			case 300:
+						// 				uni.showToast({
+						// 					title:data.msg
+						// 				});
+						// 				that.isactive = true;
+						// 				break;
+						// 			case 400:
+						// 				uni.showToast({
+						// 					title:data.msg
+						// 				})
+						// 				break;	
+						// 			default:
+						// 				uni.showToast({
+						// 					title:data.mag
+						// 				})
+						// 				break;
+						// 		}
 								
-							},
-							fail() {
-								console.log(res);
-							}
-						})
+						// 	},
+						// 	fail() {
+						// 		console.log(res);
+						// 	}
+						// })
 				} else {
 					uni.showModal({
 					    title: '提示',

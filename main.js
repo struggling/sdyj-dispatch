@@ -5,28 +5,32 @@ import { myRequest } from './util/api.js'
 Vue.prototype.$myRequest = myRequest
 // 引入uivew-ui
 import uView from "uview-ui";
-
+import md5 from "./common/md5.min.js";
 // 定义一个全局的请求地址
 // Vue.prototype.apiServer = 'http://0608.cc/'
 //定义全局的检查登录函数
 	Vue.prototype.checklogin= function(){
+		let that = this;
 			uni.checkSession({
 					success: (res) => {
 						if (res.errMsg == 'checkSession:ok') {
 							console.log(res);
 							console.log('登录暂未过期');
 							let user_uid = uni.getStorageSync('user_uid');//uid写在检查函数里面，
-							console.log("uid的值:"+user_uid);
+							// console.log("uid的值:"+user_uid);
 							uni.login({
 								success(res) {
 									let code = res.code;
+									let token = md5("code="+code+"0a88a84a25948b4f37f622b3a3ff9fc0");
+									
 									uni.request({
 										url:"https://yigongdan.com/public/applet/index",
 										dataType:JSON,
 										method:"GET",
 										header:"application/x-www-form-urlencoded",
 										data:{
-											code:code
+											code:code,
+											token:token
 										},
 										success(res) {
 											const data = JSON.parse(res.data);
@@ -38,6 +42,7 @@ import uView from "uview-ui";
 												let uid  =data.data.uid;
 												let name  =data.data.name;
 												let number = data.data.number;
+												let cookie = data.data.session_id;
 												uni.setStorageSync("phone",phone);	
 												console.log("手机号码"+phone);
 												uni.setStorageSync("type",type);
@@ -52,6 +57,8 @@ import uView from "uview-ui";
 												uni.setStorageSync('user_avatar', data.data.wechat_img);
 												console.log("用户姓名"+data.data.wechat_name);
 												console.log("用户头像"+data.data.wechat_img);
+												uni.setStorageSync("cookie",cookie);
+												console.log("cookie"+cookie);
 											}else if(data.code ==300){
 												uni.showModal({
 												    title: '提示',

@@ -152,34 +152,56 @@
 					uni.checkSession({
 						success(res) {
 							console.log(res);
-							uni.request({
-								url: "https://applet.51tiaoyin.com/public/applet/user/get_phone",
-								method: 'GET',
-								dataType: JSON,
-								data: {
+							that.$myRequest({
+								url:'user/get_phone',
+								data:{
 									"code": code,
 									"iv": iv,
 									"encryptedData": encryptedData
 								},
-								success(res) {
-									console.log(res.data);
-									let data = JSON.parse(res.data);
-									console.log(data);
-									if (data.code == 200) {
-										// console.log(this);
-										console.log(data.data);
-										that.phonenum = data.data;
-									} else {
-										uni.showToast({
-											title: "没有获取手机号",
-											duration: 1500
-										})
-									}
-								},
-								fail(res) {
-									console.log(res)
+								methods:"GET"
+								
+							}).then(res=>{
+							// 	console.log(res);
+							// const data = JSON.parse(res.data);
+								if(res.data.code == 200){
+									console.log(res.data.msg);
+									this.phonenum = data.data;
+								}else if(res.data.code == 300){
+									console.log(res.data.msg);
+									this.mescroll.endSuccess();
+								}else{
+									console.log(res.data.msg)
 								}
 							})
+							// uni.request({
+							// 	url: "https://applet.51tiaoyin.com/public/applet/user/get_phone",
+							// 	method: 'GET',
+							// 	dataType: JSON,
+							// 	data: {
+							// 		"code": code,
+							// 		"iv": iv,
+							// 		"encryptedData": encryptedData
+							// 	},
+							// 	success(res) {
+							// 		console.log(res.data);
+							// 		let data = JSON.parse(res.data);
+							// 		console.log(data);
+							// 		if (data.code == 200) {
+							// 			// console.log(this);
+							// 			console.log(data.data);
+							// 			that.phonenum = data.data;
+							// 		} else {
+							// 			uni.showToast({
+							// 				title: "没有获取手机号",
+							// 				duration: 1500
+							// 			})
+							// 		}
+							// 	},
+							// 	fail(res) {
+							// 		console.log(res)
+							// 	}
+							// })
 						},
 						fail(err) {
 							// session_key 已经失效，需要重新执行登录流程
@@ -282,11 +304,10 @@
 					let latitude = uni.getStorageSync("latitude");
 					let longitude = uni.getStorageSync("longitude");
 					let user_uid = uni.getStorageSync("uid");
-					console.log(user_uid);
-					uni.request({
-						url: "https://applet.51tiaoyin.com/public/applet/user/get_info",
-						method: "POST",
-						data: {
+					// console.log(user_uid);
+					this.$myRequest({
+						url:'user/get_info',
+						data:{
 							name: this.name,
 							age: this.worktime,
 							phone: this.phonenum,
@@ -294,8 +315,13 @@
 							type: this.counttype,
 							uid:user_uid
 						},
-						success(res) {
-							console.log(res);
+						methods:"POST"
+						
+					}).then(res=>{
+					// 	console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
 							//提交成功后的跳转到首页
 							uni.hideLoading({
 								title:"注册成功"
@@ -306,12 +332,42 @@
 									url:"../home/home"
 								})
 							},2500)
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
 							
-						},
-						fail() {
-							console.log("失败：" + res);
+						}else{
+							console.log(res.data.msg)
 						}
 					})
+					// uni.request({
+					// 	url: "https://applet.51tiaoyin.com/public/applet/user/get_info",
+					// 	method: "POST",
+					// 	data: {
+					// 		name: this.name,
+					// 		age: this.worktime,
+					// 		phone: this.phonenum,
+					// 		coord: latitude + "," + longitude,
+					// 		type: this.counttype,
+					// 		uid:user_uid
+					// 	},
+					// 	success(res) {
+					// 		console.log(res);
+					// 		//提交成功后的跳转到首页
+					// 		uni.hideLoading({
+					// 			title:"注册成功"
+					// 		});
+					// 		uni.setStorageSync("gonghao",res.id);
+					// 		setTimeout(()=>{
+					// 			uni.reLaunch({
+					// 				url:"../home/home"
+					// 			})
+					// 		},2500)
+							
+					// 	},
+					// 	fail() {
+					// 		console.log("失败：" + res);
+					// 	}
+					// })
 				}			
 			}
 		},
@@ -451,7 +507,7 @@
 		border-radius: 100%;
 		position: absolute;
 		top: 8upx;
-		left: 232upx;
+		left: 242upx;
 		background-color: #00ABEB;
 	}
 	.active {}
