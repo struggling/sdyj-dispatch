@@ -47,7 +47,7 @@
 				<u-cell-item title="个人信息" @tap="openinfo"></u-cell-item>
 				<u-cell-item  title="个人工号">{{number}}</u-cell-item>
 				<u-cell-item  title="个人工作时间" @tap="showtime=true">{{timeval}}</u-cell-item>
-				<u-cell-item  title="评分指南">9.4分</u-cell-item>
+				<u-cell-item  title="评分指南">{{score}}分</u-cell-item>
 				<u-cell-item  title="意见反馈"> <button send-message-title="分享标题" send-message-img="分享的单个图片链接" show-message-card="true"  class='details_button' open-type='contact' plain>
 		 </button></u-cell-item>
 				<u-cell-item  title="设置" @tap="openset"></u-cell-item>
@@ -81,6 +81,8 @@
 		},
 		data() {
 			return {
+				currentpage:"",
+				score:"",
 				template_id1:"",
 				template_id2:"",
 				template_id3:"",
@@ -137,6 +139,12 @@
 			this.number = uni.getStorageSync("number");
 			// console.log(this.user_address);
 			this.SignList();
+			this.getInfo();
+			var pages = getCurrentPages();
+			var page = pages[pages.length - 1];
+			var currentpage = page.route;
+			this.currentpage = currentpage;
+			console.log(currentpage);
 		},
 		onReady() {
 		    let today = this.$refs.ren.getToday().date;
@@ -144,6 +152,30 @@
 		    this.markDays.push(today);
 		},
 		methods: {
+			//获取用户信息
+			getInfo(){
+				this.$myRequest({
+					url:'user/getInfo',
+					data:{},
+					methods:"POST"
+				}).then(res=>{
+					console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.data = res.data.data
+						let arr  = res.data.data.work_time;
+						let score  = res.data.data.score;
+						this.timeval  =arr;
+						this.score  =score;
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+				
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
 			//日历
 			onDayClick(data){
 			    this.curDate = data.date;
@@ -306,7 +338,7 @@
 		onShareAppMessage(e){
 			return {
 				title: this.$overShare.title,
-				path: this.$overShare.path,
+				path: this.currentpage,
 				imageUrl:this.$overShare.imageUrl,
 				
 			}

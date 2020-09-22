@@ -75,6 +75,7 @@
 		},
 		data() {
 			return {
+				currentpage:"",
 				 userFeedbackHidden: true, // 默认隐藏
 				 feedbackContent: '' ,// 用户反馈内容
 				 issubmit:false,
@@ -189,7 +190,11 @@
 			// this.triggered =true;
 			 // uni.$emit('updates',{msg:'页面更新'});
 			this.user_uid = uni.getStorageSync('uid');
-			
+			var pages = getCurrentPages();
+			var page = pages[pages.length - 1];
+			var currentpage = page.route;
+			this.currentpage = currentpage;
+			console.log(currentpage);
 			
 		},
 		methods: {
@@ -646,7 +651,7 @@
 		onShareAppMessage(e){
 			return {
 				title: this.$overShare.title,
-				path: this.$overShare.path,
+				path: this.currentpage,
 				imageUrl:this.$overShare.imageUrl,
 				
 			}

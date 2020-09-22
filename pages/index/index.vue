@@ -83,7 +83,7 @@
 			<!-- 动态数字角标提醒 -->
 			<u-badge type="error" :count="badgeconts" style="position: absolute;top: 110upx;left: 720upx;"></u-badge>
 			<!-- model -->
-			<u-modal v-model="show" :content="content"></u-modal>
+			<u-modal v-model="show" :content="content" :async-close="true"  @confirm="confirm" ref="uModal"></u-modal>
 			<!-- popup -->
 			<!-- <u-popup v-model="showpopup" mode="center" border-radius="8" width="80%" ref="popup">
 				<view>
@@ -198,7 +198,7 @@
 				uni.hideLoading({
 					title:"加载中",
 					duration:1500
-				})
+				});
 				this.getWOrkstay();
 			},1500);
 			
@@ -243,6 +243,7 @@
 		
 		onLoad(event) {
 			let tabbar = event.e;
+			console.log("传值e:");
 			console.log(tabbar);
 			this.tabIndex = tabbar;
 			// this.checklogin();
@@ -322,7 +323,12 @@
 			loadmore() {
 				
 			},
-
+			confirm() {
+				this.show = false;
+				if(!this.show){
+					this.requestMsg();
+				}
+			},
 			// model,发送抢单请求
 			openModel(index) {
 				let phone = uni.getStorageSync('phone');
@@ -349,17 +355,28 @@
 							console.log(res);
 						// const data = JSON.parse(res.data);
 							if(res.data.code == 200){
-								console.log(res.msg);
+								console.log(res.data.msg);
 								this.badgeconts++;
 								this.orderlist.splice(index,1);
 								this.show = true;
 								this.takelist = res.data.data;
 								// this.mescroll.endSuccess();
 							}else if(res.data.code == 300){
-								console.log(res.msg);
+								console.log(res.data.msg);
 								// this.mescroll.endSuccess();
 							}else{
-								console.log(res.msg)
+								console.log(res.data.msg)
+								uni.showModal({
+								    title: '提示',
+								    content: res.data.msg,
+								    success: function (res) {
+								        if (res.confirm) {
+								            console.log('用户点击确定');
+								        } else if (res.cancel) {
+								            console.log('用户点击取消');
+								        }
+								    }
+								});
 							}
 						})
 						// uni.request({

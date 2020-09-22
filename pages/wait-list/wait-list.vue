@@ -46,7 +46,7 @@
 			</view>
 			<!-- <image src="../../static/logo.png" mode=""></image> -->
 			<!-- model -->
-			<u-modal v-model="show" :content="content"></u-modal>
+			<u-modal v-model="show" :content="content" :async-close="true"  @confirm="confirm" ref="uModal"></u-modal>
 		</view>
 	</view>
 </template>
@@ -55,6 +55,7 @@
 	export default {
 		data() {
 			return {
+				currentpage:"",
 				istheme:true,
 				show: false,
 				content: '您已经成功参与抢单，该订单需要平台工作人员进行人工审核；审核通过后请到“订单”列表查看具体订单信息并且联系客户预约上门进行服务',
@@ -66,7 +67,7 @@
 				isactive:false,
 				id:0, // 使用 marker点击事件 需要填写id
 				title: 'map',
-				scale:10,
+				scale:14,
 				latitude: 39.909,
 				longitude: 116.39742,
 				covers: [{
@@ -107,7 +108,11 @@
 				this.data = JSON.parse(payload);
 				console.log(this.data);
 			};
-			
+			var pages = getCurrentPages();
+			var page = pages[pages.length - 1];
+			var currentpage = page.route;
+			this.currentpage = currentpage;
+			console.log(currentpage);
 		},
 		computed:{
 			dataDoortime(){
@@ -128,6 +133,12 @@
 						console.log("成功");
 					}
 				})
+			},
+			confirm() {
+				this.show = false;
+				if(!this.show){
+					this.requestMsg();
+				}
 			},
 			opentake(){
 				let that =this;
@@ -251,7 +262,7 @@
 		onShareAppMessage(e){
 			return {
 				title: this.$overShare.title,
-				path: this.$overShare.path,
+				path: this.currentpage,
 				imageUrl:this.$overShare.imageUrl,
 				
 			}

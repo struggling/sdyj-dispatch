@@ -82,7 +82,7 @@
 				</view>
 			</u-upload>
 			<!-- 类型选择 -->
-			<u-select v-model="show" :list="list"  @confirm="confirm"></u-select>
+			<u-select v-model="show" :list="list" mode="mutil-column-auto"  @confirm="confirm"></u-select>
 		</view>
 	</view>
 </template>
@@ -101,14 +101,41 @@
 				action: 'localhost', // 演示地址
 				maxcount: 1,
 				type:"家政保洁",
-				list: [{
-						value: '家政保洁',
-						label: '家政保洁'
-					},
+				list: [
 					{
-						value: '开荒保洁',
-						label: '开荒保洁'
-					}
+						value: 1,
+						label: '中国',
+						children: [
+							{
+								value: 2,
+								label: '广东',
+								children: [
+									{
+										value: 3,
+										label: '深圳'
+									},
+									{
+										value: 4,
+										label: '广州'
+									}
+								]
+							},
+							{
+								value: 5,
+								label: '广西',
+								children: [
+									{
+										value: 6,
+										label: '南宁'
+									},
+									{
+										value: 7,
+										label: '桂林'
+									}
+								]
+							}
+						]
+					},
 				],
 				showUploadList: false,
 				// 如果将某个ref的组件实例赋值给data中的变量，在小程序中会因为循环引用而报错
@@ -127,12 +154,12 @@
 			}
 		},
 		onLoad(event) {
-			console.log("aaa");
+			// console.log("aaa");
 			//设置容器高度
 			uni.getSystemInfo({
 				success: (res) => {
 					console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(68);
+					let height = res.windowHeight - uni.upx2px(161);
 					this.swiperheight = height;
 				}
 			});
@@ -148,9 +175,32 @@
 			} catch (error) {
 				this.data = JSON.parse(payload);
 				console.log(this.data);
-			}
+			};
+			this.getInfo();
 		},
 		methods: {
+			//获取用户信息
+			getInfo(){
+				this.$myRequest({
+					url:'user/getInfo',
+					data:{},
+					methods:"POST"
+				}).then(res=>{
+					console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.data = res.data.data
+						let arr  = res.data.data.type.split(',');
+						this.type  =arr[0];
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+				
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
 			submit() {
 				uni.showLoading({
 					title: '保存中'
@@ -316,6 +366,9 @@
 		/* 修改小程序的默认button样式 */
 		button{
 			-webkit-appearance:none
+		}
+		button::after{
+			border:none
 		}
 	.u-upload {
 		position: absolute;

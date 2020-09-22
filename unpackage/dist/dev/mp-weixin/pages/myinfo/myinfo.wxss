@@ -188,6 +188,56 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 页面 */
 .content.data-v-c49b56f4 {
 	background-color: #F2F2F2;
@@ -315,6 +365,9 @@ button.data-v-c49b56f4{
 /* 修改小程序的默认button样式 */
 button.data-v-c49b56f4{
 		-webkit-appearance:none
+}
+button.data-v-c49b56f4::after{
+		border:none
 }
 .u-upload.data-v-c49b56f4 {
 	position: absolute;

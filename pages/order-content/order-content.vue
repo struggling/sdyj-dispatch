@@ -30,7 +30,7 @@
 					</view>
 					<view class="textdetail">
 						<view class="">{{data.duration}}</view>
-						<view class="" @tap="gouser">客户电话: {{data.tel}}</view>
+						<view style="color: #ff0404;font-weight: bold;" class="" @tap="gouser">客户电话: {{data.tel}}</view>
 					</view>
 					<view class="textdetail">
 						<view class="">工具要求:{{data.label}}</view>
@@ -68,11 +68,12 @@
 	export default {
 		data() {
 			return {
+				currentpage:"",
 				name:'',
 				data:{},
 				height:"",
 				swiperheight:442,
-				scale:10,
+				scale:14,
 				background:{
 					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
@@ -126,6 +127,11 @@
 					console.log(this.swiperheight);
 				}
 			});
+			var pages = getCurrentPages();
+			var page = pages[pages.length - 1];
+			var currentpage = page.route;
+			this.currentpage = currentpage;
+			console.log(currentpage);
 		},
 		methods: {
 			navlociton(){
@@ -281,7 +287,7 @@
 		onShareAppMessage(e){
 			return {
 				title: this.$overShare.title,
-				path: this.$overShare.path,
+				path: this.currentpage,
 				imageUrl:this.$overShare.imageUrl,
 				
 			}

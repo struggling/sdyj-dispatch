@@ -57,6 +57,7 @@
 }
 .typecontent  image.data-v-891c2434{
 	height: 220rpx;
+	width: 100%;
 }
 .typecontent .title.data-v-891c2434 {
 	color: #808080;
@@ -95,7 +96,7 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	position: relative;
+	/* position: relative; */
 }
 .xieyi navigator.data-v-891c2434 {
 	-webkit-text-decoration: solid;
@@ -124,14 +125,15 @@
 	border-radius: 100%;
 	/* background-color: #18B566; */
 	border: 4rpx solid #00ABEB;
+	position: relative;
 }
 .checkbox.data-v-891c2434{
 	width: 15rpx;
 	height: 15rpx;
 	border-radius: 100%;
 	position: absolute;
-	top: 8rpx;
-	left: 242rpx;
+	top: 4rpx;
+	left: 5rpx;
 	background-color: #00ABEB;
 }
 .active.data-v-891c2434 {}

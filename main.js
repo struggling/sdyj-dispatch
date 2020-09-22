@@ -151,6 +151,7 @@ import md5 from "./common/md5.min.js";
 
 	
 //全局的分享内容
+
 Vue.prototype.$overShare = 	{
 	title: '易工单',
 	path: 'pages/index/index',
@@ -165,6 +166,43 @@ Vue.prototype.$apiUrl = 'https://yigongdan.com/public/applet/';
 //全局的图标提示数字
 Vue.prototype.$badge = 0;
 
+//全局的订阅消息通知
+Vue.prototype.requestMsg =async function(){
+	await this.$myRequest({
+		url:'user/getTemplateid',
+		data:{},
+	}).then(res=>{
+		console.log(res);
+	// const data = JSON.parse(res.data);
+		if(res.data.code == 200){
+			console.log(res.data.msg);
+			console.log(res.data.data);
+			let template_id1 ='';
+			let template_id2 ='';
+			let template_id3 ='';
+			template_id1 = res.data.data[0];
+			template_id2 = res.data.data[1];
+			template_id3 = res.data.data[2];
+			wx.requestSubscribeMessage({
+			  tmplIds: [template_id1,template_id2,template_id3],
+			  success (res) {
+				  console.log("模板");
+				  console.log(res);
+				   if (res[template_id1] === 'accept'&& res[template_id2] === 'accept'&& res[template_id3] === 'accept'){
+				        console.log("订阅成功");
+				}
+			  }
+			})
+		}else if(res.data.code == 300){
+			console.log(res.data.msg);
+	
+		}else{
+			console.log(res.data.msg)
+		}
+	})
+	// console.log(res.data);
+
+}
 
 //封装全局的网络请求
 
