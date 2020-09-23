@@ -21,20 +21,22 @@
 				<view class="line"></view>
 				<view class="input"><button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">{{phonenum}}</button></view>
 			</view>
-			<!-- <view class="from-group">
+			<view class="from-group">
 				<view class="iconfont iconleixing1"></view>
 				<view class="line"></view>
 				<view class="input"><button type="default" class="typebtn">{{counttype}}</button></view>
-			</view> -->
+			</view>
 
 			<!-- 类型选择 -->
 			<view class="typecontent">
-				<!-- <view class="title">当前选择种类</view>
+				<view class="title">当前选择种类</view>
 				<view class="onelist">
-					<view class="list theme">{{typefy}}</view>
-				</view> -->
+					<block v-for="(item,index) in type" :key="index">
+						<view  :class="[list,tabIndex == index?'theme':'']" @tap='tabbar(index)'>{{item}}</view>
+					</block>
+				</view>
 				<!-- <image src="../../static/settlement/longgqby.png" mode=""></image> -->
-				<block v-if="typefy=='钢琴调音'">
+				<!-- <block v-if="typefy=='钢琴调音'">
 					<image :src="longtype.longgqty" mode=""></image>
 				</block>
 				<block v-if="typefy=='钢琴搬运'">
@@ -45,7 +47,7 @@
 				</block>
 				<block v-if="typefy=='家电维修'">
 					<image :src="longtype.longjdwx" mode=""></image>
-				</block>
+				</block> -->
 				<view class="title">种类</view>
 				<view class="onelist">
 					<block v-for="(item,index) in typename" :key="index">
@@ -71,6 +73,7 @@
 	export default {
 		data() {
 			return {
+				tabIndex:0,
 				isget:true,
 				sumstring: [],
 				postData: [],
@@ -78,6 +81,7 @@
 				check: "check",
 				ischeck: false,
 				code: "",
+				type:[],
 				selectname: [],
 				// counttype: "请选择服务类型",
 				name: "",
@@ -107,27 +111,76 @@
 			}
 		},
 		onLoad(option) {
-			let that = this;
-			console.log(option.id); //打印出上个页面传递的参数。
-			let latitude = uni.getStorageSync("latitude");
-			console.log(latitude);
-			this.typefy = option.id;
-			let typedata = uni.getStorageSync("typedata");
-			for (var typename in typedata) { //遍历对象属性名
-				if (option.id == typename) {
-					this.typename = typedata[typename];
-					console.log(this.typename);
+			this.$myRequest({
+				url:'user/item',
+				data:{}
+			}).then(res=>{
+				console.log(res);
+			// const data = JSON.parse(res.data);
+				if(res.data.code == 200){
+					console.log(res.data.msg);
+					const list = res.data.data;
+					this.typedata = list;//所有类型
+					console.log(list); 
+					for(var i in list){
+						this.type.push(i);
+						console.log('类型');
+						console.log(this.typedata);
+						//初始化类型选择
+						this.typefy  = this.type[0];
+						for (var typename in this.typedata) { //遍历对象属性名
+							if (this.type[0] == typename) {
+								this.typename = this.typedata[typename];
+								console.log(this.typename);
+							}else{
+								console.log("参数错误");
+							}
+						}
+						// console.log(this.typedata);
+						// // uni.setStorageSync("typedata",list);
+					}
+				}else if(res.data.code == 300){
+					console.log(res.data.msg);
+			
+				}else{
+					console.log(res.data.msg)
 				}
-			};
+			})
+			console.log(this.type);
+			
+			let that = this;
+			// console.log("一级分类");
+			// console.log(option.id); //打印出上个页面传递的参数。
+			// let latitude = uni.getStorageSync("latitude");
+			// console.log(latitude);
+			// this.typefy = option.id;
+			// // let typedata = uni.getStorageSync("typedata");
+			// console.log("二级分类");
+			// console.log(typedata);
+			
+			// };
 			uni.login({
 				provider: 'weixin',
 				success(res) {
 					// console.log(res.code);
 					that.code = res.code
 				}
-			})
+			});
+			// 默认选中第一个类型
+			
 		},
 		methods: {
+			//点击一级分类切换
+			tabbar(index){
+				this.tabIndex = index;
+				this.typefy = this.type[index]
+				for (var typename in this.typedata) { //遍历对象属性名
+					if (this.type[index] == typename) {
+						this.typename = this.typedata[typename];
+						console.log(this.typename);
+					}
+				}
+			},
 			//选择二级分类服务类型
 			selecttype(e) {
 				if (this.rSelect.indexOf(e) == -1) {

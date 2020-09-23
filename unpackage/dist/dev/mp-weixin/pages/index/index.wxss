@@ -1,4 +1,9 @@
 
+.u-search{
+	margin-left: 25rpx;
+	margin-right: 25rpx;
+	padding-top: 25rpx;
+}
 
 
 
@@ -930,6 +935,128 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* u-search */
 
 /* 顶部导航栏自定义 */
 .slot-wrap.data-v-57280228 {
@@ -947,6 +1074,7 @@
 	margin-top: 2rpx;
 	font-size: 22rpx;
 }
+
 /* 数字角标 */
 .badge.data-v-57280228 {
 		background-color: blue;
@@ -959,8 +1087,10 @@
 	height: 25px;
 	width: 100%;
 }
+
 /* content */
 .content.data-v-57280228 {}
+
 /* < 地理位置 */
 .location.data-v-57280228 {
 	background-color: #f85f31;
@@ -974,6 +1104,7 @@
 	font-size: 28rpx;
 	padding-right: 10rpx;
 }
+
 /* tabs */
 .tab-bar.data-v-57280228 {
 	display: -webkit-box;
@@ -1006,8 +1137,11 @@ uni-scroll-view .uni-scroll-view.data-v-57280228::-webkit-scrollbar {
 	/* 隐藏滚动条，但依旧具备可以滚动的功能 */
 	/* display: none */
 }
+
 /* xss中添加以下样式代码 */
+
 /*隐藏滚动条*/
+
 /* ::-webkit-scrollbar {
 	width: 0;
 	height: 0;

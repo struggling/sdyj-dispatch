@@ -2,6 +2,9 @@
 	<view>
 		<!-- 自定义导航栏 -->
 		<u-navbar :is-back="false"  title="订单中心" :height="height" :background="background" title-color="#ffffff"></u-navbar>
+		<!-- 收索筛选框 -->
+		<u-search placeholder="姓名,电话,地址" v-model="keyword" margin="25upx 25upx 25upx 25upx" style="margin-top: 25upx;"></u-search>
+
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 		<swiperTabHead :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" ></swiperTabHead>
 		<!-- <mescroll-body :sticky="true" ref="mescrollRef" @init="mescrollInit" @down="downCallback" > -->
@@ -71,7 +74,7 @@
 			 noThing,
 			Settled,
 			Cancel,
-			orderSettled
+			orderSettled,
 		},
 		data() {
 			return {
@@ -182,7 +185,7 @@
 			uni.getSystemInfo({
 				success: (res) => {
 					console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(265);
+					let height = res.windowHeight - uni.upx2px(485);
 					this.swiperheight = height;
 				}
 			});
@@ -198,6 +201,8 @@
 			
 		},
 		methods: {
+			//筛选搜索
+
 			// /*下拉刷新的回调 */
 			downCallback() {
 				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
@@ -354,7 +359,7 @@
 					            console.log('用户点击确定');
 								//如果没有手机说明用户没有注册跳转
 								uni.navigateTo({
-									url:"../settlement/settlement"
+									url:"../register/register"
 								})
 					        } else if (res.cancel) {
 					            console.log('用户点击取消');
@@ -593,31 +598,36 @@
 			   // 提交反馈内容
 			   this.issubmit = true;
 				console.log(that.feedbackContent);
-				that.hideDiv();
-				let code  = uni.getStorageSync("code");
-				console.log("当前code："+code);
-				if(that.issubmit){
-					this.$myRequest({
-						url:'work/cancel',
-						data:{
-							code:code,
-							uid: this.user_uid,
-							reason:this.feedbackContent
-						},
-						methods:"POST"
+				if(that.feedbackContent){
+					that.hideDiv();
+					let code  = uni.getStorageSync("code");
+					console.log("当前code："+code);
+					if(that.issubmit){
+						this.$myRequest({
+							url:'work/cancel',
+							data:{
+								code:code,
+								uid: this.user_uid,
+								reason:this.feedbackContent
+							},
+							methods:"POST"
+							
+						}).then(res=>{
+						// 	console.log(res);
+						// const data = JSON.parse(res.data);
+							if(res.data.code == 200){
+								console.log(res.data.msg);
+							}else if(res.data.code == 300){
+								console.log(res.data.msg);
 						
-					}).then(res=>{
-					// 	console.log(res);
-					// const data = JSON.parse(res.data);
-						if(res.data.code == 200){
-							console.log(res.data.msg);
-						}else if(res.data.code == 300){
-							console.log(res.data.msg);
-					
-						}else{
-							console.log(res.data.msg)
-						}
-					})
+							}else{
+								console.log(res.data.msg)
+							}
+						})
+				}else{
+					that.hideDiv();
+				}
+				
 					// uni.request({
 					// 	url:that.$apiUrl+"work/cancel",
 					// 	method: "POST",
@@ -660,6 +670,13 @@
 	}
 </script>
 
+<style>
+	.u-search{
+		margin-left: 25upx;
+		margin-right: 25upx;
+		padding-top: 25upx;
+	}
+</style>
 <style scoped>
 	view{
 		line-height: 2.25 !important;

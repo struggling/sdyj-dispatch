@@ -1,4 +1,11 @@
 
+.u-search{
+	margin-left: 25rpx;
+	margin-right: 25rpx;
+	padding-top: 25rpx;
+}
+
+
 view.data-v-127632e4{
 	line-height: 2.25 !important;
 }

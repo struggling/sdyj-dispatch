@@ -10,7 +10,7 @@
 		<add-tip :tip="tip" :duration="duration" />
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 		<view class="content">
-
+		
 			<!-- 地理位置 -->
 			<!-- <view class="location theme">
 				<span class="iconfont icondiliweizhi"></span>
@@ -19,6 +19,10 @@
 			<!-- 滚动通知 -->
 			<u-notice-bar mode="vertical" :list="notice" :duration="2500" bg-color="#E2F7FF" color="#010101"></u-notice-bar>
 			<!-- 接单列表 -->
+			<!-- 收索筛选框 -->
+			<u-search placeholder="姓名,电话,地址" v-model="keyword" @search = 'orderSearch' @custom=" $u.debounce(orderSearch1, 1000)" margin="25upx 25upx 25upx 25upx" style="margin-top: 25upx;"></u-search>
+
+			
 			<!-- 表头 -->
 			<view class="tab-bar">
 				<block v-for="(tab,index) in tabBars" :key="tab.id">
@@ -81,7 +85,7 @@
 			</view>
 			
 			<!-- 动态数字角标提醒 -->
-			<u-badge type="error" :count="badgeconts" style="position: absolute;top: 110upx;left: 720upx;"></u-badge>
+			<u-badge type="error" :count="badgeconts" style="position: absolute;top: 308upx;left: 720upx;"></u-badge>
 			<!-- model -->
 			<u-modal v-model="show" :content="content" :async-close="true"  @confirm="confirm" ref="uModal"></u-modal>
 			<!-- popup -->
@@ -121,10 +125,11 @@
 			noThing,
 			orderList,
 			Already,
-			MescrollEmpty
+			MescrollEmpty,
 		},
 		data() {
 			return {
+				keyword: '川',
 				upOption:{
 					use:false
 				},
@@ -242,6 +247,8 @@
 		},
 		
 		onLoad(event) {
+			//获取用户信息
+			this.getInfo();
 			let tabbar = event.e;
 			console.log("传值e:");
 			console.log(tabbar);
@@ -286,6 +293,111 @@
 		// },
 		
 		methods: {
+			//搜索
+			orderSearch(){
+				let str = uni.getStorageSync("type");
+				let town = uni.getStorageSync("town");
+				let type = str.split(",");
+				console.log(this.keyword);
+				this.$myRequest({
+					url:'work/stay',
+					data:{
+						"town":town ,
+						"genre": type,
+						"uid": this.user_uid,
+						"search":this.keyword
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+						this.orderlist = res.data.data;
+									
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showToast({
+							title:"暂无相关订单"
+						})
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
+			//搜索
+			orderSearch1(){
+				console.log(this.keyword);
+				let str = uni.getStorageSync("type");
+				let town = uni.getStorageSync("town");
+				let type = str.split(",");
+				console.log(this.keyword);
+				this.$myRequest({
+					url:'work/stay',
+					data:{
+						"town":town ,
+						"genre": type,
+						"uid": this.user_uid,
+						"search":this.keyword
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+						this.orderlist = res.data.data;
+									
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showToast({
+							title:"暂无相关订单"
+						})
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
+			//获取用户信息
+			getInfo(){
+				this.$myRequest({
+					url:'user/getInfo',
+					data:{},
+					methods:"POST"
+				}).then(res=>{
+					console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.data = res.data.data
+						
+						console.log(res.data.data.type);
+						// let type = res.data.data.type.split(',');
+						// for (var i = 0; i < type.length; i++) {
+						// 	let obj = {
+						// 		text:type[i],
+						// 		value:i
+						// 	};
+						// this.filterData[0].push(obj);
+						// }
+						// console.log("获取类型数据");
+						// console.log(this.filterData[0]);
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+				
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
+			//筛选搜索
+
 			/*下拉刷新的回调 */
 			downCallback() {
 				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
@@ -420,7 +532,7 @@
 					            console.log('用户点击确定');
 								//如果没有手机说明用户没有注册跳转
 								uni.navigateTo({
-									url:"../settlement/settlement"
+									url:"../register/register"
 								})
 					        } else if (res.cancel) {
 					            console.log('用户点击取消');
@@ -929,8 +1041,16 @@
 		}
 	}
 </script>
-
+<style>
+	.u-search{
+		margin-left: 25upx;
+		margin-right: 25upx;
+		padding-top: 25upx;
+	}
+</style>
 <style scoped>
+	/* u-search */
+	
 	/* 顶部导航栏自定义 */
 	.slot-wrap {
 		display: flex;

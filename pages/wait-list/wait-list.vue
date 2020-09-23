@@ -116,7 +116,7 @@
 		},
 		computed:{
 			dataDoortime(){
-				if(this.data){
+				if(this.data.door_time){
 					console.log(this.data);
 					return  this.data.door_time.substring(5,this.data.door_time.length-3)
 				}
