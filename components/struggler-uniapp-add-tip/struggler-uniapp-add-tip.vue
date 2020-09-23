@@ -47,7 +47,7 @@
 	$themeColor:#00ABEB; //主题色
 	.uni-add-tips-box {
 	  position: fixed;
-	  top:162upx;
+	  top:57px;
 	  right: 0;
 	  z-index: 99999;
 	  opacity: 0.8;

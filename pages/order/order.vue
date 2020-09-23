@@ -83,7 +83,7 @@
 				 feedbackContent: '' ,// 用户反馈内容
 				 issubmit:false,
 				 upOption:{
-				 	use:false
+				 	use:true
 				 },
 				 downOption:{
 				 	auto:false,
@@ -218,6 +218,9 @@
 					this.mescroll.endSuccess();
 					console.log('111');
 				},1500)
+			},
+			upCallback(page){
+				console.log("上拉刷新");
 			},
 			//上拉加载更多
 			loadmore(index) {
