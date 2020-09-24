@@ -83,7 +83,7 @@
 				 feedbackContent: '' ,// 用户反馈内容
 				 issubmit:false,
 				 upOption:{
-				 	use:true
+				 	use:false
 				 },
 				 downOption:{
 				 	auto:false,

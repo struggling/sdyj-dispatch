@@ -17,7 +17,7 @@
 					</view>
 					<view class="txt">个人数据</view>
 				</view>
-				<view class="panel-item" @tap="showcoder">
+				<view class="panel-item" @tap="tomypoints">
 					<view class="icon">
 						<image src="../../static/home/icon3.png" mode=""></image>
 					</view>
@@ -99,6 +99,7 @@
 				user_avatar:"",
 				user_phone:"",
 				user_address:"",
+				user_type:"",
 				number:'',
 				pic: 'https://uviewui.com/common/logo.png',
 				show: true,
@@ -168,6 +169,7 @@
 						let score  = res.data.data.score;
 						this.timeval  =arr;
 						this.score  =score;
+						this.user_type = res.data.data.type
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
 				
@@ -282,7 +284,8 @@
 					user_name : this.user_name,
 					user_avatar: this.user_avatar,
 					user_phone: this.user_phone,
-					user_address:this.user_address
+					user_address:this.user_address,
+					user_type:this.user_type,
 				}
 				uni.navigateTo({
 					url: "../mydata/mydata?userdata="+ encodeURIComponent(JSON.stringify(userdata))
@@ -294,7 +297,9 @@
 					user_name : this.user_name,
 					user_avatar: this.user_avatar,
 					user_phone: this.user_phone,
-					user_address:this.user_address
+					user_address:this.user_address,
+					user_type:this.user_type,
+					user_score:this.score
 				}
 				uni.navigateTo({
 					url:"../myinfo/myinfo?userinfo="+ encodeURIComponent(JSON.stringify(userinfo))
@@ -312,6 +317,12 @@
 			showcoder(){
 				uni.showToast({
 					title:"开发中"
+				})
+			},
+			//我的积分
+			tomypoints(){
+				uni.navigateTo({
+					url:"../my-points/my-points"
 				})
 			},
 			//拨打客服电话

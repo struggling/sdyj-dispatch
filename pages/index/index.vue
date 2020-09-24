@@ -21,11 +21,13 @@
 			<!-- 接单列表 -->
 			<!-- 收索筛选框 -->
 			<u-search placeholder="姓名,电话,地址" v-model="keyword" @search = 'orderSearch' @custom=" $u.debounce(orderSearch1, 1000)" margin="25upx 25upx 25upx 25upx" style="margin-top: 25upx;"></u-search>
-			<view class=""></view>
-			<u-button class="showselector" @click="showselector = true">22</u-button>
-			<u-button class="showtime" @click="showtime = true">打开</u-button>
-			<u-picker v-model="showselector" mode="selector" :range="selectortype" :default-selector="[1]"></u-picker>
-			<u-picker v-model="showtime" mode="time" :params="params" :show-time-tag="true"></u-picker>
+			<slFilter :themeColor="themeColor" :menuList="menuList" @result="result" :ref="'slFilter'" @showtime1="showtime1"></slFilter>
+			<!-- <view class="shaixuan"> -->
+				<!-- <u-button type="error" class="showselector " @click="showselector = true">{{selectortype[0]}}</u-button> -->
+				<!-- <u-button type="error" class="showtime" @click="showtime">时间筛选</u-button> -->
+			<!-- </view> -->
+
+			<u-picker v-model="showtime" mode="time" :params="params" :show-time-tag="true" @confirm="confirmtime"></u-picker>
 			<!-- 表头 -->
 			<view class="tab-bar">
 				<block v-for="(tab,index) in tabBars" :key="tab.id">
@@ -120,6 +122,7 @@
 	import Already from "../../components/index/already.vue";
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
+	import slFilter from '@/components/sl-filter/sl-filter.vue';
 	export default {
 		mixins: [MescrollMixin],
 		components: {
@@ -129,15 +132,39 @@
 			orderList,
 			Already,
 			MescrollEmpty,
+			slFilter
 		},
 		data() {
 			return {
+				themeColor:"#00ABEB",
+				// filterResult: '',
+				menuList: [
+						{
+					        'title': '服务类型',
+					        'detailTitle': '请选择职位类型（可多选）',
+					        'isMutiple': true,
+					        'key': 'jobType',
+					        'detailList': [
+					            
+					        ]
+					    },
+						{
+						       'title': '时间筛选',
+						       'detailTitle': '请选择时间段（可多选）',
+						       'isMutiple': true,
+						       'key': 'jobType',
+						       'detailList': [
+						           
+						       ]
+						   },
+				],
 				selectortype:[1,2,3],
-				params: {
+				params: {	
+							year: true,
 							month: true,
 							day: true,
-							hour: true,
-							minute: true,
+							hour: false,
+							minute: false,
 						},
 				showselector:false,
 				showtime:false,
@@ -147,15 +174,6 @@
 				},
 				downOption:{
 					auto:false,
-					// empty:{
-					//   use : true ,
-					//   icon : null ,
-					//   tip : "暂无相关数据",
-					//   btnText : "",
-					//   fixed: false,
-					//   top: "100rpx",
-					//   zIndex: 99
-					// }
 				},
 				// distance:[],
 				badgeconts:0,
@@ -305,8 +323,88 @@
 		// },
 		
 		methods: {
-			//筛选
-			
+			//打开时间
+			showtime1(){
+				this.showtime = true;
+				console.log('aaa');
+			},
+			//筛选类型
+			result(val) {
+				console.log(JSON.stringify(val));
+				this.filterResult = JSON.stringify(val, null, 2);
+				let arr = JSON.parse(this.filterResult).jobType;
+				let selecttype =  arr.toString();
+				console.log(selecttype);
+				let str = uni.getStorageSync("type");
+				let town = uni.getStorageSync("town");
+				let type = str.split(",");
+				this.$myRequest({
+					url:'work/stay',
+					data:{
+						"town":town ,
+						"genre": selecttype,
+						"uid": this.user_uid,
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+						this.orderlist = res.data.data;
+									
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showToast({
+							title:"暂无相关订单"
+						})
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			 },
+			confirmtype(res){
+				console.log(res);
+			},
+			confirmtime(res){
+				console.log(res);
+				let date = res.year+res.month+res.day;
+				let str = uni.getStorageSync("type");
+				let town = uni.getStorageSync("town");
+				let type = str.split(",");
+				console.log(this.keyword);
+				this.$myRequest({
+					url:'work/stay',
+					data:{
+						"town":town ,
+						"genre": type,
+						"uid": this.user_uid,
+						"date":date
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+						this.orderlist = res.data.data;
+									
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showToast({
+							title:"暂无相关订单"
+						})
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
 			//搜索
 			orderSearch(){
 				let str = uni.getStorageSync("type");
@@ -390,12 +488,33 @@
 					if(res.data.code == 200){
 						console.log(res.data.msg);
 						// this.data = res.data.data
-						
+						console.log("获取服务器类型数据");
 						console.log(res.data.data.type);
 						let type = res.data.data.type.split(',');
+						
+						let menuListItem = {
+						    'title': '服务类型',
+						    'detailTitle': '请选择服务类型（可多选）',
+						    'isMutiple': true,
+						    'key': 'jobType',
+						    'detailList': []
+						};
+						for (var i = 0; i < type.length; i++) {
+							let objitem = {
+								title: 'new_1',
+								value: 'new_1'
+							};
+							 objitem.title = type[i];
+							 objitem.value = type[i];
+							 menuListItem.detailList.push(objitem);
+							 console.log("获取类型数据");
+							 console.log(menuListItem.detailList);
+						}
+						this.menuList[0] = menuListItem;
+						this.$refs.slFilter.resetMenuList(this.menuList)
 						this.selectortype = type;
-						console.log("获取类型数据");
-						console.log(this.selectortype);
+						
+						// console.log(this.selectortype);
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
 				
@@ -404,6 +523,7 @@
 					}
 				})
 			},
+
 			//筛选搜索
 
 			/*下拉刷新的回调 */
@@ -418,69 +538,7 @@
 					// console.log('111');
 				},1500)
 			},
-			/*上拉加载的回调*/
-			upCallback(page) {
-				let pageNum = page.num; // 页码, 默认从1开始
-				let pageSize = page.size; // 页长, 默认每页10条
-				uni.request({
-					url: 'xxxx?pageNum='+pageNum+'&pageSize='+pageSize,
-					success: (data) => {
-						// 接口返回的当前页数据列表 (数组)
-						let curPageData = data.xxx; 
-						// 接口返回的当前页数据长度 (如列表有26个数据,当前页返回8个,则curPageLen=8)
-						let curPageLen = curPageData.length; 
-						// 接口返回的总页数 (如列表有26个数据,每页10条,共3页; 则totalPage=3)
-						let totalPage = data.xxx; 
-						// 接口返回的总数据量(如列表有26个数据,每页10条,共3页; 则totalSize=26)
-						let totalSize = data.xxx; 
-						// 接口返回的是否有下一页 (true/false)
-						let hasNext = data.xxx; 
-						
-						//设置列表数据
-						if(page.num == 1) this.dataList = []; //如果是第一页需手动置空列表
-						this.dataList = this.dataList.concat(curPageData); //追加新数据
-						
-						// 请求成功,隐藏加载状态
-						//方法一(推荐): 后台接口有返回列表的总页数 totalPage
-						this.mescroll.endByPage(curPageLen, totalPage); 
-						
-						//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
-						//this.mescroll.endBySize(curPageLen, totalSize); 
-						
-						//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
-						//this.mescroll.endSuccess(curPageLen, hasNext); 
-						
-						//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.
-						//如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据
-						//如果传了hasNext,则翻到第二页即可显示无更多数据.
-						//this.mescroll.endSuccess(curPageLen);
-						
-						// 如果数据较复杂,可等到渲染完成之后再隐藏下拉加载状态: 如
-						// 建议使用setTimeout,因为this.$nextTick某些情况某些机型不触发
-						setTimeout(()=>{
-							this.mescroll.endSuccess(curPageLen)
-						},20)
-						
-						//curPageLen必传的原因:
-						// 1. 使配置的noMoreSize 和 empty生效
-						// 2. 判断是否有下一页的首要依据: 
-						//    当传的值小于page.size时(说明不满页了),则一定会认为无更多数据;
-						//    比传入的totalPage, totalSize, hasNext具有更高的判断优先级;
-						// 3. 当传的值等于page.size时(满页),才取totalPage, totalSize, hasNext判断是否有下一页
-						// 传totalPage, totalSize, hasNext目的是避免方法四描述的小问题
-						
-						// 提示: 您无需额外维护页码和判断显示空布局,mescroll已自动处理好.
-						// 当您发现结果和预期不一样时, 建议再认真检查以上参数是否传正确
-					},
-					fail: () => {
-						//  请求失败,隐藏加载状态
-						this.mescroll.endErr()
-					}
-				})
-				
-				// 此处仍可以继续写其他接口请求...
-				// 调用其他方法...
-			},
+			
 			// tabs通知swiper切换
 			//tabbar点击事件
 			xuanzhong(index) {
@@ -1117,6 +1175,31 @@
 		margin-right: 25upx;
 		padding-top: 25upx;
 	}
+	.shaixuan{
+		display: flex;
+		justify-content: space-between;
+		/* margin-left: 25upx;
+		margin-right: 25upx; */
+		margin: 25upx;
+	}
+	.showselector{
+		width: 20%;
+		height: 60upx !important;
+		
+	}
+	.showtime{
+		width: 20%;
+		height: 60upx !important;
+	}
+	button::after{
+		border: none;
+	}
+	.u-size-default {
+	    font-size: 30rpx;
+	    height: 60rpx;
+	    line-height: 80rpx;
+	}
+	
 </style>
 <style scoped>
 	/* u-search */

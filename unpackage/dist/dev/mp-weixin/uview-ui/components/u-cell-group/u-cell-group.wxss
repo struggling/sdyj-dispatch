@@ -25,16 +25,16 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.u-cell-box.data-v-4cf092ba {
+.u-cell-box.data-v-5723aa40 {
   width: 100%;
 }
-.u-cell-title.data-v-4cf092ba {
+.u-cell-title.data-v-5723aa40 {
   padding: 30rpx 32rpx 10rpx 32rpx;
   font-size: 30rpx;
   text-align: left;
   color: #909399;
 }
-.u-cell-item-box.data-v-4cf092ba {
+.u-cell-item-box.data-v-5723aa40 {
   background-color: #FFFFFF;
 }
 

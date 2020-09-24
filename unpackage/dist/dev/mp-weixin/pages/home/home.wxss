@@ -49,7 +49,7 @@ page {
   height: 44px;
 }
 .camera:active {
-    background-color: #ededed;
+  background-color: #ededed;
 }
 .details_button {
   opacity: 0;

@@ -1,0 +1,78 @@
+
+.content.data-v-7c36d490{
+	padding-left: 25rpx;
+	padding-right: 25rpx;
+	padding-top: 40rpx;
+}
+.totalpoint.data-v-7c36d490{
+	height: 128rpx;
+	line-height: 128rpx;
+}
+.totalpoint .my.data-v-7c36d490{
+	
+	font-size: 28rpx;
+	line-height: 128rpx;
+}
+.totalpoint .point.data-v-7c36d490{
+	
+	font-size: 52rpx;
+	color: #00ABEB;
+	font-weight: bold;
+	line-height: 128rpx;
+}
+.pointtitle.data-v-7c36d490{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	font-weight: bold;
+	height: 92rpx;
+	line-height:92rpx;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.pointtitle .shu.data-v-7c36d490{
+	width: 9rpx;
+	height: 30rpx;
+	background-color: #00AAEB;
+	line-height:92rpx;
+}
+.pointtitle .mouth.data-v-7c36d490{
+	font-weight: bold;
+	line-height:92rpx;
+	padding-left: 25rpx;
+}
+.detail.data-v-7c36d490{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	height: 135rpx;
+	line-height: 135rpx;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.text-l.data-v-7c36d490 {
+	line-height: 135rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+}
+.text-r.data-v-7c36d490{
+	color: #00AAEB;
+	line-height: 135rpx;
+}
+.line.data-v-7c36d490{
+	border-bottom: 1rpx solid #CCCCCC;
+}
+

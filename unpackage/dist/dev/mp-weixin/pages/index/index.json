@@ -8,7 +8,6 @@
     "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
     "u-notice-bar": "/uview-ui/components/u-notice-bar/u-notice-bar",
     "u-search": "/uview-ui/components/u-search/u-search",
-    "u-button": "/uview-ui/components/u-button/u-button",
     "u-picker": "/uview-ui/components/u-picker/u-picker",
     "u-badge": "/uview-ui/components/u-badge/u-badge",
     "u-modal": "/uview-ui/components/u-modal/u-modal",
@@ -17,6 +16,7 @@
     "no-thing": "/components/common/no-thing",
     "order-list": "/components/index/orderlist",
     "already": "/components/index/already",
-    "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty"
+    "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
+    "sl-filter": "/components/sl-filter/sl-filter"
   }
 }

@@ -1,30 +1,30 @@
 
-.content.data-v-dbedc2ec{
+.content.data-v-5bb71c10{
 	background: -webkit-linear-gradient(left, #00ABEB, #54C3F1);
 	background: linear-gradient(90deg, #00ABEB, #54C3F1);
 	height: 1214rpx;
 }
-.content .text.data-v-dbedc2ec{
+.content .text.data-v-5bb71c10{
 	margin: 0 35%;
 	padding-top: 30rpx;
 	text-align: center;
 	/* padding-bottom: 94upx; */
 	color: #FFFFFF;
 }
-.content .text1.data-v-dbedc2ec{
+.content .text1.data-v-5bb71c10{
 	font-size: 30rpx;
 }
-.content .text1.data-v-dbedc2ec{
+.content .text1.data-v-5bb71c10{
 	font-size: 40rpx;
 }
-.order-detail.data-v-dbedc2ec{
+.order-detail.data-v-5bb71c10{
 	background-color: #FFFFFF;
 	border-radius: 12rpx;
 	margin: 100rpx 25rpx;
 	padding-left: 25rpx;
 	padding-right: 25rpx;
 }
-.order-detail .contact.data-v-dbedc2ec{
+.order-detail .contact.data-v-5bb71c10{
 	margin: 80rpx 20%;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -34,17 +34,17 @@
 	        justify-content: space-between;
 	padding-top: 80rpx;
 }
-.order-detail .contact .name.data-v-dbedc2ec{
+.order-detail .contact .name.data-v-5bb71c10{
 	text-align: center;
 }
-.order-detail .contact .name .sever.data-v-dbedc2ec{
+.order-detail .contact .name .sever.data-v-5bb71c10{
 	font-size: 34rpx;
 }
-.order-detail .contact .name .seve1.data-v-dbedc2ec{
+.order-detail .contact .name .seve1.data-v-5bb71c10{
 	font-size: 26rpx;
 	color: #CCCCCC;
 }
-.order-detail .textdetail.data-v-dbedc2ec{
+.order-detail .textdetail.data-v-5bb71c10{
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -54,7 +54,7 @@
 	padding-top: 25rpx;
 	padding-bottom: 25rpx;
 }
-.btn.data-v-dbedc2ec{
+.btn.data-v-5bb71c10{
 	width: 356rpx;
 	height: 80rpx;
 	background: #FFFFFF;

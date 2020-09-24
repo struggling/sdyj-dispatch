@@ -15,7 +15,7 @@
 					<view class="rate">
 
 						<u-rate :count="count" v-model="value" inactive-color="#b2b2b2" active-color="#F86032"></u-rate>
-						<view class="scroe">4.9分</view>
+						<view class="scroe">{{data.user_score}}</view>
 					</view>
 
 					<view class="address">
@@ -67,7 +67,7 @@
 			<view class="user-data">
 				<view class="user-avatar">
 					<view class="l-text">服务类型</view>
-					<view class="r-text" @tap="show=true">
+					<view class="r-text" @tap="toOpen">
 						<view class="txt">{{type}}</view>
 						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
 					</view>
@@ -82,13 +82,20 @@
 				</view>
 			</u-upload>
 			<!-- 类型选择 -->
-			<u-select v-model="show" :list="list" mode="mutil-column-auto"  @confirm="confirm"></u-select>
+			<!-- <u-select v-model="show" :list="list" mode="mutil-column-auto"  @confirm="confirm"></u-select> -->
+			<view>
+			    <jpSelect ref="jpSelect" :list="list" @checked="checked" :item="item" select="more" tite="请选择最美诗句"></jpSelect>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import jpSelect from '@/components/jp-select/jp-select.vue';
 	export default {
+		 components: {
+		            jpSelect
+		},
 		data() {
 			return {
 				data:{},
@@ -101,42 +108,8 @@
 				action: 'localhost', // 演示地址
 				maxcount: 1,
 				type:"家政保洁",
-				list: [
-					{
-						value: 1,
-						label: '中国',
-						children: [
-							{
-								value: 2,
-								label: '广东',
-								children: [
-									{
-										value: 3,
-										label: '深圳'
-									},
-									{
-										value: 4,
-										label: '广州'
-									}
-								]
-							},
-							{
-								value: 5,
-								label: '广西',
-								children: [
-									{
-										value: 6,
-										label: '南宁'
-									},
-									{
-										value: 7,
-										label: '桂林'
-									}
-								]
-							}
-						]
-					},
-				],
+				item: '',
+				list: [],
 				showUploadList: false,
 				// 如果将某个ref的组件实例赋值给data中的变量，在小程序中会因为循环引用而报错
 				// 这里直接获取内部的lists变量即可
@@ -177,8 +150,32 @@
 				console.log(this.data);
 			};
 			this.getInfo();
+			this.getinittype();
 		},
 		methods: {
+			//初始化类型参数
+			getinittype(){
+				let data =  this.data.user_type.split(",");
+				for (var i = 0; i < data.length; i++) {
+					let item = {
+						id:"02",
+						name:"haha"
+					};
+					item.id = data[i];
+					item.name = data[i];
+					console.log(item);
+					this.list.push(item);
+					console.log();
+				}
+			},
+			//选择类型
+			 checked(el) {
+				this.item = el
+				console.log(this.item);
+			},
+			toOpen() {
+				this.$refs.jpSelect.toOpen()
+			},
 			//获取用户信息
 			getInfo(){
 				this.$myRequest({
@@ -205,13 +202,58 @@
 				uni.showLoading({
 					title: '保存中'
 				});
+				let phone = this.data.user_phone;
+				let nickname = this.data.user_name;
+				let arr = this.item.join(',');
+				let type ='';
 				
-				setTimeout(function() {
-					uni.hideLoading();
-					uni.showToast({
-						title:"保存成功"
-					})
-				}, 2000);
+				console.log(arr);
+				if(this.item){
+					for (var i = 0; i < this.item.length; i++) {
+						type = type + this.item[i].id+',';
+						console.log("type");
+						console.log(type);
+					}
+				}
+				this.$myRequest({
+					url:'user/updateInfo',
+					data:{
+						phone:phone,
+						type:type,
+						nickname:''
+					},
+					methods:"POST"
+				}).then(res=>{
+					console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						setTimeout(function() {
+							uni.hideLoading();
+							uni.showToast({
+								title:"保存成功"
+							})
+						}, 2000);
+						// this.data = res.data.data
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showModal({
+						    title: '提示',
+						    content: res.data.msg,
+						    success: function (res) {
+						        if (res.confirm) {
+						            console.log('用户点击确定');
+						        } else if (res.cancel) {
+						            console.log('用户点击取消');
+						        }
+						    }
+						});
+				
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+				uni.hideLoading();
 				
 			},
 			// 类型选择

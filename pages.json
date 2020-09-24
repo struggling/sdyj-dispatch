@@ -122,6 +122,12 @@
 				"navigationStyle":"custom"
 			}
         }
+        ,{
+            "path" : "pages/my-points/my-points",
+            "style" : {
+				"navigationStyle":"custom"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

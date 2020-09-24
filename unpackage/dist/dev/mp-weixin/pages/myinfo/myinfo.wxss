@@ -238,8 +238,50 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 页面 */
-.content.data-v-2a6be180 {
+.content.data-v-c49b56f4 {
 	background-color: #F2F2F2;
 	padding-left: 25rpx;
 	padding-right: 25rpx;
@@ -247,7 +289,7 @@
 	padding-bottom: 25rpx;
 }
 /* 用户信息 */
-.p-data.data-v-2a6be180 {
+.p-data.data-v-c49b56f4 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -255,36 +297,36 @@
 	-webkit-align-items: center;
 	        align-items: center;
 }
-.p-data .avatar.data-v-2a6be180 {
+.p-data .avatar.data-v-c49b56f4 {
 	-webkit-flex-shrink: 0;
 	        flex-shrink: 0;
 	/* flex: 1; */
 }
-.p-data .avatar .u-avatar.data-v-2a6be180 {
+.p-data .avatar .u-avatar.data-v-c49b56f4 {
 	width: 160rpx !important;
 	height: 160rpx !important;
 	border-radius: 100%;
 	padding: 6rpx;
 	background-color: #FFFFFF !important;
 }
-.p-data .information.data-v-2a6be180 {
+.p-data .information.data-v-c49b56f4 {
 	padding-left: 60rpx;
 }
-.p-data .information .rate.data-v-2a6be180 {
+.p-data .information .rate.data-v-c49b56f4 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
 	margin-bottom: 10rpx;
 }
-.p-data .information .rate .scroe.data-v-2a6be180 {
+.p-data .information .rate .scroe.data-v-c49b56f4 {
 	padding-left: 20rpx;
 }
-.p-data .information .nickname.data-v-2a6be180 {
+.p-data .information .nickname.data-v-c49b56f4 {
 	font-size: 40rpx;
 	font-weight: bold;
 	margin-bottom: 10rpx;
 }
-.p-data .information .address.data-v-2a6be180 {
+.p-data .information .address.data-v-c49b56f4 {
 	font-size: 36rpx;
 	margin-bottom: 10rpx;
 	display: -webkit-box;
@@ -292,11 +334,11 @@
 	display: flex;
 	/* justify-content: space-between; */
 }
-.p-data .information .address .add.data-v-2a6be180 {
+.p-data .information .address .add.data-v-c49b56f4 {
 	padding-left: 25rpx;
 }
 /* 用户列表信息 */
-.user-data.data-v-2a6be180 {
+.user-data.data-v-c49b56f4 {
 	background-color: #FFFFFF;
 	border-radius: 12rpx;
 	width: 100%;
@@ -306,7 +348,7 @@
 	height: 126rpx;
 	margin-top: 25rpx;
 }
-.user-data .user-avatar.data-v-2a6be180 {
+.user-data .user-avatar.data-v-c49b56f4 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -315,14 +357,14 @@
 	        justify-content: space-between;
 	width: 100%;
 }
-.user-data .user-avatar .l-text.data-v-2a6be180 {
+.user-data .user-avatar .l-text.data-v-c49b56f4 {
 	width: 50%;
 	font-size: 30rpx;
 	color: #4D4D4D;
 	line-height: 126rpx;
 	padding-left: 25rpx;
 }
-.user-data .user-avatar .r-text.data-v-2a6be180 {
+.user-data .user-avatar .r-text.data-v-c49b56f4 {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -332,17 +374,17 @@
 	        align-items: center;
 	padding-right: 25rpx;
 }
-.user-data .user-avatar .r-text image.data-v-2a6be180 {
+.user-data .user-avatar .r-text image.data-v-c49b56f4 {
 	width: 100rpx;
 	height: 100rpx;
 	border-radius: 100%;
 }
-.user-data .user-avatar .r-text input.data-v-2a6be180 {
+.user-data .user-avatar .r-text input.data-v-c49b56f4 {
 	padding-left: 35%;
 	text-align: right;
 }
 /* button */
-.u-btn.data-v-2a6be180 {
+.u-btn.data-v-c49b56f4 {
 	width: 482rpx;
 	height: 76rpx;
 	background-color: #F86032;
@@ -352,7 +394,7 @@
 	margin-top: 148rpx;
 	margin-bottom: 214rpx;
 }
-button.data-v-2a6be180{
+button.data-v-c49b56f4{
 		background-color:#F86032 ;
 		color: #FFFFFF;
 		border-radius: 8rpx;
@@ -363,13 +405,13 @@ button.data-v-2a6be180{
 		margin:40rpx auto;
 }
 /* 修改小程序的默认button样式 */
-button.data-v-2a6be180{
+button.data-v-c49b56f4{
 		-webkit-appearance:none
 }
-button.data-v-2a6be180::after{
+button.data-v-c49b56f4::after{
 		border:none
 }
-.u-upload.data-v-2a6be180 {
+.u-upload.data-v-c49b56f4 {
 	position: absolute;
 	top: 242rpx;
 	right: 118rpx;
