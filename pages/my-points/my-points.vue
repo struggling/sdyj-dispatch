@@ -52,9 +52,9 @@
 		computed:{
 			counttime(){
 				//时间戳转日期
-				if(this.data[0].create_time){
+				// if(this.data[0].create_time){
 					return  new Date(parseInt(this.data[0].create_time) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
-				}
+				// }
 			}
 		},
 		onLoad() {

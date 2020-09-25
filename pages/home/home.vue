@@ -23,7 +23,7 @@
 					</view>
 					<view class="txt">我的积分</view>
 				</view>
-				<view class="panel-item" @tap="showcoder">
+				<view class="panel-item" @tap="topointsmall">
 					<view class="icon">
 						<image src="../../static/home/icon2.png" mode=""></image>
 					</view>
@@ -323,6 +323,11 @@
 			tomypoints(){
 				uni.navigateTo({
 					url:"../my-points/my-points"
+				})
+			},
+			topointsmall(){
+				uni.navigateTo({
+					url:"../points-mall/points-mall"
 				})
 			},
 			//拨打客服电话

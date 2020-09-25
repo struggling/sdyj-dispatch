@@ -86,7 +86,7 @@
 				// counttype: "请选择服务类型",
 				name: "",
 				worktime: "",
-				phonenum: "获取手机号码",
+				phonenum: '获取手机号码',
 				list: "list",
 				rSelect: [],
 				typefy: "",
@@ -293,7 +293,7 @@
 					])
 					.add(this.worktime, [{
 							type: 'required',
-							message: '手机号码为空'
+							message: '工龄为空'
 						},
 						{
 							type: 'max:2',
@@ -304,9 +304,14 @@
 							    }
 						}
 					])
-					.add(this.phone, [{
+					.add(Number(this.phonenum), [
+						{
 							type: 'required',
-							message: '手机号码为空'
+							message:'手机号码不能为空'
+						},
+						{
+							type: 'phone',
+							message: '手机号为空'
 						}
 					])
 					.add(this.counttype, [{

@@ -3,7 +3,7 @@
 		<!-- 自定义导航栏 -->
 		<u-navbar :is-back="false"  title="订单中心" :height="height" :background="background" title-color="#ffffff"></u-navbar>
 		<!-- 收索筛选框 -->
-		<u-search placeholder="姓名,电话,地址" v-model="keyword" margin="25upx 25upx 25upx 25upx" style="margin-top: 25upx;"></u-search>
+		<!-- <u-search placeholder="姓名,电话,地址" v-model="keyword" margin="25upx 25upx 25upx 25upx" style="margin-top: 25upx;"></u-search> -->
 
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 		<swiperTabHead :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" ></swiperTabHead>
@@ -185,7 +185,7 @@
 			uni.getSystemInfo({
 				success: (res) => {
 					console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(485);
+					let height = res.windowHeight - uni.upx2px(312);
 					this.swiperheight = height;
 				}
 			});

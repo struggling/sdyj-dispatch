@@ -46,9 +46,9 @@
 <style lang="scss" scoped>
 	$themeColor:#00ABEB; //主题色
 	.uni-add-tips-box {
-	  position: fixed;
-	  top:57px;
-	  right: 0;
+	  position: absolute;
+	  top:70upx;
+	  right: -200upx;
 	  z-index: 99999;
 	  opacity: 0.8;
 	  display: flex;

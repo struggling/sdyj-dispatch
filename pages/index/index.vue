@@ -1,13 +1,14 @@
 <template>
 	<view>
 		<!-- 自定义导航栏 -->
-		<u-navbar :is-back="false" title="接单池" :height="height" :background="background" title-color="#ffffff">
+		<u-navbar :is-back="false" title="接单池" :height="height" :background="background" title-color="#ffffff" style="position: relative;">
 			<view class="slot-wrap" @tap="openConfirm">
 				{{address}}
+				<!-- 自定义收藏我的小程序 -->
+				<add-tip :tip="tip" :duration="duration" />
 			</view>
 		</u-navbar>
-		<!-- 自定义收藏我的小程序 -->
-		<add-tip :tip="tip" :duration="duration" />
+		
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 		<view class="content">
 		
@@ -26,7 +27,13 @@
 				<!-- <u-button type="error" class="showselector " @click="showselector = true">{{selectortype[0]}}</u-button> -->
 				<!-- <u-button type="error" class="showtime" @click="showtime">时间筛选</u-button> -->
 			<!-- </view> -->
-
+			<u-popup v-model="showpopup" mode="center" border-radius="8" width="80%" ref="popup">
+				<view class="content1">
+					<view class="signed theme" @tap="searchtime">筛选</view>
+					<ren-calendar ref='ren' :markDays='markDays' :open="true" :disabledAfter='true' :collapsible="false"  @onDayClick='onDayClick'></ren-calendar>
+				    <!-- <view class="change">选中日期：{{curDate}}</view> -->
+				</view>
+			</u-popup>
 			<u-picker v-model="showtime" mode="time" :params="params" :show-time-tag="true" @confirm="confirmtime"></u-picker>
 			<!-- 表头 -->
 			<view class="tab-bar">
@@ -123,6 +130,7 @@
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
 	import slFilter from '@/components/sl-filter/sl-filter.vue';
+	import RenCalendar from '@/components/ren-calendar/ren-calendar.vue'
 	export default {
 		mixins: [MescrollMixin],
 		components: {
@@ -132,10 +140,12 @@
 			orderList,
 			Already,
 			MescrollEmpty,
-			slFilter
+			slFilter,
+			RenCalendar
 		},
 		data() {
 			return {
+				showpopup:false,
 				themeColor:"#00ABEB",
 				// filterResult: '',
 				menuList: [
@@ -168,7 +178,7 @@
 						},
 				showselector:false,
 				showtime:false,
-				keyword: '川',
+				keyword: '',
 				upOption:{
 					use:true
 				},
@@ -290,7 +300,7 @@
 			uni.getSystemInfo({
 				success: (res) => {
 					// console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(300);
+					let height = res.windowHeight - uni.upx2px(532);
 					this.swiperheight = height;
 					console.log(this.swiperheight);
 				}
@@ -325,8 +335,47 @@
 		methods: {
 			//打开时间
 			showtime1(){
-				this.showtime = true;
+				this.showpopup = true
 				console.log('aaa');
+			},
+			//日历
+			searchtime(){
+				let str = uni.getStorageSync("type");
+				let town = uni.getStorageSync("town");
+				let type = str.split(",");
+				this.$myRequest({
+					url:'work/stay',
+					data:{
+						"town":town ,
+						"genre": type,
+						"uid": this.user_uid,
+						"date":this.curDate
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+						this.orderlist = res.data.data;
+									
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showToast({
+							title:"暂无相关订单"
+						})
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
+			onDayClick(data){
+			    this.curDate = data.date;
+				console.log(data);
+				
 			},
 			//筛选类型
 			result(val) {
@@ -368,6 +417,7 @@
 			 },
 			confirmtype(res){
 				console.log(res);
+				
 			},
 			confirmtime(res){
 				console.log(res);
@@ -443,38 +493,41 @@
 			//搜索
 			orderSearch1(){
 				console.log(this.keyword);
-				let str = uni.getStorageSync("type");
-				let town = uni.getStorageSync("town");
-				let type = str.split(",");
-				console.log(this.keyword);
-				this.$myRequest({
-					url:'work/stay',
-					data:{
-						"town":town ,
-						"genre": type,
-						"uid": this.user_uid,
-						"search":this.keyword
-					},
-					methods:"POST"
-					
-				}).then(res=>{
-				// 	console.log(res);
-				// const data = JSON.parse(res.data);
-					if(res.data.code == 200){
-						console.log(res.data.msg);
-						// this.mescroll.endSuccess();
-						this.orderlist = res.data.data;
-									
-					}else if(res.data.code == 300){
-						console.log(res.data.msg);
-						uni.showToast({
-							title:"暂无相关订单"
-						})
-						// this.mescroll.endSuccess();
-					}else{
-						console.log(res.data.msg)
-					}
-				})
+				if(this.keyword){
+					let str = uni.getStorageSync("type");
+					let town = uni.getStorageSync("town");
+					let type = str.split(",");
+					console.log(this.keyword);
+					this.$myRequest({
+						url:'work/stay',
+						data:{
+							"town":town ,
+							"genre": type,
+							"uid": this.user_uid,
+							"search":this.keyword
+						},
+						methods:"POST"
+						
+					}).then(res=>{
+					// 	console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+							// this.mescroll.endSuccess();
+							this.orderlist = res.data.data;
+										
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+							uni.showToast({
+								title:"暂无相关订单"
+							})
+							// this.mescroll.endSuccess();
+						}else{
+							console.log(res.data.msg)
+						}
+					})
+				}
+				
 			},
 			//获取用户信息
 			getInfo(){
@@ -1124,26 +1177,28 @@
 			// 当用户第一次拒绝后再次请求授权
 			openConfirm(){
 				let that = this;
-				uni.showModal({
-					title: '请求授权当前位置',
-					content: '需要获取您的地理位置，请确认授权',
-					success: (res)=> {
-						if (res.confirm) {
-							uni.openSetting({
-							  success(res) {
-							    console.log(res.authSetting)
-								// that.getLocationInfo();
-							  }
-							});// 打开地图权限设置
-						} else if (res.cancel) {
-							uni.showToast({
-								title: '你拒绝了授权，无法获得周边信息',
-								icon: 'none',
-								duration: 1000
-							})
+				if(this.address =="未授权"){
+					uni.showModal({
+						title: '请求授权当前位置',
+						content: '需要获取您的地理位置，请确认授权',
+						success: (res)=> {
+							if (res.confirm) {
+								uni.openSetting({
+								  success(res) {
+								    console.log(res.authSetting)
+									// that.getLocationInfo();
+								  }
+								});// 打开地图权限设置
+							} else if (res.cancel) {
+								uni.showToast({
+									title: '你拒绝了授权，无法获得周边信息',
+									icon: 'none',
+									duration: 1000
+								})
+							}
 						}
-					}
-				});
+					});
+				}
 			},
 			
 			//控件被下拉
@@ -1202,6 +1257,21 @@
 	
 </style>
 <style scoped>
+	.content1{
+		position: relative;
+	}
+	.signed{
+		width: 115upx;
+		height: 44upx;
+		background: linear-gradient(90deg, #00ABEB, #54C3F1);
+		border-radius: 22upx;
+		position: absolute;
+		top: 8px;
+		right: 12px;
+		text-align: center;
+		line-height: 44upx;
+		color: #ffffff;
+	}
 	/* u-search */
 	
 	/* 顶部导航栏自定义 */

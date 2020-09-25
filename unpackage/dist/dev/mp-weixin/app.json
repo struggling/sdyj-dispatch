@@ -15,7 +15,8 @@
     "pages/mydata/mydata",
     "pages/test/test",
     "pages/order-content/order-content",
-    "pages/my-points/my-points"
+    "pages/my-points/my-points",
+    "pages/points-mall/points-mall"
   ],
   "subPackages": [],
   "window": {
@@ -58,5 +59,6 @@
   "usingComponents": {
     "mescroll-body": "/components/mescroll-uni/mescroll-body",
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni"
-  }
+  },
+  "sitemapLocation": "sitemap97.json"
 }

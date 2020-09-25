@@ -3,11 +3,11 @@
 		<view :style="{height: tabHeight + 1 +'px'}">
 			<view :class="topFixed?'select-tab-fixed-top':'select-tab'" :style="{height: tabHeight+'px'}">
 				<view v-if="index ==0" class="select-tab-item" :style="{width: itemWidth}" v-for="(item,index) in titleList" :key="index" @tap="showMenuClick(index)">
-					<text :style="{color:color}">{{item.title}}</text>
+					<text :style="{color:color}">类型筛选</text>
 					<text class="arrows sl-font" :class="statusList[index].isActive?up:down"></text>
 				</view>
 				<view v-if="index ==1" class="select-tab-item" :style="{width: itemWidth}" v-for="(item,index) in titleList" :key="index" @tap="showtime1">
-					<text :style="{color:color}">{{item.title}}</text>
+					<text :style="{color:color}">时间筛选</text>
 					<text class="arrows sl-font" :class="statusList[index].isActive?up:down"></text>
 				</view>
 			</view>

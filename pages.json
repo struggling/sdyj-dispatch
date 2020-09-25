@@ -128,6 +128,12 @@
 				"navigationStyle":"custom"
 			}
         }
+        ,{
+            "path" : "pages/points-mall/points-mall",
+            "style" : {
+				"navigationStyle":"custom"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

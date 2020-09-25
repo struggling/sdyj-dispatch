@@ -67,7 +67,7 @@
 			<view class="user-data">
 				<view class="user-avatar">
 					<view class="l-text">服务类型</view>
-					<view class="r-text" @tap="toOpen">
+					<view class="r-text" @tap="show = true">
 						<view class="txt">{{type}}</view>
 						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
 					</view>
@@ -82,10 +82,10 @@
 				</view>
 			</u-upload>
 			<!-- 类型选择 -->
-			<!-- <u-select v-model="show" :list="list" mode="mutil-column-auto"  @confirm="confirm"></u-select> -->
-			<view>
+			<u-select v-model="show" :list="listtype" :default-value="[2,4]" mode="mutil-column-auto"  @confirm="confirm"></u-select>
+			<!-- <view>
 			    <jpSelect ref="jpSelect" :list="list" @checked="checked" :item="item" select="more" tite="请选择最美诗句"></jpSelect>
-			</view>
+			</view> -->
 		</view>
 	</view>
 </template>
@@ -108,6 +108,22 @@
 				action: 'localhost', // 演示地址
 				maxcount: 1,
 				type:"家政保洁",
+				listtype:[
+							{
+								value: 1,
+								label: '中国',
+								children: [
+									{
+										value: 2,
+										label: '广东',
+									},
+									{
+										value: 5,
+										label: '广西',
+									}
+								]
+							},
+						],
 				item: '',
 				list: [],
 				showUploadList: false,
@@ -155,27 +171,33 @@
 		methods: {
 			//初始化类型参数
 			getinittype(){
-				let data =  this.data.user_type.split(",");
-				for (var i = 0; i < data.length; i++) {
-					let item = {
-						id:"02",
-						name:"haha"
-					};
-					item.id = data[i];
-					item.name = data[i];
-					console.log(item);
-					this.list.push(item);
-					console.log();
-				}
+				this.$myRequest({
+					url:'user/AllType',
+					data:{},
+					methods:"POST"
+				}).then(res=>{
+					console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						console.log(res.data.data);
+						this.listtype = res.data.data;
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+				
+					}else{
+						console.log(res.data.msg)
+					}
+				})
 			},
 			//选择类型
-			 checked(el) {
-				this.item = el
-				console.log(this.item);
-			},
-			toOpen() {
-				this.$refs.jpSelect.toOpen()
-			},
+			//  checked(el) {
+			// 	this.item = el
+			// 	console.log(this.item);
+			// },
+			// toOpen() {
+			// 	this.$refs.jpSelect.toOpen()
+			// },
 			//获取用户信息
 			getInfo(){
 				this.$myRequest({
@@ -187,7 +209,7 @@
 				// const data = JSON.parse(res.data);
 					if(res.data.code == 200){
 						console.log(res.data.msg);
-						// this.data = res.data.data
+						console.log(res.data.data);
 						let arr  = res.data.data.type.split(',');
 						this.type  =arr[0];
 					}else if(res.data.code == 300){
@@ -203,24 +225,17 @@
 					title: '保存中'
 				});
 				let phone = this.data.user_phone;
-				let nickname = this.data.user_name;
-				let arr = this.item.join(',');
-				let type ='';
+				// let nickname = this.data.user_name;
+				let nickname = this.name;
+				let type = this.type
 				
-				console.log(arr);
-				if(this.item){
-					for (var i = 0; i < this.item.length; i++) {
-						type = type + this.item[i].id+',';
-						console.log("type");
-						console.log(type);
-					}
-				}
+
 				this.$myRequest({
 					url:'user/updateInfo',
 					data:{
 						phone:phone,
 						type:type,
-						nickname:''
+						nickname:nickname
 					},
 					methods:"POST"
 				}).then(res=>{
@@ -259,7 +274,7 @@
 			// 类型选择
 			confirm(e) {
 				console.log(e);
-				this.type = e[0].label
+				this.type = e[0].label+','+e[1].label
 				
 			}
 		},

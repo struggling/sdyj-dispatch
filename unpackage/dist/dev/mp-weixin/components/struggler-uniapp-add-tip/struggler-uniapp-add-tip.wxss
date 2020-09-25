@@ -26,9 +26,9 @@
 /* 透明度 */
 /* 文章场景相关 */
 .uni-add-tips-box.data-v-73408264 {
-  position: fixed;
-  top: 57px;
-  right: 0;
+  position: absolute;
+  top: 70rpx;
+  right: -200rpx;
   z-index: 99999;
   opacity: 0.8;
   display: -webkit-box;

@@ -66,15 +66,8 @@
       "list": [
         {
           "id": -1,
-          "name": "pages/home/home",
-          "pathName": "pages/home/home",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "pages/my-points/my-points",
-          "pathName": "pages/my-points/my-points",
+          "name": "pages/points-mall/points-mall",
+          "pathName": "pages/points-mall/points-mall",
           "scene": null
         }
       ]
