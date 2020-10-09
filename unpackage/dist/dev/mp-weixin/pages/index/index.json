@@ -8,9 +8,7 @@
     "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
     "u-notice-bar": "/uview-ui/components/u-notice-bar/u-notice-bar",
     "u-search": "/uview-ui/components/u-search/u-search",
-    "u-popup": "/uview-ui/components/u-popup/u-popup",
-    "ren-calendar": "/components/ren-calendar/ren-calendar",
-    "u-picker": "/uview-ui/components/u-picker/u-picker",
+    "u-calendar": "/uview-ui/components/u-calendar/u-calendar",
     "u-badge": "/uview-ui/components/u-badge/u-badge",
     "u-modal": "/uview-ui/components/u-modal/u-modal",
     "load-more": "/components/common/load-more",
@@ -19,6 +17,7 @@
     "order-list": "/components/index/orderlist",
     "already": "/components/index/already",
     "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
-    "sl-filter": "/components/sl-filter/sl-filter"
+    "sl-filter": "/components/sl-filter/sl-filter",
+    "ren-calendar": "/components/ren-calendar/ren-calendar"
   }
 }

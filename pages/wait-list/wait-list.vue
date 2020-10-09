@@ -123,15 +123,29 @@
 			}
 		},
 		methods: {
+			//使用小程序腾讯地图导航插件
 			navlociton(){
 				let that  = this;
-				console.log(that.latitude);
-				wx.openLocation({
-					latitude:Number(that.latitude) ,
-					longitude: Number(that.longitude) ,
-					success() {
-						console.log("成功");
-					}
+				let plugin = requirePlugin('routePlan');
+				let key = "E6FBZ-XLTWP-S7SDE-V435J-YVAAE-I2BAT";
+				let referer = "易工单";
+				// let longitude =  uni.getStorageSync('longitude');
+				// let latitude = uni.getStorageSync('latitude');
+				let endPoint = {
+				  "name": "客户地址",
+				  "latitude": this.latitude,
+				  "longitude": this.longitude
+				};
+				let jiexi = JSON.stringify(endPoint)
+				// let endPoint = JSON.stringify({
+				//   "name": "北京西站",
+				//   "latitude": 39.894806,
+				//   "longitude": 116.321592
+				// });
+				let themeColor = '#00ABEB'
+				console.log(jiexi);
+				uni.navigateTo({
+					url:"plugin://routePlan/index?key=" + key + "&referer="+ referer + "&endPoint=" + jiexi + "&themeColor="+themeColor
 				})
 			},
 			confirm() {

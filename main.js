@@ -256,7 +256,10 @@ Vue.prototype.requestMsg =async function(){
 // 		})
 // 	})
 // }
-
+//全局的主题样式颜色
+Vue.prototype.$background = {
+	backgroundImage: "linear-gradient(90deg, #54C3F1, #eb1270)",
+};
 // 在main.js注册全局组件
 import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue"
 import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue"

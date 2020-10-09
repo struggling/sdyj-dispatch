@@ -11,7 +11,7 @@
 					<view class="pic"><image src="../../static/home/home.png" mode=""></image></view>
 					<view class="point">
 						<view class="">总积分</view>
-						<view class="">1234</view>
+						<view class="">{{number}}</view>
 					</view>
 				</view>
 				<view class="text-r">
@@ -28,11 +28,13 @@
 				<view class="line"></view>
 			</view>
 			<view class="malllist">
-				<view class="mallitem">
-					<view class="ppic"></view>
-					<view class="malltitle">玻璃清洁剂</view>
-					<view class="malltips">8596积分 ￥2650</view>
-				</view>
+				<block v-for="(item,index) in malllist" :key="index">
+					<view class="mallitem" @tap="getExchange(index)">
+						<view class="ppic"><image :src="item.img" mode=""></image></view>
+						<view class="malltitle">{{item.name}}</view>
+						<view class="malltips">{{item.original_price}}积分 ￥{{item.price}}</view>
+					</view>
+				</block>
 			</view>
 		</view>
 	</view>
@@ -48,10 +50,107 @@
 					backgroundImage:"linear-gradient(90deg,  #54C3F1,#00ABEB)",
 				},
 				//顶部导航栏
+				malllist:[],
+				number:0
 			}
 		},
+		onLoad() {
+			this.getMallList();
+		},
 		methods: {
-			
+			getExchange(index){
+				let name =  uni.getStorageSync("name");
+				let phone =  uni.getStorageSync("phone");
+				let town =  uni.getStorageSync("town");
+				let address =  uni.getStorageSync("address");
+				let id  =this.malllist[index].id;
+				if(phone){
+					this.$myRequest({
+						url:'mall/exchange',
+						data:{
+							id:id,
+							addressee:name,//收件人
+							phone:phone,//phone
+							city:town,//城市
+							detailed:address//详细地址
+						},
+						methods:"POST"
+					}).then(res=>{
+						console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+							// console.log(res.data.data);
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+							uni.showModal({
+							    title: '提示',
+							    content: res.data.msg,
+							    success: function (res) {
+							        if (res.confirm) {
+							            console.log('用户点击确定');
+							        } else if (res.cancel) {
+							            console.log('用户点击取消');	
+							        }
+							    }
+							});
+					
+						}else{
+							console.log(res.data.msg);
+							uni.showModal({
+							    title: '提示',
+							    content: res.data.msg,
+							    success: function (res) {
+							        if (res.confirm) {
+							            console.log('用户点击确定');
+							        } else if (res.cancel) {
+							            console.log('用户点击取消');	
+							        }
+							    }
+							});
+						}
+					})
+				}else{
+					uni.showModal({
+					    title: '提示',
+					    content: '请先完成师傅服务类型注册，在抢单',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								//如果没有手机说明用户没有注册跳转
+								uni.navigateTo({
+									url:"../register/register"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+								
+					        }
+					    }
+					});
+				}
+				
+			},
+			getMallList(){
+				this.$myRequest({
+					url:'mall/MallList',
+					data:{},
+					methods:"POST"
+				}).then(res=>{
+					console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						console.log(res.data.data);
+						this.malllist = res.data.data;
+						this.number = res.data.number;
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+				
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -67,6 +166,13 @@
 	.top .bg image{
 		height: 211upx;
 		width: 100%;
+	}
+	.ppic{
+		text-align: center;
+	}
+	.ppic image{
+		width: 200upx;
+		height: 180upx;
 	}
 	.top .panel{
 		position: absolute;

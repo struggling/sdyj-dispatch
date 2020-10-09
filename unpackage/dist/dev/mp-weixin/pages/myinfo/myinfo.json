@@ -10,6 +10,8 @@
     "u-icon": "/uview-ui/components/u-icon/u-icon",
     "u-upload": "/uview-ui/components/u-upload/u-upload",
     "u-select": "/uview-ui/components/u-select/u-select",
+    "u-mask": "/uview-ui/components/u-mask/u-mask",
+    "select-type": "/components/select-type/select-type",
     "jp-select": "/components/jp-select/jp-select"
   }
 }

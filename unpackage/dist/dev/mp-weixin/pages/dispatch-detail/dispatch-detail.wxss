@@ -1,5 +1,6 @@
 
 .content.data-v-5bb71c10{
+	background: -webkit-gradient(linear, left top, right top, from(#00ABEB), to(#54C3F1));
 	background: -webkit-linear-gradient(left, #00ABEB, #54C3F1);
 	background: linear-gradient(90deg, #00ABEB, #54C3F1);
 	height: 1214rpx;
@@ -19,7 +20,8 @@
 }
 .order-detail.data-v-5bb71c10{
 	background-color: #FFFFFF;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	margin: 100rpx 25rpx;
 	padding-left: 25rpx;
 	padding-right: 25rpx;
@@ -58,7 +60,8 @@
 	width: 356rpx;
 	height: 80rpx;
 	background: #FFFFFF;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	color:#00ABEB;
 	margin: 0 auto;
 	line-height: 80rpx;

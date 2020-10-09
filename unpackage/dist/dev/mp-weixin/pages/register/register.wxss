@@ -39,6 +39,7 @@
 	-webkit-appearance: none;
 	height: 100%;
 	line-height: 50rpx;
+	background: -webkit-gradient(linear, left top, right top, from(#00ABEB), to(#54C3F1));
 	background: -webkit-linear-gradient(left, #00ABEB, #54C3F1);
 	background: linear-gradient(90deg, #00ABEB, #54C3F1);
 	color: #FFFFFF;
@@ -49,7 +50,8 @@
 	background-color: #E1E1E1;
 	width: 100%;
 	margin-bottom: 25rpx;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	padding-left: 25rpx;
 	padding-right: 25rpx;
 	margin-top: 25rpx;
@@ -79,7 +81,8 @@
 	width: 170rpx;
 	height: 60rpx;
 	background-color: #B3B3B3;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	margin-top: 25rpx;
 	text-align: center;
 	line-height: 60rpx;
@@ -122,7 +125,8 @@
 	padding-right: 15rpx;
 	width: 30rpx;
 	height: 30rpx;
-	border-radius: 100%;
+	-webkit-border-radius: 100%;
+	        border-radius: 100%;
 	/* background-color: #18B566; */
 	border: 4rpx solid #00ABEB;
 	position: relative;
@@ -130,7 +134,8 @@
 .checkbox.data-v-891c2434{
 	width: 15rpx;
 	height: 15rpx;
-	border-radius: 100%;
+	-webkit-border-radius: 100%;
+	        border-radius: 100%;
 	position: absolute;
 	top: 4rpx;
 	left: 5rpx;

@@ -35,7 +35,8 @@ view.data-v-127632e4{
 		background-color: white;
 		z-index: 1002;
 		overflow: auto;
-		border-radius: 20rpx;
+		-webkit-border-radius: 20rpx;
+		        border-radius: 20rpx;
 }
 .popup_title.data-v-127632e4 {
 		padding-top: 20rpx;
@@ -60,7 +61,8 @@ view.data-v-127632e4{
 .popup_button.data-v-127632e4 {
 		color: white;
 		background-color: #4399FC;
-		border-radius: 20rpx;
+		-webkit-border-radius: 20rpx;
+		        border-radius: 20rpx;
 }
 button.data-v-127632e4{
 		-webkit-appearance:none;

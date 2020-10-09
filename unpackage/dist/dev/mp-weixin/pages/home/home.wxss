@@ -31,9 +31,11 @@
 .signed {
   width: 115rpx;
   height: 44rpx;
+  background: -webkit-gradient(linear, left top, right top, from(#00ABEB), to(#54C3F1));
   background: -webkit-linear-gradient(left, #00ABEB, #54C3F1);
   background: linear-gradient(90deg, #00ABEB, #54C3F1);
-  border-radius: 22rpx;
+  -webkit-border-radius: 22rpx;
+          border-radius: 22rpx;
   position: absolute;
   top: 8px;
   right: 12px;
@@ -71,7 +73,8 @@ page {
   position: absolute;
   width: 152rpx;
   height: 152rpx;
-  border-radius: 100%;
+  -webkit-border-radius: 100%;
+          border-radius: 100%;
   margin: 4rpx;
   top: 120rpx;
   display: block;
@@ -100,7 +103,8 @@ page {
   margin-right: 25rpx;
   width: 702rpx;
   background-color: #FFFFFF;
-  border-radius: 8rpx;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
   top: 208rpx;
   display: -webkit-box;
   display: -webkit-flex;
@@ -113,7 +117,8 @@ page {
   -webkit-align-items: center;
           align-items: center;
   z-index: 999;
-  box-shadow: 2px 2px 8px 1px #00abec;
+  -webkit-box-shadow: 2px 2px 8px 1px #54C3F1;
+          box-shadow: 2px 2px 8px 1px #54C3F1;
 }
 .bg .panel .icon {
   text-align: center;
@@ -124,7 +129,8 @@ page {
 }
 .bg .text .sign {
   margin-left: 134rpx;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   background-color: #FFFFFF;
   color: #343434;
   padding: 12rpx;

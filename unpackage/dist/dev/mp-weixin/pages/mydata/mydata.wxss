@@ -43,7 +43,8 @@ page{background:#F2F2F2;width: 750rpx;overflow-x: hidden;}
 .p-data .avatar .u-avatar {
 		width: 160rpx !important;
 		height: 160rpx !important;
-		border-radius: 100%;
+		-webkit-border-radius: 100%;
+		        border-radius: 100%;
 		padding: 6rpx;
 		background-color: #FFFFFF !important;
 }
@@ -80,7 +81,8 @@ page{background:#F2F2F2;width: 750rpx;overflow-x: hidden;}
 .select-cal{
 		width: 94%;
 		height:100rpx;
-		border-radius: 12rpx;
+		-webkit-border-radius: 12rpx;
+		        border-radius: 12rpx;
 		background-color: #FFFFFF;
 		opacity: 0.32;
 		color: #000000;
@@ -114,7 +116,8 @@ page{background:#F2F2F2;width: 750rpx;overflow-x: hidden;}
 		margin-right: 25upx; */
 		padding-left: 25rpx;
 		padding-right: 25rpx;
-		border-radius: 12rpx;
+		-webkit-border-radius: 12rpx;
+		        border-radius: 12rpx;
 		margin-top: -200rpx;
 		z-index: 100;
 		position: absolute;

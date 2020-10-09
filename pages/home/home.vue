@@ -7,7 +7,7 @@
 			<image class="bgimg" src="../../static/home/home.png" mode=""></image>
 			<view class="text">
 				<view class="nickname">{{user_name}}</view>
-				<view class="sign" @tap="showpopup = true">点击签到</view>
+				<view class="sign" @tap="Sign">点击签到</view>
 			</view>
 			<image :src="user_avatar" class="avatar" mode=""></image>
 			<view class="panel">
@@ -29,7 +29,7 @@
 					</view>
 					<view class="txt">积分商城</view>
 				</view>
-				<view class="panel-item" @tap="go">
+				<view class="panel-item" @tap="openmask=true">
 					<view class="icon">
 						<image src="../../static/home/icon3.png" mode=""></image>
 					</view>
@@ -45,13 +45,13 @@
 			<u-cell-group>
 				
 				<u-cell-item title="个人信息" @tap="openinfo"></u-cell-item>
-				<u-cell-item  title="个人工号">{{number}}</u-cell-item>
-				<u-cell-item  title="个人工作时间" @tap="showtime=true">{{timeval}}</u-cell-item>
-				<u-cell-item  title="评分指南">{{score}}分</u-cell-item>
-				<u-cell-item  title="意见反馈"> <button send-message-title="分享标题" send-message-img="分享的单个图片链接" show-message-card="true"  class='details_button' open-type='contact' plain>
-		 </button></u-cell-item>
+				<!-- <u-cell-item  title="个人工号">{{number}}</u-cell-item> -->
+				<!-- <u-cell-item  title="个人工作时间" @tap="showtime=true">{{timeval}}</u-cell-item> -->
+				<!-- <u-cell-item  title="评分指南">{{score}}分</u-cell-item> -->
+				<!-- <u-cell-item  title="意见反馈"> <button send-message-title="分享标题" send-message-img="分享的单个图片链接" show-message-card="true"  class='details_button' open-type='contact' plain>
+		 </button></u-cell-item> -->
 				<u-cell-item  title="设置" @tap="openset"></u-cell-item>
-				<u-cell-item  title="订阅消息" @tap="requestMsg"></u-cell-item>
+				<u-cell-item  :title="text+currcount" @tap="requestMsg"></u-cell-item>
 			</u-cell-group>
 		</view>
 		 
@@ -69,18 +69,24 @@
 			</view>
 		</u-popup>
 		
-
+		<!-- 客户电话遮罩 -->
+		<customer-service  :openmask="openmask" @closemask="closemask"></customer-service>
 	</view>
 </template>
 
 <script>
-	import RenCalendar from '@/components/ren-calendar/ren-calendar.vue'
+	import RenCalendar from '@/components/ren-calendar/ren-calendar.vue';
+	import customerService from "../../components/customer-service/customer-service.vue";
 	export default {
 		components:{
-			RenCalendar
+			RenCalendar,
+			customerService
 		},
 		data() {
 			return {
+				openmask:false,
+				text:"订阅消息",
+				currcount:0,
 				currentpage:"",
 				score:"",
 				template_id1:"",
@@ -153,6 +159,9 @@
 		    this.markDays.push(today);
 		},
 		methods: {
+			closemask(){
+				this.openmask = false;
+			},
 			//获取用户信息
 			getInfo(){
 				this.$myRequest({
@@ -230,7 +239,7 @@
 			},
 			//订阅消息
 			async requestMsg(){
-				
+				let that = this;
 				await this.$myRequest({
 					url:'user/getTemplateid',
 					data:{},
@@ -257,8 +266,9 @@
 					  console.log("模板");
 					  console.log(res);
 					   if (res['c-QfMnWBUDkg2CIlBJDOYaGj6Bpn-p6g9HuKUi8LrXY'] === 'accept'){
+									that.currcount++;
 					               wx.showToast({
-					                 title: '订阅OK！',
+					                 title: '订阅+1',
 					                 duration: 1000,
 					    })
 					}
@@ -325,6 +335,7 @@
 					url:"../my-points/my-points"
 				})
 			},
+			//积分商城
 			topointsmall(){
 				uni.navigateTo({
 					url:"../points-mall/points-mall"
@@ -372,7 +383,7 @@
 	.signed{
 		width: 115upx;
 		height: 44upx;
-		background: linear-gradient(90deg, #00ABEB, #54C3F1);
+		background: linear-gradient(90deg, $themeleft, $themeright);
 		border-radius: 22upx;
 		position: absolute;
 		top: 8px;
@@ -451,7 +462,7 @@
 		position: absolute;
 		align-items: center;
 		z-index: 999;
-		box-shadow: 2px 2px 8px 1px rgba(0, 171, 236, 1)
+		box-shadow: 2px 2px 8px 1px $themeright
 	}
 
 	.bg .panel .icon {

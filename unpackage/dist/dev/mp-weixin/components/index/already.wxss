@@ -196,7 +196,8 @@
 		background-color: #e6e8f6;
 		margin-bottom: 10rpx;
 		margin-right: 10rpx;
-		border-radius: 8rpx;
+		-webkit-border-radius: 8rpx;
+		        border-radius: 8rpx;
 }
 .order-item .item-r .vtime.data-v-631ec520 {
 		color: #3072F6;
@@ -216,7 +217,8 @@
 		width: 260rpx;
 }
 .order-item .item-r .img image.data-v-631ec520 {
-		border-radius: 100%;
+		-webkit-border-radius: 100%;
+		        border-radius: 100%;
 		-webkit-flex-shrink: 0;
 		        flex-shrink: 0;
 		width: 168rpx;
@@ -237,7 +239,8 @@
 		font-weight: bold;
 		color: #FFFFFF;
 		background-color: #CCCCCC;
-		border-radius: 20rpx;
+		-webkit-border-radius: 20rpx;
+		        border-radius: 20rpx;
 		padding: 0 30rpx;
 		margin-top: 36rpx;
 		z-index: 100;

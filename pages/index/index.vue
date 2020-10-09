@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 自定义导航栏 -->
-		<u-navbar :is-back="false" title="接单池" :height="height" :background="background" title-color="#ffffff" style="position: relative;">
+		<u-navbar  :is-back="false" title="接单池" :height="height" :background="this.$background" title-color="#ffffff" style="position: relative;">
 			<view class="slot-wrap" @tap="openConfirm">
 				{{address}}
 				<!-- 自定义收藏我的小程序 -->
@@ -27,18 +27,55 @@
 				<!-- <u-button type="error" class="showselector " @click="showselector = true">{{selectortype[0]}}</u-button> -->
 				<!-- <u-button type="error" class="showtime" @click="showtime">时间筛选</u-button> -->
 			<!-- </view> -->
-			<u-popup v-model="showpopup" mode="center" border-radius="8" width="80%" ref="popup">
-				<view class="content1">
-					<view class="signed theme" @tap="searchtime">筛选</view>
-					<ren-calendar ref='ren' :markDays='markDays' :open="true" :disabledAfter='true' :collapsible="false"  @onDayClick='onDayClick'></ren-calendar>
+			<!-- <u-popup v-model="showpopup" mode="center" border-radius="8" width="80%" ref="popup"> -->
+				<!-- <view class="content1"> -->
+					<!-- <view class="signed theme" @tap="searchtime">筛选</view> -->
+					<!-- <ren-calendar ref='ren' :markDays='markDays' :open="true" :disabledAfter='true' :collapsible="false"  @onDayClick='onDayClick'></ren-calendar> -->
 				    <!-- <view class="change">选中日期：{{curDate}}</view> -->
+				<!-- </view> -->
+			<!-- </u-popup> -->
+			<!-- <u-picker v-model="showtime" mode="time" :params="params" :show-time-tag="true" @confirm="confirmtime"></u-picker> -->
+			<!-- 日期选择筛选 -->
+			<u-calendar v-model="showrili" :mode="mode" @change="changetype" 
+			max-date="2050-01-01" 
+			active-bg-color="#00ABEB" 
+			active-color="#ffffff" 
+			range-bg-color="#54C3F1"
+			:start-text="starttext"
+			btn-type="warning">
+				<view slot="tooltip">
+					<view class="title" style="text-align: center;line-height: 2.25 !important;display: flex;justify-content: space-around;margin-top: 25upx;">
+						<view>
+							<view style="background-color: #00ABEB;">选择时段：</view>
+							<block v-for="(item,index) in noon" :key="index">
+								<view ref="menuItem" :class="[choseminmix ,noonIndex == index?'acmin':'']" @tap="selectnoon1(index)">{{item}}</view>
+							</block>
+						</view>
+						<view>
+							<view style="background-color: #00ABEB;">选择时间段：</view>
+							<block v-for="(item,index) in actime" :key="index">
+								<view ref="menuItem" :class="[choseminmix ,actimeIndex == index?'acmin':'']" @tap="selectactim(index)">{{item}}</view>
+							</block>
+						</view>
+						<view>
+							<view style="background-color: #00ABEB;">选择类型：</view>
+							<block v-for="(item,index) in menuList[0].detailList" :key="index">
+								<view ref="menuItem" :class="[choseminmix ,{'acmin': rSelect1.indexOf(index)!=-1}]" @tap="selecttype1(index)">{{item.title}}</view>
+							</block>
+						</view>
+					</view>
+					<view style="background-color: #00ABEB;text-align: center;display: flex;justify-content: space-between;">
+						时间范围搜索
+						<view class="moshi" @tap="checkmode">单选</view>
+						<view class="moshi"  @tap="checkmodes">多选</view>
+					</view>
+					
 				</view>
-			</u-popup>
-			<u-picker v-model="showtime" mode="time" :params="params" :show-time-tag="true" @confirm="confirmtime"></u-picker>
+			</u-calendar>
 			<!-- 表头 -->
 			<view class="tab-bar">
 				<block v-for="(tab,index) in tabBars" :key="tab.id">
-					<view :class="{active:tabIndex == index}" @tap="xuanzhong(index)">
+					<view :class="{theme:tabIndex == index}" @tap="xuanzhong(index)">
 						{{tab.name}}
 					</view>
 				</block>
@@ -120,7 +157,7 @@
 	const Mock = require("../../common//mock.mp.js");
 	import md5 from "../../common/md5.min.js";
 	//引入小程序微信小程序JavaScriptSDK
-	// const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
+	const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 	var bmap = require('../../libs/bmap-wx.js');
 	import loadMore from "../../components/common/load-more.vue";
 	import addTip from "../../components/struggler-uniapp-add-tip/struggler-uniapp-add-tip";
@@ -145,6 +182,30 @@
 		},
 		data() {
 			return {
+				town:"",
+				mode:"range",
+				noon:[
+					"上午",
+					"下午"
+				],
+				actimeIndex:0,
+				noonIndex:0,
+				selectnoon:0,
+				acmin:true,
+				actime:[
+					"不限时",
+					"2小时",
+					"3小时",
+					"4小时",
+					"5小时",
+					"6小时",
+				],
+				selectactime:1,
+				selectdetaillist:[],
+				rSelect: [],
+				rSelect1: [],
+				choseminmix:"choseminmix",
+				starttext:"开始",
 				showpopup:false,
 				themeColor:"#00ABEB",
 				// filterResult: '',
@@ -178,6 +239,7 @@
 						},
 				showselector:false,
 				showtime:false,
+				showrili:false,
 				keyword: '',
 				upOption:{
 					use:true
@@ -227,7 +289,20 @@
 		},
 		onReady() {
 		},
-		
+		  /* 监听方法  开始*/
+		watch:{
+			town(val){
+				console.log(val,"监听方法");
+				console.log(this.$background);
+			},
+			/* num(val){
+				console.log(val,"监听方法");
+			} */
+			/* 也可以写成  上面是 es6 新大地写法，更方便整洁*/
+			// num:function(val){
+			// 	console.log(val,"监听方法");
+			// }
+		},
 		onShow() {
 			//检查登录授权
 			// 检查登录是否过期
@@ -237,7 +312,7 @@
 			//判断用户是否注册服务工种,获取缓存里面的值
 			this.user_uid = uni.getStorageSync('uid');
 			this.phone = uni.getStorageSync('phone');
-			this.getAuthorizeInfo();
+			
 			this.checklogin();
 			setTimeout(()=>{
 				uni.hideLoading({
@@ -248,7 +323,17 @@
 			},1500);
 			
 			console.log("重新排序");
-			
+			// let promise = new Promise((resolve,reject)=>{
+			// 	resolve('res')
+			// 	reject('res')
+			// });
+			// promise.then(res=>{
+			// 	this.checklogin();
+			// }).then(res=>{
+			// 	this.getLocationInfo();
+			// }).then(res=>{
+			// 	this.getWOrkstay();
+			// })
 		},
 		
 		computed:{
@@ -289,13 +374,15 @@
 		onLoad(event) {
 			//获取用户信息
 			this.getInfo();
+			console.log("页面类型111111");
+			console.log(this.menuList);
 			let tabbar = event.e;
 			console.log("传值e:");
 			console.log(tabbar);
 			this.tabIndex = tabbar;
 			// this.checklogin();
 			var that = this;
-			
+			this.getAuthorizeInfo();
 			// 获取scoll-view高度值
 			uni.getSystemInfo({
 				success: (res) => {
@@ -324,7 +411,7 @@
 					 that.tabIndex = 1;
 					 console.log(that.badgeconts);
 			});
-			
+			// this.selectdetaillist = this.menuList[0].detailList[0].title+',';
 		},
 		// onPullDownRefresh() {
 		// 	this.getWOrkstay();
@@ -333,9 +420,98 @@
 		// },
 		
 		methods: {
+			//选择模式
+			checkmode(){
+				this.mode = "date";
+				
+			},
+			checkmodes(){
+				this.mode = "range";
+			},
+			//选择复合类型
+			//选择上下午
+			selectnoon1(index){
+				this.noonIndex = index;
+				this.selectnoon = index;
+			},
+			//选择时间分类服务
+			selectactim(index) {
+				this.actimeIndex= index;
+				this.selectactime = index;
+			},
+			//选择类型服务
+			selecttype1(e) {
+				if (this.rSelect1.indexOf(e) == -1) {
+					console.log(e) //打印下标
+					this.rSelect1.push(e); //选中添加到数组里
+					
+					this.selectdetaillist.push(this.menuList[0].detailList[e].title);
+					
+				} else {
+					this.rSelect1.splice(this.rSelect1.indexOf(e), 1); //取消
+					this.selectdetaillist.splice(this.selectdetaillist.indexOf(e), 1); //取消
+					// tthis.selectdetaillist.splice(this.selectdetaillist.indexOf(e), 1); //取消
+				}
+			},
+			//获取选中属性的值
+			
+			//筛选复合类型
+			changetype(e){
+				console.log("选中类型有哪些");
+				console.log(this.selectdetaillist);
+				let typestring =this.selectdetaillist.toString();
+				let str = uni.getStorageSync("type");
+				if(typestring == ""){
+					e.type = str.split(',');
+					e.startDate = "";
+					e.endDate = "";
+					console.log("如果没有选择");
+				}else{
+					e.type = typestring;//选择类型
+					console.log("如果有选择");
+				}
+				
+				e.timesolt = this.selectactime;//时间段选择
+				e.noon = this.selectnoon;//上下午选择
+				console.log(e);
+				
+				let town = uni.getStorageSync("town");												
+				this.$myRequest({
+					url:'work/stay',
+					data:{
+						"town":town ,
+						"genre": e.type,
+						"uid": this.user_uid,
+						"start_time":e.startDate,
+						"end_time":e.endDate,
+						"noon":e.noon,
+						"duration":e.timesolt,
+						"date":e.result,
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+						this.orderlist = res.data.data;
+									
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showToast({
+							title:"暂无相关订单"
+						})
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
 			//打开时间
 			showtime1(){
-				this.showpopup = true
+				this.showrili = true
 				console.log('aaa');
 			},
 			//日历
@@ -1156,6 +1332,7 @@
 								console.log("市下表"+shi);
 								const town = res.wxMarkerData[0].address.substring(towns+1,shi+1);
 								console.log(town);
+								this.town = town;
 								uni.setStorageSync('town', town);
 								// that.getWOrkstay();
 			    			},
@@ -1177,6 +1354,19 @@
 			// 当用户第一次拒绝后再次请求授权
 			openConfirm(){
 				let that = this;
+				if(this.address != "未授权"){
+					uni.chooseLocation({
+						 type: 'gcj02',
+						    success: function (res) {
+						        console.log('当前位置的经度：' + res.longitude);
+						        console.log('当前位置的纬度：' + res.latitude);
+								uni.setStorageSync('longitude', res.longitude);
+								uni.setStorageSync('latitude', res.latitude);
+								//百度地图
+								that.getTxmap(res.latitude,res.longitude)
+						    }
+					})
+				}
 				if(this.address =="未授权"){
 					uni.showModal({
 						title: '请求授权当前位置',
@@ -1210,6 +1400,59 @@
 
 			       
 			    })
+			},
+			//封装百度地图调用api
+			getbmap(la,lo){
+				//百度地图
+				let that = this;
+				var BMap = new bmap.BMapWX({
+					ak: 'q58GRKnjyQGGXI72GMdHKBBUaHEIKSyc'
+				});
+				BMap.regeocoding({
+					location: la + "," + lo,
+					// location:"116.409443,39.909843",
+					success(res) {
+						// console.log(res.wxMarkerData[0].address);
+						const address = res.wxMarkerData[0].address.substring(3);
+						// console.log(this);
+						that.address = address;
+						uni.setStorageSync('address', address);
+						
+					},
+					fail(error) {
+						console.log(error);
+						console.log("失败");
+					}
+							    
+				})
+			},
+			//封装腾讯逆地址解析
+			getTxmap(la,lo){
+				let qqmapsdk = new QQMapWX({
+					key: 'E6FBZ-XLTWP-S7SDE-V435J-YVAAE-I2BAT'
+				});
+				let that = this;
+				qqmapsdk.reverseGeocoder({
+					location: {
+						latitude: la,
+						longitude: lo
+					},
+					success: (res) => {
+						console.log("腾讯逆地址");
+						console.log(res);
+						
+						that.address = res.result.address;
+						uni.setStorageSync('address', that.address);
+						const towns = that.address.indexOf("省");
+						const shi = that.address.indexOf("市");
+						console.log("省下表"+towns);
+						console.log("市下表"+shi);
+						const town = that.address.substring(towns+1,shi+1);
+						console.log(town);
+						that.town = town;
+						uni.setStorageSync('town', town);
+					}
+				})
 			}
 		},
 		
@@ -1257,6 +1500,17 @@
 	
 </style>
 <style scoped>
+	.acmin{
+		color: #00ABEB;
+	}
+	.choseminmix{
+		padding-top: 6upx;
+		 padding-bottom: 6upx;
+		 background: #ccc;
+		 border-radius: 24upx;
+		 margin-top: 5upx;
+		 width: 150upx;
+	}
 	.content1{
 		position: relative;
 	}

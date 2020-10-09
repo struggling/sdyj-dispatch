@@ -25,7 +25,7 @@
 				</view>
 			</view>
 			<!-- 用户信息列表 -->
-			<view class="user-data">
+			<!-- <view class="user-data">
 				<view class="user-avatar">
 					<view class="l-text">头像</view>
 					<view class="r-text">
@@ -38,12 +38,10 @@
 						<block v-else>
 							<image :src="data.user_avatar" mode=""></image>
 						</block>
-						<!-- <image src="http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg" mode=""></image> -->
-
 						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<view class="user-data">
 				<view class="user-avatar">
 					<view class="l-text">{{data.user_name}}</view>
@@ -67,7 +65,7 @@
 			<view class="user-data">
 				<view class="user-avatar">
 					<view class="l-text">服务类型</view>
-					<view class="r-text" @tap="show = true">
+					<view class="r-text" @tap="showmask = true">
 						<view class="txt">{{type}}</view>
 						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
 					</view>
@@ -83,6 +81,13 @@
 			</u-upload>
 			<!-- 类型选择 -->
 			<u-select v-model="show" :list="listtype" :default-value="[2,4]" mode="mutil-column-auto"  @confirm="confirm"></u-select>
+			
+			<u-mask :show="showmask">
+					<view class="warp">
+						<view class="rect" @tap.stop></view>
+					</view>
+					<select-type :listtype="listtype" @submittype="submittype"></select-type>
+				</u-mask>
 			<!-- <view>
 			    <jpSelect ref="jpSelect" :list="list" @checked="checked" :item="item" select="more" tite="请选择最美诗句"></jpSelect>
 			</view> -->
@@ -92,12 +97,15 @@
 
 <script>
 	import jpSelect from '@/components/jp-select/jp-select.vue';
+	import selectType from "../../components/select-type/select-type.vue";
 	export default {
 		 components: {
-		            jpSelect
+		            jpSelect,
+					selectType
 		},
 		data() {
 			return {
+				showmask:false,
 				data:{},
 				swiperheight: 667,
 				height: "",
@@ -169,6 +177,12 @@
 			this.getinittype();
 		},
 		methods: {
+			//
+			submittype(type,mask){
+				this.type = type;
+				this.showmask = mask;
+				console.log(this.type);
+			},
 			//初始化类型参数
 			getinittype(){
 				this.$myRequest({

@@ -105,7 +105,7 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	/* orderlist */
 	.orderlist {}
 	
@@ -146,7 +146,7 @@
 	
 	.order-item .item-l .distance {
 		font-size: 28upx;
-		color: #00ABEB;
+		color: $themeleft;
 		margin-bottom: 15upx;
 		font-weight: bold;
 	}

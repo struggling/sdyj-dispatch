@@ -33,7 +33,7 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .swiper-tab-list{
 		color:#969696;
@@ -43,13 +43,13 @@
 
 	}
 	.uni-tab-bar .active {
-	color: #00ABEB;
+	color: $themeright;
 	}
 	.active .swiper-tab-line{
-		border-bottom: 6upx solid #00ABEB;
+		border-bottom: 6upx solid $themeright;
 		width: 70upx;
 		margin: auto;
-		border-top: 6upx solid #00ABEB;
+		border-top: 6upx solid $themeright;
 		border-radius: 20upx;
 	}
 	.swiper-box{

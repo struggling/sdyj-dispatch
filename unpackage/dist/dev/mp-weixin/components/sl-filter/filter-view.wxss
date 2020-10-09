@@ -15,7 +15,8 @@
 	background-color: #D1372C;
 	color: #FFFFFF;
 	padding: 5px 15px;
-	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	        border-radius: 20px;
 	margin-right: 10px;
 	margin-top: 10px;
 	display: inline-block;
@@ -25,7 +26,8 @@
 	background-color: #FFFFFF;
 	color: #666666;
 	padding: 5px 15px;
-	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	        border-radius: 20px;
 	margin-right: 10px;
 	margin-top: 10px;
 	display: inline-block;

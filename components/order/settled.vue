@@ -29,19 +29,25 @@
 					</template>
 					<template v-if="btn[1] != ' '">
 						<template v-if="btn[1] == '联系客服'">
-							<button type="default" open-type="contact" class="btn active">{{btn[1]}}</button>
+							<view  class="btn active" @click="show = true">联系客服</view>
+							<u-mask :show="show" @click="show = false">
+									<view class="warp">
+										<view class="rect" @tap.stop>
+											<button type="default" open-type="contact" class="btn active">{{btn[1]}}</button>
+											<view  class="btn active" @tap="go">拨打电话</view>
+										</view>
+									</view>
+								</u-mask>
 						</template>
 						<template v-else>
 							<view class="btn active" @tap="openpage(item)">{{btn[1]}}</view>
 						</template>
-						
-						
-						
 					</template>
 				</view>
 			</view>
 		<!-- </mescroll-uni> -->
-		
+			<!-- 拨打客服电话或者小程序客户 -->
+			<!-- <u-select v-model="showcot" :list="list" @confirm="confirm"></u-select> -->
 	</view>	
 </template>
 
@@ -61,6 +67,17 @@
 		},
 		data() {
 			return {
+				show: false,
+				list:[
+					{
+						value: '1',
+						label: '聊天客服'
+					},
+					{
+						value: '2',
+						label: '客服电话'
+					}
+				],
 				index1:0,
 				itemData:[],
 				cancel:'background:#cccccc',
@@ -79,8 +96,27 @@
 			this.itemData.push(this.item);
 		},
 		methods:{
-			
-			
+			//客服会话功能
+			// confirm(e) {
+			// 	console.log(e);
+			// }
+			// chosekefu(){
+			// 	uni.showModal({
+			// 	    title: '提示',
+			// 		cancelText:"微信客服",
+			// 		confirmText:"拨打热线",
+			// 	    content: '选择沟通方式',
+			// 	    success: function (res) {
+			// 	        if (res.confirm) {
+			// 	            console.log('用户点击确定');
+			// 				this.iskehu = 0
+			// 	        } else if (res.cancel) {
+			// 	            console.log('用户点击取消');
+			// 				this.iskehu = 1
+			// 	        }
+			// 	    }
+			// 	});
+			// }
 			//跳转到详情页
 			goDetail: function(item) {
 				let detail = {

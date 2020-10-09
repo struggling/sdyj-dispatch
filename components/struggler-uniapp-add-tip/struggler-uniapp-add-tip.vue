@@ -44,7 +44,7 @@
 </script>
 
 <style lang="scss" scoped>
-	$themeColor:#00ABEB; //主题色
+	// $themeColor:#00ABEB; //主题色
 	.uni-add-tips-box {
 	  position: absolute;
 	  top:70upx;
@@ -68,14 +68,14 @@
 		border-width: 20upx;
 		border-style: solid;
 		display: block;
-		border-color:  transparent transparent $themeColor transparent;
+		border-color:  transparent transparent $themeright transparent;
 	}
 	.uni-add-tips-content {
 	  border-width: 0upx;
 	  margin-top: 20upx;
 	  position: relative;
-	  background-color: $themeColor;
-	  box-shadow: 0 10upx 20upx -10upx $themeColor;
+	  background-color: $themeright;
+	  box-shadow: 0 10upx 20upx -10upx $themeright;
 	  border-radius: 12upx;
 	  display: flex;
 	  align-items: center;

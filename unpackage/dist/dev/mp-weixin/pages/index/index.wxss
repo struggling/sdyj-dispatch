@@ -34,15 +34,29 @@ button::after{
 
 
 
+.acmin.data-v-57280228{
+	color: #00ABEB;
+}
+.choseminmix.data-v-57280228{
+	padding-top: 6rpx;
+	 padding-bottom: 6rpx;
+	 background: #ccc;
+	 -webkit-border-radius: 24rpx;
+	         border-radius: 24rpx;
+	 margin-top: 5rpx;
+	 width: 150rpx;
+}
 .content1.data-v-57280228{
 	position: relative;
 }
 .signed.data-v-57280228{
 	width: 115rpx;
 	height: 44rpx;
+	background: -webkit-gradient(linear, left top, right top, from(#00ABEB), to(#54C3F1));
 	background: -webkit-linear-gradient(left, #00ABEB, #54C3F1);
 	background: linear-gradient(90deg, #00ABEB, #54C3F1);
-	border-radius: 22rpx;
+	-webkit-border-radius: 22rpx;
+	        border-radius: 22rpx;
 	position: absolute;
 	top: 8px;
 	right: 12px;
@@ -112,13 +126,15 @@ button::after{
 	height: 76rpx;
 	background-color: #CCCCCC;
 	color: #FFFFFF;
-	border-radius: 8rpx;
+	-webkit-border-radius: 8rpx;
+	        border-radius: 8rpx;
 	font-size: 40rpx;
 	font-weight: bold;
 	line-height: 76rpx;
 	text-align: center;
 }
 .tab-bar .active.data-v-57280228 {
+	background: -webkit-gradient(linear,  left top, right top,  from(#54C3F1), to(#00ABEB));
 	background: -webkit-linear-gradient(left,  #54C3F1, #00ABEB);
 	background: linear-gradient(90deg,  #54C3F1, #00ABEB);
 }

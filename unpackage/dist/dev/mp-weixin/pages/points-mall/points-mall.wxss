@@ -10,6 +10,13 @@
 	height: 211rpx;
 	width: 100%;
 }
+.ppic.data-v-24376c04{
+	text-align: center;
+}
+.ppic image.data-v-24376c04{
+	width: 200rpx;
+	height: 180rpx;
+}
 .top .panel.data-v-24376c04{
 	position: absolute;
 	top: 44rpx;
@@ -40,15 +47,19 @@
 .panel .text-l .pic image.data-v-24376c04{
 	width: 117rpx;
 	height: 121rpx;
-	border-radius: 100%;
+	-webkit-border-radius: 100%;
+	        border-radius: 100%;
 }
 .panel .text-r.data-v-24376c04{
+	background: -webkit-gradient(linear, left top, right top, from(#00ABEB), to(#54C3F1));
 	background: -webkit-linear-gradient(left, #00ABEB, #54C3F1);
 	background: linear-gradient(90deg, #00ABEB, #54C3F1);
 	width: 186rpx;
 	height: 52rpx;
-	border-bottom-left-radius: 20rpx;
-	border-top-left-radius: 20rpx;
+	-webkit-border-bottom-left-radius: 20rpx;
+	        border-bottom-left-radius: 20rpx;
+	-webkit-border-top-left-radius: 20rpx;
+	        border-top-left-radius: 20rpx;
 	/* opacity: 0.32; */
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -62,7 +73,10 @@
 .panel .text-r .range.data-v-24376c04{
 	width: 52rpx;
 	height: 52rpx;
-	border-radius: 100%;
+	-webkit-border-radius: 100%;
+	        border-radius: 100%;
+	
+	background: -webkit-gradient(linear, left top, left bottom, from(#FFAF00), to(#FFCF00));
 	
 	background: -webkit-linear-gradient(top, #FFAF00, #FFCF00);
 	
@@ -108,7 +122,8 @@
 	height: 398rpx;
 	background: #FFFFFF;
 	border: 1rpx solid #E5E5E5;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 }
 .malllist .mallitem .ppic.data-v-24376c04{
 	width: 344rpx;

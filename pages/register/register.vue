@@ -57,7 +57,6 @@
 			</view>
 			<!-- 协议 -->
 			<view class="xieyi">
-				
 				<view :class="[check,]" @tap="checked"><view :class="{'checkbox':flag,'':flag}"></view></view>
 				<view class="text">确定同意<navigator url="../agreement/agreement">《协议》</navigator></view>
 			</view>
@@ -107,7 +106,7 @@
 			counttype() {
 				let selectname = this.selectname;
 				this.sumstring = this.selectname;
-				return this.typefy + "," + this.sumstring
+				return this.typefy + "," + this.sumstring; //类型加二级类型
 			}
 		},
 		onLoad(option) {
@@ -173,11 +172,13 @@
 			//点击一级分类切换
 			tabbar(index){
 				this.tabIndex = index;
-				this.typefy = this.type[index]
-				for (var typename in this.typedata) { //遍历对象属性名
+				this.typefy = this.type[index];
+				for (var typename in this.typedata) { //遍历对象属性名的二级分类
 					if (this.type[index] == typename) {
 						this.typename = this.typedata[typename];
 						console.log(this.typename);
+						this.selectname=[];
+						this.rSelect = [] ;//取消
 					}
 				}
 			},
@@ -185,11 +186,20 @@
 			selecttype(e) {
 				if (this.rSelect.indexOf(e) == -1) {
 					console.log(e) //打印下标
-					this.rSelect.push(e); //选中添加到数组里
-					this.selectname.push(this.typename[e]);
+					if (this.type[this.tabIndex]) {
+						this.rSelect.push(e); //选中添加到数组里
+						this.selectname.push(this.typename[e]);
+						console.log("当前增加二级分类");
+						console.log(this.selectname);
+					}
+					
 				} else {
-					this.rSelect.splice(this.rSelect.indexOf(e), 1); //取消
-					this.selectname.splice(this.typename.indexOf(e), 1);
+					if (this.type[this.tabIndex]) {
+						this.rSelect.splice(this.rSelect.indexOf(e), 1); //取消
+						this.selectname.splice(this.typename.indexOf(e), 1);
+						console.log("当前删除二级分类");
+						console.log(this.selectname);
+					}
 				}
 			},
 			//获取手机号码

@@ -1,5 +1,6 @@
 
 .content.data-v-3b7cf03c{
+	background: -webkit-gradient(linear, left top, right top, from(#54C3F1),to(#00ABEB));
 	background: -webkit-linear-gradient(left, #54C3F1,#00ABEB);
 	background: linear-gradient(90deg, #54C3F1,#00ABEB);
 	padding-top: 1px;
@@ -20,7 +21,8 @@
 }
 .order-detail.data-v-3b7cf03c{
 	background-color: #FFFFFF;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	margin: 58rpx 25rpx;
 	padding-left: 25rpx;
 	padding-right: 25rpx;
@@ -59,7 +61,8 @@
 	width: 356rpx;
 	height: 80rpx;
 	background: #FFFFFF;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	color:#00ABEB;
 	margin: 0 auto;
 	line-height: 80rpx;

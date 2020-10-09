@@ -15,6 +15,9 @@ export const myRequest=(options)=>{ //传入的options是一个json对象
 		console.log("参数");
 		 console.log(options.data);
 		let cookie = uni.getStorageSync("cookie");
+		uni.showLoading({
+			title:"加载中..."
+		})
 		uni.request({
 			url:BASE_URL+options.url,
 			method:options.methods||"GET",
@@ -26,6 +29,7 @@ export const myRequest=(options)=>{ //传入的options是一个json对象
 			},
 			success: (res) => {
 				console.log(res);
+				uni.hideLoading();
 				// const data = JSON.parse(res.data);
 				// 		console.log(data.data);
 				// if(res.data.status !== 0){

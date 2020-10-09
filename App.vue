@@ -24,8 +24,9 @@
 /* uni.css - 通用组件、模板样式库，可以当作一套ui库应用 */
 	@import './common/uni.css';
 	/* 全局主题颜色theme */
+	
 	.theme{
-		background: linear-gradient(90deg, #54C3F1, #00ABEB);
+		background: linear-gradient(90deg, $themeleft, $themeright) !important;
 	}
 	
 	/* 顶部导航栏自定义 */

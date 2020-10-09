@@ -9,6 +9,7 @@
     "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
     "u-select": "/uview-ui/components/u-select/u-select",
     "u-popup": "/uview-ui/components/u-popup/u-popup",
-    "ren-calendar": "/components/ren-calendar/ren-calendar"
+    "ren-calendar": "/components/ren-calendar/ren-calendar",
+    "customer-service": "/components/customer-service/customer-service"
   }
 }

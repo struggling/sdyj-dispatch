@@ -167,7 +167,7 @@
 				"text": "个人中心"
 			}
 		]
-	}
+	},
 	 // "subPackages": [{
 	 //        "root": "pagesA",
 	 //        "pages": [{
@@ -187,4 +187,10 @@
 	 //            "packages": ["pagesA"]
 	 //        }
 	 //    }
+	 "plugins":{
+		 "routePlan":{
+			 "version":"1.0.8",
+			 "provider":"wx50b5593e81dd937a"
+		 }
+	 }
 }
