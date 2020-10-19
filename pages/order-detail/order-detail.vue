@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<!-- 顶部自定义导航 -->
-		<u-navbar :is-back="true" title="订单详情" :height="height" :background="background" title-color="#ffffff"
+		<!-- <u-navbar :is-back="true" title="订单详情" :height="height" :background="background" title-color="#ffffff"
 		 back-icon-color="#ffffff">
-		</u-navbar>
+		</u-navbar> -->
 		<view class="order-detail">
 			<view class="order-row">
 				<view class="order-td top iconfont icongerenzhongxin-zhong"><span>客户订单信息</span></view>
@@ -21,6 +21,13 @@
 					<view class="tips">价格</view>
 					<view> {{data.budget}}</view>
 				</view>
+			</view>
+			<view class="order-row">
+				<view class="order-td">
+					<view class="tips">积分: </view>
+					<view>{{data.integral}}</view>
+				</view>
+				<view class="order-td"></view>
 			</view>
 			<!-- 参考价格 -->
 			<view class="order-row">

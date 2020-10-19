@@ -1,4 +1,7 @@
 {
-  "usingComponents": {},
-  "component": true
+  "component": true,
+  "usingComponents": {
+    "ren-calendar": "/components/ren-calendar/ren-calendar",
+    "calendar": "/uview-ui/components/u-calendar/u-calendar"
+  }
 }

@@ -1,89 +1,24 @@
 <template>
 	<view>
-		<!-- 自定义导航栏 -->
-		<u-navbar  :is-back="false" title="接单池" :height="height" :background="this.$background" title-color="#ffffff" style="position: relative;">
-			<view class="slot-wrap" @tap="openConfirm">
-				{{address}}
-				<!-- 自定义收藏我的小程序 -->
-				<add-tip :tip="tip" :duration="duration" />
-			</view>
-		</u-navbar>
+		<nav-head :address="address" :tabIndex="tabIndex" :notice="notice"  @openConfirm="openConfirm" @xuanzhong="xuanzhong"></nav-head>
 		
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 		<view class="content">
-		
-			<!-- 地理位置 -->
-			<!-- <view class="location theme">
-				<span class="iconfont icondiliweizhi"></span>
-				<span>仁寿县</span>
-			</view> -->
-			<!-- 滚动通知 -->
-			<u-notice-bar mode="vertical" :list="notice" :duration="2500" bg-color="#E2F7FF" color="#010101"></u-notice-bar>
-			<!-- 接单列表 -->
 			<!-- 收索筛选框 -->
-			<u-search placeholder="姓名,电话,地址" v-model="keyword" @search = 'orderSearch' @custom=" $u.debounce(orderSearch1, 1000)" margin="25upx 25upx 25upx 25upx" style="margin-top: 25upx;"></u-search>
-			<slFilter :themeColor="themeColor" :menuList="menuList" @result="result" :ref="'slFilter'" @showtime1="showtime1"></slFilter>
-			<!-- <view class="shaixuan"> -->
-				<!-- <u-button type="error" class="showselector " @click="showselector = true">{{selectortype[0]}}</u-button> -->
-				<!-- <u-button type="error" class="showtime" @click="showtime">时间筛选</u-button> -->
-			<!-- </view> -->
-			<!-- <u-popup v-model="showpopup" mode="center" border-radius="8" width="80%" ref="popup"> -->
-				<!-- <view class="content1"> -->
-					<!-- <view class="signed theme" @tap="searchtime">筛选</view> -->
-					<!-- <ren-calendar ref='ren' :markDays='markDays' :open="true" :disabledAfter='true' :collapsible="false"  @onDayClick='onDayClick'></ren-calendar> -->
-				    <!-- <view class="change">选中日期：{{curDate}}</view> -->
-				<!-- </view> -->
-			<!-- </u-popup> -->
-			<!-- <u-picker v-model="showtime" mode="time" :params="params" :show-time-tag="true" @confirm="confirmtime"></u-picker> -->
-			<!-- 日期选择筛选 -->
-			<u-calendar v-model="showrili" :mode="mode" @change="changetype" 
-			max-date="2050-01-01" 
-			active-bg-color="#00ABEB" 
-			active-color="#ffffff" 
-			range-bg-color="#54C3F1"
-			:start-text="starttext"
-			btn-type="warning">
-				<view slot="tooltip">
-					<view class="title" style="text-align: center;line-height: 2.25 !important;display: flex;justify-content: space-around;margin-top: 25upx;">
-						<view>
-							<view style="background-color: #00ABEB;">选择时段：</view>
-							<block v-for="(item,index) in noon" :key="index">
-								<view ref="menuItem" :class="[choseminmix ,noonIndex == index?'acmin':'']" @tap="selectnoon1(index)">{{item}}</view>
-							</block>
-						</view>
-						<view>
-							<view style="background-color: #00ABEB;">选择时间段：</view>
-							<block v-for="(item,index) in actime" :key="index">
-								<view ref="menuItem" :class="[choseminmix ,actimeIndex == index?'acmin':'']" @tap="selectactim(index)">{{item}}</view>
-							</block>
-						</view>
-						<view>
-							<view style="background-color: #00ABEB;">选择类型：</view>
-							<block v-for="(item,index) in menuList[0].detailList" :key="index">
-								<view ref="menuItem" :class="[choseminmix ,{'acmin': rSelect1.indexOf(index)!=-1}]" @tap="selecttype1(index)">{{item.title}}</view>
-							</block>
-						</view>
-					</view>
-					<view style="background-color: #00ABEB;text-align: center;display: flex;justify-content: space-between;">
-						时间范围搜索
-						<view class="moshi" @tap="checkmode">单选</view>
-						<view class="moshi"  @tap="checkmodes">多选</view>
-					</view>
-					
-				</view>
-			</u-calendar>
-			<!-- 表头 -->
-			<view class="tab-bar">
-				<block v-for="(tab,index) in tabBars" :key="tab.id">
-					<view :class="{theme:tabIndex == index}" @tap="xuanzhong(index)">
-						{{tab.name}}
-					</view>
-				</block>
-			</view>
+			<!-- <u-search placeholder="姓名,电话,地址" v-model="keyword" @search = 'orderSearch' @custom=" $u.debounce(orderSearch1, 1000)" margin="25upx 25upx 25upx 25upx" style="margin-top: 25upx;"></u-search> -->
+			<block v-if="closesearch">
+				<slFilter
+				:themeColor="themeColor" 
+				:menuList="menuList" 
+				@result="result" 
+				:ref="'slFilter'" 
+				:reflexTitle="false" 
+				@showtime1="showtime1">
+				</slFilter>
+			</block>	
 			<!-- 列表 -->
-			
 			<view class="uni-tab-bar">
-				<swiper class="swiper-box" :style="{height:swiperheight+'px'}"  :current="tabIndex" @change="tabChange">
+				<swiper class="swiper-box" :style="{height:swiperheight+'px',background: '#F2F2F2'}"  :current="tabIndex" @change="tabChange">
 					
 					<swiper-item>
 						<scroll-view  scroll-y="true" class="list">
@@ -113,9 +48,9 @@
 							<!-- nothing -->
 							
 							<!-- <mescroll-uni ref="mescrollRef1" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" > -->
-								<template v-if="takelist.length>0">
-									<block v-for="(item,index) in takelist" :key="index">
-										<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel"></Already>
+								<template v-if="beenlist.length>0">
+									<block v-for="(item,index) in beenlist" :key="index">
+										<Already :item="item" :index="index" :tool="tool" :jl="jl" @openModel="openModel" @deleteOrder="deleteOrder"></Already>
 									</block>
 								</template>
 							
@@ -146,6 +81,18 @@
 					<p style="padding-left: 50upx;padding-right: 50upx;margin-bottom: 30upx;line-height: 1.8;">您已经成功参与抢单，该订单需要平台工作人员进行人工审核；审核通过后请到“订单”列表查看具体订单信息并且联系客户预约上门进行服务</p>
 				</view>
 			</u-popup> -->
+			<!-- 弹出输入取消框 -->
+			<view :hidden="userFeedbackHidden" class="popup_content">
+						<view class="popup_title">您的取消订单</view>
+						<view class="popup_textarea_item">
+							<textarea class="popup_textarea" placeholder='填写取消订单的详细原因...' v-model="feedbackContent">
+							</textarea>
+							<view @click="submitFeedback()">
+								<button class="popup_button">提交说明</button>
+							</view>
+						</view>
+					</view>
+			<view class="popup_overlay" :hidden="userFeedbackHidden" @tap = "hideDiv()"></view>
 		</view>
 		 </mescroll-body>
 	</view>
@@ -167,7 +114,8 @@
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
 	import slFilter from '@/components/sl-filter/sl-filter.vue';
-	import RenCalendar from '@/components/ren-calendar/ren-calendar.vue'
+	import RenCalendar from '@/components/ren-calendar/ren-calendar.vue';
+	import navHead from "../../components/index/nav-head.vue"
 	export default {
 		mixins: [MescrollMixin],
 		components: {
@@ -178,10 +126,14 @@
 			Already,
 			MescrollEmpty,
 			slFilter,
-			RenCalendar
+			RenCalendar,
+			navHead
 		},
 		data() {
 			return {
+				closesearch:true,
+				userFeedbackHidden: true, // 默认隐藏
+				feedbackContent: '' ,// 用户反馈内容
 				town:"",
 				mode:"range",
 				noon:[
@@ -207,12 +159,12 @@
 				choseminmix:"choseminmix",
 				starttext:"开始",
 				showpopup:false,
-				themeColor:"#00ABEB",
+				themeColor:"#0080ff",
 				// filterResult: '',
 				menuList: [
 						{
 					        'title': '服务类型',
-					        'detailTitle': '请选择职位类型（可多选）',
+					        'detailTitle': '请选择服务类型（可多选）',
 					        'isMutiple': true,
 					        'key': 'jobType',
 					        'detailList': [
@@ -221,13 +173,29 @@
 					    },
 						{
 						       'title': '时间筛选',
-						       'detailTitle': '请选择时间段（可多选）',
+						       'detailTitle': '',
 						       'isMutiple': true,
 						       'key': 'jobType',
 						       'detailList': [
 						           
 						       ]
 						   },
+						   {
+						          'title': '审核状态',
+						          'detailTitle': '请选择审核状态（单选）',
+						          'isMutiple': true,
+						          'key': 'jobType',
+						          'detailList': [
+									  {
+										  'title': '审核中',
+										  'value': '0'
+									  },
+									  {
+										  'title': '审核未通过',
+										  'value': '1'
+									  }
+						          ]
+						      },
 				],
 				selectortype:[1,2,3],
 				params: {	
@@ -259,7 +227,7 @@
 				duration: 1,
 				istype: "",
 				address: "当前位置",
-				height: "",
+				height: "155",
 				background: {
 					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
@@ -271,18 +239,9 @@
 				notice: [],
 				swiperheight: 500,
 				tabIndex: 0,
-				tabBars: [{
-						name: "待抢单",
-						id: "daiqiangdan"
-					},
-					{
-						name: "已抢单",
-						id: "yiqiangdan"
-					},
-
-				],
+				
 				orderlist: [],
-				takelist:[],
+				beenlist:[],
 				page:1,
 				istake:false
 			}
@@ -319,6 +278,7 @@
 					title:"加载中",
 					duration:1500
 				});
+				this.getInfo();
 				this.getWOrkstay();
 			},1500);
 			
@@ -337,6 +297,7 @@
 		},
 		
 		computed:{
+
 			//重新排序待派单订单
 			sortOrderlist(){
 				for (var i = 0; i < this.orderlist.length; i++) {
@@ -373,7 +334,11 @@
 		
 		onLoad(event) {
 			//获取用户信息
-			this.getInfo();
+			wx.showShareMenu({
+					withShareTicket:true,
+					//设置下方的Menus菜单，才能够让发送给朋友与分享到朋友圈两个按钮可以点击
+					menus:["shareAppMessage","shareTimeline"]
+				})
 			console.log("页面类型111111");
 			console.log(this.menuList);
 			let tabbar = event.e;
@@ -387,7 +352,7 @@
 			uni.getSystemInfo({
 				success: (res) => {
 					// console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(532);
+					let height = res.windowHeight - uni.upx2px(516);
 					this.swiperheight = height;
 					console.log(this.swiperheight);
 				}
@@ -405,21 +370,150 @@
 			// this.orderlist = data.orderlist;
 			// console.log(this.orderlist);
 			this._freshing = false;
-			uni.$on('updatebadgecont',function(badgecont){
-			         console.log('监听到事件来自 update ，携带参数 msg 为：' + badgecont.badgecont);
-					 that.badgeconts++;
-					 that.tabIndex = 1;
-					 console.log(that.badgeconts);
-			});
+			// uni.$on('updatebadgecont',function(badgecont){
+			//          console.log('监听到事件来自 update ，携带参数 msg 为：' + badgecont.badgecont);
+			// 		 that.badgeconts++;
+			// 		 that.tabIndex = 1;
+			// 		 console.log(that.badgeconts);
+			// });
 			// this.selectdetaillist = this.menuList[0].detailList[0].title+',';
+			uni.$on('updateorderlist',function(data){
+			       console.log('监听到事件来自 updateorderlist ，携带参数 msg 为：' ,data.data);
+					that.orderlist = data.data;
+					console.log(that.orderlist);
+			   })
+			   uni.$on('updatebeenlist',function(data){
+			          console.log('监听到事件来自 updatebeenlist ，携带参数 msg 为：' ,data.data);
+			   		that.orderlist = data.data;
+			   		console.log(that.orderlist);
+			      })
 		},
-		// onPullDownRefresh() {
-		// 	this.getWOrkstay();
-		// 	this.getAlready();
-		// 	console.log("下拉刷新");
-		// },
-		
+
+		 
 		methods: {
+			//删除取消订单
+			deleteOrder(index){
+				//uid code
+				let that = this;
+				uni.showModal({
+				    title: '提示',
+				    content: '确认取消此订单吗？取消订单会影响个人信誉,降低平台对您派单量',
+				    success: function (res) {
+				        if (res.confirm) {
+							let code = that.beenlist[index].code;//当前删除的订单号
+							uni.setStorageSync("code",code);
+							 console.log('用户点击确定'+code);
+							// that.getlistCancel(code);
+							that.showDiv();
+							console.log("原因："+that.feedbackContent);
+							uni.setStorageSync("cannelindex",index);
+							console.log("删除后还有几条订单");
+							console.log(that.beenlist.length);
+							
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }
+				});
+				
+			},
+			//弹出框方法
+				showDiv() { // 显示输入弹出框
+					this.userFeedbackHidden = false;
+				},
+				hideDiv() { // 隐藏输入弹出框
+					this.userFeedbackHidden = true;
+				},
+				submitFeedback() { // 提交反馈
+					
+					var that =this;
+				   // 提交反馈内容
+				   this.issubmit = true;
+					console.log(that.feedbackContent);
+					if(that.feedbackContent){
+						that.hideDiv();
+						// let index = uni.getStorageSync("cannelindex");
+						// that.beenlist.splice(index,1);
+						that.getBeen();
+						let code  = uni.getStorageSync("code");
+						let index = uni.getStorageSync("cannelindex");
+						console.log("当前code："+code);
+						if(that.issubmit){
+							this.$myRequest({
+								url:'work/cancel',
+								data:{
+									code:code,
+									uid: this.user_uid,
+									reason:this.feedbackContent
+								},
+								methods:"POST"
+								
+							}).then(res=>{
+							// 	console.log(res);
+							// const data = JSON.parse(res.data);
+								if(res.data.code == 200){
+									console.log(res.data.msg);
+									that.beenlist.splice(index,1);
+								}else if(res.data.code == 300){
+									console.log(res.data.msg);
+							
+								}else{
+									console.log(res.data.msg)
+								}
+							})
+					}else{
+						that.hideDiv();
+					}
+					
+					}
+				},
+			//拉去待上门订单
+			getBeen(){
+				let phone = uni.getStorageSync('phone');
+				let that = this;
+				if(phone){
+				this.$myRequest({
+					url:'work/been',
+					data:{
+						uid:this.user_uid,
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						this.beenlist = res.data.data;
+						// this.mescroll.endSuccess();
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+						this.beenlist = [];
+					}else{
+						console.log(res.data.msg)
+					}
+				})	
+				}else{
+					//如果没有手机说明用户没有注册跳转
+					uni.showModal({
+					    title: '提示',
+					    content: '请先完成师傅服务类型注册，在开始抢单',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								//如果没有手机说明用户没有注册跳转
+								uni.navigateTo({
+									url:"../register/register"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+								
+					        }
+					    }
+					});
+				}
+			},
 			//选择模式
 			checkmode(){
 				this.mode = "date";
@@ -739,7 +833,11 @@
 							 console.log("获取类型数据");
 							 console.log(menuListItem.detailList);
 						}
+						menuListItem.detailList[0].title = "全部";
+						menuListItem.detailList[0].value = "全部";
 						this.menuList[0] = menuListItem;
+						console.log("获取子节点方法");
+						console.log(this.$refs.slFilter);
 						this.$refs.slFilter.resetMenuList(this.menuList)
 						this.selectortype = type;
 						
@@ -760,7 +858,7 @@
 				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
 				// loadSwiper();
 				this.getWOrkstay();
-				this.getAlready();
+				this.getBeen();
 				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
 				setTimeout(()=>{
 					this.mescroll.endSuccess();
@@ -774,18 +872,40 @@
 				this.tabIndex = index;
 				console.log(index);
 				// this.getWOrkstay();
+				if(index ==1){
+					this.closesearch = false;
+				}
 			},
 			//滑动切换
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
 				if(e.detail.current == 0){
-						// this.getWOrkstay();
+						this.getWOrkstay();
+						this.closesearch = true;
+						uni.getSystemInfo({
+							success: (res) => {
+								// console.log(res.windowHeight);
+								let height = res.windowHeight - uni.upx2px(516);
+								this.swiperheight = height;
+								console.log(this.swiperheight);
+							}
+						});
 				}
 				
 				if(e.detail.current == 1){
-						this.getAlready();
+						this.getBeen();
 						// this.$refs.popup.open();
 						this.badgeconts = 0;
+						this.closesearch = false;
+						// 获取scoll-view高度值
+						uni.getSystemInfo({
+							success: (res) => {
+								// console.log(res.windowHeight);
+								let height = res.windowHeight - uni.upx2px(395);
+								this.swiperheight = height;
+								console.log(this.swiperheight);
+							}
+						});
 				}
 			},
 			//上拉加载
@@ -1045,6 +1165,7 @@
 						}else if(res.data.code == 300){
 							console.log(res.data.msg);
 							// this.mescroll.endSuccess();
+							this.orderlist = [];
 						}else{
 							console.log(res.data.msg)
 						}
@@ -1462,12 +1583,27 @@
 				title: this.$overShare.title,
 				path: this.$overShare.path,
 				imageUrl:this.$overShare.imageUrl,
-				
+				desc:this.$overShare.imageUrldesc
 			}
-		}
+		},
+		//分享到朋友圈
+		onShareTimeline(res) {
+			// let distSource = uni.getStorageSync('distSource');
+			
+				return {
+					title: '欢迎使用xxx商城',
+					type: 0,
+					query: 'id=' + distSource,
+					summary: "",
+					imageUrl: "https://58d.oss-cn-hangzhou.aliyuncs.com/goods/ttg_1596073788000.png"
+				}
+		},
 	}
 </script>
 <style>
+	.swiper-box{
+		padding-bottom: 40upx;
+	}
 	.u-search{
 		margin-left: 25upx;
 		margin-right: 25upx;
@@ -1500,6 +1636,75 @@
 	
 </style>
 <style scoped>
+	/* 输入提示框 */
+	.popup_overlay {
+	 
+			position: fixed;
+			top: 0%;
+			left: 0%;
+			width: 100%;
+			height: 100%;
+			background-color: black;
+			z-index: 1001;
+			-moz-opacity: 0.8;
+			opacity: .80;
+			filter: alpha(opacity=88);
+		}
+	 
+		.popup_content {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			width: 520upx;
+			height: 550upx;
+			margin-left: -270upx;
+			margin-top: -270upx;
+			border: 10px solid white;
+			background-color: white;
+			z-index: 1002;
+			overflow: auto;
+			border-radius: 20upx;
+		}
+	 
+		.popup_title {
+			padding-top: 20upx;
+			width: 480upx;
+			text-align: center;
+			font-size: 32upx;
+		}
+	 
+		.popup_textarea_item {
+			padding-top: 5upx;
+			height: 242upx;
+			width: 440upx;
+			background-color: #F1F1F1;
+			margin-top: 30upx;
+			margin-left: 20upx;
+		}
+	 
+		.popup_textarea {
+			width: 410upx;
+			font-size: 26upx;
+			margin-left: 20upx;
+			height:242upx;
+		}
+	 
+		.popup_button {
+			color: white;
+			background-color: #4399FC;
+			border-radius: 20upx;
+		}
+		button{
+			-webkit-appearance:none;
+			height: 26px !important;
+			line-height: 56upx !important;
+			color: #00abeb;
+			font-size: 32upx;
+			margin-top: 60upx;
+		}
+		button::after{
+			border: none;
+		}
 	.acmin{
 		color: #00ABEB;
 	}
@@ -1525,12 +1730,13 @@
 		text-align: center;
 		line-height: 44upx;
 		color: #ffffff;
+		
 	}
 	/* u-search */
 	
 	/* 顶部导航栏自定义 */
 	.slot-wrap {
-		display: flex;
+		/* display: flex; */
 		align-items: center;
 		/* 如果您想让slot内容占满整个导航栏的宽度 */
 		/* flex: 1; */
@@ -1539,7 +1745,9 @@
 		color: #FFFFFF;
 		margin-top: 2upx;
 		font-size: 22upx;
+		flex-direction: column;
 	}
+	
 	/* 数字角标 */
 	.badge {
 			background-color: blue;
@@ -1574,21 +1782,22 @@
 	/* tabs */
 	.tab-bar {
 		display: flex;
-		justify-content: space-between;
+		/* justify-content: space-between; */
 		padding-left: 25upx;
 		padding-right: 25upx;
 		margin-top: 40upx;
 		margin-bottom: 40upx;
+		width: 600upx;
 	}
 
 	.tab-bar view {
-		width: 340upx;
-		height: 76upx;
-		background-color: #CCCCCC;
+		/* width: 340upx;
+		height: 76upx; */
+		/* background-color: #CCCCCC; */
 		color: #FFFFFF;
 		border-radius: 8upx;
 		font-size: 40upx;
-		font-weight: bold;
+		/* font-weight: bold; */
 		line-height: 76upx;
 		text-align: center;
 	}

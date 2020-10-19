@@ -1,6 +1,8 @@
 {
-  "navigationStyle": "custom",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "入驻登记",
+  "navigationBarTextStyle": "black",
   "usingComponents": {
-    "u-navbar": "/uview-ui/components/u-navbar/u-navbar"
+    "u-mask": "/uview-ui/components/u-mask/u-mask"
   }
 }

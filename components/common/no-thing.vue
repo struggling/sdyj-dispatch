@@ -1,6 +1,6 @@
 <template>
 		<view class="nothing">
-			<image src="../../static/nothing.png" mode="widthFix"></image>
+			<image src="http://7n.51tiaoyin.com/Group%202%402x.png" mode="widthFix"></image>
 			<view class="txt">抱歉，暂无数据!</view>
 		</view>
 </template>

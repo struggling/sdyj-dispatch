@@ -1396,14 +1396,15 @@ radio-group label, checkbox-group label{
 }
 .uni-tab-bar .list {
 	width: 750rpx;
-	height: 94%;
+	height: 100%;
 }
 .uni-swiper-tab {
 	width: 100%;
 	white-space: nowrap;
 	line-height: 100rpx;
 	height: 100rpx;
-	border-bottom: 1px solid #c8c7cc;
+	/* border-bottom: 1px solid #c8c7cc; */
+	border-top: 1px solid #c8c7cc;
 }
 .swiper-tab-list {
 	font-size: 30rpx;
@@ -5165,9 +5166,9 @@ u-dropdown {
 /* uni.css - 通用组件、模板样式库，可以当作一套ui库应用 */
 /* 全局主题颜色theme */
 .theme {
-  background: -webkit-gradient(linear, left top, right top, from(#00ABEB), to(#54C3F1)) !important;
-  background: -webkit-linear-gradient(left, #00ABEB, #54C3F1) !important;
-  background: linear-gradient(90deg, #00ABEB, #54C3F1) !important;
+  background: -webkit-gradient(linear, left top, right top, from(#48C0FF), to(#0080FF)) !important;
+  background: -webkit-linear-gradient(left, #48C0FF, #0080FF) !important;
+  background: linear-gradient(90deg, #48C0FF, #0080FF) !important;
 }
 /* 顶部导航栏自定义 */
 .slot-wrap {

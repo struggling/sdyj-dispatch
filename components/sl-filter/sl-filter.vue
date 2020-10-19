@@ -1,21 +1,29 @@
 <template>
+
 	<view class="content">
 		<view :style="{height: tabHeight + 1 +'px'}">
 			<view :class="topFixed?'select-tab-fixed-top':'select-tab'" :style="{height: tabHeight+'px'}">
-				<view v-if="index ==0" class="select-tab-item" :style="{width: itemWidth}" v-for="(item,index) in titleList" :key="index" @tap="showMenuClick(index)">
-					<text :style="{color:color}">类型筛选</text>
-					<text class="arrows sl-font" :class="statusList[index].isActive?up:down"></text>
+				<view class="select-tab-item" :style="{width: itemWidth}" v-for="(item,index) in titleList" :key="index" @tap="showMenuClick(index)">
+					<block v-if="index ==0">
+						<text :class="statusList[index].isActive?blue:''">{{fixtypes}}</text>
+						<text class="arrows sl-font" :class="statusList[index].isActive?up:down"></text>
+					</block>
+					<block v-if="index ==1">
+						<text :class="statusList[index].isActive?blue:''">{{fixdate}}</text>
+						<text class="arrows sl-font" :class="statusList[index].isActive?up:down"></text>
+					</block>
+					<block v-if="index ==2">
+						<text :class="statusList[index].isActive?blue:''">{{fixstatus}}</text>
+						<text class="arrows sl-font" :class="statusList[index].isActive?up:down"></text>
+					</block>
 				</view>
-				<view v-if="index ==1" class="select-tab-item" :style="{width: itemWidth}" v-for="(item,index) in titleList" :key="index" @tap="showtime1">
-					<text :style="{color:color}">时间筛选</text>
-					<text class="arrows sl-font" :class="statusList[index].isActive?up:down"></text>
-				</view>
+				
 			</view>
 		</view>
 		<popup-layer ref="popupRef" :direction="'bottom'" @close="close" :isTransNav="isTransNav" :navHeight="navHeight"
 		 :tabHeight="tabHeight">
 			<sl-filter-view :ref="'slFilterView'" :independence="independence" :themeColor="themeColor" :menuList.sync="menuListTemp"
-			 ref="slFilterView" @confirm="filterResult"></sl-filter-view>
+			 ref="slFilterView" @confirm="filterResult" @checkmoon ="checkmoon" @qiehuan ="qiehuan" @qiehuansjijian ="qiehuansjijian"></sl-filter-view>
 		</popup-layer>
 	</view>
 
@@ -28,6 +36,11 @@
 		components: {
 			popupLayer,
 			slFilterView
+		},
+		onReady() {
+			uni.$on('updates',function(data){
+			        console.log('监听到事件来自---------------- updates ，携带参数 msg 为：' + data.msg);
+			})
 		},
 		props: {
 			menuList: {
@@ -67,6 +80,26 @@
 		},
 
 		computed: {
+			// 	fixdate(){
+			// 		console.log("转换时间");
+			// 		console.log(this.$refs.slFilterView);//
+			// 		console.log(this.$refs.slFilterView.startDate);
+			// 		console.log(this.$refs.slFilterView.endDate);
+			// 		let s = this.$refs.slFilterView.startDate.split("-");
+			// 		let e = this.$refs.slFilterView.endDate.split("-");
+			// 		console.log(s);
+			// 		console.log(e);
+			// 		return s+"至"+e
+			// },
+			// jisuanstatus(){
+			// 		let status = uni.getStorageSync("status");
+			// 		if(status == 0){
+			// 			return this.fixstatus = "审核中"
+			// 		}
+			// 		if(status == 1){
+			// 			return this.fixstatus = "审核未通过"
+			// 		}
+			// },
 			itemWidth() {
 				return 'calc(100%/2)'
 			},
@@ -149,6 +182,10 @@
 		// #endif
 		data() {
 			return {
+				fixdate: "时间类型",
+				fixtypes:"服务类型",
+				fixstatus:"审核状态",
+				blue: "blue",
 				down: 'sl-down',
 				up: 'sl-up',
 				tabHeight: 50,
@@ -159,10 +196,28 @@
 			};
 		},
 		methods: {
-			//打开时间选择
-			showtime1(){
-				this.$emit('showtime1');
-				this.$refs.popupRef.close();
+			//动态改变时间
+			qiehuan(status){
+				console.log("切换改变");
+				console.log(status);
+				if(status == 0){
+					 this.fixstatus = "审核中"
+				}
+				if(status == 1){
+					 this.fixstatus = "审核未通过"
+				}
+			},
+			qiehuansjijian(objdate){
+				console.log("切换改变");
+				console.log(objdate);
+				let s = objdate[0].substring(objdate[0].indexOf("-")+1,objdate[0].length);
+				let e = objdate[1].substring(objdate[1].indexOf("-")+1,objdate[1].length);
+				console.log(s,e);
+				// this.fixdate = s+"至"+e
+			},
+			//点击时间类型关闭
+			checkmoon(){
+				this.$refs.popupRef.close()
 			},
 			getMenuListTemp() {
 				let arr = this.menuList;
@@ -192,7 +247,7 @@
 				});
 			},
 			resetMenuList(val) {
-				this.menuList = val;
+				// this.menuList = val;
 				this.$emit('update:menuList', val)
 				this.$forceUpdate();
 				this.$refs.slFilterView.resetMenuList(val)
@@ -268,7 +323,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	@import 'iconfont/iconfont.css';
 
 	.select-tab {
@@ -277,7 +332,12 @@
 		display: flex;
 		width: 100%;
 	}
-
+	.blue{
+		color: #0080FF !important;
+	}
+	.sl-up{
+		color: #0080FF !important;
+	}
 	.select-tab-fixed-top {
 		border-bottom: #F7F7F7 1px solid;
 		background-color: #FFFFFF;

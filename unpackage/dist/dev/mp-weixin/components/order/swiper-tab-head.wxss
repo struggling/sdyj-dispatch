@@ -25,22 +25,22 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.uni-swiper-tab.data-v-8de60c3e {
+  background-color: #FFFFFF;
+}
 .swiper-tab-list.data-v-8de60c3e {
   color: #969696;
   font-weight: bold;
-  margin-left: 30rpx;
-  height: 50px;
+  width: 33.3%;
 }
 .uni-tab-bar .active.data-v-8de60c3e {
-  color: #54C3F1;
+  color: #0080FF;
 }
 .active .swiper-tab-line.data-v-8de60c3e {
-  border-bottom: 6rpx solid #54C3F1;
-  width: 70rpx;
+  width: 100%;
   margin: auto;
-  border-top: 6rpx solid #54C3F1;
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
+  border-top: 6rpx solid #0080FF;
+  margin-top: 26rpx;
 }
 .swiper-box.data-v-8de60c3e {
   /* height: 700upx !important; */

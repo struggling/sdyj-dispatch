@@ -4,6 +4,10 @@
 	padding-right: 25rpx;
 	padding-top: 40rpx;
 }
+.tianchong.data-v-7c36d490{
+	height: 600rpx;
+	width: 100%;
+}
 .totalpoint.data-v-7c36d490{
 	height: 128rpx;
 	line-height: 128rpx;
@@ -60,13 +64,15 @@
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	        align-items: center;
+	/* align-items: center; */
 	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: column;
 	        flex-direction: column;
+}
+.text-l .time.data-v-7c36d490{
+	color: #999999;
+	margin-top: 20rpx;
 }
 .text-r.data-v-7c36d490{
 	color: #00AAEB;

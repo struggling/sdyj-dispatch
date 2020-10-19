@@ -1,6 +1,6 @@
 <template>
 	<view class="u-notice-bar-wrap" v-if="isShow" :style="{
-		borderRadius: borderRadius + 'rpx',
+		borderRadius: borderRadius + 'rpx',opacity:opacity
 	}">
 		<block v-if="mode == 'horizontal' && isCircular">
 			<u-row-notice
@@ -20,7 +20,7 @@
 				@getMore="getMore"
 				@close="close"
 				@click="click"
-			></u-row-notice>
+			 style="opacity: 0.6;"></u-row-notice>
 		</block>
 		<block v-if="mode == 'vertical' || (mode == 'horizontal' && !isCircular)">
 			<u-column-notice
@@ -80,6 +80,11 @@
  */
 export default {
 	name: "u-notice-bar",
+	data() {
+		return {
+			opacity:0.6
+		}
+	},
 	props: {
 		// 显示的内容，数组
 		list: {

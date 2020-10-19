@@ -7,7 +7,7 @@
 			<!-- 标题 -->
 			<view class="title-nav">
 				<view class="l-nav">
-					<image src="../../static/settlement/logo.png" mode=""></image>
+					<!-- <image src="../../static/settlement/logo.png" mode=""></image> -->
 					<span>速达易家</span>
 				</view>
 				<view class="r-nav">师傅挣钱不容易，系统随机派单</view>
@@ -22,7 +22,7 @@
 				</block>
 			</view>
 			<!-- 入驻说明 -->
-			<view class="ensure">
+			<!-- <view class="ensure">
 				<view class="title">入驻优势</view>
 				<view class="panel">
 					<view class="txt">
@@ -48,7 +48,7 @@
 						<span>积极向上、热情大方</span>
 					</view>
 				</view>
-			</view>
+			</view> -->
 		</view>
 	</view>
 </template>

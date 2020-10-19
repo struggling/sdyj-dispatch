@@ -58,15 +58,15 @@
   border-width: 20rpx;
   border-style: solid;
   display: block;
-  border-color: transparent transparent #54C3F1 transparent;
+  border-color: transparent transparent #0080FF transparent;
 }
 .uni-add-tips-content.data-v-73408264 {
   border-width: 0rpx;
   margin-top: 20rpx;
   position: relative;
-  background-color: #54C3F1;
-  -webkit-box-shadow: 0 10rpx 20rpx -10rpx #54C3F1;
-          box-shadow: 0 10rpx 20rpx -10rpx #54C3F1;
+  background-color: #0080FF;
+  -webkit-box-shadow: 0 10rpx 20rpx -10rpx #0080FF;
+          box-shadow: 0 10rpx 20rpx -10rpx #0080FF;
   -webkit-border-radius: 12rpx;
           border-radius: 12rpx;
   display: -webkit-box;

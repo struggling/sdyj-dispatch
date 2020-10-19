@@ -153,12 +153,12 @@ import md5 from "./common/md5.min.js";
 //全局的分享内容
 
 Vue.prototype.$overShare = 	{
-	title: '易工单',
-	path: 'pages/index/index',
-	desc:"接单利器就用易工单",
-	imageUrl:"",
+	title: '方便快捷 精准接单',
+	path: 'pages/share/share',
+	desc:"便快捷、就近派单 结算迅速、完成到账 积分商城、好礼送不停 全职招募、稳定收入",
+	imageUrl:"http://7n.51tiaoyin.com/Group%205%402x.png",
 };
-
+//用户昵称全局变量
 
 //全局的apiurl
 Vue.prototype.$apiUrl = 'https://yigongdan.com/public/applet/'; 

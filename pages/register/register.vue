@@ -1,64 +1,78 @@
 <template>
 	<view>
 		<!-- 顶部自定义导航 -->
-		<u-navbar :is-back="true" title="入驻登记" :height="height" :background="background" title-color="#ffffff"
+		<!-- <u-navbar :is-back="true" title="入驻登记" :height="height" :background="background" title-color="#ffffff"
 		 back-icon-color="#ffffff">
-		</u-navbar>
+		</u-navbar> -->
 		<!-- 登记信息表单 -->
 		<view class="content">
+			<view class="">请输入姓名</view>
 			<view class="from-group">
-				<view class="iconfont iconyuangonggonglingfenbu"></view>
-				<view class="line"></view>
-				<view class="input"><input type="text" v-model="name" value="" placeholder="请填写你的姓名" /></view>
+				
+				<view class="input"><input type="text" v-model="name" value="" placeholder="请输入..." /></view>
 			</view>
+			<view class="">请输入您的工龄</view>
 			<view class="from-group">
-				<view class="iconfont icongerenzhongxinwoderenwubiaozhuntouxianxing"></view>
-				<view class="line"></view>
-				<view class="input"><input type="text" v-model="worktime" value="" placeholder="请填写你的工龄" /></view>
+				
+				<view class="input"><input type="text" v-model="worktime" value="" placeholder="请输入..." /></view>
 			</view>
+			<view class="">验证您的手机号</view>
 			<view class="from-group">
-				<view class="iconfont iconshouji"></view>
-				<view class="line"></view>
+				
 				<view class="input"><button open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">{{phonenum}}</button></view>
 			</view>
+			<view class="">选择您的种类</view>
 			<view class="from-group">
-				<view class="iconfont iconleixing1"></view>
-				<view class="line"></view>
-				<view class="input"><button type="default" class="typebtn">{{counttype}}</button></view>
-			</view>
-
-			<!-- 类型选择 -->
-			<view class="typecontent">
-				<view class="title">当前选择种类</view>
-				<view class="onelist">
-					<block v-for="(item,index) in type" :key="index">
-						<view  :class="[list,tabIndex == index?'theme':'']" @tap='tabbar(index)'>{{item}}</view>
+				
+				<view @tap="show=true" class="input"  style="white-space: nowrap;text-overflow: ellipsis; line-height: 88rpx;overflow: hidden;">
+					<block v-if="shows">
+						{{counttype}}
 					</block>
-				</view>
-				<!-- <image src="../../static/settlement/longgqby.png" mode=""></image> -->
-				<!-- <block v-if="typefy=='钢琴调音'">
-					<image :src="longtype.longgqty" mode=""></image>
-				</block>
-				<block v-if="typefy=='钢琴搬运'">
-					<image :src="longtype.longgyby" mode=""></image>
-				</block>
-				<block v-if="typefy=='家政服务'">
-					<image :src="longtype.longjzbj" mode=""></image>
-				</block>
-				<block v-if="typefy=='家电维修'">
-					<image :src="longtype.longjdwx" mode=""></image>
-				</block> -->
-				<view class="title">种类</view>
-				<view class="onelist">
-					<block v-for="(item,index) in typename" :key="index">
-						<view :class="[list,{'theme': rSelect.indexOf(index)!=-1}]" @tap="selecttype(index)">{{item}}</view>
+					<block v-else>
+						<input type="text"  value="" placeholder="请点击..." />
 					</block>
+					
 				</view>
 			</view>
+			<!-- 类型选择弹框 -->
+			<u-mask :show="show">
+				<view class="warp">
+					<view class="rect">
+						<!-- 类型选择 -->
+						<view class="typecontent">
+							<view class="close" @tap="quxiaotype">x</view>
+							<view class="title">选择种类</view>
+							<view class="title">大类（单选）</view>
+							<view class="onelist">
+								<block v-for="(item,index) in type" :key="index">
+									<view  :class="[list,tabIndex == index?'listactive':'']" @tap.stop='tabbar(index)'>{{item}}</view>
+								</block>
+							</view>
+						
+							<view class="title">小类（多选,必选）</view>
+							<view class="onelist">
+								<block v-for="(item,index) in typename" :key="index">
+									<view :class="[list,{'erleiactive': rSelect.indexOf(index)!=-1}]" @tap.stop="selecttype(index)">{{item}}</view>
+								</block>
+							</view>
+						</view>
+						<view class="btns" @tap="quedingtype">确认</view>
+					</view>
+				</view>
+			</u-mask>
 			<!-- 协议 -->
 			<view class="xieyi">
-				<view :class="[check,]" @tap="checked"><view :class="{'checkbox':flag,'':flag}"></view></view>
-				<view class="text">确定同意<navigator url="../agreement/agreement">《协议》</navigator></view>
+				<view :class="[check,]" @tap="checked">
+					<block v-if="flag">
+						<image src="http://7n.51tiaoyin.com/Group%205%402x.png" mode=""></image>
+					</block>
+					
+					<!-- <view :class="{'checkbox':flag,'':flag}"></view> -->
+				</view>
+				<view class="text">确定同意
+						<span class="navigator" @tap="goxieyi">《协议》</span class="">
+
+				</view>
 			</view>
 			<!-- 提交 -->
 			<button type="default" class="btn theme" @tap="submit()"> 确定提交</button>
@@ -67,11 +81,13 @@
 </template>
 
 <script>
-		import Validator from '../../common/validator.esm.js';
-		const validator = new Validator();
+	import Validator from '../../common/validator.esm.js';
+	const validator = new Validator();
 	export default {
 		data() {
 			return {
+				shows:false,
+				show:false,
 				tabIndex:0,
 				isget:true,
 				sumstring: [],
@@ -169,6 +185,23 @@
 			
 		},
 		methods: {
+			//跳转协议
+			goxieyi(){
+				console.log("tiaozhuan");
+				uni.navigateTo({
+					url:"../agreement/agreement"
+				})
+			},
+			//确定分类
+			quedingtype(){
+				this.shows = true;
+				this.show  =false;
+			},
+			//取消分类
+			quxiaotype(){
+				this.shows = false;
+				this.show = false;
+			},
 			//点击一级分类切换
 			tabbar(index){
 				this.tabIndex = index;
@@ -306,10 +339,10 @@
 							message: '工龄为空'
 						},
 						{
-							type: 'max:2',
-							message: '工龄必须数字',
+							type: 'callback',
+							message: '工龄2位数字',
 							callback :(value, message) =>  {
-								var reg = '\d{2}';
+								var reg = /\d{2}/;
 							      return reg.test(value) ? void 0 : message 
 							    }
 						}
@@ -426,6 +459,18 @@
 </script>
 
 <style scoped>
+	.warp {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+		}
+	
+	.rect {
+		width: 710upx;
+		/* height: 820upx; */
+		background-color: #fff;
+	}
 	.content {
 		padding-left: 25upx;
 		padding-right: 25upx;
@@ -435,9 +480,9 @@
 	/* 表单登记 */
 	.from-group {
 		display: flex;
-		border-bottom: 1upx solid #B3B3B3;
+		/* border-bottom: 1upx solid #B3B3B3; */
 		padding-top: 29upx;
-		padding-bottom: 29upx;
+		padding-bottom: 60upx;
 	}
 
 	.from-group .line {
@@ -455,44 +500,80 @@
 
 	.from-group .input {
 		flex: 1;
+		    width: 622upx;
+		    height: 88upx;
+		    background: #f6f6f6;
+		    border: 2upx solid #dbdbdb;
+		    text-align: left;
+		    /* line-height: 88upx; */
+		    padding-left: 20px;
+			border-radius: 8upx;
 	}
 
 	.from-group .input input {
-		font-size: 30upx;
-		color: #B3B3B3;
-		width: 100%;
+		font-size: 30rpx;
+		    color: #B3B3B3;
+		    width: 100%;
+		    line-height: 88upx;
+		    height: 88upx;
+		    line-height: normal;
 	}
 
 	.from-group .input button {
 		-webkit-appearance: none;
 		height: 100%;
-		line-height: 50upx;
-		background: linear-gradient(90deg, #00ABEB, #54C3F1);
-		color: #FFFFFF;
+		line-height: 88upx;
+		/* background: linear-gradient(90deg, #00ABEB, #54C3F1); */
+		color: #B3B3B3;
+		text-align: left;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
 
 	}
 
 	/* 表单类型选择 */
 	.typecontent {
-		background-color: #E1E1E1;
+		/* background-color: #E1E1E1; */
 		width: 100%;
 		margin-bottom: 25upx;
 		border-radius: 12upx;
 		padding-left: 25upx;
-		padding-right: 25upx;
+		/* padding-right: 25upx; */
 		margin-top: 25upx;
 		padding-bottom: 25upx;
+		position: relative;
 	}
-	
+	 .btns{
+		width: 92%;
+		height: 88rpx;
+		-webkit-border-radius: 2px;
+		border-radius: 6rpx;
+		background: -webkit-linear-gradient(318deg, #48C0FF 0%, #0F80FF 100%);
+		background: linear-gradient(132deg, #48C0FF 0%, #0F80FF 100%);
+		color: #FFFFFF;
+		text-align: center;
+		line-height: 88rpx;
+		font-size: 32rpx;
+		margin-left: 25rpx;
+		margin-right: 25rpx;
+		margin-bottom: 40rpx;
+	}
+	.typecontent .close{
+		position: absolute;
+		top: 20px;
+		color: #666666;
+		font-size: 52rpx;
+		right: 36rpx;
+	}
 	.typecontent  image{
 		height: 220upx;
 		width: 100%;
 	}
 	.typecontent .title {
-		color: #808080;
-		font-size: 30upx;
+		color: #333333;
+		font-size: 36upx;
 		font-weight: bold;
-		padding-top: 25upx;
+		padding-top: 60upx;
 
 	}
 
@@ -503,49 +584,72 @@
 	}
 
 	.typecontent .onelist .list {
-		width: 170upx;
-		height: 60upx;
-		background-color: #B3B3B3;
-		border-radius: 20upx;
+		width: 200upx;
+		height: 80upx;
+		/* background-color: #B3B3B3; */
+		border-radius: 4upx;
 		margin-top: 25upx;
 		text-align: center;
-		line-height: 60upx;
-		color: #FFFFFF;
+		line-height: 80upx;
+		color: #666666;
+		border: 1px solid #979797;
+		 margin-right: 30rpx;
 	}
-
+	.listactive{
+		background-color: #269AFF;
+		border: none !important;
+		color: #FFFFFF !important;
+	}
+	.erleiactive{
+		color: #0080FF !important;
+		font-weight: bold !important;
+		background:#F2F6FF !important;
+		border: none !important;
+	}
 	.xieyi {
 		text-align: center;
 		display: flex;
-		justify-content: center;
+		/* justify-content: center; */
 		align-items: center;
+		margin-top: 30rpx;
 		/* position: relative; */
 	}
 
-	.xieyi navigator {
+	.xieyi .navigator {
 		text-decoration: solid;
 		color: #0A98D5;
 		margin-bottom: 25upx;
 		display: inline;
 		
 	}
-
+	.xieyi .text{
+		line-height: 44rpx;
+		padding-left: 20rpx;
+		font-size: 32rpx;
+	}
+	.xieyi image{
+		width: 100%;
+		height: 100%;
+	}
 	.btn {
-		width: 60%;
-		height: 70upx;
-		line-height: 70upx;
+		width: 100%;
+		height: 88rpx;
+		line-height: 88rpx;
 		color: #FFFFFF;
 		-webkit-appearance: none;
 		border: none;
 		margin: 0 auto;
-		margin-top: 25upx;
-		margin-bottom: 25upx;
+		margin-top: 200rpx;
+		margin-bottom: 25rpx;
+		font-size: 32rpx;
+		margin-top: 200rpx;
 	}
 
 	/* 选中协议 */
 	.check {
-		padding-right: 15upx;
-		width: 30upx;
-		height: 30upx;
+		/* padding-right: 15upx; */
+		width: 44upx;
+		height: 44upx;
 		border-radius: 100%;
 		/* background-color: #18B566; */
 		border: 4upx solid #00ABEB;

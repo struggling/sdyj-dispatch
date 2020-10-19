@@ -1,73 +1,111 @@
 <template>
+
+	
 	<view>
-		<!-- 自定义导航栏 -->
-		<u-navbar :is-back="true" back-icon-color="#ffffff"  title="订单详情" :height="height" :background="background" title-color="#ffffff"></u-navbar>
-		<swiperTabHead :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
+		<!-- 顶部自定义导航 -->
+		<!-- <u-navbar :is-back="true"  title="订单详情" :height="height" :background="background" title-color="#ffffff" back-icon-color="#ffffff" >
+		</u-navbar> -->
 		<!-- map -->
 		<map :latitude="latitude" :longitude="longitude" :markers="covers" :scale="scale"></map>
-		<view class="content" :style="{height:swiperheight+'px'}">
-			<!-- <view class="text">恭喜您接单成功！</view>
-			<view class="text">等待上门</view> -->
-			<view class="">
-				<view class="order-detail">
-					<view class="contact">
-						<view class="name">
-							<view class="sever">{{name}}</view>
-							<view class="sever1">服务方</view>
-						</view>
-						<view class="name">
-							<view class=""><u-icon name="checkmark-circle-fill" color="#00ABEB"></u-icon></view>
-							<view class="">——</view>
-						</view>
-						<view class="name">
-							<view class="sever">{{data.name}}</view>
-							<view class="sever1">客户方</view>
-						</view>
-					</view>
-					<view class="textdetail">
-						<view class="">订单金额:{{data.budget}}元</view>
-						<view class="">服务类型:{{data.type}}</view>
-					</view>
-					<view class="textdetail">
-						<view class="">{{data.duration}}</view>
-						<view style="color: #ff0404;font-weight: bold;" class="" @tap="gouser">客户电话: {{data.tel}}</view>
-					</view>
-					<view class="textdetail">
-						<view class="">工具要求:{{data.label}}</view>
-					</view>
-					<view class="textdetail">
-						<view class="">订单编号:{{data.code}}</view>
-					</view>
-					<view class="textdetail">
-						<view class="">上门时间:{{data.door_time}}</view>
-					</view>
-					<view class="textdetail">
-						<view class="">所在位置:{{data.origin}}</view>
-					</view>
-					<view class="textdetail">
-						<view class="">备注:{{data.content}}</view>
-					</view>
+		<!-- orderDetail -->
+		<view class="orderDetail">
+			<view class=" iconfont icongerenzhongxin-zhong">
+				<span class="name" style="">{{data.name}}</span>
+			</view>
+			<view class="parameter">
+				<view class="r-txt">
+					<span style="color:#666666 font-size: 28upx;">类型：{{data.type}}</span>
+				</view>
+				<view class="r-txt "  style="font-size: 28upx;">
+					<span style="padding-left: 25upx;font-size: 36upx;color:#FF4F4F;font-weight:bold;">￥{{data.budget}}元</span>
 				</view>
 			</view>
-			<view class="btngroup">
-				<button type="default" class="active" @tap="navlociton">导航目标</button>
-				<button type="default" class="active"  open-type='contact'>在线客户</button>
-				<!-- <template v-if="data.index==0"> -->
-					<button type="default" class="active2" @tap="start">完成服务</button>
-				<!-- </template> -->
-				<!-- <template v-else> -->
-					<!-- <button type="default" class="active1" @tap="complate">完成服务</button> -->
-				<!-- </template> -->
-
+			<view class="parameter">
+				<view class="r-txt "  style="font-size: 28upx;">
+					<span style="padding-left: 12px;
+    font-size: 20upx;
+    color: #7f7f7f;
+    text-align: right;
+    display: block;
+    width: 600rpx;">完成订单可获得:{{data.integral}}积分</span>
+				</view>
 			</view>
+			<view class="parameter label">
+				<block v-for="(items,indexs) in data.label" :key="indexs">
+					<view class="label-item">{{items}}</view>
+				</block>
+			</view>
+			<view class="parameter">备注：{{data.content}}</view>
+			<view class="parameter" @tap="go">
+				<view class=" iconfont icondianhua1 contact">
+					<span style="padding-left: 25upx;">{{data.tel}}</span>
+				</view>
+			</view>
+			<view class="parameter graytd">
+				<view class="r-txt " style="font-size: 24upx;">
+					<span class="iconfont iconshijian">上门时间：
+					{{data.door_time}}
+					</span>
+					
+				</view>
+				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
+					<span class="iconfont iconweibiaoti9">{{data.duration}}</span>
+				</view>				
+			</view>
+			<view class="btngroup">
+
+				<button type="default" style="border: 1px solid #000000;color: #333333;"  @tap="navlociton">开启导航</button>
+
+				<button type="default" style="background: linear-gradient(133deg, #48C0FF 0%, #0F80FF 100%);" @click="showmask">完成服务</button>
+			</view>
+			<!-- <image src="../../static/logo.png" mode=""></image> -->
+			<!-- model -->
+			<!-- <u-modal v-model="show" :content="content" :async-close="true"  @confirm="confirm" ref="uModal"></u-modal> -->
+			
+			<!-- mask -->
+			<!-- 上传图片 -->
+			
 		</view>
+		<u-popup v-model="show" mode="bottom" border-radius="14" length="80%">
+					<view class="pad">
+						<view class="mask-title">确认完成服务</view>
+						<!-- 图片上传 -->
+						<view class="mask-uptext">上传现场图片(最多4张图片)</view>
+						<vastwu-saveimg
+							:imgListprop="photo_list" 
+							:num='4' :isBase64='true' 
+							:isSave='true' 
+							:size='180'
+							 @chooseImage='imglist_msg'  
+							 @delImg='del_imglist_msg'>
+							 </vastwu-saveimg>
+							<view class="mask-uptext">备注</view>
+							<textarea class="mask-area" value="haha" v-model='remarks' placeholder="说明" />
+							<view class="mask-btn" @tap="submit">确认完成</view>
+						</view>
+		</u-popup>
+			
 	</view>
 </template>
 
 <script>
+	import vastwuSaveimg from '../../components/vastwu-saveimg/vastwu-saveimg.vue'
 	export default {
+		components:{
+			vastwuSaveimg
+		},
 		data() {
 			return {
+				imgs:"",
+				header:{},
+				remarks:"",
+				action: 'https://yigongdan.com/public/applet/work/uploadImg',
+				fileList: [
+					{
+						url: 'http://pics.sc.chinaz.com/files/pic/pic9/201912/hpic1886.jpg',
+					}
+				],
+				show:false,
 				currentpage:"",
 				name:'',
 				data:{},
@@ -84,9 +122,9 @@
 				covers: [{
 					latitude: 39.909,
 					longitude: 116.39742,
-					iconPath: '../../static/wait-list/location.png',
-					width:30,
-					height:30,
+					iconPath: 'http://7n.51tiaoyin.com/20201019170033.png',
+					width:80,
+					height:65,
 					
 				}, {
 					latitude: 39.90,
@@ -134,36 +172,134 @@
 			console.log(currentpage);
 		},
 		methods: {
-			navlociton(){
-				let that  = this;
-				let plugin = requirePlugin('routePlan');
-				let key = "E6FBZ-XLTWP-S7SDE-V435J-YVAAE-I2BAT";
-				let referer = "易工单";
-				// let longitude =  uni.getStorageSync('longitude');
-				// let latitude = uni.getStorageSync('latitude');
-				let endPoint = {
-				  "name": "客户地址",
-				  "latitude": this.latitude,
-				  "longitude": this.longitude
-				};
-				let jiexi = JSON.stringify(endPoint)
-				// let endPoint = JSON.stringify({
-				//   "name": "北京西站",
-				//   "latitude": 39.894806,
-				//   "longitude": 116.321592
-				// });
-				let themeColor = '#00ABEB'
-				console.log(jiexi);
-				uni.navigateTo({
-					url:"plugin://routePlan/index?key=" + key + "&referer="+ referer + "&endPoint=" + jiexi + "&themeColor="+themeColor
+			//上传图片
+			imglist_msg(res){
+				
+				// for (var i = 0; i < res.length; i++) {
+				// 	res[i]+"%&@";
+				// }
+				console.log(res.length);
+				if(res.length == 1){
+					this.imgs = res[0];
+					// console.log(res);
+				}else{
+					this.imgs = res.join("*|*");
+					// console.log("图片多张");
+					// console.log(res);
+				}
+				
+			},
+			del_imglist_msg(res){
+				// console.log(res,"删除图片");
+				if(res.length == 1){
+					this.imgs = res[0];
+					// console.log(res);
+				}else{
+					this.imgs = res.join("*|*");
+					// console.log("图片多张");
+					// console.log(res);
+				}
+			},
+			submit(){
+				console.log("发送图片");
+				this.show =false;
+				// this.$refs.uUpload.upload();
+				let code = this.data.code;
+				let imgs = this.imgs;
+				// console.log("图片六");
+				// console.log(imgs);
+				let remarks =  this.remarks;
+				this.$myRequest({
+					url:'work/accomplish',
+					data:{
+						code:code,
+						imgs: imgs,
+						remarks:remarks
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						uni.showModal({
+							  title: '提示',
+							    content: '订单完成后可到订单中心查看结款状态',
+							    success: function (res) {
+							        if (res.confirm) {
+							            console.log('用户点击确定');
+							        } else if (res.cancel) {
+							            console.log('用户点击取消');
+							        }
+							    }
+						})
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showModal({
+							  title: '提示',
+							    content: res.data.msg,
+							    success: function (res) {
+							        if (res.confirm) {
+							            console.log('用户点击确定');
+							        } else if (res.cancel) {
+							            console.log('用户点击取消');
+							        }
+							    }
+						})
+					}else{
+						console.log(res.data.msg)
+						uni.showModal({
+							  title: '提示',
+							    content: res.data.msg,
+							    success: function (res) {
+							        if (res.confirm) {
+							            console.log('用户点击确定');
+							        } else if (res.cancel) {
+							            console.log('用户点击取消');
+							        }
+							    }
+						})
+					}
 				})
+			},
+			showmask(){
+				this.show = true;
+				console.log(this.show);
+			},
+			navlociton(){
+				let that = this;
+				console.log(that.latitude);
+				wx.openLocation({
+					latitude:Number(that.latitude) ,
+					longitude: Number(that.longitude) ,
+					success() {
+						console.log("成功");
+					}
+				})
+				// let that  = this;
+				// let plugin = requirePlugin('routePlan');
+				// let key = "E6FBZ-XLTWP-S7SDE-V435J-YVAAE-I2BAT";
+				// let referer = "易工单";
+				// let endPoint = {
+				//   "name": "客户地址",
+				//   "latitude": this.latitude,
+				//   "longitude": this.longitude
+				// };
+				// let jiexi = JSON.stringify(endPoint)
+
+				// let themeColor = '#00ABEB'
+				// console.log(jiexi);
+				// uni.navigateTo({
+				// 	url:"plugin://routePlan/index?key=" + key + "&referer="+ referer + "&endPoint=" + jiexi + "&themeColor="+themeColor
+				// })
 			},
 			//拨打客服电话
 			go(){
 			 	uni.makePhoneCall({
 			 	
 			 	// 手机号
-			    phoneNumber: '400-0015-021', 
+			    phoneNumber: this.data.tel, 
 			
 				// 成功回调
 				success: (res) => {
@@ -177,19 +313,7 @@
 				
 			  });
 			},
-			// complate(){
-			// 	uni.showModal({
-			// 	    title: '提示',
-			// 	    content: '订单已完成,不可点击',
-			// 	    success: function (res) {
-			// 	        if (res.confirm) {
-			// 	            console.log('用户点击确定');
-			// 	        } else if (res.cancel) {
-			// 	            console.log('用户点击取消');
-			// 	        }
-			// 	    }
-			// 	});
-			// },
+
 			start(){
 				let that = this;
 				uni.showModal({
@@ -235,46 +359,7 @@
 						console.log(res.data.msg)
 					}
 				})
-				// uni.request({
-				// 	url:this.$apiUrl+"work/accomplish",
-				// 	method:"POST",
-				// 	dataType:JSON,
-				// 	data:{
-				// 		uid:uni.getStorageSync("uid"),
-				// 		code:code,
-				// 	},
-				// 	success(res) {
-				// 		console.log("完成订单");
-				// 		console.log(res);
-				// 		let data = JSON.parse(res.data);
-				// 		console.log(data);
-				// 		switch (data.code){
-				// 			case 200:
-				// 			setTimeout(()=>{
-				// 				uni.navigateBack({
-				// 				    delta: 1
-				// 				});
-				// 			},1500);
-				// 				break;
-				// 			case 300:
-				// 			uni.showToast({
-				// 				title:"该订单已经完成了",
-				// 				duration:2000
-				// 			})
-				// 				break;
-				// 			default:
-				// 				break;
-				// 		}
-						
-						
-				// 	},
-				// 	fail(res) {
-				// 		console.log(res);
-				// 		uni.showToast({
-				// 			title:"服务器无响应"
-				// 		})
-				// 	}
-				// })
+
 			},
 			//拨打客服电话
 			gouser(){
@@ -308,97 +393,214 @@
 	}
 </script>
 
-<style scoped>
-	.content{
-		background: linear-gradient(90deg, #54C3F1,#00ABEB);
-		padding-top: 1px;
-		padding-bottom: 30px;
+
+<style>
+	.u-popup{
+		padding-left: 40upx;
 	}
-	.content .text{
-		margin: 0 35%;
-		padding-top: 30upx;
-		text-align: center;
-		/* padding-bottom: 94upx; */
-		color: #FFFFFF;
-	}
-	.content .text1{
-		font-size: 30upx;
-	}
-	.content .text1{
-		font-size: 40upx;
-	}
-	.order-detail{
-		background-color: #FFFFFF;
-		border-radius: 12upx;
-		margin: 58upx 25upx;
-		padding-left: 25upx;
-		padding-right: 25upx;
-	}
-	.order-detail .contact{
-		margin: 80upx 20%;
-		display: flex;
-		justify-content: space-between;
-		padding-top: 80upx;
-	}
-	.order-detail .contact .name{
-		text-align: center;
-	}
-	.order-detail .contact .name .sever{
-		font-size: 34upx;
-	}
-	.order-detail .contact .name .seve1{
-		font-size: 26upx;
-		color: #CCCCCC;
-	}
-	.order-detail .textdetail{
-		display: flex;
-		justify-content: space-between;
-		padding-top: 25upx;
-		padding-bottom: 25upx;
+	.u-upload{
 		
 	}
-	.btn{
-		width: 356upx;
-		height: 80upx;
-		background: #FFFFFF;
-		border-radius: 12upx;
-		color:#00ABEB;
-		margin: 0 auto;
-		line-height: 80upx;
-		font-size: 32upx;
-		border: none;
-		-webkit-appearance:none
+	.slot-btn {
+		width: 88rpx;
+		height: 88rpx;
+		display: flex;
+		margin:10upx ;
+		justify-content: center;
+		align-items: center;
+		background: rgb(244, 245, 246);
+		border-radius: 10rpx;
 	}
+	
+	.slot-btn__hover {
+		background-color: rgb(235, 236, 238);
+	}
+</style>
+<style scoped lang="scss">
+	// mask
+	.pad{
+		padding-left: 40upx;
+	}
+	.mask-title{
+		width: 220upx;
+		height: 50upx;
+		font-size: 36upx;
+		font-family: Helvetica;
+		color: #333333;
+		line-height: 44upx;
+		padding-top: 50upx;
+		font-weight: bold;
+	}
+	.mask-uptext{
+		width: 320upx;
+		height: 34upx;
+		font-size: 24upx;
+		font-family: PingFangSC-Regular, PingFang SC;
+		font-weight: 400;
+		color: #333330;
+		line-height: 34upx;
+		margin-top: 100upx;
+	}
+	.mask-area{
+		width: 620upx;
+		height: 80upx;
+		background: #F8F8F8;
+		border-radius: 6upx;
+		margin-top: 52upx;
+		text-align: left;
+		padding-left: 50rpx;
+		padding-right: 50rpx;
+		color: #ff557f;
+		line-height: 80rpx;
+	}
+	.mask-btn{
+		width: 652upx;
+		height: 88upx;
+		background: linear-gradient(133deg, #48C0FF 0%, #0F80FF 100%);
+		border-radius: 6upx;
+		margin-top: 124upx;
+		font-size: 32rpx;
+		color: #ffffff;
+		text-align: center;
+		line-height: 88rpx;
+	}
+	/* map */
+	uni-map {
+		position: relative;
+		width: 100%;
+		height: 722upx;
+		display: block;
+	}
+	/* 修改小程序中map默认样式 */
 	map{
 		position: relative;
 		width: 100%;
-		height: 600upx;
+		height: 441upx;
 		display: block;
+	}
+	label{
+		display: inline-block !important;
+	}
+	/* orderDetail */
+	.orderDetail{
+		padding-left: 25upx;
+		padding-right: 25upx;
+		padding-top: 30upx;
+		position: relative;
+		border-radius: 4%;
+	}
+	.orderDetail .iconfont{
+		color: $themeright;
+	}
+	.orderDetail .iconfont .name{
+		padding-left: 25upx;
+		font-size: 36upx;
+		color:$themeright;
+		font-weight: bold;
+	}
+	.parameter2{
+		
+	}
+	.parameter .contact{
+		width: 100%;
+		height:80upx;	
+		border: 1px solid #000000;
+	}
+	.graytd{
+		background:#F8F8F8;
+		height: 160upx;
+		flex-direction: column;
+		justify-content: center !important;
+		align-items: center;
+	}
+	.label{
+		justify-content: flex-start !important;
+	}
+	.graytd .r-txt{
+		margin-bottom: 20rpx;
+		height: 40rpx ;
+		width: 100% !important;
+		text-align: center !important;
+	}
+	.graytd .r-txt .iconfont{
+		font-size: 28upx;
+	}
+	.label-item{
+		margin-top: 20upx;
+		font-size: 20upx;
+		border:1upx solid #000000;
+		border-radius: 8upx;
+		margin-right: 20upx;
+		padding-left: 20rpx;
+		padding-right: 20rpx;
+		line-height: 34upx;
+		color: #666666;
+	}
+	.parameter .r-txt{
+		width: 40%;
+		text-align: left;
+	}
+	.parameter{
+		display: flex;
+		padding-top: 6upx;
+		padding-bottom: 6upx;
+		justify-content: space-between;
+		font-size: 24upx;
+		margin-top: 25upx;
+		flex-wrap: wrap;
+	}
+	.parameter .iconfont {
+		font-size: 32upx;
+		text-align: center;
+		line-height: 80rpx;
+		color: #000000;
+	}
+	.parameter .iconfont span{
+		font-size: 32upx;
+		// text-align: left;
+	}
+	.parameter  span{
+		text-align: left;
+	}
+	.orderDetail image{
+		width: 130upx;
+		height: 130upx;
+		border-radius: 100%;
+		border: 4upx solid #00ABEB;
+		background-color: #CCCCCC;
+		position: absolute;
+		right: 80upx;
+		top: -68upx;
+	}
+	.orderDetail button{
+		
+		
+		color: #FFFFFF;
+		border-radius: 8upx;
+		width: 40% !important;
+		height:76upx ;
+		font-size: 40upx;
+		line-height: 76upx;
+		margin:40upx auto;
+		color: #FFFFFF;
+		// border: 1px solid #000000;
 	}
 	.btngroup{
 		display: flex;
 		justify-content: space-between;
-		padding-left: 25upx;
-		padding-right: 25upx;
+	}
+	.themes{
+		background: linear-gradient(133deg, $themeleft 0%, $themeright 100%);
+		border: none;
 	}
 	/* 修改小程序的默认button样式 */
 	button{
-		-webkit-appearance:none;
-		height: 32px !important;
-		line-height: 56upx !important;
-		color: #00abeb;
-		font-size: 32upx;
+		-webkit-appearance:none
 	}
-	button::after{
+	button::after {
 		border: none;
 	}
 	.active{
-		background-color: #ffffff;
-	}
-	.active1{
-		background-color: #cccccc;
-	}
-	.active1{
-		background-color: #ff5500;
+		background-color: #CCCCCC;
 	}
 </style>

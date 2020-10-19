@@ -1,96 +1,39 @@
 <template>
 	<view>
-		<!-- 顶部自定义导航 -->
-		<u-navbar :is-back="true" title="个人信息" :height="height" :background="background" title-color="#ffffff"
-		 back-icon-color="#ffffff">
-		</u-navbar>
 		<view class="content" :style="{height:swiperheight+'px'}">
 			<!-- 用户基本数据 -->
 			<view class="p-data">
 				<view class="avatar">
-					<u-avatar :src="data.user_avatar"></u-avatar>
+					<u-avatar :src="data.avatar"></u-avatar>
 				</view>
 				<view class="information">
-					<view class="nickname">{{data.user_name}}</view>
-					<view class="rate">
-
-						<u-rate :count="count" v-model="value" inactive-color="#b2b2b2" active-color="#F86032"></u-rate>
-						<view class="scroe">{{data.user_score}}</view>
-					</view>
-
+					<view class="nickname">{{name}}</view>
 					<view class="address">
 						<view class="iconfont icondiliweizhi"></view>
-						<view class="add">{{data.user_address}}</view>
+						<view class="add">{{datas.user_address}}</view>
 					</view>
 				</view>
 			</view>
 			<!-- 用户信息列表 -->
-			<!-- <view class="user-data">
-				<view class="user-avatar">
-					<view class="l-text">头像</view>
-					<view class="r-text">
-						<block v-if="lists.length>0">
-							<view class="pre-item" v-for="(item, index) in lists" :key="index">
-
-								<image class="pre-item-image" :src="item.url" mode="aspectFill"></image>
-							</view>
-						</block>
-						<block v-else>
-							<image :src="data.user_avatar" mode=""></image>
-						</block>
-						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
-					</view>
-				</view>
-			</view> -->
 			<view class="user-data">
 				<view class="user-avatar">
-					<view class="l-text">{{data.user_name}}</view>
+					<view class="l-text">更改名称</view>
 					<view class="r-text">
 						<input type="text" value="" v-model="name" focus placeholder="更改昵称" />
-						<!-- <view class="txt" >{{name}}</view> -->
 						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
 					</view>
 				</view>
 			</view>
 			<view class="user-data">
 				<view class="user-avatar">
-					<view class="l-text">手机号</view>
+					<view class="l-text">更改电话</view>
 					<view class="r-text">
-						<input type="text" value="" v-model="data.user_phone" focus placeholder="更改手机号码" />
-						<!-- <view class="txt">{{tel}}</view> -->
-						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
-					</view>
-				</view>
-			</view>
-			<view class="user-data">
-				<view class="user-avatar">
-					<view class="l-text">服务类型</view>
-					<view class="r-text" @tap="showmask = true">
-						<view class="txt">{{type}}</view>
+						<input type="text" value="" v-model="phone" focus placeholder="更改手机号码" />
 						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
 					</view>
 				</view>
 			</view>
 			<button @click="submit" class="theme">保存信息</button>
-			<!-- <u-upload  ref="uUpload" :action="action"></u-upload> -->
-			<u-upload style="opacity:0" :custom-btn="true" ref="uUpload" :show-upload-list="showUploadList" :action="action"
-			 :max-count="maxcount">
-				<view slot="addBtn" class="slot-btn" hover-class="slot-btn__hover" hover-stay-time="150">
-					<u-icon name="photo" size="60" color="#c0c4cc"></u-icon>
-				</view>
-			</u-upload>
-			<!-- 类型选择 -->
-			<u-select v-model="show" :list="listtype" :default-value="[2,4]" mode="mutil-column-auto"  @confirm="confirm"></u-select>
-			
-			<u-mask :show="showmask">
-					<view class="warp">
-						<view class="rect" @tap.stop></view>
-					</view>
-					<select-type :listtype="listtype" @submittype="submittype"></select-type>
-				</u-mask>
-			<!-- <view>
-			    <jpSelect ref="jpSelect" :list="list" @checked="checked" :item="item" select="more" tite="请选择最美诗句"></jpSelect>
-			</view> -->
 		</view>
 	</view>
 </template>
@@ -106,52 +49,15 @@
 		data() {
 			return {
 				showmask:false,
-				data:{},
+				datas:{},
 				swiperheight: 667,
-				height: "",
-				background: {
-					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
-				},
-				show: false,
-				action: 'localhost', // 演示地址
-				maxcount: 1,
-				type:"家政保洁",
-				listtype:[
-							{
-								value: 1,
-								label: '中国',
-								children: [
-									{
-										value: 2,
-										label: '广东',
-									},
-									{
-										value: 5,
-										label: '广西',
-									}
-								]
-							},
-						],
-				item: '',
-				list: [],
-				showUploadList: false,
-				// 如果将某个ref的组件实例赋值给data中的变量，在小程序中会因为循环引用而报错
-				// 这里直接获取内部的lists变量即可
-				lists: [{
-						url: '../../static/logo.png', // 预览图片的地址
-						error: false, // 上传失败，此值为true
-						progress: 100, // 0-100之间的值
-					}
-
-				],
-				src: 'http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg',
-				text: '无头像',
-				count: 5,
-				value: 4
+				data:{},
+				name:"",
+				phone:''
 			}
 		},
+		
 		onLoad(event) {
-			// console.log("aaa");
 			//设置容器高度
 			uni.getSystemInfo({
 				success: (res) => {
@@ -166,52 +72,17 @@
 			const payload = event.userinfo || event.payload;
 			// 目前在某些平台参数会被主动 decode，暂时这样处理。
 			try {
-				this.data= JSON.parse(decodeURIComponent(payload));
+				this.datas= JSON.parse(decodeURIComponent(payload));
 				
 				console.log(this.data);
 			} catch (error) {
-				this.data = JSON.parse(payload);
-				console.log(this.data);
+				this.datas = JSON.parse(payload);
+				console.log(this.datas);
 			};
 			this.getInfo();
-			this.getinittype();
+			// this.getinittype();
 		},
 		methods: {
-			//
-			submittype(type,mask){
-				this.type = type;
-				this.showmask = mask;
-				console.log(this.type);
-			},
-			//初始化类型参数
-			getinittype(){
-				this.$myRequest({
-					url:'user/AllType',
-					data:{},
-					methods:"POST"
-				}).then(res=>{
-					console.log(res);
-				// const data = JSON.parse(res.data);
-					if(res.data.code == 200){
-						console.log(res.data.msg);
-						console.log(res.data.data);
-						this.listtype = res.data.data;
-					}else if(res.data.code == 300){
-						console.log(res.data.msg);
-				
-					}else{
-						console.log(res.data.msg)
-					}
-				})
-			},
-			//选择类型
-			//  checked(el) {
-			// 	this.item = el
-			// 	console.log(this.item);
-			// },
-			// toOpen() {
-			// 	this.$refs.jpSelect.toOpen()
-			// },
 			//获取用户信息
 			getInfo(){
 				this.$myRequest({
@@ -224,8 +95,11 @@
 					if(res.data.code == 200){
 						console.log(res.data.msg);
 						console.log(res.data.data);
-						let arr  = res.data.data.type.split(',');
-						this.type  =arr[0];
+						this.data = res.data.data;
+						// console.log(this.data);
+						 this.phone =this.data.phone;
+						this.name =this.data.wechat_name;
+						
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
 				
@@ -234,21 +108,19 @@
 					}
 				})
 			},
+			//提交修改信息
 			submit() {
 				uni.showLoading({
 					title: '保存中'
 				});
-				let phone = this.data.user_phone;
+				let phone = this.phone;
 				// let nickname = this.data.user_name;
 				let nickname = this.name;
-				let type = this.type
 				
-
 				this.$myRequest({
 					url:'user/updateInfo',
 					data:{
 						phone:phone,
-						type:type,
 						nickname:nickname
 					},
 					methods:"POST"
@@ -257,13 +129,11 @@
 				// const data = JSON.parse(res.data);
 					if(res.data.code == 200){
 						console.log(res.data.msg);
-						setTimeout(function() {
 							uni.hideLoading();
 							uni.showToast({
 								title:"保存成功"
-							})
-						}, 2000);
-						// this.data = res.data.data
+							});
+							// uni.setStorageSync("user_name",this.name)
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
 						uni.showModal({
@@ -285,16 +155,13 @@
 				uni.hideLoading();
 				
 			},
-			// 类型选择
-			confirm(e) {
-				console.log(e);
-				this.type = e[0].label+','+e[1].label
-				
-			}
 		},
 		onReady() {
 			// 得到整个组件对象，内部图片列表变量为"lists"
-			this.lists = this.$refs.uUpload.lists;
+			// this.lists = this.$refs.uUpload.lists;
+		},
+		onBackPress() {  
+				uni.$emit('updatename',{msg:this.name})
 		},
 		//自定义分享页面
 		onShareAppMessage(e){

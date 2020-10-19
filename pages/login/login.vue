@@ -71,7 +71,7 @@
 												setTimeout(
 												()=>{
 												uni.reLaunch({
-													url:"../guide/guide"
+													url:"../share/share"
 												})	
 												},1500);
 												// 把用户信息写入缓存

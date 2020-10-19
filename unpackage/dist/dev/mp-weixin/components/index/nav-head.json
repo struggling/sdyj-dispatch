@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "u-notice-bar": "/uview-ui/components/u-notice-bar/u-notice-bar"
+  },
+  "component": true
+}

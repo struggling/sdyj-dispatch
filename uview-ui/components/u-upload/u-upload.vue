@@ -18,7 +18,7 @@
 					background: delBgColor
 				}"
 			>
-				<u-icon class="u-icon" :name="delIcon" size="20" :color="delColor"></u-icon>
+				<u-icon class="u-icon" :name="delIcon" size="14" :color="delColor"></u-icon>
 			</view>
 			<u-line-progress
 				v-if="showProgress && item.progress > 0 && !item.error"
@@ -526,11 +526,11 @@ export default {
 
 .u-upload {
 	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	position: absolute;
-	top: 242upx;
-	right: 118upx;
+	// flex-wrap: wrap;
+	// align-items: center;
+	// position: absolute;
+	// top: 242upx;
+	// right: 118upx;
 }
 
 .u-list-item {
@@ -575,13 +575,13 @@ export default {
 
 .u-delete-icon {
 	position: absolute;
-	top: 10rpx;
-	right: 10rpx;
+	top: 0rpx;
+	right: 0rpx;
 	z-index: 10;
 	background-color: $u-type-error;
 	border-radius: 100rpx;
-	width: 44rpx;
-	height: 44rpx;
+	width: 22rpx;
+	height: 22rpx;
 	display: flex;
 	align-items: center;
 	justify-content: center;

@@ -1,6 +1,8 @@
 {
-  "navigationStyle": "custom",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "我的积分",
+  "navigationBarTextStyle": "black",
   "usingComponents": {
-    "u-navbar": "/uview-ui/components/u-navbar/u-navbar"
+    "no-thing": "/components/common/no-thing"
   }
 }

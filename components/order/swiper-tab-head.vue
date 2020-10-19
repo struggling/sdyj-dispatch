@@ -34,23 +34,26 @@
 </script>
 
 <style scoped lang="scss">
-
+.uni-swiper-tab {
+    background-color: #FFFFFF;
+}
 .swiper-tab-list{
 		color:#969696;
 		font-weight: bold;
-		margin-left: 30upx;
-		height: 50px;
-
+		// margin-left: 30upx;
+		// height: 50px;
+		width: 33.3%;
 	}
 	.uni-tab-bar .active {
 	color: $themeright;
 	}
 	.active .swiper-tab-line{
-		border-bottom: 6upx solid $themeright;
-		width: 70upx;
+		// border-bottom: 6upx solid $themeright;
+		width:100%;
 		margin: auto;
 		border-top: 6upx solid $themeright;
-		border-radius: 20upx;
+		margin-top: 26rpx;
+		// border-radius: 20upx;
 	}
 	.swiper-box{
 		/* height: 700upx !important; */

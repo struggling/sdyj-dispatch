@@ -14,7 +14,7 @@
                 <view class="item" v-for="(item, index) in dates" :key="index">
                     <view
                         class="day"
-                        @click="selectOne(item, $event)"
+                        @click="selectOne(item, $event,datenum)"
                         :class="{
                             choose: choose == `${item.year}-${item.month}-${item.date}`&&item.isCurM,
                             nolm: !item.isCurM,
@@ -67,7 +67,7 @@ export default {
         //未来日期是否不可点击
         disabledAfter: {
             type: Boolean,
-            default: false
+            default: true
         }
     },
     data() {
@@ -78,7 +78,10 @@ export default {
             dates: [], // 当前月的日期数据
             positionTop: 0,
             monthOpen: true,
-            choose: ''
+            choose: '',
+			date1:"",
+			date2:"",
+			datenum:2
         };
     },
     created() {
@@ -221,7 +224,7 @@ export default {
             }
         },
         // 点击回调
-        selectOne(i, event) {
+        selectOne(i, event,datenum) {
             let date = `${i.year}-${i.month}-${i.date}`;
             let selectD = new Date(date).getTime();
             let curTime = new Date().getTime();
@@ -230,16 +233,21 @@ export default {
             let formatWeek = '星期' + weekText[week];
             let response = {
                 date: date,
-                week: formatWeek
+                week: formatWeek,
+				start_time:date1,
+				end_time:date2
             };
+
             if (!i.isCurM) {
                 // console.log('不在当前月范围内');
                 return false;
             }
             if (selectD > curTime) {
                 if (this.disabledAfter) {
-                    console.log('未来日期不可选');
-                    return false;
+                    // console.log('未来日期不可选');
+                    // return false;
+					this.choose = date;
+					this.$emit('onDayClick', response);
                 } else {
                     this.choose = date;
                     this.$emit('onDayClick', response);

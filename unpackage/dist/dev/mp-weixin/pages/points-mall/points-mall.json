@@ -1,7 +1,6 @@
 {
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
-    "u-icon": "/uview-ui/components/u-icon/u-icon"
-  }
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "积分商城",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {}
 }

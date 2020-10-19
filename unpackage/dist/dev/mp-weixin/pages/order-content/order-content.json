@@ -1,7 +1,9 @@
 {
-  "navigationStyle": "custom",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "订单详情",
+  "navigationBarTextStyle": "black",
   "usingComponents": {
-    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
-    "u-icon": "/uview-ui/components/u-icon/u-icon"
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "vastwu-saveimg": "/components/vastwu-saveimg/vastwu-saveimg"
   }
 }

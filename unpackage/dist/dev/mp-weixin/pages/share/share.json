@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "customer-service": "/components/customer-service/customer-service"
+  }
+}

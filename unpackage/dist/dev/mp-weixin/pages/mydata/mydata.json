@@ -1,10 +1,11 @@
 {
-  "navigationStyle": "custom",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "个人数据",
+  "navigationBarTextStyle": "black",
   "usingComponents": {
-    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
     "u-avatar": "/uview-ui/components/u-avatar/u-avatar",
-    "u-rate": "/uview-ui/components/u-rate/u-rate",
     "u-icon": "/uview-ui/components/u-icon/u-icon",
-    "u-calendar": "/uview-ui/components/u-calendar/u-calendar"
+    "u-calendar": "/uview-ui/components/u-calendar/u-calendar",
+    "no-thing": "/components/common/no-thing"
   }
 }

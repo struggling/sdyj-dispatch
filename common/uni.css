@@ -847,7 +847,7 @@ radio-group label, checkbox-group label{
 
 .uni-tab-bar .list {
 	width: 750rpx;
-	height: 94%;
+	height: 100%;
 }
 
 .uni-swiper-tab {
@@ -855,7 +855,8 @@ radio-group label, checkbox-group label{
 	white-space: nowrap;
 	line-height: 100rpx;
 	height: 100rpx;
-	border-bottom: 1px solid #c8c7cc;
+	/* border-bottom: 1px solid #c8c7cc; */
+	border-top: 1px solid #c8c7cc;
 }
 
 .swiper-tab-list {

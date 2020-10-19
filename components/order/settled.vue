@@ -6,21 +6,32 @@
 				<view class="info" >
 					<view class="parm" @tap="goDetail(item)">
 						<view class="parm-txt title">{{item.type}}/{{item.duration}}</view>
-						<view class="parm-txt">{{item.origin}}</view>
-						<template v-if="item.Distance">
-							<view class="parm-txt">距离：{{item.Distance}}公里</view>
-						</template>
-						
-						<view class="parm-txt"><span>{{item.label}}</span></view>
-						<view class="parm-txt">上门时间：{{item.door_time}}</view>
+						<view class="parm-tips">
+							<view class="parm-item-l">
+								<view class="parm-txt">{{item.origin}}</view>
+								<view class="parm-txt door-time">上门时间：{{item.door_time}}</view>
+							</view>
+							<view class="parm-item-r">
+								<template v-if="item.Distance">
+									<view class="parm-txt">{{item.Distance}}公里</view>
+								</template>
+							</view>
+						</view>
+						<view class="parm-txt label">
+							<block v-for="(items,indexs) in item.label" :key="indexs">
+								<view class="label-item">{{items}}</view>
+							</block>
+						</view>
+						<view style="display: flex;justify-content: space-between;">
+							<view class="price parm-txt">￥{{item.budget}}元</view>
+							<block v-if="item.integral">
+								<view class="price parm-txt" style="color: #7f7f7f;font-size: 20upx;font-weight: 100;line-height: 50rpx;">完成订单可获得:{{item.integral}}积分</view>
+							</block>
+						</view>
 						<template v-if="item.reason">
-							<view  class="parm-txt">取消原因：{{item.reason}}</view>
+							<view  class="parm-txt reason">取消原因：{{item.reason}}</view>
 						</template>
 						
-					</view>
-					<view class="parm">
-						<view class="price">{{item.budget}}元</view>
-						<!-- <view class="reason">取消原因{{item.reason}}</view> -->
 					</view>
 				</view>
 				<view class="btn-group">
@@ -29,15 +40,8 @@
 					</template>
 					<template v-if="btn[1] != ' '">
 						<template v-if="btn[1] == '联系客服'">
-							<view  class="btn active" @click="show = true">联系客服</view>
-							<u-mask :show="show" @click="show = false">
-									<view class="warp">
-										<view class="rect" @tap.stop>
-											<button type="default" open-type="contact" class="btn active">{{btn[1]}}</button>
-											<view  class="btn active" @tap="go">拨打电话</view>
-										</view>
-									</view>
-								</u-mask>
+							<button type="default" open-type="contact" class="btn">{{btn[1]}}</button>
+							<view  class="btn active" @tap="go">拨打电话</view>
 						</template>
 						<template v-else>
 							<view class="btn active" @tap="openpage(item)">{{btn[1]}}</view>
@@ -64,6 +68,9 @@
 			keys:Number,
 			color:String,
 			isclick:Boolean
+		},
+		computed:{
+			
 		},
 		data() {
 			return {
@@ -96,27 +103,7 @@
 			this.itemData.push(this.item);
 		},
 		methods:{
-			//客服会话功能
-			// confirm(e) {
-			// 	console.log(e);
-			// }
-			// chosekefu(){
-			// 	uni.showModal({
-			// 	    title: '提示',
-			// 		cancelText:"微信客服",
-			// 		confirmText:"拨打热线",
-			// 	    content: '选择沟通方式',
-			// 	    success: function (res) {
-			// 	        if (res.confirm) {
-			// 	            console.log('用户点击确定');
-			// 				this.iskehu = 0
-			// 	        } else if (res.cancel) {
-			// 	            console.log('用户点击取消');
-			// 				this.iskehu = 1
-			// 	        }
-			// 	    }
-			// 	});
-			// }
+			
 			//跳转到详情页
 			goDetail: function(item) {
 				let detail = {
@@ -136,13 +123,14 @@
 					state: item.state,
 					tel: item.tel,
 					type: item.type,
-					uid: item.uid
+					uid: item.uid,
+					integral:item.integral,
 				};
-				if(this.isclick){
+				
 					uni.navigateTo({
-						url: '../../pages/order-content/order-content?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+						url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 					});
-				}
+				
 				// uni.navigateTo({
 				// 	url: '../list2detail-detail/list2detail-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 				// });
@@ -203,46 +191,127 @@
 	
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	/* 订单列表 */
 	.wait-list{
 		
 		/* border-bottom: 1upx solid #c5c4d5; */
-		padding-top: 50upx;
+		margin-top: 40upx;
+		margin-left: 40upx;
+		margin-right: 40upx;
+		border-radius: 2upx;
+		padding: 40upx;
+		background-color: #FFFFFF;
+	}
+	.uni-tab-bar .list {
+	    width: 750rpx;
+	    /* height: 94%; */
+		height: auto;
 	}
 	.wait-list .btn-group{
 		display: flex;
-		justify-content: end;
-		padding: 15upx;
-		justify-content: flex-end;
-		border-bottom: 1upx solid #c5c4d5;
+		/* justify-content: end; */
+		/* padding: 15upx; */
+		/* justify-content: flex-end; */
+		/* border-bottom: 1upx solid #c5c4d5; */
+		justify-content: space-between;
 	}
 	.btn-group .active{
-		background-color: #00AAEB;
+		
+		background: linear-gradient(133deg, $themeleft 0%, $themeright 100%);
 		color: #FFFFFF !important;
 		border: none !important;
 	}
 	.info{
-		padding-left: 25upx;
-		padding-right: 25upx;
+		/* padding-left: 25upx;
+		padding-right: 25upx; */
 		
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		
+	}
+	.info .parm{
+		width: 100%;
+	}
+	.info .label{
+		
+		display: flex;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+		flex-wrap: wrap;
+	}
+	.info .label .label-item{
+		margin-top: 20upx;
+		font-size: 20upx;
+		border:1upx solid #000000;
+		border-radius: 8upx;
+		margin-right: 20upx;
+		padding-left: 20rpx;
+		padding-right: 20rpx;
+		line-height: 34upx;
+	}
+	.parm-tips{
+		display: flex;
+		justify-content: space-between;
+		padding: 16upx;
+		background-color:#F8F8F8;
+		align-items: center;
+		margin-top: 20upx;
+	}
+	.parm-item-l{
+
+		width: 60%;
+	}
+	.parm-item-r{
+		width: 20%;
+
+	}
+	.parm-item-l .parm-txt{
+		line-height: 24upx !important;
+		font-size: 24upx;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+		margin-top: 20rpx;
+	}
+	.parm-item-l .door-time{
+		color: $themeleft;
+	}
+	.parm-item-r .parm-txt{
+		line-height: 24upx !important;
+		font-size: 20upx;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.parm-txt{
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.reason{
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+		color: $themeright;
+		font-size: 32upx;
 	}
 	.parm{
 		line-height: 28upx;
-	}
-	view{
-		line-height: 2.15;
 	}
 	.parm .title{
 		font-size: 32upx;
 		font-weight: bold;
 	}
 	.parm .price{
-		text-align: center;
+		text-align: left;
 		color:#FA5741 ;
+		font-weight: bold;
+		font-size: 44upx;
+		margin-top: 40upx;
+		margin-bottom: 40upx;
 	}
 	.parm .pic image{
 		width: 168upx;
@@ -250,15 +319,19 @@
 		border-radius: 100%;
 	}
 	.btn-group .btn {
-		font-size: 28upx;
-		border-radius: 28upx;
-		border: 1upx solid #CCCCCC;
-		color:#CCCCCC ;
+		width: 280upx;
+		height: 88upx;
+		text-align: center;
+		line-height: 88upx;
+		font-size: 32upx;
+		border-radius: 8upx;
+		border: 1upx solid #979797;
+		color:#333333;
 		padding-left: 20upx;
 		padding-right: 20upx;
-		line-height: 1.5;
-		margin-left: 48upx;
-		border-bottom: 1upx solid #c5c4d5 !important;
+		line-height: 88upx;
+		/* margin-left: 48upx; */
+		border: 1upx solid #c5c4d5 !important;
 	}
 	button{
 		-webkit-appearance: none;

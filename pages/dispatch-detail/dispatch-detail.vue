@@ -1,49 +1,38 @@
 <template>
 	<view>
-		<!-- 自定义导航栏 -->
-		<u-navbar :is-back="true" back-icon-color="#ffffff"  title="服务订单详情" :height="height" :background="background" title-color="#ffffff"></u-navbar>
-		<swiperTabHead :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
-		<view class="content">
-			<view class="text">恭喜您接单成功！</view>
-			<view class="text">等待上门</view>
-			<view class="">
-				<view class="order-detail">
-					<view class="contact">
-						<view class="name">
-							<view class="sever">{{data.name}}</view>
-							<view class="sever1">服务方</view>
+	<!-- 订单列表 -->
+		<view class="wait-list">
+			<view class="info" >
+				<view class="parm" @tap="goDetail(item)">
+					<view class="parm-txt title">{{item.type}}/{{item.duration}}</view>
+					<view class="parm-tips">
+						<view class="parm-item-l">
+							<view class="parm-txt">{{item.origin}}</view>
+							<view class="parm-txt door-time">上门时间：{{item.door_time}}</view>
 						</view>
-						<view class="name">
-							<view class=""><u-icon name="checkmark-circle-fill" color="#00ABEB"></u-icon></view>
-							<view class="">——</view>
-						</view>
-						<view class="name">
-							<view class="sever">{{data.name}}</view>
-							<view class="sever1">客户方</view>
+						<view class="parm-item-r">
+							<template v-if="item.Distance">
+								<view class="parm-txt">{{item.Distance}}公里</view>
+							</template>
 						</view>
 					</view>
-					<view class="textdetail">
-						<view class="">订单金额:{{data.budget}}元</view>
-						<view class="">服务类型:{{data.type}}</view>
+					<view class="parm-txt label">
+						<block v-for="(items,indexs) in item.label" :key="indexs">
+							<view class="label-item">{{items}}</view>
+						</block>
 					</view>
-					<view class="textdetail">
-						<view class="">服务时长:{{data.door_time}}</view>
-						<view class="">客户电话:{{data.tel}}</view>
-					</view>
-					<view class="textdetail">
-						<view class="">工具要求:{{data.label}}</view>
-					</view>
-					<view class="textdetail">
-						<view class="">所在位置:{{data.origin}}</view>
-					</view>
-					<view class="textdetail">
-						<view class="">备注:{{data.content}}</view>
-					</view>
+					<view class="price parm-txt">￥{{item.budget}}元</view>
+					<template v-if="item.reason">
+						<view  class="parm-txt reason">取消原因：{{item.reason}}</view>
+					</template>
 				</view>
 			</view>
-			<button type="default" class="btn" @tap="start">服务完成</button>
+			<view class="btn-group">
+				<button type="default" class="btn" >服务完成</button>
+				<button type="default" class="btn active" @tap="start" @>立即抢单</button>
+			</view>
 		</view>
-	</view>
+</view>	
 </template>
 
 <script>
@@ -122,29 +111,6 @@
 						console.log(res.data.msg)
 					}
 				})
-				// uni.request({
-				// 	url:this.$apiUrl+"work/accomplish",
-				// 	method:"POST",
-				// 	dataType:JSON,
-				// 	data:{
-				// 		uid:uni.getStorageSync("user_uid"),
-				// 		code:code,
-				// 	},
-				// 	success(res) {
-				// 		console.log("完成订单");
-				// 		console.log(res);
-				// 		uni.navigateTo({
-				// 			url:"../order/order"
-				// 		})
-						
-				// 	},
-				// 	fail(res) {
-				// 		console.log(res);
-				// 		uni.showToast({
-				// 			title:"服务器无响应"
-				// 		})
-				// 	}
-				// })
 			}
 		},
 		//自定义分享页面
@@ -159,64 +125,143 @@
 	}
 </script>
 
-<style scoped>
-	.content{
-		background: linear-gradient(90deg, #00ABEB, #54C3F1);
-		height: 1214upx;
+<style scoped lang="scss">
+	/* map */
+	uni-map {
+		position: relative;
+		width: 100%;
+		height: 722upx;
+		display: block;
 	}
-	.content .text{
-		margin: 0 35%;
-		padding-top: 30upx;
-		text-align: center;
-		/* padding-bottom: 94upx; */
-		color: #FFFFFF;
+	/* 修改小程序中map默认样式 */
+	map{
+		position: relative;
+		width: 100%;
+		height: 646upx;
+		display: block;
 	}
-	.content .text1{
-		font-size: 30upx;
+	label{
+		display: inline-block !important;
 	}
-	.content .text1{
-		font-size: 40upx;
-	}
-	.order-detail{
-		background-color: #FFFFFF;
-		border-radius: 12upx;
-		margin: 100upx 25upx;
+	/* orderDetail */
+	.orderDetail{
 		padding-left: 25upx;
 		padding-right: 25upx;
+		padding-top: 30upx;
+		position: relative;
+		border-radius: 4%;
 	}
-	.order-detail .contact{
-		margin: 80upx 20%;
-		display: flex;
-		justify-content: space-between;
-		padding-top: 80upx;
+	.orderDetail .iconfont{
+		color: $themeright;
 	}
-	.order-detail .contact .name{
-		text-align: center;
+	.orderDetail .iconfont .name{
+		padding-left: 25upx;
+		font-size: 36upx;
+		color:$themeright;
+		font-weight: bold;
 	}
-	.order-detail .contact .name .sever{
-		font-size: 34upx;
-	}
-	.order-detail .contact .name .seve1{
-		font-size: 26upx;
-		color: #CCCCCC;
-	}
-	.order-detail .textdetail{
-		display: flex;
-		justify-content: space-between;
-		padding-top: 25upx;
-		padding-bottom: 25upx;
+	.parameter2{
 		
 	}
-	.btn{
-		width: 356upx;
-		height: 80upx;
-		background: #FFFFFF;
-		border-radius: 12upx;
-		color:#00ABEB;
-		margin: 0 auto;
-		line-height: 80upx;
+	.parameter .contact{
+		width: 100%;
+		height:80upx;	
+		border: 1px solid #000000;
+	}
+	.graytd{
+		background:#F8F8F8;
+		height: 160upx;
+		flex-direction: column;
+		justify-content: center !important;
+		align-items: center;
+	}
+	.label{
+		justify-content: flex-start !important;
+	}
+	.graytd .r-txt{
+		margin-bottom: 20rpx;
+		height: 40rpx !important;
+		width: 100%;
+	}
+	.graytd .r-txt .iconfont{
+		font-size: 28upx;
+	}
+	.label-item{
+		margin-top: 20upx;
+		font-size: 20upx;
+		border:1upx solid #000000;
+		border-radius: 8upx;
+		margin-right: 20upx;
+		padding-left: 20rpx;
+		padding-right: 20rpx;
+		line-height: 34upx;
+		color: #666666;
+	}
+	.parameter .r-txt{
+		width: 40%;
+		text-align: left;
+	}
+	.parameter{
+		display: flex;
+		padding-top: 6upx;
+		padding-bottom: 6upx;
+		justify-content: space-between;
+		font-size: 24upx;
+		margin-top: 25upx;
+		flex-wrap: wrap;
+	}
+	.parameter .iconfont {
 		font-size: 32upx;
+		text-align: center;
+		line-height: 80rpx;
+		color: #000000;
+	}
+	.parameter .iconfont span{
+		font-size: 32upx;
+		// text-align: left;
+	}
+	.parameter  span{
+		text-align: left;
+	}
+	.orderDetail image{
+		width: 130upx;
+		height: 130upx;
+		border-radius: 100%;
+		border: 4upx solid #00ABEB;
+		background-color: #CCCCCC;
+		position: absolute;
+		right: 80upx;
+		top: -68upx;
+	}
+	.orderDetail button{
+		
+		
+		color: #FFFFFF;
+		border-radius: 8upx;
+		width: 300rpx;
+		height:76upx ;
+		font-size: 40upx;
+		line-height: 76upx;
+		margin:40upx auto;
+		color: #FFFFFF;
+		// border: 1px solid #000000;
+	}
+	.btngroup{
+		display: flex;
+		justify-content: space-between;
+	}
+	.themes{
+		background: linear-gradient(133deg, $themeleft 0%, $themeright 100%);
 		border: none;
+	}
+	/* 修改小程序的默认button样式 */
+	button{
 		-webkit-appearance:none
+	}
+	button::after {
+		border: none;
+	}
+	.active{
+		background-color: #CCCCCC;
 	}
 </style>

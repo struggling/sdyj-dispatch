@@ -1,7 +1,7 @@
 <template>
-	<view>
+	<view >
 		<!-- 自定义导航栏 -->
-		<u-navbar :is-back="false"  title="订单中心" :height="height" :background="background" title-color="#ffffff"></u-navbar>
+		<!-- <u-navbar :is-back="false"  title="订单中心" :height="height" :background="background" title-color="#ffffff"></u-navbar> -->
 		<!-- 收索筛选框 -->
 		<!-- <u-search placeholder="姓名,电话,地址" v-model="keyword" margin="25upx 25upx 25upx 25upx" style="margin-top: 25upx;"></u-search> -->
 
@@ -9,7 +9,7 @@
 		<swiperTabHead :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" ></swiperTabHead>
 		<!-- <mescroll-body :sticky="true" ref="mescrollRef" @init="mescrollInit" @down="downCallback" > -->
 		<view class="uni-tab-bar">
-			<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
+			<swiper class="swiper-box" :style="{height:swiperheight+'px',background: '#F2F2F2'}" :current="tabIndex" @change="tabChange" style="background-color: #F2F2F2;">
 				<swiper-item v-for="(items,index) in newslist" :key="index">
 					<scroll-view  scroll-y="true" class="list">
 					<!-- <mescroll-uni :ref="'mescrollRef'+index" @init="mescrollInit" height="100%" top="60" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @emptyclick="emptyClick"> -->
@@ -91,7 +91,7 @@
 				// 自定义导航栏
 				height:"",
 				background:{
-					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
+					backgroundImage: "linear-gradient(90deg, #ffffff, #ffffff)",
 				},
 				// 自定义导航栏
 				user_uid:"",
@@ -100,10 +100,11 @@
 				triggered: false,
 				tabIndex: 0,
 				tabclick:-1,
-				tabBars: [{
-						name: "待上门",
-						id: "daishangmen"
-					},
+				tabBars: [
+					// {
+					// 	name: "待上门",
+					// 	id: "daishangmen"
+					// },
 					{
 						name: "待结算",
 						id: "daijiesuan"
@@ -118,16 +119,16 @@
 					},
 				],
 				newslist: [
-					{
-						btn:[
-							"取消订单",
-							"立即上门"
-						],
-						isclick:true,
-						loadtext: "上拉加载更多",
-						list: []
+					// {
+					// 	btn:[
+					// 		"取消订单",
+					// 		"立即上门"
+					// 	],
+					// 	isclick:true,
+					// 	loadtext: "上拉加载更多",
+					// 	list: []
 
-					},
+					// },
 					{
 						btn:[
 							" ",
@@ -166,7 +167,7 @@
 			this.user_uid = uni.getStorageSync('uid');
 			console.log("取出uid:");
 			console.log("取出uid:"+this.user_uid);
-			this.getlistdata();
+			this.getClose();
 			
 		},
 		onLoad(event) {
@@ -185,7 +186,7 @@
 			uni.getSystemInfo({
 				success: (res) => {
 					console.log(res.windowHeight);
-					let height = res.windowHeight - uni.upx2px(312);
+					let height = res.windowHeight - uni.upx2px(96);
 					this.swiperheight = height;
 				}
 			});
@@ -209,14 +210,14 @@
 				// loadSwiper();
 				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
 				// this.mescroll.resetUpScroll()
-				this.getlistdata();
+				
 				this.getClose();
 				this.getEnd();
 				this.getlistCancel();
 				console.log("下拉刷新");
 				setTimeout(()=>{
 					this.mescroll.endSuccess();
-					console.log('111');
+					// console.log('111');
 				},1500)
 			},
 			upCallback(page){
@@ -250,16 +251,17 @@
 				this.tabIndex = e.detail.current;
 				switch (e.detail.current){
 					case 1:
-					this.getClose();
-					break;
-					case 2:
+					
 					this.getEnd();
 					break;
-					case 3:
+					case 2:
 					this.getlistCancel();
 					break;
+					case 3:
+					
+					break;
 					default:
-					this.getlistdata();
+					this.getClose();
 					break;
 				}
 			},
@@ -289,89 +291,7 @@
 				
 			},
 			//拉去待上门数据
-			getlistdata(){
-				let phone = uni.getStorageSync('phone');
-				let that = this;
-				if(phone){
-				this.$myRequest({
-					url:'work/been',
-					data:{
-						uid:this.user_uid,
-					},
-					methods:"POST"
-					
-				}).then(res=>{
-				// 	console.log(res);
-				// const data = JSON.parse(res.data);
-					if(res.data.code == 200){
-						console.log(res.data.msg);
-						this.newslist[0].list =res.data.data;
-						// this.mescroll.endSuccess();
-					}else if(res.data.code == 300){
-						console.log(res.data.msg);
-						// this.mescroll.endSuccess();
-					}else{
-						console.log(res.data.msg)
-					}
-				})	
-					// uni.request({
-					// 	url:this.$apiUrl+"work/been",
-					// 	method:"POST",
-					// 	dataType:JSON,
-					// 	data:{
-					// 		uid:this.user_uid
-					// 	},
-					// 	success(res) {
-					// 		console.log();
-					// 		console.log("待上门:"+res);
-					// 		console.log(res);
-					// 		uni.stopPullDownRefresh();
-					// 		const data = JSON.parse(res.data);
-					// 		console.log(data);
-					// 		if(data.code == 200){
-					// 			that.newslist[0].list = data.data;
-					// 			that.code = that.newslist[0].list.code;
-					// 			that.mescroll.endSuccess();
-					// 			console.log("待上门列表：");
-					// 			console.log(that.newslist[0].list);
-					// 		}else if(data.code == 300){
-					// 			uni.showToast({
-					// 				title:"暂无数据"
-					// 			})
-					// 		}
-					// 		else{
-					// 			uni.showToast({
-					// 				title:"服务器无响应"
-					// 			})
-					// 		}
-					// 		// this.newslist[0].list  =res.data
-					// 	},
-					// 	fail() {
-					// 		uni.showToast({
-					// 			title:"无网络..."
-					// 		})
-					// 	}
-					// })
-				}else{
-					//如果没有手机说明用户没有注册跳转
-					uni.showModal({
-					    title: '提示',
-					    content: '请先完成师傅服务类型注册，在开始抢单',
-					    success: function (res) {
-					        if (res.confirm) {
-					            console.log('用户点击确定');
-								//如果没有手机说明用户没有注册跳转
-								uni.navigateTo({
-									url:"../register/register"
-								})
-					        } else if (res.cancel) {
-					            console.log('用户点击取消');
-								
-					        }
-					    }
-					});
-				}
-			},
+			
 			
 			//拉去师傅已取消订单
 			getlistCancel(){
@@ -388,10 +308,10 @@
 				// const data = JSON.parse(res.data);
 					if(res.data.code == 200){
 						console.log(res.data.msg);
-						this.newslist[3].list = res.data.data;
+						this.newslist[2].list = res.data.data;
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
-				
+						this.newslist[2].list = [];
 					}else{
 						console.log(res.data.msg)
 					}
@@ -452,10 +372,10 @@
 				// const data = JSON.parse(res.data);
 					if(res.data.code == 200){
 						console.log(res.data.msg);
-						this.newslist[1].list = res.data.data;
+						this.newslist[0].list = res.data.data;
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
-				
+						this.newslist[0].list = [];
 					}else{
 						console.log(res.data.msg)
 					}
@@ -507,10 +427,10 @@
 				// const data = JSON.parse(res.data);
 					if(res.data.code == 200){
 						console.log(res.data.msg);
-						this.newslist[2].list = res.data.data;
+						this.newslist[1].list = res.data.data;
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
-				
+						this.newslist[1].list = [];
 					}else{
 						console.log(res.data.msg)
 					}
@@ -661,12 +581,13 @@
 		// 	console.log("下拉刷新");
 		// },
 		//自定义分享页面
+		//自定义分享页面
 		onShareAppMessage(e){
 			return {
 				title: this.$overShare.title,
-				path: this.currentpage,
+				path: this.$overShare.path,
 				imageUrl:this.$overShare.imageUrl,
-				
+				desc:this.$overShare.imageUrldesc
 			}
 		}
 		
@@ -684,73 +605,5 @@
 	view{
 		line-height: 2.25 !important;
 	}
-	/* 输入提示框 */
-	.popup_overlay {
-	 
-			position: fixed;
-			top: 0%;
-			left: 0%;
-			width: 100%;
-			height: 100%;
-			background-color: black;
-			z-index: 1001;
-			-moz-opacity: 0.8;
-			opacity: .80;
-			filter: alpha(opacity=88);
-		}
-	 
-		.popup_content {
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			width: 520upx;
-			height: 550upx;
-			margin-left: -270upx;
-			margin-top: -270upx;
-			border: 10px solid white;
-			background-color: white;
-			z-index: 1002;
-			overflow: auto;
-			border-radius: 20upx;
-		}
-	 
-		.popup_title {
-			padding-top: 20upx;
-			width: 480upx;
-			text-align: center;
-			font-size: 32upx;
-		}
-	 
-		.popup_textarea_item {
-			padding-top: 5upx;
-			height: 242upx;
-			width: 440upx;
-			background-color: #F1F1F1;
-			margin-top: 30upx;
-			margin-left: 20upx;
-		}
-	 
-		.popup_textarea {
-			width: 410upx;
-			font-size: 26upx;
-			margin-left: 20upx;
-			height:242upx;
-		}
-	 
-		.popup_button {
-			color: white;
-			background-color: #4399FC;
-			border-radius: 20upx;
-		}
-		button{
-			-webkit-appearance:none;
-			height: 26px !important;
-			line-height: 56upx !important;
-			color: #00abeb;
-			font-size: 32upx;
-			margin-top: 60upx;
-		}
-		button::after{
-			border: none;
-		}
+	
 </style>

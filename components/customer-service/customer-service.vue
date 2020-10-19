@@ -2,9 +2,10 @@
 	<view class="customer-service">
 		<u-mask :show="openmask" @tap="closemask">
 			<view class="warp">
-				<view class="rect" @tap.stop>
+				<view class="rect">
 					<button type="default" @tap="go">拨打热线</button>
 					<button type="default" open-type="contact">客服会话</button>
+					<view class="close" @tap.stop="closemask">X</view>
 				</view>
 			</view>
 		</u-mask>
@@ -58,12 +59,36 @@
 		}
 	
 	.rect {
-		width: 120px;
-		height: 120px;
-		background-color: #fff;
+		width: 300rpx;
+		height: 300rpx;
+		background-color: #ffffff;
+		border-radius: 8upx;
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 		justify-content: center;
+		position: relative;
+	}
+	.close{
+		width: 44upx;
+		height: 44upx;
+		background: #666666;
+		color: #FFFFFF;
+		border-radius: 100%;
+		position: absolute;
+		top: 2px;
+		right: 2px;
+		font-size: 32rpx;
+		text-align: center;
+		line-height: 44rpx;
+	}
+	button{
+		-webkit-appearance: none !important;
+		border: none;
+		margin-bottom: 20rpx;
+		color: #ffffff;
+		background: #0080ff;
+		height: 80rpx;
+		line-height: 80rpx;
 	}
 </style>

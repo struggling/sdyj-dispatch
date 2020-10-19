@@ -1,60 +1,50 @@
 <template>
 	<view>
-		<!-- 顶部自定义导航 -->
-		<u-navbar :is-back="false"  title="个人中心" :height="height" :background="background" title-color="#ffffff" back-icon-color="#ffffff" >
-		</u-navbar>
-		<view class="bg">
-			<image class="bgimg" src="../../static/home/home.png" mode=""></image>
-			<view class="text">
-				<view class="nickname">{{user_name}}</view>
-				<view class="sign" @tap="Sign">点击签到</view>
-			</view>
-			<image :src="user_avatar" class="avatar" mode=""></image>
-			<view class="panel">
-				<view class="panel-item" @tap="openmydata">
-					<view class="icon">
-						<image src="../../static/home/icon1.png" mode=""></image>
-					</view>
-					<view class="txt">个人数据</view>
-				</view>
-				<view class="panel-item" @tap="tomypoints">
-					<view class="icon">
-						<image src="../../static/home/icon3.png" mode=""></image>
-					</view>
-					<view class="txt">我的积分</view>
-				</view>
-				<view class="panel-item" @tap="topointsmall">
-					<view class="icon">
-						<image src="../../static/home/icon2.png" mode=""></image>
-					</view>
-					<view class="txt">积分商城</view>
-				</view>
-				<view class="panel-item" @tap="openmask=true">
-					<view class="icon">
-						<image src="../../static/home/icon3.png" mode=""></image>
-					</view>
-					<view class="txt">售后客服</view>
+		<view class="bghome">
+			<image src="http://7n.51tiaoyin.com/%E6%A4%AD%E5%9C%86%E5%BD%A2%20%2B%20%E6%A4%AD%E5%9C%86%E5%BD%A2%E5%A4%87%E4%BB%BD%20%E8%92%99%E7%89%88%402x.png" mode=""></image>
+		</view>
+		<view class="dingwei">
+			<view class="pannel" style="background:none!important;box-shadow: none;">
+				<view class="item" style="margin-bottom: 0;" @tap="openinfo">
+					 <image :src="user_avatar" style="border-radius: 100%;" mode=""></image>
+					 <view class="text" style="font-size:44upx;padding-right: 40upx;text-overflow: ellipsis;white-space: nowrap;width: 482upx;color: #FFFFFF;">{{user_name}}</view>
+					<u-icon name="arrow-right" color="#ffffff" size="40" margin-right="100upx"></u-icon>
 				</view>
 			</view>
-		</view>
-		<!-- 客服会话 -->
-		<!-- <button send-message-title="分享标题" send-message-img="分享的单个图片链接" show-message-card="true"  class='details_button' open-type='contact' plain>
-		 </button> -->
-		<!-- 个人信息列表 -->
-		<view class="u-m-t-20">
-			<u-cell-group>
-				
-				<u-cell-item title="个人信息" @tap="openinfo"></u-cell-item>
-				<!-- <u-cell-item  title="个人工号">{{number}}</u-cell-item> -->
-				<!-- <u-cell-item  title="个人工作时间" @tap="showtime=true">{{timeval}}</u-cell-item> -->
-				<!-- <u-cell-item  title="评分指南">{{score}}分</u-cell-item> -->
-				<!-- <u-cell-item  title="意见反馈"> <button send-message-title="分享标题" send-message-img="分享的单个图片链接" show-message-card="true"  class='details_button' open-type='contact' plain>
-		 </button></u-cell-item> -->
-				<u-cell-item  title="设置" @tap="openset"></u-cell-item>
-				<u-cell-item  :title="text+currcount" @tap="requestMsg"></u-cell-item>
-			</u-cell-group>
-		</view>
-		 
+			 <view class="zhuanqian">
+				 <view class="text">我已经赚了</view>
+				 <view class="jine">{{total_amount}}</view>
+				 <view class="tips">只包含已结算订单，未结算和已取消订单不纳</view>
+				 <view class="chakan" @tap="openmydata">查看明细</view>
+			 </view>
+			 <view class="pannel" >
+				 <view class="item" @tap="openinfo">
+					 <image src="http://7n.51tiaoyin.com/Group%203%402x.png" mode=""></image>
+					 <view class="text" >个人信息</view>
+					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
+				 </view>
+				<!-- <view class="item" @tap="tomypoints">
+					 <image src="../../static/home1.png" mode=""></image>
+					 <view class="text" >我的积分</view>
+					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
+				 </view> -->
+				 <view class="item" @tap="topointsmall">
+					 <image src="http://7n.51tiaoyin.com/Group%203%402x%20%281%29.png" mode=""></image>
+					 <view class="text" >积分商城</view>
+					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
+				 </view>
+				 <view class="item" @tap="openset">
+					 <image src="http://7n.51tiaoyin.com/Group%402x.png" mode=""></image>
+					 <view class="text" >账号设置</view>
+					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
+				 </view>
+				 <view class="item" @tap="openmask=true">
+					 <image src="http://7n.51tiaoyin.com/Group%204%402x.png" mode=""></image>
+					 <view class="text" >售后客服</view>
+					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
+				 </view>
+			 </view>
+		 </view>
 		<!-- class="iconfont icongerenxinxi"  class="iconfont icongonghao" class="iconfont iconshijian" class="iconfont iconpingfen" class="iconfont iconxinxi" class="iconfont iconshezhi"-->
 		<!-- 时间选择器 -->
 		<!-- <u-picker mode="time" v-model="showtime" :params="params"></u-picker> -->
@@ -84,6 +74,7 @@
 		},
 		data() {
 			return {
+				total_amount:"",
 				openmask:false,
 				text:"订阅消息",
 				currcount:0,
@@ -152,6 +143,13 @@
 			var currentpage = page.route;
 			this.currentpage = currentpage;
 			console.log(currentpage);
+			uni.$on('updatename',function(data){
+			        console.log('监听到事件来自 updatename ，携带参数 msg 为：' + data.msg);
+					this.user_name = data.msg;
+			    })
+		},
+		onShow() {
+			this.getInfo();
 		},
 		onReady() {
 		    let today = this.$refs.ren.getToday().date;
@@ -176,9 +174,11 @@
 						// this.data = res.data.data
 						let arr  = res.data.data.work_time;
 						let score  = res.data.data.score;
+						this.user_name = res.data.data.wechat_name;
 						this.timeval  =arr;
 						this.score  =score;
 						this.user_type = res.data.data.type
+						this.total_amount = res.data.data.total_amount
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
 				
@@ -362,12 +362,13 @@
 			}
 		},
 		//自定义分享页面
+		//自定义分享页面
 		onShareAppMessage(e){
 			return {
 				title: this.$overShare.title,
-				path: this.currentpage,
+				path: this.$overShare.path,
 				imageUrl:this.$overShare.imageUrl,
-				
+				desc:this.$overShare.imageUrldesc
 			}
 		}
 	}
@@ -377,6 +378,91 @@
 	// .u-cell-group{
 	// 	background-color: #CCCCCC;
 	// }
+	//dingwei
+	.bghome image{
+		width: 100%;
+		height: 360upx;
+	}
+	.dingwei{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		position: absolute;
+		top: 0;
+		right: 40rpx;
+	}
+	// zhuangqian
+	.zhuanqian{
+		width: 670upx;
+		height: 244upx;
+		background: #FFFFFF;
+		box-shadow: 0px 12upx 26upx 0px rgba(158, 166, 176, 0.28);
+		border-radius: 8px;
+		padding: 60upx;
+		position: relative;
+	}
+	.zhuanqian .text{
+		color: #008BFF;
+	}
+	.zhuanqian .jine{	
+		font-size: 31px;
+		font-weight: bold;
+		padding-top: 16upx;
+		padding-bottom: 16upx;
+	}
+	.zhuanqian .tips{
+		
+		font-size: 20upx;
+		color: #999999;
+	}
+	.zhuanqian .chakan{
+		position: absolute;
+		right: 60upx;
+		top:102upx;
+		width: 180upx;
+		height: 72upx;
+		background: linear-gradient(180deg, #00B7FF 0%, #0080FF 100%);
+		box-shadow: 0px 10upx 22upx -6px rgba(21, 51, 92, 0.38), 0px 2upx 10upx 0px #F7FBFF, 0px -2upx 6upx 0px rgba(13, 39, 177, 0.39);
+		border-radius: 38upx;
+		color:#ffffff;
+		text-align: center;
+		line-height: 72upx;
+	}
+	.pannel{
+		padding:40upx;
+		background: #FFFFFF;
+		box-shadow: 0px 12upx 26upx 0px rgba(158, 166, 176, 0.28);
+		border-radius: 8upx;
+		width: 670upx;
+		margin-top: 40upx;
+	}
+	.pannel{
+		padding:40upx;
+		// background: #FFFFFF;
+		// box-shadow: 0px 12upx 26upx 0px rgba(158, 166, 176, 0.28);
+		// border-radius: 8upx;
+		width: 670upx;
+		margin-top: 40upx;
+		margin-bottom: 40upx;
+	}
+	.pannel .item{
+		// padding-left: 40upx;
+		// padding-right: 40upx;
+		display: flex;
+		margin-bottom: 40upx;
+	}
+	.pannel .item image{
+		text-align: left;
+		width: 80upx;
+		height: 80upx;
+	}
+	.pannel .item .text{
+		text-align: left;
+		padding-left: 36upx;
+		padding-right: 332rpx;
+		line-height: 80rpx;
+	}
 	.content{
 		position: relative;
 	}
@@ -396,99 +482,5 @@
 		background-color: #ededed;
 	}
 
-	.camera {
-		width: 54px;
-		height: 44px;
-
-		&:active {
-			background-color: #ededed;
-		}
-	}
-	.details_button{
-		opacity: 0;
-	}
-	.user-box {
-		background-color: #fff;
-	}
-	// 个人信息列表
-	.u-m-t-20 {
-		margin-top: 140upx !important;
-		
-	}
-
-	.bg .bgimg {
-		width: 100%;
-		height: 340upx;
-	}
-
-	.bg {
-		position: relative;
-	}
-
-	.bg .avatar {
-		position: absolute;
-		width: 152upx;
-		height: 152upx;
-		border-radius: 100%;
-		margin: 4upx;
-		top: 120upx;
-		display: block;
-		left: 292upx;
-		z-index: 1000;
-		background-color: #FFFFFF;
-	}
-
-	.bg .text {
-		position: absolute;
-		display: flex;
-		justify-content: flex-end;
-		padding-left: 25upx;
-		padding-right: 25upx;
-		width: 100%;
-		align-items: center;
-		top: 40upx;
-	}
-
-	.bg .panel {
-		margin-left: 25upx;
-		margin-right: 25upx;
-		width: 702upx;
-		background-color: #FFFFFF;
-		border-radius: 8upx;
-		top: 208upx;
-		display: flex;
-		justify-content: space-around;
-		height: 240upx;
-		position: absolute;
-		align-items: center;
-		z-index: 999;
-		box-shadow: 2px 2px 8px 1px $themeright
-	}
-
-	.bg .panel .icon {
-		text-align: center;
-	}
-
-	.bg .panel .icon image {
-		width: 56upx;
-		height: 48upx;
-	}
-
-	.bg .text .sign {
-		margin-left: 134upx;
-		border-radius: 20upx;
-		background-color: #FFFFFF;
-		color: #343434;
-		padding: 12upx;
-		font-size: 24upx;
-	}
-
-	.bg .text .nickname {
-		font-size: 32upx;
-		color: #FFFFFF;
-		line-height: 52upx;
-		flex: 1;
-		text-align: right;
-		padding-right: 10%;
-	}
+	
 </style>

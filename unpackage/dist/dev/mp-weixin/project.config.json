@@ -22,7 +22,7 @@
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
     "useMultiFrameRuntime": false,
-    "useApiHook": false,
+    "useApiHook": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -49,28 +49,13 @@
       "current": -1,
       "list": []
     },
-    "plugin": {
-      "current": -1,
-      "list": []
-    },
     "game": {
-      "current": -1,
-      "list": []
-    },
-    "gamePlugin": {
       "current": -1,
       "list": []
     },
     "miniprogram": {
       "current": -1,
-      "list": [
-        {
-          "id": -1,
-          "name": "pages/points-mall/points-mall",
-          "pathName": "pages/points-mall/points-mall",
-          "scene": null
-        }
-      ]
+      "list": []
     }
   }
 }

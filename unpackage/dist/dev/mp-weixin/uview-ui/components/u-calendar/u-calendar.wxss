@@ -95,16 +95,16 @@
   position: relative;
 }
 .u-calendar__content--end-date.data-v-5b667d40 {
-  -webkit-border-top-right-radius: 8rpx;
-          border-top-right-radius: 8rpx;
+  -webkit-border-bottom-left-radius: 8rpx;
+          border-bottom-left-radius: 8rpx;
   -webkit-border-bottom-right-radius: 8rpx;
           border-bottom-right-radius: 8rpx;
 }
 .u-calendar__content--start-date.data-v-5b667d40 {
-  -webkit-border-top-left-radius: 8rpx;
-          border-top-left-radius: 8rpx;
   -webkit-border-bottom-left-radius: 8rpx;
           border-bottom-left-radius: 8rpx;
+  -webkit-border-bottom-right-radius: 8rpx;
+          border-bottom-right-radius: 8rpx;
 }
 .u-calendar__content__item.data-v-5b667d40 {
   width: 14.2857%;
@@ -123,7 +123,7 @@
   z-index: 2;
 }
 .u-calendar__content__item__inner.data-v-5b667d40 {
-  height: 84rpx;
+  height: 60rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;

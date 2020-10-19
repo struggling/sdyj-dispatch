@@ -4,31 +4,80 @@
 		<view style="padding: 0px 0px;">
 			<view class="filter-content" v-for="(item, index) in menuList" :key="index" v-if="menuIndex == index">
 				<view v-if="item.isSort">
-					<view class="filter-content-list">
+					<!-- <view class="filter-content-list">
 						<view v-for="(detailItem,idx) in selectDetailList" :key="idx" :class="detailItem.isSelected?'filter-content-list-item-active':'filter-content-list-item-default'"
 						 :style="{'color': detailItem.isSelected?themeColor:'#666666'}" @tap="sortTap(idx,selectDetailList,item.key)">
 							<text>{{detailItem.title}}</text>
 						</view>
-					</view>
+					</view> -->
 				</view>
 				<view v-else>
-					<view class="filter-content-title" v-if="item.detailTitle && item.detailTitle.length">
-						<text>{{item.detailTitle}}</text>
-					</view>
-					<view class="filter-content-detail">
-						<text v-for="(detailItem,idx) in selectDetailList" :key="idx" class='filter-content-detail-item-default' :style="{'background-color':detailItem.isSelected?themeColor:'#FFFFFF','color':detailItem.isSelected?'#FFFFFF':'#666666'}"
-						 @tap="itemTap(idx,selectDetailList,item.isMutiple,item.key)">
-							{{detailItem.title}}
-						</text>
-					</view>
-					<view class="filter-content-footer">
-						<view class="filter-content-footer-item" style="color: #777777; background-color: #FFFFFF;" @tap="resetClick(selectDetailList,item.key)">
-							<text>重置</text>
+					<block v-if="index == 1">
+						<view class="">
+							<view class="content" style="height: 1200upx !important;">
+								<!-- <view class="signed theme" @tap="Sign">签到</view> -->
+								<calendar
+										:ref="'calendar'"
+										mode="range"
+										max-date="2050-01-01" 
+										active-bg-color="#0080FF" 
+										active-color="#ffffff" 
+										range-bg-color="#a7cdff" @change="change">
+								</calendar>
+								<!-- <u-calendar class="calendar" :ref="'calendar'" v-model="show" :mode="mode" @change="change" max-date="2050-01-01" ></u-calendar> -->
+							    <!-- <view class="change">选中日期：{{curDate}}</view> -->
+								<view class="moon">
+									<block v-for="(items,indexs) in moonlist" :key="indexs">
+										<view :class="[sw,tabIndex==indexs?moonactive:'']" @tap="changemoon(indexs)">{{items.value}}</view>
+									</block>
+									<!-- <view class="xw">下午</view>
+									<view class="xw">下午</view> -->
+								</view>
+								<view class="filter-content-footer">
+									<!-- <view class="filter-content-footer-item" style="color: #777777; background-color: #FFFFFF;" @tap="resetClick(selectDetailList,item.key)">
+										<text>重置</text>
+									</view> -->
+									<view class="filter-content-footer-item" :style="{'color': '#FFFFFF', 'background-color': themeColor}" @tap="changetype">
+										<text>确定</text>
+									</view>
+								</view>
+							</view>
 						</view>
-						<view class="filter-content-footer-item" :style="{'color': '#FFFFFF', 'background-color': themeColor}" @tap="sureClick">
-							<text>确定</text>
+					</block>
+					<block v-if="index == 2">
+						<view class="filter-content-title" v-if="item.detailTitle && item.detailTitle.length">
+							<text>{{item.detailTitle}}</text>
 						</view>
-					</view>
+						<view class="filter-content-detail">
+							<text v-for="(detailItem,idx) in selectDetailList" :key="idx" class='filter-content-detail-item-default' :style="{'background':detailItem.isSelected?'#dbe4f9':'#EEEEEE','color':detailItem.isSelected?'#0080FF':'#666666'}"
+							 @tap="itemTap(idx,selectDetailList,item.isMutiple,item.key)">
+								{{detailItem.title}}
+							</text>
+						</view>
+						<view class="filter-content-footer">
+							<view class="filter-content-footer-item" :style="{'color': '#FFFFFF', 'background-color': themeColor}" @tap="suretype(idx)">
+								<text>确定</text>
+							</view>
+						</view>
+					</block>
+					<block v-if="index == 0">
+						<view class="filter-content-title" v-if="item.detailTitle && item.detailTitle.length">
+							<text>{{item.detailTitle}}</text>
+						</view>
+						<view class="filter-content-detail">
+							<text v-for="(detailItem,idx) in selectDetailList" :key="idx" class='filter-content-detail-item-default' :style="{'background':detailItem.isSelected?'#dbe4f9':'#EEEEEE','color':detailItem.isSelected?'#0080FF':'#666666'}"
+							 @tap="itemTap(idx,selectDetailList,item.isMutiple,item.key)">
+								{{detailItem.title}}
+							</text>
+						</view>
+						<view class="filter-content-footer">
+
+							<view class="filter-content-footer-item" :style="{'color': '#FFFFFF', 'background-color': themeColor}" @tap="sureClick">
+								<text>确定</text>
+							</view>
+						</view>
+					</block>
+					
 				</view>
 			</view>
 		</view>
@@ -37,9 +86,30 @@
 </template>
 
 <script>
+	import RenCalendar from '@/components/ren-calendar/ren-calendar.vue';
+	import calendar from "../../uview-ui/components/u-calendar/u-calendar.vue"
 	export default {
+		components:{
+			RenCalendar,
+			calendar,
+		},
+		
 		data() {
 			return {
+				sw:"sw",
+				moonactive:"moonactive",
+				moonlist:[
+					{value:"重置"},
+					{value:"上午"},
+					{value:"下午"}
+				],
+				idx:0,
+				moon:0,
+				curDate:"",
+				startDate:'',
+				endDate:"",
+				tabIndex:0,
+				markDays:[],
 				selectArr: [],
 				result: {},
 				menuIndex: 0,
@@ -69,6 +139,7 @@
 			}
 		},
 		computed: {
+			
 			selectedTitleObj() {
 				let obj = {}
 				for (let i = 0; i < this.menuList.length; i++) {
@@ -78,6 +149,7 @@
 				return obj;
 			},
 			defaultSelectedObj() { // 保存初始状态
+			// console.log(this.menuList,"菜单列表");
 				return this.getSelectedObj()
 			},
 			selectedObj: {
@@ -91,6 +163,109 @@
 			}
 		},
 		methods: {
+			//选择上下午
+			changemoon(index){
+				console.log(index);
+				this.tabIndex = index;
+				this.moon = index;
+			},
+			//日历
+			onDayClick(data){
+			    this.curDate = data.date;
+				console.log( this.curDate,"选中的日期");
+				uni.setStorageSync("curDate",this.curDate);
+			},
+			//审核或者未审核
+			suretype(status){
+				this.$emit("checkmoon");
+				let str = uni.getStorageSync("type");
+				let town = uni.getStorageSync("town");
+				let uid = uni.getStorageSync("uid");
+				this.$emit("qiehuan",status);
+				this.$myRequest({
+					url:'work/already',
+					data:{
+						"town":town ,
+						"uid":uid ,
+						"genre": str,
+						"status":status
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						console.log("审核状态");	
+						let beenlist = res.data.data;
+						uni.$emit("updatebeenlist",{data:beenlist})		
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showToast({
+							title:"暂无相关订单"
+						})
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
+			changetype(){
+				this.$emit("checkmoon");
+				
+				console.log(this.$refs.calendar,"子组件");
+				let str = uni.getStorageSync("type");
+				let endDate = this.$refs.calendar[0].endDate;
+				let startDate = this.$refs.calendar[0].startDate;
+				let objdate = [startDate,endDate];
+				this.$emit("qiehuansjijian",objdate);
+				// let startDate = uni.getStorageSync("startDate");
+				// let endDate = uni.getStorageSync("endDate");
+				let town = uni.getStorageSync("town");	
+				let uid = uni.getStorageSync("uid");
+				// let orderlist = uni.getStorageSync("orderlist");
+				// let orderlist = uni.getStorageSync("orderlist");
+				// let date ="";
+				if(endDate ==""){
+					endDate = "2050-1-1";
+				}
+				console.log(startDate,"开始时间");
+				
+				this.$myRequest({
+					url:'work/stay',
+					data:{
+						"town":town ,
+						"genre": str,
+						"uid":uid ,
+						"start_time":startDate,
+						"end_time":endDate,
+						"noon":this.moon,
+						"duration":"",
+						
+					},
+					methods:"POST"
+					
+				}).then(res=>{
+				// 	console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						// this.mescroll.endSuccess();
+						let orderlist = res.data.data;
+						console.log(orderlist,"改变数据");
+						uni.$emit("updateorderlist",{data:orderlist})
+									
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+						uni.showToast({
+							title:"暂无相关订单"
+						})
+						// this.mescroll.endSuccess();
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+			},
 			getSelectedObj() {
 				let obj = {}
 				for (let i = 0; i < this.menuList.length; i++) {
@@ -202,7 +377,7 @@
 				return unDefaultSelectedIndex;
 			},
 			resetMenuList(val) {
-				this.menuList = val;
+				// this.menuList = val;
 				this.$emit('update:menuList', val)
 			},
 			menuTabClick(index) {
@@ -265,6 +440,7 @@
 				}
 			},
 			itemTap(index, list, isMutiple, key) {
+				this.idx = index;
 				if (isMutiple == true) {
 					list[index].isSelected = !list[index].isSelected;
 					if (index == 0) {
@@ -387,6 +563,32 @@
 </script>
 
 <style>
+	.moonactive{
+		color: #ffffff;
+		background:#0080FF !important;
+	}
+	.moon{
+		display: flex;
+		justify-content: space-between;
+		margin-top: 30upx;
+		margin-bottom: 30upx;
+	}
+	.moon .sw{
+		width: 214upx;
+		height: 80upx;
+		text-align: center;
+		line-height: 80upx;
+		background: #d4d2d2;
+		border-radius: 4upx;
+	}
+	.moon .xw{
+		width: 300upx;
+		height: 80upx;
+		background: #666666;
+		border-radius: 4upx;
+		text-align: center;
+		line-height: 80upx;
+	}
 	.filter-content {
 		background-color: #F6F7F8;
 	}
@@ -414,30 +616,55 @@
 	}
 
 	.filter-content-detail-item-default {
-		background-color: #FFFFFF;
-		color: #666666;
-		padding: 5px 15px;
-		border-radius: 20px;
-		margin-right: 10px;
-		margin-top: 10px;
-		display: inline-block;
-		font-size: 14px;
+		    background-color: #FFFFFF;
+		    color: #666666;
+		    /* padding: 5px 15px; */
+		    /* -webkit-border-radius: 20px; */
+		    /* border-radius: 4rpx; */
+		    /* margin-right: 40rpx; */
+		    /* margin-top: 10px; */
+		    display: inline-block;
+		    font-size: 14px;
+		    /* width: 200rpx; */
+		    /* height: 80rpx; */
+		    line-height: 80rpx;
+		    text-align: center;
+		    background: #EEEEEE;
+		    border-radius: 4rpx;
+		    /* padding: 40rpx; */
+		    padding-left: 40rpx;
+		    padding-right: 40rpx;
+		    margin-right: 40rpx;
 	}
 
 	.filter-content-footer {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-		height: 45px;
-		margin-top: 10px;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-box-pack: justify;
+		    -webkit-justify-content: space-between;
+		    justify-content: space-between;
+		    width: 100%;
+		    height: 74px;
+		    margin-top: 10px;
 	}
 
 	.filter-content-footer-item {
-		width: 50%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 16px;
+		    width: 100%;
+		    height: 80rpx;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-box-pack: center;
+		    -webkit-justify-content: center;
+		    justify-content: center;
+		    -webkit-box-align: center;
+		    -webkit-align-items: center;
+		    align-items: center;
+		    font-size: 16px;
+		    margin: 40rpx;
+			
+			background: linear-gradient(132deg, #48C0FF 0%, #0F80FF 100%);
 	}
 
 	.filter-content-list {

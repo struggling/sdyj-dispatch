@@ -1,17 +1,15 @@
 <template>
-	<u-popup closeable :maskCloseAble="maskCloseAble" mode="bottom" :popup="false" v-model="value" length="auto"
-	 :safeAreaInsetBottom="safeAreaInsetBottom" @close="close" :z-index="uZIndex" :border-radius="borderRadius" :closeable="closeable">
 		<view class="u-calendar">
-			<view class="u-calendar__header">
+			<!-- <view class="u-calendar__header">
 				<view class="u-calendar__header__text" v-if="!$slots['tooltip']">
 					{{toolTip}}
 				</view>
 				<slot v-else name="tooltip" />
-			</view>
+			</view> -->
 			<view class="u-calendar__action u-flex u-row-center">
-				<view class="u-calendar__action__icon">
+				<!-- <view class="u-calendar__action__icon">
 					<u-icon v-if="changeYear" name="arrow-left-double" :color="yearArrowColor" @click="changeYearHandler(0)"></u-icon>
-				</view>
+				</view> -->
 				<view class="u-calendar__action__icon">
 					<u-icon v-if="changeMonth" name="arrow-left" :color="monthArrowColor" @click="changeMonthHandler(0)"></u-icon>
 				</view>
@@ -19,9 +17,9 @@
 				<view class="u-calendar__action__icon">
 					<u-icon v-if="changeMonth" name="arrow-right" :color="monthArrowColor" @click="changeMonthHandler(1)"></u-icon>
 				</view>
-				<view class="u-calendar__action__icon">
+				<!-- <view class="u-calendar__action__icon">
 					<u-icon v-if="changeYear" name="arrow-right-double" :color="yearArrowColor" @click="changeYearHandler(1)"></u-icon>
-				</view>
+				</view> -->
 			</view>
 			<view class="u-calendar__week-day">
 				<view class="u-calendar__week-day__text" v-for="(item, index) in weekDayZh" :key="index">{{item}}</view>
@@ -43,19 +41,18 @@
 					<view class="u-calendar__content__item__tips" :style="{color:activeColor}" v-if="mode== 'range' && startDate==`${year}-${month}-${index+1}` && startDate!=endDate">{{startText}}</view>
 					<view class="u-calendar__content__item__tips" :style="{color:activeColor}" v-if="mode== 'range' && endDate==`${year}-${month}-${index+1}`">{{endText}}</view>
 				</view>
-				<view class="u-calendar__content__bg-month">{{month}}</view>
+				<!-- <view class="u-calendar__content__bg-month">{{month}}</view> -->
 			</view>
 			<view class="u-calendar__bottom">
 				<view class="u-calendar__bottom__choose">
 					<text>{{mode == 'date' ? activeDate : startDate}}</text>
 					<text v-if="endDate">至{{endDate}}</text>
 				</view>
-				<view class="u-calendar__bottom__btn">
+				<!-- <view class="u-calendar__bottom__btn">
 					<u-button :type="btnType" shape="circle" size="default" @click="btnFix(false)">确定</u-button>
-				</view>
+				</view> -->
 			</view>
 		</view>
-	</u-popup>
 </template>
 <script>
 	/**
@@ -265,13 +262,20 @@
 		},
 		watch: {
 			dataChange(val) {
-				this.init()
+				this.init();
+				this.clickmode();
+				console.log("监听日期值的变化");
 			}
 		},
 		created() {
-			this.init()
+			this.init();
+			this.clickmode();
 		},
 		methods: {
+			clickmode(){
+				this.$emit("clickmode",this.startDate)
+				console.log("触发监听",this.startDate,this.startDate);
+			},
 			getColor(index, type) {
 				let color = type == 1 ? '' : this.color;
 				let day = index + 1
@@ -401,6 +405,7 @@
 						let compare = new Date(date.replace(/\-/g, '/')).getTime() < new Date(this.startDate.replace(/\-/g, '/')).getTime()
 						if (this.isStart || compare) {
 							this.startDate = date;
+							uni.setStorageSync('startDate',this.startDate);
 							this.startYear = this.year;
 							this.startMonth = this.month;
 							this.startDay = this.day;
@@ -412,6 +417,7 @@
 							this.isStart = false;
 						} else {
 							this.endDate = date;
+							uni.setStorageSync('endDate',this.endDate);
 							this.endYear = this.year;
 							this.endMonth = this.month;
 							this.endDay = this.day;
@@ -547,13 +553,15 @@
 			position: relative;
 			
 			&--end-date {
-				border-top-right-radius: 8rpx;
+				// border-radius:100%;
+				border-bottom-left-radius: 8rpx;
 				border-bottom-right-radius: 8rpx;
 			}
 			
 			&--start-date {
-				border-top-left-radius: 8rpx;
+				// border-radius: 100%;
 				border-bottom-left-radius: 8rpx;
+				border-bottom-right-radius: 8rpx;
 			}
 			
 			&__item {
@@ -567,7 +575,7 @@
 				z-index: 2;
 				
 				&__inner {
-					height: 84rpx;
+					height: 60rpx;
 					display: -webkit-box;
 					display: -webkit-flex;
 					display: flex;

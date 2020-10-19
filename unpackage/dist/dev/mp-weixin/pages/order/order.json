@@ -1,10 +1,8 @@
 {
-  "navigationStyle": "custom",
-  "navigationBarBackgroundColor": "#00ABEB",
-  "navigationBarTitleText": "接单中心",
-  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "订单",
+  "navigationBarTextStyle": "black",
   "usingComponents": {
-    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
     "order-list": "/components/order/order-list",
     "swiper-tab-head": "/components/order/swiper-tab-head",
     "load-more": "/components/common/load-more",

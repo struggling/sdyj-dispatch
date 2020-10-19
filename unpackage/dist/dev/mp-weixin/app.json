@@ -16,7 +16,11 @@
     "pages/test/test",
     "pages/order-content/order-content",
     "pages/my-points/my-points",
-    "pages/points-mall/points-mall"
+    "pages/points-mall/points-mall",
+    "pages/mall-detail/mall-detail",
+    "pages/addressu/addressu",
+    "pages/share/share",
+    "pages/agreement/agreement"
   ],
   "subPackages": [],
   "window": {
@@ -27,7 +31,7 @@
   },
   "tabBar": {
     "color": "#7A7E83",
-    "selectedColor": "#00ABEB",
+    "selectedColor": "#0080FF",
     "borderStyle": "white",
     "backgroundColor": "#ffffff",
     "list": [
@@ -66,5 +70,5 @@
     "mescroll-body": "/components/mescroll-uni/mescroll-body",
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni"
   },
-  "sitemapLocation": "sitemap36.json"
+  "sitemapLocation": "sitemap42.json"
 }

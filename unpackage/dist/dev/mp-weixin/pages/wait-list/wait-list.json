@@ -1,10 +1,8 @@
 {
-  "navigationStyle": "custom",
-  "navigationBarBackgroundColor": "#f85f31",
-  "navigationBarTitleText": "待派单",
-  "navigationBarTextStyle": "white",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "订单详情",
+  "navigationBarTextStyle": "black",
   "usingComponents": {
-    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
     "u-modal": "/uview-ui/components/u-modal/u-modal"
   }
 }
