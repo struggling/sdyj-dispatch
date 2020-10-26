@@ -23,8 +23,8 @@
 			</view>
 		</view>
 		<view class="btn">
-			<view class="kefu" @tap="openmask=true">
-				客服
+			<view  @tap="openmask=true" class="iconfont iconkefu kefu" style="text-align: center;">
+				<view>客服</view>
 				</view>
 			<view class="duihuan" @tap="getExchange(data.index,data.id)">立即兑换</view>
 		</view>

@@ -71,7 +71,7 @@
 												setTimeout(
 												()=>{
 												uni.reLaunch({
-													url:"../share/share"
+													url:"../index/index"
 												})	
 												},1500);
 												// 把用户信息写入缓存
@@ -121,7 +121,7 @@
 	}
 
 	.header image {
-		width: 200rpx;
+		width: 300rpx;
 		height: 200rpx;
 	}
 

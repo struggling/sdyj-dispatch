@@ -5,7 +5,7 @@
 		 back-icon-color="#ffffff">
 		</u-navbar> -->
 		<view class="content">
-			入驻协议书
+			<u-parse :html="content"></u-parse>
 		</view>
 	</view>
 </template>
@@ -18,6 +18,7 @@
 				background: {
 					backgroundImage: "linear-gradient(90deg, #54C3F1, #00ABEB)",
 				},
+				content:`<img src="http://7n.51tiaoyin.com/102014350351.png" />`,
 			}
 		},
 		methods: {

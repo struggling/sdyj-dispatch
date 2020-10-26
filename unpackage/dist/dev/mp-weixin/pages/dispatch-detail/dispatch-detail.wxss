@@ -48,8 +48,7 @@ label.data-v-5bb71c10 {
   padding-right: 25rpx;
   padding-top: 30rpx;
   position: relative;
-  -webkit-border-radius: 4%;
-          border-radius: 4%;
+  border-radius: 4%;
 }
 .orderDetail .iconfont.data-v-5bb71c10 {
   color: #0080FF;
@@ -96,8 +95,7 @@ label.data-v-5bb71c10 {
   margin-top: 20rpx;
   font-size: 20rpx;
   border: 1rpx solid #000000;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
   margin-right: 20rpx;
   padding-left: 20rpx;
   padding-right: 20rpx;
@@ -137,8 +135,7 @@ label.data-v-5bb71c10 {
 .orderDetail image.data-v-5bb71c10 {
   width: 130rpx;
   height: 130rpx;
-  -webkit-border-radius: 100%;
-          border-radius: 100%;
+  border-radius: 100%;
   border: 4rpx solid #00ABEB;
   background-color: #CCCCCC;
   position: absolute;
@@ -147,8 +144,7 @@ label.data-v-5bb71c10 {
 }
 .orderDetail button.data-v-5bb71c10 {
   color: #FFFFFF;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
   width: 300rpx;
   height: 76rpx;
   font-size: 40rpx;

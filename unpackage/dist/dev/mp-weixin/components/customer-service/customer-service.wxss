@@ -15,8 +15,7 @@
 	width: 300rpx;
 	height: 300rpx;
 	background-color: #ffffff;
-	-webkit-border-radius: 8rpx;
-	        border-radius: 8rpx;
+	border-radius: 8rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;
@@ -37,8 +36,7 @@
 	height: 44rpx;
 	background: #666666;
 	color: #FFFFFF;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 	position: absolute;
 	top: 2px;
 	right: 2px;

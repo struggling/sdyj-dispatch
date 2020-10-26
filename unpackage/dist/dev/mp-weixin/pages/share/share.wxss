@@ -107,8 +107,7 @@
 .bottom-btn .kefu {
   width: 160rpx;
   height: 88rpx;
-  -webkit-border-radius: 6rpx;
-          border-radius: 6rpx;
+  border-radius: 6rpx;
   border: 1rpx solid #3CB3FF;
   text-align: center;
   line-height: 88rpx;
@@ -120,8 +119,7 @@
   margin-left: 30rpx;
   background: -webkit-linear-gradient(318deg, #48C0FF 0%, #0F80FF 100%);
   background: linear-gradient(132deg, #48C0FF 0%, #0F80FF 100%);
-  -webkit-border-radius: 6rpx;
-          border-radius: 6rpx;
+  border-radius: 6rpx;
   text-align: center;
   line-height: 88rpx;
   color: #FFFFFF;

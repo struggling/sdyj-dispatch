@@ -29,7 +29,7 @@
 							</block>
 						</view>
 						<template v-if="item.reason">
-							<view  class="parm-txt reason">取消原因：{{item.reason}}</view>
+							<view style="color: #0080FF;font-weight: 600;padding-bottom: 30upx;"  class="parm-txt reason">取消原因：{{item.reason}}</view>
 						</template>
 						
 					</view>
@@ -218,7 +218,7 @@
 	}
 	.btn-group .active{
 		
-		background: linear-gradient(133deg, $themeleft 0%, $themeright 100%);
+		background: linear-gradient(133deg, $themeleft 0%, $themeright 100%) !important;
 		color: #FFFFFF !important;
 		border: none !important;
 	}
@@ -277,7 +277,7 @@
 		margin-top: 20rpx;
 	}
 	.parm-item-l .door-time{
-		color: $themeleft;
+		color: #1E91FF;
 	}
 	.parm-item-r .parm-txt{
 		line-height: 24upx !important;
@@ -307,8 +307,9 @@
 	}
 	.parm .price{
 		text-align: left;
-		color:#FA5741 ;
-		font-weight: bold;
+		color:#FF3D3D;
+		
+		font-weight: 400;
 		font-size: 44upx;
 		margin-top: 40upx;
 		margin-bottom: 40upx;
@@ -331,7 +332,8 @@
 		padding-right: 20upx;
 		line-height: 88upx;
 		/* margin-left: 48upx; */
-		border: 1upx solid #c5c4d5 !important;
+		border: 1upx solid #c5c4d5;
+		background: none;
 	}
 	button{
 		-webkit-appearance: none;

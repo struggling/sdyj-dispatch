@@ -53,8 +53,7 @@
 	    text-align: left;
 	    /* line-height: 88upx; */
 	    padding-left: 20px;
-		-webkit-border-radius: 8rpx;
-		        border-radius: 8rpx;
+		border-radius: 8rpx;
 }
 .from-group .input input.data-v-891c2434 {
 	font-size: 30rpx;
@@ -80,8 +79,7 @@
 	/* background-color: #E1E1E1; */
 	width: 100%;
 	margin-bottom: 25rpx;
-	-webkit-border-radius: 12rpx;
-	        border-radius: 12rpx;
+	border-radius: 12rpx;
 	padding-left: 25rpx;
 	/* padding-right: 25upx; */
 	margin-top: 25rpx;
@@ -91,7 +89,6 @@
 .btns.data-v-891c2434{
 	width: 92%;
 	height: 88rpx;
-	-webkit-border-radius: 2px;
 	border-radius: 6rpx;
 	background: -webkit-linear-gradient(318deg, #48C0FF 0%, #0F80FF 100%);
 	background: linear-gradient(132deg, #48C0FF 0%, #0F80FF 100%);
@@ -134,8 +131,7 @@
 	width: 200rpx;
 	height: 80rpx;
 	/* background-color: #B3B3B3; */
-	-webkit-border-radius: 4rpx;
-	        border-radius: 4rpx;
+	border-radius: 4rpx;
 	margin-top: 25rpx;
 	text-align: center;
 	line-height: 80rpx;
@@ -201,8 +197,7 @@
 	/* padding-right: 15upx; */
 	width: 44rpx;
 	height: 44rpx;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 	/* background-color: #18B566; */
 	border: 4rpx solid #00ABEB;
 	position: relative;
@@ -210,8 +205,7 @@
 .checkbox.data-v-891c2434{
 	width: 15rpx;
 	height: 15rpx;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 	position: absolute;
 	top: 4rpx;
 	left: 5rpx;

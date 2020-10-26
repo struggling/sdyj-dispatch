@@ -49,8 +49,7 @@
 
 /* 无任何数据的空布局 */
 .mescroll-empty {
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	width: 100%;
 	padding: 100rpx 50rpx;
 	text-align: center;
@@ -77,8 +76,7 @@
 	padding: 18rpx;
 	font-size: 28rpx;
 	border: 1rpx solid #e04b28;
-	-webkit-border-radius: 60rpx;
-	        border-radius: 60rpx;
+	border-radius: 60rpx;
 	color: #e04b28;
 }
 .mescroll-empty .empty-btn:active {

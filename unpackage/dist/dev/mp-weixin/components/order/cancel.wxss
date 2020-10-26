@@ -96,13 +96,11 @@ uni-view.data-v-9415ccd4{
 .parm .pic image.data-v-9415ccd4{
 	width: 168rpx;
 	height: 168rpx;
-	-webkit-border-radius: 100%;
-	        border-radius: 100%;
+	border-radius: 100%;
 }
 .btn-group .btn.data-v-9415ccd4 {
 	font-size: 28rpx;
-	-webkit-border-radius: 28rpx;
-	        border-radius: 28rpx;
+	border-radius: 28rpx;
 	border: 1rpx solid #CCCCCC;
 	color:#CCCCCC ;
 	padding-left: 20rpx;

@@ -1,7 +1,7 @@
 
 .moonactive{
 	color: #ffffff;
-	background:#0080FF !important;
+	background: #48C0FF !important;
 }
 .moon{
 	display: -webkit-box;
@@ -12,6 +12,8 @@
 	        justify-content: space-between;
 	margin-top: 30rpx;
 	margin-bottom: 30rpx;
+	margin-left: 30rpx;
+	margin-right: 30rpx;
 }
 .moon .sw{
 	width: 214rpx;
@@ -19,15 +21,13 @@
 	text-align: center;
 	line-height: 80rpx;
 	background: #d4d2d2;
-	-webkit-border-radius: 4rpx;
-	        border-radius: 4rpx;
+	border-radius: 4rpx;
 }
 .moon .xw{
 	width: 300rpx;
 	height: 80rpx;
 	background: #666666;
-	-webkit-border-radius: 4rpx;
-	        border-radius: 4rpx;
+	border-radius: 4rpx;
 	text-align: center;
 	line-height: 80rpx;
 }
@@ -47,8 +47,7 @@
 	background-color: #D1372C;
 	color: #FFFFFF;
 	padding: 5px 15px;
-	-webkit-border-radius: 20px;
-	        border-radius: 20px;
+	border-radius: 20px;
 	margin-right: 10px;
 	margin-top: 10px;
 	display: inline-block;
@@ -69,12 +68,12 @@
 	    line-height: 80rpx;
 	    text-align: center;
 	    background: #EEEEEE;
-	    -webkit-border-radius: 4rpx;
-	            border-radius: 4rpx;
+	    border-radius: 4rpx;
 	    /* padding: 40rpx; */
 	    padding-left: 40rpx;
 	    padding-right: 40rpx;
 	    margin-right: 40rpx;
+		margin-top: 20rpx;
 }
 .filter-content-footer {
 	    display: -webkit-box;
@@ -100,7 +99,7 @@
 	    -webkit-align-items: center;
 	    align-items: center;
 	    font-size: 16px;
-	    margin: 40rpx;
+	    margin: 30rpx;
 		
 		background: -webkit-linear-gradient(318deg, #48C0FF 0%, #0F80FF 100%);
 		

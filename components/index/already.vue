@@ -30,13 +30,23 @@
 						</view>
 						
 						<template v-if="item.reason">
-							<view  class="parm-txt reason" style="padding-bottom: 30upx;">取消原因：{{item.reason}}</view>
+							<view  class="parm-txt reason" style="padding-bottom: 30upx;color: #0080FF;font-weight: 600;">取消原因：{{item.reason}}</view>
 						</template>
 					</view>
 				</view>
 				<view class="btn-group">
-					<button type="default"  class="btn " @tap="deleteOrder(index)">取消订单</button>
-					<button type="default"  class="btn active" @tap="goDetail(item)">立即上门</button>
+					<block v-if="!item.system">
+						<button type="default"  class="btn " @tap="deleteOrder(index)">取消订单</button>
+						<button type="default"  class="btn active" @tap="goDetail(item)">立即上门</button>
+					</block>
+					<block v-else>
+						<button style="font-size: 20rpx;
+    text-overflow: ellipsis;
+    overflow: auto;
+    overflow: hidden;
+    white-space: nowrap;" type="default"  class="btn ">{{item.system}}</button>
+						<button type="default"  class="btn active" @tap="goDetail(item)">立即上门</button>
+					</block>
 				</view>
 			</view>
 			
@@ -107,7 +117,9 @@
 					tel: item.tel,
 					type: item.type,
 					integral:item.integral,
-					uid: item.uid
+					uid: item.uid,
+					// system:item.system
+
 				};
 				uni.navigateTo({
 					url: '../../pages/order-content/order-content?detailDate='  + encodeURIComponent(JSON.stringify(detail))
@@ -185,7 +197,7 @@
 	}
 	.btn-group .active{
 		
-		background: linear-gradient(133deg, $themeleft 0%, $themeright 100%);
+		background: linear-gradient(133deg, $themeleft 0%, $themeright 100%) !important;
 		color: #FFFFFF !important;
 		border: none !important;
 	}
@@ -244,7 +256,7 @@
 		margin-top: 20rpx;
 	}
 	.parm-item-l .door-time{
-		color: $themeleft;
+		color: #1E91FF;
 	}
 	.parm-item-r .parm-txt{
 		line-height: 24upx !important;
@@ -274,8 +286,9 @@
 	}
 	.parm .price{
 		text-align: left;
-		color:#FA5741 ;
-		font-weight: bold;
+		color:#FF3D3D;
+		
+		font-weight: 400;
 		font-size: 44upx;
 		margin-top: 40upx;
 		margin-bottom: 40upx;
@@ -298,7 +311,8 @@
 		padding-right: 20upx;
 		line-height: 88upx;
 		/* margin-left: 48upx; */
-		border: 1upx solid #c5c4d5 !important;
+		border: 1upx solid #c5c4d5;
+		background: none;
 	}
 	button{
 		-webkit-appearance: none;

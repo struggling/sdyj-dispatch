@@ -30,8 +30,7 @@
 }
 .u-calendar__header.data-v-5b667d40 {
   width: 100%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   font-size: 30rpx;
   background-color: #fff;
   color: #303133;
@@ -89,22 +88,12 @@
   -webkit-flex-wrap: wrap;
           flex-wrap: wrap;
   padding: 6px 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   background-color: #fff;
   position: relative;
 }
-.u-calendar__content--end-date.data-v-5b667d40 {
-  -webkit-border-bottom-left-radius: 8rpx;
-          border-bottom-left-radius: 8rpx;
-  -webkit-border-bottom-right-radius: 8rpx;
-          border-bottom-right-radius: 8rpx;
-}
 .u-calendar__content--start-date.data-v-5b667d40 {
-  -webkit-border-bottom-left-radius: 8rpx;
-          border-bottom-left-radius: 8rpx;
-  -webkit-border-bottom-right-radius: 8rpx;
-          border-bottom-right-radius: 8rpx;
+  border-bottom-left-radius: 8rpx;
 }
 .u-calendar__content__item.data-v-5b667d40 {
   width: 14.2857%;
@@ -139,8 +128,7 @@
           flex-direction: column;
   font-size: 32rpx;
   position: relative;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  border-radius: 50%;
 }
 .u-calendar__content__item__inner__desc.data-v-5b667d40 {
   width: 100%;
@@ -197,8 +185,7 @@
           flex-direction: column;
   background-color: #fff;
   padding: 0 40rpx 30rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   font-size: 24rpx;
   color: #909399;
 }

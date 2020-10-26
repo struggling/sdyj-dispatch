@@ -24,18 +24,18 @@
 				<view class="r-txt">
 					<span style="color:#666666 font-size: 28upx;">类型：{{data.type}}</span>
 				</view>
-				<view class="r-txt "  style="font-size: 28upx;">
+				<view class="r-txt "  style="font-size: 28upx;text-align: right;">
 					<span style="padding-left: 25upx;font-size: 36upx;color:#FF4F4F;font-weight:bold;">￥{{data.budget}}元</span>
 				</view>
 			</view>
 			<view class="parameter">
-				<view class="r-txt "  style="font-size: 20upx;">
-					<span style="padding-left: 12px;
+				<view class="r-txt "  style="font-size: 20upx;width: 100%;">
+					<span style="
     font-size: 20upx;
     color: #7f7f7f;
     text-align: right;
     display: block;
-    width: 600rpx;">完成订单可获得:{{data.integral}}积分</span>
+    width: 100%;">完成订单可获得:{{data.integral}}积分</span>
 				</view>
 			</view>
 			<view class="parameter label">
@@ -45,23 +45,23 @@
 			</view>
 			<view class="parameter">备注：{{data.content}}</view>
 			<view class="parameter" @tap="tishi">
-				<view class=" iconfont icondianhua1 contact">
-					<span style="padding-left: 25upx;">{{data.tel}}</span>
+				<view class=" iconfont icondianhua1 contact" style="color: #000000;">
+					<span style="padding-left: 25upx;color: #000000;"><!-- {{data.tel}} -->联系客户：抢单成功即可显示号码</span>
 				</view>
 			</view>
 			<view class="parameter graytd">
-				<view class="r-txt " style="font-size: 24upx;">
+				<view class="r-txt " style="font-size: 24upx;padding-left: 25upx;">
 					<span class="iconfont iconshijian">上门时间：
 					{{data.door_time}}
 					</span>
 					
 				</view>
 				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
-					<span class="iconfont iconweibiaoti9">{{data.duration}}</span>
+					<span class="iconfont  iconshalou">{{data.duration}}</span>
 				</view>				
 			</view>
 			<view class="btngroup">
-				<button type="default"  @tap="navlociton">开启导航</button>
+				<button type="default" class="iconfont iconfeiji" style="color: #FFFFFF;"  @tap="navlociton">开启导航</button>
 				<button style="background: linear-gradient(133deg, #48C0FF 0%, #0F80FF 100%);" type="default"  @tap="opentake" clsss="themes">立即抢单</button>
 			</view>
 			<!-- <view class="btngroup">
@@ -105,7 +105,8 @@
 				scale:14,
 				latitude: 39.909,
 				longitude: 116.39742,
-				covers: [{
+				covers: [
+					{
 					latitude: 39.909,
 					longitude: 116.39742,
 					iconPath: 'http://7n.51tiaoyin.com/20201019170033.png',
@@ -126,17 +127,18 @@
 		onLoad(event) {
 			// TODO 后面把参数名替换成 payload
 			const payload = event.detailDate;
-			
+			this.getLocationInfo();
 			// 目前在某些平台参数会被主动 decode，暂时这样处理。
 			try {
 				this.data= JSON.parse(decodeURIComponent(payload));
 				console.log(this.data);
 				let loction = this.data.longitude.split(",");
 				console.log(loction);
-				this.latitude = loction[1];
-				this.longitude  =loction[0];
-				this.covers[0].latitude = loction[1];
-				this.covers[0].longitude  =loction[0];
+				this.latitude = loction[1]-0.0060;
+				this.longitude  =loction[0]-0.0065;
+				this.covers[0].latitude = loction[1]-0.0060;//纬度
+				this.covers[0].longitude  =loction[0]-0.0065;//经度
+				
 				this.covers[1].longitude=uni.getStorageSync('longitude');
 				this.covers[1].latitude=uni.getStorageSync('latitude');
 			} catch (error) {
@@ -148,6 +150,8 @@
 			var currentpage = page.route;
 			this.currentpage = currentpage;
 			console.log(currentpage);
+			this.checklogin();
+			
 		},
 		computed:{
 			// dataDoortime(){
@@ -217,10 +221,27 @@
 				let phone = uni.getStorageSync('phone');
 				let user_uid = uni.getStorageSync('uid');
 				let badgecont = uni.getStorageSync("badgecont");
+				let type = uni.getStorageSync("type");
 				let code = this.data.code;
 				console.log("phone"+phone);
 				console.log(user_uid);
-				if (phone) {
+				if(type.indexOf(this.data.type)<=0 ){
+					uni.showModal({
+					    title: '提示',
+					    content: '该类订单与本人注册时类型不同,到抢单池看看符合类型的订单',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								uni.reLaunch({
+									url:"../index/index"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+					});
+				}
+				else if (user_uid&&phone) {
 					this.$myRequest({
 						url:'work/take',
 						data:{
@@ -278,7 +299,7 @@
 						}
 					})
 						
-				} else {
+				} else if(user_uid) {
 					uni.showModal({
 					    title: '提示',
 					    content: '请先完成师傅服务类型注册，在抢单',
@@ -296,13 +317,61 @@
 					    }
 					});
 				}
-			}
+				else {
+					uni.showModal({
+					    title: '提示',
+					    content: '请先登录后操作',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								//如果没有手机说明用户没有注册跳转
+								uni.navigateTo({
+									url:"../login/login"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+								
+					        }
+					    }
+					});
+				}
+			},
+			// 获取用户地理位置经纬都
+			getLocationInfo(){
+				let that  = this;
+			    uni.getLocation({
+			    	type: 'gcj02',
+			    	isHighAccuracy:true,
+			    	success(res) {
+						console.log("获取地理位置成功");
+			    		console.log(res);
+			    		console.log('当前位置的经度：' + res.longitude);
+			    		console.log('当前位置的纬度：' + res.latitude);
+			    		// that.latitude = res.latitude;
+			    		// that.longitude = res.longitude;
+			    		//注册页面经纬度缓存
+			    		uni.setStorageSync('longitude', res.longitude);
+			    		uni.setStorageSync('latitude', res.latitude);
+			    		that.covers[1].longitude=uni.getStorageSync('longitude');
+			    		that.covers[1].latitude=uni.getStorageSync('latitude');
+			    		//腾讯地图
+			    		// that.getTxmap(res.latitude,res.longitude)
+			    		
+			    	},
+			    	fail(res) {
+						console.log("获取地理位置失败");
+			    		console.log(res);
+			    		
+			    	}
+			    });
+			},
 		},
 		//自定义分享页面
 		onShareAppMessage(e){
 			return {
-				title: this.$overShare.title,
-				path: this.currentpage,
+				title: this.data.type+"/"+this.data.duration+"/"+this.data.budget+"元",
+
+				path: this.currentpage+"?detailDate=" + encodeURIComponent(JSON.stringify(this.data)),
 				imageUrl:this.$overShare.imageUrl,
 				
 			}
@@ -322,7 +391,7 @@
 	map{
 		position: relative;
 		width: 100%;
-		height: 385upx;
+		height: 620upx;
 		display: block;
 	}
 	label{
@@ -367,7 +436,7 @@
 		margin-bottom: 20rpx;
 		height: 40rpx !important;
 		width: 100% !important;
-		text-align: center !important;
+		// text-align: center !important;
 	}
 	.graytd .r-txt .iconfont{
 		font-size: 28upx;

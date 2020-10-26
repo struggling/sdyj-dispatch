@@ -37,8 +37,7 @@
           justify-content: center;
   font-size: 28rpx;
   color: #606266;
-  -webkit-border-radius: 10px;
-          border-radius: 10px;
+  border-radius: 10px;
   position: relative;
 }
 .u-avatar__img.data-v-4f1b1b40 {
@@ -59,8 +58,7 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
-  -webkit-border-radius: 100rpx;
-          border-radius: 100rpx;
+  border-radius: 100rpx;
   top: 5%;
   z-index: 1;
   right: -7%;
@@ -89,8 +87,7 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
-  -webkit-border-radius: 100rpx;
-          border-radius: 100rpx;
+  border-radius: 100rpx;
   bottom: 5%;
   z-index: 1;
   right: -7%;

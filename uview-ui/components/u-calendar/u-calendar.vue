@@ -386,7 +386,8 @@
 			},
 			changeData() {
 				this.days = this.getMonthDay(this.year, this.month);
-				this.daysArr=this.generateArray(1,this.days)
+				this.daysArr=this.generateArray(1,this.days);
+				// console.log(this.daysArr,"选中的日期");
 				this.weekday = this.getWeekday(this.year, this.month);
 				this.weekdayArr=this.generateArray(1,this.weekday)
 				this.showTitle = `${this.year}年${this.month}月`;
@@ -554,14 +555,18 @@
 			
 			&--end-date {
 				// border-radius:100%;
-				border-bottom-left-radius: 8rpx;
-				border-bottom-right-radius: 8rpx;
+				// border-bottom-left-radius: 8rpx;
+				// border-bottom-right-radius: 8rpx;
+				// border-radius: 100%;
+				// width: 12% !important;
 			}
 			
 			&--start-date {
 				// border-radius: 100%;
 				border-bottom-left-radius: 8rpx;
-				border-bottom-right-radius: 8rpx;
+				// border-bottom-right-radius: 8rpx;
+				// border-radius: 100%;
+				// width: 12% !important;
 			}
 			
 			&__item {

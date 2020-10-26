@@ -10,8 +10,7 @@
 	height: 100%;
 	min-height: 200rpx;
 	overflow-y: auto;
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box; /* 避免设置padding出现双滚动条的问题 */
+	box-sizing: border-box; /* 避免设置padding出现双滚动条的问题 */
 }
 
 /* 定位的方式固定高度 */
@@ -69,8 +68,7 @@
 	display: inline-block;
 	width: 32rpx;
 	height: 32rpx;
-	-webkit-border-radius: 50%;
-	        border-radius: 50%;
+	border-radius: 50%;
 	border: 2rpx solid gray;
 	border-bottom-color: transparent !important; /*已在style设置border-color,此处需加 !important*/
 	vertical-align: middle;
@@ -104,8 +102,7 @@
 
 /* 上拉加载区域 */
 .mescroll-upwarp {
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
+	box-sizing: border-box;
 	min-height: 110rpx;
 	padding: 30rpx 0;
 	text-align: center;
@@ -129,8 +126,7 @@
 	display: inline-block;
 	width: 32rpx;
 	height: 32rpx;
-	-webkit-border-radius: 50%;
-	        border-radius: 50%;
+	border-radius: 50%;
 	border: 2rpx solid gray;
 	border-bottom-color: transparent !important; /*已在style设置border-color,此处需加 !important*/
 	vertical-align: middle;

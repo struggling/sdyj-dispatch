@@ -43,6 +43,11 @@
 					 <view class="text" >售后客服</view>
 					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
 				 </view>
+				 <!-- <view class="item" @tap="requestMsg">
+				 					 <image src="http://7n.51tiaoyin.com/Group%204%402x.png" mode=""></image>
+				 					 <view class="text" >售后客服</view>
+				 					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
+				 </view> -->
 			 </view>
 		 </view>
 		<!-- class="iconfont icongerenxinxi"  class="iconfont icongonghao" class="iconfont iconshijian" class="iconfont iconpingfen" class="iconfont iconxinxi" class="iconfont iconshezhi"-->
@@ -238,34 +243,16 @@
 				})	
 			},
 			//订阅消息
-			async requestMsg(){
+			 requestMsg(){
+				 console.log(111);
 				let that = this;
-				await this.$myRequest({
-					url:'user/getTemplateid',
-					data:{},
-				}).then(res=>{
-					console.log(res);
-				// const data = JSON.parse(res.data);
-					if(res.data.code == 200){
-						console.log(res.data.msg);
-						console.log(res.data.data);
-						this.template_id1 = res.data.data[0];
-						this.template_id2 = res.data.data[1];
-						this.template_id3 = res.data.data[2];
-					}else if(res.data.code == 300){
-						console.log(res.data.msg);
-
-					}else{
-						console.log(res.data.msg)
-					}
-				})
-				// console.log(res.data);
+				
 				wx.requestSubscribeMessage({
 				  tmplIds: [this.template_id1,this.template_id2,this.template_id3],
 				  success (res) {
 					  console.log("模板");
 					  console.log(res);
-					   if (res['c-QfMnWBUDkg2CIlBJDOYaGj6Bpn-p6g9HuKUi8LrXY'] === 'accept'){
+					   if (res['iiQ90pese4nEszXQth3EOf8Tb5SYJIyIKN-vA3EeBL4'] === 'accept'){
 									that.currcount++;
 					               wx.showToast({
 					                 title: '订阅+1',
@@ -320,6 +307,11 @@
 				wx.openSetting({
 				  success (res) {
 				    console.log(res.authSetting)
+					let auth = res.authSetting["scope.userLocation"]
+						if(!auth){
+							uni.$emit('updateaddress',{msg:'未授权'})
+						}
+					
 				  }
 				})
 			},

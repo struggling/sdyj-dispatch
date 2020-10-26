@@ -4,15 +4,33 @@
 		<!-- <u-navbar :is-back="true"  title="积分商城" :height="height" :background="background" title-color="#ffffff" back-icon-color="#ffffff" >
 		</u-navbar> -->
 		<!-- 头部展示栏 -->
-		<view class="top">
-			<view class="bg"><image src="../../static/title.png" mode=""></image></view>
+		<view class="top" @tap="tomypoints">
+			<view class="bg"><image src="http://7n.51tiaoyin.com/20201020163448.jpg" mode=""></image></view>
 			<view class="panel">
 				<view class="text-l">
-					<view class="pic"><image :src="touxiang" mode=""></image></view>
+					<!-- <view class="pic"><image :src="touxiang" mode=""></image></view> -->
 					<view class="point" style=" padding-left: 40rpx;color: #ffffff;">
-						<view class="">总积分</view>
-						<view class="">{{number}}</view>
-						<view class="">积分可兑换下面商品</view>
+						
+						<view class="" style="    font-size: 34px;
+    font-size: 34px;
+    font-family: DINCondensed-Bold, DINCondensed;
+    font-weight: bold;
+    color: #000000;
+    line-height: 33px;">{{number}}</view>
+						<view class="" style="    color: #666666;
+    margin-left: 114rrpx;
+    width: 82rpx;
+    position: absolute;
+    left: -19px;
+    top: 45px;    font-weight: 400;
+    font-size: 22rpx;">总积分</view>
+						<view class="" style="    color: #666666;
+    margin-left: 114rrpx;
+    width: 262rpx;
+    position: absolute;
+    left: -19px;
+    top: 83px;    font-weight: 400;
+    font-size: 18rpx;">积分可兑换下面商品</view>
 					</view>
 				</view>
 				<!-- <view class="text-r">
@@ -23,11 +41,11 @@
 		</view>
 		<!-- uview content -->
 		<view class="content">
-			<view class="pointtip">
+			<!-- <view class="pointtip">
 				<view class="line"></view>
 				<view class="text"><span style="color:#0080FF;">积分</span>兑好礼</view>
 				<view class="line"></view>
-			</view>
+			</view> -->
 			<view class="malllist">
 				<block v-for="(item,index) in malllist" :key="index">
 					<view class="mallitem" @tap="godetail(item)">
@@ -61,6 +79,12 @@
 			this.touxiang = uni.getStorageSync("user_avatar")
 		},
 		methods: {
+			//我的积分
+			tomypoints(){
+				uni.navigateTo({
+					url:"../my-points/my-points"
+				})
+			},
 			//跳转详情页
 			godetail(item,index){
 				console.log(item);
@@ -105,27 +129,34 @@
 
 <style scoped>
 	.top{
-		height: 211upx;
+		height: 328upx;
 		position: relative;
 	}
 	.top .bg{
 		height: 211upx;
+		display: flex;
+		justify-content: center;
 	}
 	.top .bg image{
-		height: 211upx;
-		width: 100%;
+		height: 288rpx;
+		width: 702rpx;
+		margin-top: 40rpx;
 	}
 	.ppic{
 		text-align: center;
+		border-top-left-radius: 20rpx;
+		    border-top-right-radius: 20rpx;
 	}
 	.ppic image{
 		width: 100%;
 		height: 100%;
+		border-top-left-radius: 20rpx;
+		    border-top-right-radius: 20rpx;
 	}
 	.top .panel{
 		position: absolute;
-		top: 44upx;
-		left: 53upx;
+		top: 120rpx;
+		left: 92rpx;
 		width: 93%;
 	}
 	.panel {
@@ -217,8 +248,8 @@
 		width: 330upx;
 		height: 288upx;
 		background: #E8E8E8;
-		border-top-left-radius: 4upx;
-		border-top-right-radius: 4upx;
+		border-top-left-radius: 20upx;
+		border-top-right-radius: 20upx;
 		
 	}
 </style>

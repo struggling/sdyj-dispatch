@@ -72,9 +72,9 @@ import md5 from "./common/md5.min.js";
 															});
 												        } else if (res.cancel){
 												            console.log('用户点击取消');
-															uni.navigateTo({
-																url: '../login/login',
-															});
+															// uni.navigateTo({
+															// 	url: '../login/login',
+															// });
 												        }
 												    }
 												});
@@ -97,51 +97,17 @@ import md5 from "./common/md5.min.js";
 							title: '登录已过期,请重新登录',
 							success: (res) => {
 								if (res.confirm) {
-									uni.showLoading({
-										mask: true,
-										title: '登录中...'
+									uni.reLaunch({
+										url: "../login/login"
 									})
 								}
-								uni.reLaunch({
-									url: "../login/login"
-								})
-								// uni.login({
-								// 	provider: 'weixin',
-								// 	success: (res) => {
-								// 		console.log(res);
-								// 		uni.request({
-								// 			url: "https://applet.51tiaoyin.com/public/applet/",
-								// 			method: "GET",
-								// 			data: {
-								// 				"code": res.code
-								// 			},
-								// 			success(res) {
-								// 				console.log(res);
-								// 				if (res.code = 300) {
-								// 					uni.showToast({
-								// 						title: "未登录",
-								// 					})
-								// 					uni.reLaunch({
-								// 						url: "../login/login"
-								// 					})
-								// 				}
-								// 				//用户已登录
-								// 				if (res.code = 200) {
-								// 					uni.showToast({
-								// 						title: "请授权登录",
-								// 					})
-								// 					uni.reLaunch({
-								// 						url: "../login/login"
-								// 					})
-								// 				}else{
-								// 					uni.showToast({
-								// 						title:"获取信息失败，请检查网络"
-								// 					})
-								// 				}
-								// 			}
-								// 		})
-								// 	}
-								// })
+								else if (res.cancel){
+								    console.log('用户点击取消');
+									// uni.navigateTo({
+									// 	url: '../login/login',
+									// });
+								}
+								
 							}
 						});
 					},
@@ -154,9 +120,9 @@ import md5 from "./common/md5.min.js";
 
 Vue.prototype.$overShare = 	{
 	title: '方便快捷 精准接单',
-	path: 'pages/share/share',
+	path: 'pages/index/index',
 	desc:"便快捷、就近派单 结算迅速、完成到账 积分商城、好礼送不停 全职招募、稳定收入",
-	imageUrl:"http://7n.51tiaoyin.com/Group%205%402x.png",
+	imageUrl:"http://7n.51tiaoyin.com/%E8%83%8C%E6%99%AF%402x.png",
 };
 //用户昵称全局变量
 

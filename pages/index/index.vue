@@ -1,7 +1,8 @@
 <template>
 	<view>
 		<nav-head :address="address" :tabIndex="tabIndex" :notice="notice"  @openConfirm="openConfirm" @xuanzhong="xuanzhong"></nav-head>
-		
+		<!-- 动态数字角标提醒 -->
+		<u-badge type="error" :count="beenlength"></u-badge>
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 		<view class="content">
 			<!-- 收索筛选框 -->
@@ -68,8 +69,7 @@
 				</swiper>
 			</view>
 			
-			<!-- 动态数字角标提醒 -->
-			<u-badge type="error" :count="badgeconts" style="position: absolute;top: 308upx;left: 720upx;"></u-badge>
+			
 			<!-- model -->
 			<u-modal v-model="show" :content="content" :async-close="true"  @confirm="confirm" ref="uModal"></u-modal>
 			<!-- popup -->
@@ -131,6 +131,8 @@
 		},
 		data() {
 			return {
+				// offsetbadge:[-242,88],
+				beenlength:0,
 				closesearch:true,
 				userFeedbackHidden: true, // 默认隐藏
 				feedbackContent: '' ,// 用户反馈内容
@@ -264,24 +266,19 @@
 		},
 		onShow() {
 			//检查登录授权
-			// 检查登录是否过期
-			// async function (){
-				
-			// }
+			this.getBeen();
 			//判断用户是否注册服务工种,获取缓存里面的值
 			this.user_uid = uni.getStorageSync('uid');
 			this.phone = uni.getStorageSync('phone');
 			
-			this.checklogin();
+			// this.checklogin();
 			setTimeout(()=>{
-				uni.hideLoading({
-					title:"加载中",
-					duration:1500
-				});
+				
 				this.getInfo();
-				this.getWOrkstay();
-			},1500);
-			
+				// this.getWOrkstay();
+			},1000);
+			// mock数据通知栏
+			this.getNavbar();
 			console.log("重新排序");
 			// let promise = new Promise((resolve,reject)=>{
 			// 	resolve('res')
@@ -294,6 +291,13 @@
 			// }).then(res=>{
 			// 	this.getWOrkstay();
 			// })
+		},
+		
+		watch:{
+			beenlist(old,xin){
+				this.beenlength = this.beenlist.length;
+				console.log("监听beenlist长度",this.beenlength);
+			}
 		},
 		
 		computed:{
@@ -347,7 +351,7 @@
 			this.tabIndex = tabbar;
 			// this.checklogin();
 			var that = this;
-			this.getAuthorizeInfo();
+			console.log(this.beenlist.length,"待上门订单");
 			// 获取scoll-view高度值
 			uni.getSystemInfo({
 				success: (res) => {
@@ -357,7 +361,8 @@
 					console.log(this.swiperheight);
 				}
 			});
-			
+			// 检查登录是否过期
+			this.getAuthorizeInfo();
 			// mock数据通知栏
 			this.getNavbar();
 			//判断用户是否注册服务工种,获取缓存里面的值
@@ -378,15 +383,20 @@
 			// });
 			// this.selectdetaillist = this.menuList[0].detailList[0].title+',';
 			uni.$on('updateorderlist',function(data){
-			       console.log('监听到事件来自 updateorderlist ，携带参数 msg 为：' ,data.data);
-					that.orderlist = data.data;
-					console.log(that.orderlist);
-			   })
-			   uni.$on('updatebeenlist',function(data){
-			          console.log('监听到事件来自 updatebeenlist ，携带参数 msg 为：' ,data.data);
-			   		that.orderlist = data.data;
-			   		console.log(that.orderlist);
-			      })
+			      console.log('监听到事件来自 updateorderlist ，携带参数 msg 为：' ,data.data);
+				that.orderlist = data.data;
+				console.log(that.orderlist);
+			})
+		   uni.$on('updatebeenlist',function(data){
+				 console.log('监听到事件来自 updatebeenlist ，携带参数 msg 为：' ,data.data);
+				that.orderlist = data.data;
+				console.log(that.orderlist);
+			})
+		  uni.$on('updateaddress',function(data){
+				 console.log('监听到事件来自 updateaddress ，携带参数 msg 为：' ,data.msg);
+				that.address = "未授权";
+				console.log(that.address);
+		  })
 		},
 
 		 
@@ -418,58 +428,58 @@
 				
 			},
 			//弹出框方法
-				showDiv() { // 显示输入弹出框
-					this.userFeedbackHidden = false;
-				},
-				hideDiv() { // 隐藏输入弹出框
-					this.userFeedbackHidden = true;
-				},
-				submitFeedback() { // 提交反馈
-					
-					var that =this;
-				   // 提交反馈内容
-				   this.issubmit = true;
-					console.log(that.feedbackContent);
-					if(that.feedbackContent){
-						that.hideDiv();
-						// let index = uni.getStorageSync("cannelindex");
-						// that.beenlist.splice(index,1);
-						that.getBeen();
-						let code  = uni.getStorageSync("code");
-						let index = uni.getStorageSync("cannelindex");
-						console.log("当前code："+code);
-						if(that.issubmit){
-							this.$myRequest({
-								url:'work/cancel',
-								data:{
-									code:code,
-									uid: this.user_uid,
-									reason:this.feedbackContent
-								},
-								methods:"POST"
-								
-							}).then(res=>{
-							// 	console.log(res);
-							// const data = JSON.parse(res.data);
-								if(res.data.code == 200){
-									console.log(res.data.msg);
-									that.beenlist.splice(index,1);
-								}else if(res.data.code == 300){
-									console.log(res.data.msg);
+			showDiv() { // 显示输入弹出框
+				this.userFeedbackHidden = false;
+			},
+			hideDiv() { // 隐藏输入弹出框
+				this.userFeedbackHidden = true;
+			},
+			submitFeedback() { // 提交反馈
+				
+				var that =this;
+			   // 提交反馈内容
+			   this.issubmit = true;
+				console.log(that.feedbackContent);
+				if(that.feedbackContent){
+					that.hideDiv();
+					// let index = uni.getStorageSync("cannelindex");
+					// that.beenlist.splice(index,1);
+					that.getBeen();
+					let code  = uni.getStorageSync("code");
+					let index = uni.getStorageSync("cannelindex");
+					console.log("当前code："+code);
+					if(that.issubmit){
+						this.$myRequest({
+							url:'work/cancel',
+							data:{
+								code:code,
+								uid: this.user_uid,
+								reason:this.feedbackContent
+							},
+							methods:"POST"
 							
-								}else{
-									console.log(res.data.msg)
-								}
-							})
-					}else{
-						that.hideDiv();
-					}
-					
-					}
-				},
+						}).then(res=>{
+						// 	console.log(res);
+						// const data = JSON.parse(res.data);
+							if(res.data.code == 200){
+								console.log(res.data.msg);
+								that.beenlist.splice(index,1);
+							}else if(res.data.code == 300){
+								console.log(res.data.msg);
+						
+							}else{
+								console.log(res.data.msg)
+							}
+						})
+				}else{
+					that.hideDiv();
+				}
+				
+				}
+			},
 			//拉去待上门订单
 			getBeen(){
-				let phone = uni.getStorageSync('phone');
+				let phone = true;
 				let that = this;
 				if(phone){
 				this.$myRequest({
@@ -838,7 +848,10 @@
 						this.menuList[0] = menuListItem;
 						console.log("获取子节点方法");
 						console.log(this.$refs.slFilter);
-						this.$refs.slFilter.resetMenuList(this.menuList)
+						if(this.$refs.slFilter){
+							this.$refs.slFilter.resetMenuList(this.menuList)
+						}
+						
 						this.selectortype = type;
 						
 						// console.log(this.selectortype);
@@ -1408,12 +1421,19 @@
 				uni.authorize({
 					scope: 'scope.userLocation',
 					success() { // 允许授权
+						console.log("允许授权");
 						that.getLocationInfo();
 					},
 					fail(){    // 拒绝授权
+						console.log("拒绝授权");	
 						that.openConfirm();
 						that.address ="未授权";
-						console.log("你拒绝了授权，无法获得周边信息")
+						console.log("你拒绝了授权，无法获得周边订单信息");
+						uni.showToast({
+							title: '你拒绝了授权，无法获得周边订单信息',
+							icon: 'none',
+							duration: 2000
+						})
 					}
 				})
 			},
@@ -1425,6 +1445,7 @@
 			    	type: 'gcj02',
 			    	isHighAccuracy:true,
 			    	success(res) {
+						console.log("获取地理位置成功");
 			    		console.log(res);
 			    		console.log('当前位置的经度：' + res.longitude);
 			    		console.log('当前位置的纬度：' + res.latitude);
@@ -1433,38 +1454,13 @@
 			    		//注册页面经纬度缓存
 			    		uni.setStorageSync('longitude', res.longitude);
 			    		uni.setStorageSync('latitude', res.latitude);
-			    		//百度地图
-			    		var BMap = new bmap.BMapWX({
-			    			ak: 'q58GRKnjyQGGXI72GMdHKBBUaHEIKSyc'
-			    		});
-			    		BMap.regeocoding({
-			    			location: res.latitude + "," + res.longitude,
-			    			// location:"116.409443,39.909843",
-			    			success(res) {
-			    				// console.log(res.wxMarkerData[0].address);
-			    				const address = res.wxMarkerData[0].address.substring(3);
-			    				// console.log(this);
-			    				that.address = address;
-			    				uni.setStorageSync('address', address);
-			    				// console.log(address);
-								const towns = res.wxMarkerData[0].address.indexOf("省");
-								const shi = res.wxMarkerData[0].address.indexOf("市");
-								console.log("省下表"+towns);
-								console.log("市下表"+shi);
-								const town = res.wxMarkerData[0].address.substring(towns+1,shi+1);
-								console.log(town);
-								this.town = town;
-								uni.setStorageSync('town', town);
-								// that.getWOrkstay();
-			    			},
-			    			fail(error) {
-			    				console.log(error);
-			    				console.log("失败");
-			    			}
-			    
-			    		})
+			    		
+			    		//腾讯地图
+			    		that.getTxmap(res.latitude,res.longitude)
+			    		
 			    	},
 			    	fail(res) {
+						console.log("获取地理位置失败");
 			    		console.log(res);
 			    		
 			    	}
@@ -1483,7 +1479,7 @@
 						        console.log('当前位置的纬度：' + res.latitude);
 								uni.setStorageSync('longitude', res.longitude);
 								uni.setStorageSync('latitude', res.latitude);
-								//百度地图
+								//腾讯地图
 								that.getTxmap(res.latitude,res.longitude)
 						    }
 					})
@@ -1496,9 +1492,18 @@
 							if (res.confirm) {
 								uni.openSetting({
 								  success(res) {
+									  console.log("授权返回");
 								    console.log(res.authSetting)
-									// that.getLocationInfo();
-								  }
+									that.getLocationInfo();
+								  },
+								  // fail(res) {
+									 //  that.address = "未授权"
+								  // 	uni.showToast({
+								  // 		title: '你拒绝了授权，无法获得周边订单信息',
+								  // 		icon: 'none',
+								  // 		duration: 2000
+								  // 	})
+								  // }
 								});// 打开地图权限设置
 							} else if (res.cancel) {
 								uni.showToast({
@@ -1562,16 +1567,17 @@
 						console.log("腾讯逆地址");
 						console.log(res);
 						
-						that.address = res.result.address;
+						that.address = res.result.formatted_addresses.recommend;
 						uni.setStorageSync('address', that.address);
-						const towns = that.address.indexOf("省");
-						const shi = that.address.indexOf("市");
+						const towns = res.result.address.indexOf("省");
+						const shi = res.result.address.indexOf("市");
 						console.log("省下表"+towns);
 						console.log("市下表"+shi);
-						const town = that.address.substring(towns+1,shi+1);
+						const town = res.result.address.substring(towns+1,shi+1);
 						console.log(town);
 						that.town = town;
 						uni.setStorageSync('town', town);
+						that.getWOrkstay();
 					}
 				})
 			}

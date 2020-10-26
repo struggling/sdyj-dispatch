@@ -1,6 +1,8 @@
 {
   "navigationBarBackgroundColor": "#ffffff",
-  "navigationBarTitleText": "用户协议",
+  "navigationBarTitleText": "师傅入驻协议",
   "navigationBarTextStyle": "black",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-parse": "/uview-ui/components/u-parse/u-parse"
+  }
 }

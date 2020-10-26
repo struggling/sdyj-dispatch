@@ -32,8 +32,7 @@
   padding: 20rpx 0;
   font-size: 28rpx;
   color: #303133;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   line-height: 70rpx;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;

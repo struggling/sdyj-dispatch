@@ -58,11 +58,9 @@
   height: 100rpx;
   line-height: 100rpx;
   font-size: 32rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   cursor: pointer;
   text-align: center;
-  -webkit-border-radius: 4rpx;
-          border-radius: 4rpx;
+  border-radius: 4rpx;
 }
 

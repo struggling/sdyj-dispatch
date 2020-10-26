@@ -16,18 +16,18 @@
 				<view class="r-txt">
 					<span style="color:#666666 font-size: 28upx;">类型：{{data.type}}</span>
 				</view>
-				<view class="r-txt "  style="font-size: 28upx;">
-					<span style="padding-left: 25upx;font-size: 36upx;color:#FF4F4F;font-weight:bold;">￥{{data.budget}}元</span>
+				<view class="r-txt "  style="font-size: 28upx;text-align: right;">
+					<span style="padding-left: 25upx;font-size: 36upx;color:#FF4F4F;font-weight:bold;line-height: 34upx;">￥{{data.budget}}元</span>
 				</view>
 			</view>
 			<view class="parameter">
-				<view class="r-txt "  style="font-size: 28upx;">
-					<span style="padding-left: 12px;
+				<view class="r-txt "  style="font-size: 28upx;width: 100%;">
+					<span style="
     font-size: 20upx;
     color: #7f7f7f;
     text-align: right;
     display: block;
-    width: 600rpx;">完成订单可获得:{{data.integral}}积分</span>
+    width: 100%;">完成订单可获得:{{data.integral}}积分</span>
 				</view>
 			</view>
 			<view class="parameter label">
@@ -37,24 +37,29 @@
 			</view>
 			<view class="parameter">备注：{{data.content}}</view>
 			<view class="parameter" @tap="go">
-				<view class=" iconfont icondianhua1 contact">
+				<view class="iconfont icondianhua1 contact">
 					<span style="padding-left: 25upx;">{{data.tel}}</span>
 				</view>
 			</view>
 			<view class="parameter graytd">
-				<view class="r-txt " style="font-size: 24upx;">
+				<view class="r-txt " style="font-size: 24upx; padding-left: 25upx;">
 					<span class="iconfont iconshijian">上门时间：
 					{{data.door_time}}
 					</span>
 					
 				</view>
 				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
-					<span class="iconfont iconweibiaoti9">{{data.duration}}</span>
+					<span class="iconfont iconshalou">{{data.duration}}</span>
+				</view>	
+				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
+					<span class="iconfont icondiliweizhi">{{data.origin}}</span>
 				</view>				
 			</view>
 			<view class="btngroup">
 
-				<button type="default" style="border: 1px solid #000000;color: #333333;"  @tap="navlociton">开启导航</button>
+				<button type="default" style="    border: 1px solid #979797;
+    color: #333333;
+    background: none;" class="iconfont iconfeiji"  @tap="navlociton">开启导航</button>
 
 				<button type="default" style="background: linear-gradient(133deg, #48C0FF 0%, #0F80FF 100%);" @click="showmask">完成服务</button>
 			</view>
@@ -66,7 +71,7 @@
 			<!-- 上传图片 -->
 			
 		</view>
-		<u-popup v-model="show" mode="bottom" border-radius="14" length="80%">
+		<u-popup v-model="show" mode="bottom" border-radius="14" length="59%">
 					<view class="pad">
 						<view class="mask-title">确认完成服务</view>
 						<!-- 图片上传 -->
@@ -75,12 +80,12 @@
 							:imgListprop="photo_list" 
 							:num='4' :isBase64='true' 
 							:isSave='true' 
-							:size='180'
+							:size='80'
 							 @chooseImage='imglist_msg'  
 							 @delImg='del_imglist_msg'>
 							 </vastwu-saveimg>
 							<view class="mask-uptext">备注</view>
-							<textarea class="mask-area" value="haha" v-model='remarks' placeholder="说明" />
+							<textarea class="mask-area" value="" v-model='remarks'  />
 							<view class="mask-btn" @tap="submit">确认完成</view>
 						</view>
 		</u-popup>
@@ -145,10 +150,10 @@
 				console.log(this.data);
 				let loction = this.data.longitude.split(",");
 				console.log(loction);
-				this.latitude = loction[1];
-				this.longitude  =loction[0];
-				this.covers[0].latitude = loction[1];
-				this.covers[0].longitude  =loction[0];
+				this.latitude = loction[1]-0.0060;
+				this.longitude  =loction[0]-0.0065;
+				this.covers[0].latitude = loction[1]-0.0060;
+				this.covers[0].longitude  =loction[0]-0.0065;
 				this.covers[1].longitude=uni.getStorageSync('longitude');
 				this.covers[1].latitude=uni.getStorageSync('latitude');
 			} catch (error) {
@@ -225,7 +230,7 @@
 						console.log(res.data.msg);
 						uni.showModal({
 							  title: '提示',
-							    content: '订单完成后可到订单中心查看结款状态',
+							    content: '恭喜，订单已完成！订单完成后可到订单中心查看结款状态',
 							    success: function (res) {
 							        if (res.confirm) {
 							            console.log('用户点击确定');
@@ -385,7 +390,7 @@
 		onShareAppMessage(e){
 			return {
 				title: this.$overShare.title,
-				path: this.currentpage,
+				path: this.$overShare.path,
 				imageUrl:this.$overShare.imageUrl,
 				
 			}
@@ -450,7 +455,7 @@
 		text-align: left;
 		padding-left: 50rpx;
 		padding-right: 50rpx;
-		color: #ff557f;
+		color: #666666;
 		line-height: 80rpx;
 	}
 	.mask-btn{
@@ -463,6 +468,7 @@
 		color: #ffffff;
 		text-align: center;
 		line-height: 88rpx;
+		margin-bottom: 60rpx;
 	}
 	/* map */
 	uni-map {
@@ -475,7 +481,7 @@
 	map{
 		position: relative;
 		width: 100%;
-		height: 441upx;
+		height: 618upx;
 		display: block;
 	}
 	label{
@@ -503,12 +509,13 @@
 	}
 	.parameter .contact{
 		width: 100%;
-		height:80upx;	
+		height:80upx;
+		
 		border: 1px solid #000000;
 	}
 	.graytd{
 		background:#F8F8F8;
-		height: 160upx;
+		height: 200upx;
 		flex-direction: column;
 		justify-content: center !important;
 		align-items: center;
@@ -520,7 +527,7 @@
 		margin-bottom: 20rpx;
 		height: 40rpx ;
 		width: 100% !important;
-		text-align: center !important;
+		// text-align: center !important;
 	}
 	.graytd .r-txt .iconfont{
 		font-size: 28upx;

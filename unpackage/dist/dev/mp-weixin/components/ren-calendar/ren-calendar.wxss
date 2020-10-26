@@ -55,15 +55,13 @@
   font-size: 28rpx;
   font-weight: normal;
   padding: 8rpx 15rpx;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   border: 2rpx solid #dcdfe6;
 }
 .calendar-wrapper .header .signed.data-v-2e42c8f8 {
   padding-left: 25rpx;
   padding-right: 25rpx;
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
+  border-radius: 20rpx;
 }
 .calendar-wrapper .header .pre.data-v-2e42c8f8 {
   margin-right: 30rpx;
@@ -121,8 +119,7 @@
   height: 60rpx;
   line-height: 60rpx;
   overflow: hidden;
-  -webkit-border-radius: 60rpx;
-          border-radius: 60rpx;
+  border-radius: 60rpx;
 }
 .calendar-wrapper .content .days .item .day.choose.data-v-2e42c8f8 {
   background-color: #00ABEB;
@@ -140,8 +137,7 @@
   width: 8rpx;
   height: 8rpx;
   background: #fa7268;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   position: absolute;
   left: 50%;
   bottom: 0;
@@ -156,8 +152,7 @@
   width: 8rpx;
   height: 8rpx;
   background: #4d7df9;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   position: absolute;
   left: 50%;
   bottom: 0;
@@ -168,8 +163,7 @@
   width: 8rpx;
   height: 8rpx;
   background: #fc7a64;
-  -webkit-border-radius: 10rpx;
-          border-radius: 10rpx;
+  border-radius: 10rpx;
   position: absolute;
   left: 50%;
   bottom: 0;
