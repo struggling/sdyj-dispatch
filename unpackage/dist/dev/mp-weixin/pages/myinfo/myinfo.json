@@ -5,7 +5,7 @@
   "usingComponents": {
     "u-avatar": "/uview-ui/components/u-avatar/u-avatar",
     "u-icon": "/uview-ui/components/u-icon/u-icon",
-    "jp-select": "/components/jp-select/jp-select",
-    "select-type": "/components/select-type/select-type"
+    "select-type": "/components/select-type/select-type",
+    "jp-select": "/components/jp-select/jp-select"
   }
 }

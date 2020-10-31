@@ -181,7 +181,7 @@
 			console.log(tabbar);
 			this.tabIndex = tabbar;
 			//检查登录授权
-			this.checklogin();
+			// this.checklogin();
 			//设置容器高度
 			uni.getSystemInfo({
 				success: (res) => {

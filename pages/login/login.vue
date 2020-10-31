@@ -46,54 +46,58 @@
 							success(data) {
 								console.log(data);
 								let token = md5("code="+code+"&iv="+data.iv+"&encryptedData="+data.encryptedData+"0a88a84a25948b4f37f622b3a3ff9fc0");
-								uni.request({
-										url: that.$apiUrl+"login/index",
-										method: "GET",
-										dataType:JSON,
-										data: {
-											"code": code,
-											"iv":data.iv,
-											"encryptedData": data.encryptedData,
-											"token":token
-										},
-										success(res) {
-											// JSON.stringify(res.data.wechat_name);
-											console.log(res);
-											
-											console.log(JSON.parse(res.data));
-											const data = JSON.parse(res.data);
-											console.log(data.data.uid);
-											uni.setStorageSync("cookie",data.data.session_id);
-											if(data.code == 200){
-												uni.showLoading({
-												    title: '登录中'
-												});
-												setTimeout(
-												()=>{
-												uni.reLaunch({
-													url:"../index/index"
-												})	
-												},1500);
-												// 把用户信息写入缓存
-												
-												// console.log(res.data.data);
-												uni.setStorageSync('user_name', data.data.wechat_name);
-												uni.setStorageSync('user_avatar', data.data.wechat_img);
-												uni.setStorageSync('uid', data.data.uid);
-											}else{
-												uni.showToast({
-													title: "服务器无响应"
-												});
-											}
-											
-										},
-										fail(res) {
-											uni.showToast({
-												title: '获取授权信息失败',
-												icon: 'none'
-											});
-										}
+								that.$myRequest({
+									url: "login/index",
+									method: "GET",
+									data: {
+										"code": code,
+										"iv":data.iv,
+										"encryptedData": data.encryptedData,
+									},
+								}).then(res=>{
+									if(res.data.code == 200){
+										uni.showLoading({
+										    title: '登录中'
+										});
+										setTimeout(
+										()=>{
+										uni.reLaunch({
+											url:"../index/index"
+										})	
+										},1500);
+										// 把用户信息写入缓存
+										
+										// console.log(res.data.data);
+										console.log("获取登陆");
+										let phone = res.data.data.phone;
+										let type  =res.data.data.type;
+										let uid  =res.data.data.uid;
+										let name  =res.data.data.name;
+										let number = res.data.data.number;
+										let cookie = res.data.data.session_id;
+										uni.setStorageSync("phone",phone);	
+										console.log("手机号码"+phone);
+										uni.setStorageSync("type",type);
+										console.log("服务类型"+type);
+										uni.setStorageSync("uid",uid);
+										console.log("uid标识"+uid);
+										uni.setStorageSync("name",name);
+										console.log("用户姓名"+name);
+										uni.setStorageSync("number",number);
+										console.log("用户编号"+number);
+										uni.setStorageSync('user_name',res.data.data.wechat_name);
+										uni.setStorageSync('user_avatar',res.data.data.wechat_img);
+										console.log("用户姓名"+res.data.data.wechat_name);
+										console.log("用户头像"+res.data.data.wechat_img);
+										uni.setStorageSync("cookie",cookie);
+										console.log("cookie"+cookie);
+									}else{
+										uni.showToast({
+											title: "服务器无响应"
+										});
+									}
 								})
+								
 							},
 							fail(res) {
 								uni.showToast({

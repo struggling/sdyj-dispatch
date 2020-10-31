@@ -58,7 +58,10 @@
 				</view>
 				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
 					<span class="iconfont  iconshalou">{{data.duration}}</span>
-				</view>				
+				</view>
+				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
+					<span class="iconfont  iconshalou">{{dataorigin}} (抢单成功可显示详细地址)</span>
+				</view>		
 			</view>
 			<view class="btngroup">
 				<button type="default" class="iconfont iconfeiji" style="color: #FFFFFF;"  @tap="navlociton">开启导航</button>
@@ -154,12 +157,17 @@
 			
 		},
 		computed:{
-			// dataDoortime(){
-			// 	if(this.data.door_time){
-			// 		console.log(this.data);
-			// 		return  this.data.door_time.substring(5,this.data.door_time.length-3)
-			// 	}
-			// }
+			dataorigin(){
+				if(this.data.origin){
+					console.log(this.data);
+					// return  this.data.origin.substring(this.data.origin.length-6)
+					// const towns = this.data.origin.indexOf("省");
+					const shi = this.data.origin.indexOf("市");
+					// console.log("省下表"+towns);
+					// console.log("市下表"+shi);
+					return this.data.origin.substring(shi+1);
+				}
+			}
 		},
 		methods: {
 			tishi(){
@@ -223,83 +231,85 @@
 				let badgecont = uni.getStorageSync("badgecont");
 				let type = uni.getStorageSync("type");
 				let code = this.data.code;
-				console.log("phone"+phone);
-				console.log(user_uid);
-				if(type.indexOf(this.data.type)<=0 ){
-					uni.showModal({
-					    title: '提示',
-					    content: '该类订单与本人注册时类型不同,到抢单池看看符合类型的订单',
-					    success: function (res) {
-					        if (res.confirm) {
-					            console.log('用户点击确定');
-								uni.reLaunch({
-									url:"../index/index"
-								})
-					        } else if (res.cancel) {
-					            console.log('用户点击取消');
-					        }
-					    }
-					});
-				}
-				else if (user_uid&&phone) {
-					this.$myRequest({
-						url:'work/take',
-						data:{
-							uid:user_uid,
-							code:code,//订单编号
-							WorkNautica:[uni.getStorageSync('longitude'),uni.getStorageSync('latitude')],
-							phone:phone
-						},
-						methods:"POST"
-						
-					}).then(res=>{
-					// 	console.log(res);
-					// const data = JSON.parse(res.data);
-						if(res.data.code == 200){
-							console.log(res.data.msg);
-							that.show = true;
-							that.isactive = true;
-							let badgecont = 0;
-							// that.$badge++;
-							badgecont ++;
-							// console.log(this.$badge);
-							uni.$emit('updatebadgecont',{badgecont:badgecont});
-							// setTimeout(()=>{
-							// 	uni.navigateBack({
-							// 		delta: 1
-							// 	});
-							// },3000);
-						}else if(res.data.code == 300){
-							console.log(res.data.msg);
-							uni.showModal({
-							    title: '提示',
-							    content: res.data.msg,
-							    success: function (res) {
-							        if (res.confirm) {
-							            console.log('用户点击确定');
-							        } else if (res.cancel) {
-							            console.log('用户点击取消');
-							        }
-							    }
-							});
+				console.log("phone",phone);
+				console.log(user_uid,"uid");
+				
+				if (user_uid&&phone) {
+					if(type.indexOf(this.data.type)<=0 ){
+						uni.showModal({
+						    title: '提示',
+						    content: '该类订单与本人注册时类型不同,到抢单池看看符合类型的订单',
+						    success: function (res) {
+						        if (res.confirm) {
+						            console.log('用户点击确定');
+									uni.reLaunch({
+										url:"../index/index"
+									})
+						        } else if (res.cancel) {
+						            console.log('用户点击取消');
+						        }
+						    }
+						});
+					}else{
+						this.$myRequest({
+							url:'work/take',
+							data:{
+								uid:user_uid,
+								code:code,//订单编号
+								WorkNautica:[uni.getStorageSync('longitude'),uni.getStorageSync('latitude')],
+								phone:phone
+							},
+							methods:"POST"
 							
-						}else{
-							console.log(res.data.msg)
-							uni.showModal({
-							    title: '提示',
-							    content: res.data.msg,
-							    success: function (res) {
-							        if (res.confirm) {
-							            console.log('用户点击确定');
-							        } else if (res.cancel) {
-							            console.log('用户点击取消');
-							        }
-							    }
-							});
-						}
-					})
-						
-				} else if(user_uid) {
+						}).then(res=>{
+						// 	console.log(res);
+						// const data = JSON.parse(res.data);
+							if(res.data.code == 200){
+								console.log(res.data.msg);
+								that.show = true;
+								that.isactive = true;
+								let badgecont = 0;
+								// that.$badge++;
+								badgecont ++;
+								// console.log(this.$badge);
+								uni.$emit('updatebadgecont',{badgecont:badgecont});
+								// setTimeout(()=>{
+								// 	uni.navigateBack({
+								// 		delta: 1
+								// 	});
+								// },3000);
+							}else if(res.data.code == 300){
+								console.log(res.data.msg);
+								uni.showModal({
+								    title: '提示',
+								    content: res.data.msg,
+								    success: function (res) {
+								        if (res.confirm) {
+								            console.log('用户点击确定');
+								        } else if (res.cancel) {
+								            console.log('用户点击取消');
+								        }
+								    }
+								});
+								
+							}else{
+								console.log(res.data.msg)
+								uni.showModal({
+								    title: '提示',
+								    content: res.data.msg,
+								    success: function (res) {
+								        if (res.confirm) {
+								            console.log('用户点击确定');
+								        } else if (res.cancel) {
+								            console.log('用户点击取消');
+								        }
+								    }
+								});
+							}
+						})
+					}		
+				} 
+				else if(user_uid) {
 					uni.showModal({
 					    title: '提示',
 					    content: '请先完成师傅服务类型注册，在抢单',
@@ -424,7 +434,7 @@
 	}
 	.graytd{
 		background:#F8F8F8;
-		height: 160upx;
+		height: 186upx;
 		flex-direction: column;
 		justify-content: center !important;
 		align-items: center;

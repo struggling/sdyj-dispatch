@@ -1,138 +1,66 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.warp.data-v-80243c48 {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		        align-items: center;
+		-webkit-box-pack: center;
+		-webkit-justify-content: center;
+		        justify-content: center;
+		height: 100%;
+}
+.rect.data-v-80243c48 {
+	width: 710rpx;
+	/* height: 820upx; */
+	background-color: #fff;
+}
+
+/* 表单类型选择 */
 
 /* 表单类型选择 */
 .typecontent.data-v-80243c48 {
-	background-color: #E1E1E1;
+	/* background-color: #E1E1E1; */
 	width: 100%;
-	margin-top: 800rpx;
 	margin-bottom: 25rpx;
 	border-radius: 12rpx;
 	padding-left: 25rpx;
-	padding-right: 25rpx;
-	/* margin-top: 25upx; */
+	/* padding-right: 25upx; */
+	margin-top: 25rpx;
 	padding-bottom: 25rpx;
+	position: relative;
+}
+.btns.data-v-80243c48{
+	width: 92%;
+	height: 88rpx;
+	border-radius: 6rpx;
+	background: -webkit-linear-gradient(318deg, #48C0FF 0%, #0F80FF 100%);
+	background: linear-gradient(132deg, #48C0FF 0%, #0F80FF 100%);
+	color: #FFFFFF;
+	text-align: center;
+	line-height: 88rpx;
+	font-size: 32rpx;
+	margin-left: 25rpx;
+	margin-right: 25rpx;
+	margin-bottom: 40rpx;
+}
+.typecontent .close.data-v-80243c48{
+	position: absolute;
+	top: 20px;
+	color: #666666;
+	font-size: 52rpx;
+	right: 36rpx;
 }
 .typecontent  image.data-v-80243c48{
 	height: 220rpx;
 	width: 100%;
 }
 .typecontent .title.data-v-80243c48 {
-	color: #808080;
-	font-size: 30rpx;
+	color: #333333;
+	font-size: 36rpx;
 	font-weight: bold;
-	padding-top: 25rpx;
+	padding-top: 60rpx;
 }
 .typecontent .onelist.data-v-80243c48 {
 	display: -webkit-box;
@@ -145,14 +73,26 @@
 	        flex-wrap: wrap;
 }
 .typecontent .onelist .list.data-v-80243c48 {
-	width: 170rpx;
-	height: 60rpx;
-	background-color: #B3B3B3;
-	border-radius: 20rpx;
+	width: 200rpx;
+	height: 80rpx;
+	/* background-color: #B3B3B3; */
+	border-radius: 4rpx;
 	margin-top: 25rpx;
 	text-align: center;
-	line-height: 60rpx;
-	color: #FFFFFF;
+	line-height: 80rpx;
+	color: #666666;
+	border: 1px solid #979797;
+	 margin-right: 30rpx;
 }
-
+.listactive.data-v-80243c48{
+	background-color: #269AFF;
+	border: none !important;
+	color: #FFFFFF !important;
+}
+.erleiactive.data-v-80243c48{
+	color: #0080FF !important;
+	font-weight: bold !important;
+	background:#F2F6FF !important;
+	border: none !important;
+}
 

@@ -3,7 +3,7 @@
 		<nav-head :address="address" :tabIndex="tabIndex" :notice="notice"  @openConfirm="openConfirm" @xuanzhong="xuanzhong"></nav-head>
 		<!-- 动态数字角标提醒 -->
 		<u-badge type="error" :count="beenlength"></u-badge>
-		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
+		<!-- <mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption"> -->
 		<view class="content">
 			<!-- 收索筛选框 -->
 			<!-- <u-search placeholder="姓名,电话,地址" v-model="keyword" @search = 'orderSearch' @custom=" $u.debounce(orderSearch1, 1000)" margin="25upx 25upx 25upx 25upx" style="margin-top: 25upx;"></u-search> -->
@@ -22,8 +22,8 @@
 				<swiper class="swiper-box" :style="{height:swiperheight+'px',background: '#F2F2F2'}"  :current="tabIndex" @change="tabChange">
 					
 					<swiper-item>
-						<scroll-view  scroll-y="true" class="list">
-							<!-- <mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" > -->
+						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore">
+							<mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" >
 								<template v-if="orderlist.length>0">
 									<block v-for="(item,index) in orderlist" :key="index">
 										<orderList :item="item" :index="index" :tool="tool"  @openModel="openModel"></orderList>
@@ -34,7 +34,7 @@
 								<template v-else>
 									<noThing></noThing>
 								</template>
-							<!-- </mescroll-uni> -->
+							</mescroll-uni>
 							<!-- 上拉加载 -->
 							<!-- <load-more :loadtext="loadtext"></load-more> -->
 						</scroll-view>
@@ -94,7 +94,7 @@
 					</view>
 			<view class="popup_overlay" :hidden="userFeedbackHidden" @tap = "hideDiv()"></view>
 		</view>
-		 </mescroll-body>
+		 <!-- </mescroll-body> -->
 	</view>
 
 
@@ -270,13 +270,14 @@
 			//判断用户是否注册服务工种,获取缓存里面的值
 			this.user_uid = uni.getStorageSync('uid');
 			this.phone = uni.getStorageSync('phone');
+			// 检查登录是否过期
+			this.getAuthorizeInfo();
 			
-			// this.checklogin();
-			setTimeout(()=>{
+			
 				
 				this.getInfo();
-				// this.getWOrkstay();
-			},1000);
+				
+		
 			// mock数据通知栏
 			this.getNavbar();
 			console.log("重新排序");
@@ -303,36 +304,36 @@
 		computed:{
 
 			//重新排序待派单订单
-			sortOrderlist(){
-				for (var i = 0; i < this.orderlist.length; i++) {
-					let location = this.orderlist[i].longitude;
-					let str1 = location.split(",")[0];
-					str1 = str1.substring(0,9);
-					let str2 = location.split(",")[1];
-					str2 = str2.substring(0,9);
-					var longitude = str1;
-					var latitude = str2;
-					let latitude1 = uni.getStorageSync("latitude");
-					let longitude1 = uni.getStorageSync("longitude");
-					var jl = this.countDistance(latitude1, longitude1, latitude, longitude);
-					jl = Math.floor(jl/1000 * 10) / 10;
-					// this.distance =this.distance.push(jl);
-					console.log("距离");
-					// console.log(this.distance);
-					this.orderlist[i].jl = jl;
+			// sortOrderlist(){
+			// 	for (var i = 0; i < this.orderlist.length; i++) {
+			// 		let location = this.orderlist[i].longitude;
+			// 		let str1 = location.split(",")[0];
+			// 		str1 = str1.substring(0,9);
+			// 		let str2 = location.split(",")[1];
+			// 		str2 = str2.substring(0,9);
+			// 		var longitude = str1;
+			// 		var latitude = str2;
+			// 		let latitude1 = uni.getStorageSync("latitude");
+			// 		let longitude1 = uni.getStorageSync("longitude");
+			// 		var jl = this.countDistance(latitude1, longitude1, latitude, longitude);
+			// 		jl = Math.floor(jl/1000 * 10) / 10;
+			// 		// this.distance =this.distance.push(jl);
+			// 		console.log("距离");
+			// 		// console.log(this.distance);
+			// 		this.orderlist[i].jl = jl;
 					
-				}
-				function compare(property){
-				    return function(a,b){
-				        var value1 = a[property];
-				        var value2 = b[property];
-				        return value1 - value2;
-				    }
-				}
-				return this.orderlist.sort(compare('jl'));
-				console.log("排序");
-				console.log(this.orderlist.sort(compare('jl')));
-			},
+			// 	}
+			// 	function compare(property){
+			// 	    return function(a,b){
+			// 	        var value1 = a[property];
+			// 	        var value2 = b[property];
+			// 	        return value1 - value2;
+			// 	    }
+			// 	}
+			// 	return this.orderlist.sort(compare('jl'));
+			// 	console.log("排序");
+			// 	console.log(this.orderlist.sort(compare('jl')));
+			// },
 			
 		},
 		
@@ -361,8 +362,7 @@
 					console.log(this.swiperheight);
 				}
 			});
-			// 检查登录是否过期
-			this.getAuthorizeInfo();
+			
 			// mock数据通知栏
 			this.getNavbar();
 			//判断用户是否注册服务工种,获取缓存里面的值
@@ -659,41 +659,89 @@
 			},
 			//筛选类型
 			result(val) {
+				let that = this;
 				console.log(JSON.stringify(val));
 				this.filterResult = JSON.stringify(val, null, 2);
 				let arr = JSON.parse(this.filterResult).jobType;
 				let selecttype =  arr.toString();
-				console.log(selecttype);
+				
 				let str = uni.getStorageSync("type");
-				let town = uni.getStorageSync("town");
-				let type = str.split(",");
-				this.$myRequest({
-					url:'work/stay',
-					data:{
-						"town":town ,
-						"genre": selecttype,
-						"uid": this.user_uid,
-					},
-					methods:"POST"
-					
-				}).then(res=>{
-				// 	console.log(res);
-				// const data = JSON.parse(res.data);
-					if(res.data.code == 200){
-						console.log(res.data.msg);
-						// this.mescroll.endSuccess();
-						this.orderlist = res.data.data;
-									
-					}else if(res.data.code == 300){
-						console.log(res.data.msg);
-						uni.showToast({
-							title:"暂无相关订单"
-						})
-						// this.mescroll.endSuccess();
+				if (str){
+					// console.log("类型选择默认",str);
+					let town = uni.getStorageSync("town");
+					if(selecttype){
+						selecttype = selecttype
 					}else{
-						console.log(res.data.msg)
+						selecttype = str
 					}
-				})
+					// console.log(selecttype,str);
+					let lng = uni.getStorageSync('longitude');
+					let lat = uni.getStorageSync('latitude');
+					this.$myRequest({
+						url:'work/stay',
+						data:{
+							"town":town ,
+							"genre": selecttype,
+							"uid": this.user_uid,
+							"page":1,
+							"pageSize":10,
+							"lng":lng,
+							"lat":lat
+						},
+						methods:"POST"
+						
+					}).then(res=>{
+					// 	console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+							// this.mescroll.endSuccess();
+							this.orderlist = res.data.data.data;
+										
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+							uni.showToast({
+								icon:"none",
+								title:"暂无相关订单"
+							})
+							// this.mescroll.endSuccess();
+						}else{
+							console.log(res.data.msg)
+						}
+					})
+				}else if(!this.user_uid){
+					uni.showModal({
+					    title: '提示',
+					    content: '请先登录后操作',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								uni.navigateTo({
+									url:"../login/login"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+					});
+				}
+				else{
+					uni.showModal({
+					    title: '提示',
+					    content: '请先入驻师傅录后操作',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								uni.navigateTo({
+									url:"../register/register"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+					});
+				}
+				
 			 },
 			confirmtype(res){
 				console.log(res);
@@ -822,6 +870,11 @@
 						console.log(res.data.msg);
 						// this.data = res.data.data
 						console.log("获取服务器类型数据");
+						if(res.data.data.length==0){
+							return
+						}else{
+							this.checklogin();
+						}
 						console.log(res.data.data.type);
 						let type = res.data.data.type.split(',');
 						
@@ -870,13 +923,16 @@
 			downCallback() {
 				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
 				// loadSwiper();
-				this.getWOrkstay();
+				// this.getWOrkstay(1,10);
 				this.getBeen();
 				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
-				setTimeout(()=>{
-					this.mescroll.endSuccess();
-					// console.log('111');
-				},1500)
+				this.mescroll.resetUpScroll();
+			},
+			upCallback(page) {
+				let pageNum = page.num; // 页码, 默认从1开始
+				let pageSize = page.size; // 页长, 默认每页10条
+				console.log(page,"页码");
+				this.getWOrkstay(pageNum,pageSize);
 			},
 			
 			// tabs通知swiper切换
@@ -893,7 +949,8 @@
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
 				if(e.detail.current == 0){
-						this.getWOrkstay();
+						// 检查登录是否过期
+						this.getAuthorizeInfo();
 						this.closesearch = true;
 						uni.getSystemInfo({
 							success: (res) => {
@@ -921,10 +978,7 @@
 						});
 				}
 			},
-			//上拉加载
-			loadmore() {
-				
-			},
+			
 			confirm() {
 				this.show = false;
 				if(!this.show){
@@ -981,37 +1035,7 @@
 								});
 							}
 						})
-						// uni.request({
-						// 	url:this.$apiUrl+"work/take",
-						// 	method:"POST",
-						// 	dataType:JSON,
-						// 	data:{
-						// 		uid:this.user_uid,
-						// 		code:code,//订单编号
-						// 		WorkNautica:[this.longitude,this.latitude],
-						// 		phone:phone
-						// 	},
-						// 	success(res) {
-						// 		console.log(res);
-						// 		console.log("当前点击的为："+index);
-						// 		if(res.code = 200){
-						// 			//抢单成功体醒
-						// 			that.show = true;
-						// 			//删除该订单
-									
-									
-						// 			that.badgeconts++;
-						// 			 that.orderlist.splice(index,1);
-						// 		}else{
-						// 			uni.showToast({
-						// 				title:"无网络!"
-						// 			})
-						// 		}
-						// 	},
-						// 	fail() {
-						// 		console.log(res);
-						// 	}
-						// })
+
 					}
 				} else {
 					uni.showModal({
@@ -1145,9 +1169,17 @@
 				// }
 			},
 			
+			
+			//上拉加载
+			loadmore() {
+				
+			},
+			
 			//获取待派单列表信息
-			async getWOrkstay(){
+			async getWOrkstay(pageNum,pageSize){
 				let phone = uni.getStorageSync('phone');
+				let lng = uni.getStorageSync('longitude');
+				let lat = uni.getStorageSync('latitude');
 				if(phone){
 					// console.log("data里面的地理精度");
 					// console.log(this.latitude);
@@ -1164,6 +1196,10 @@
 							"town":town ,
 							"genre": type,
 							"uid": this.user_uid,
+							"page":pageNum,
+							"pageSize":pageSize,
+							"lng":lng,
+							"lat":lat
 						},
 						methods:"POST"
 						
@@ -1172,11 +1208,26 @@
 					// const data = JSON.parse(res.data);
 						if(res.data.code == 200){
 							console.log(res.data.msg);
+							// 接口返回的当前页数据列表 (数组)
+							let curPageData = res.data.data.data; 
+							// 接口返回的当前页数据长度 (如列表有26个数据,当前页返回8个,则curPageLen=8)
+							let curPageLen = curPageData.length; 
+							// 接口返回的总页数 (如列表有26个数据,每页10条,共3页; 则totalPage=3)
+							let totalPage = res.data.data.total; 
+							if(pageNum == 1) this.orderlist = []; //如果是第一页需手动置空列表
+							this.orderlist = this.orderlist.concat(curPageData); //追加新数据
+							//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+							this.mescroll.endByPage(curPageLen, totalPage); 
 							// this.mescroll.endSuccess();
-							this.orderlist = res.data.data;
+							// this.orderlist = res.data.data;
 										
 						}else if(res.data.code == 300){
 							console.log(res.data.msg);
+							console.log("genghuan位置");
+							uni.showToast({
+								icon:"none",
+								title:res.data.msg
+							})
 							// this.mescroll.endSuccess();
 							this.orderlist = [];
 						}else{
@@ -1186,6 +1237,8 @@
 				}else{
 					let that  =this;
 					let town = uni.getStorageSync("town");
+					let lng = uni.getStorageSync('longitude');
+					let lat = uni.getStorageSync('latitude');
 					// this.mescroll.endSuccess();
 					// console.log(cookie);
 
@@ -1195,6 +1248,10 @@
 						data:{
 							"town":town ,
 							"uid": this.user_uid,
+							"page":pageNum,
+							"pageSize":pageSize,
+							"lng":lng,
+							"lat":lat
 						},
 						methods:"POST"
 						
@@ -1203,92 +1260,33 @@
 					// const data = JSON.parse(res.data);
 						if(res.data.code == 200){
 							console.log(res.data.msg);
+							// 接口返回的当前页数据列表 (数组)
+							let curPageData = res.data.data.data; 
+							// 接口返回的当前页数据长度 (如列表有26个数据,当前页返回8个,则curPageLen=8)
+							let curPageLen = curPageData.length; 
+							// 接口返回的总页数 (如列表有26个数据,每页10条,共3页; 则totalPage=3)
+							let totalPage = res.data.data.total; 
+							if(pageNum == 1) this.orderlist = []; //如果是第一页需手动置空列表
+							this.orderlist = this.orderlist.concat(curPageData); //追加新数据
+							//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+							this.mescroll.endByPage(curPageLen, totalPage); 
 							// this.mescroll.endSuccess();
-							this.orderlist = res.data.data;
+							// this.orderlist = res.data.data;
 						}else if(res.data.code == 300){
 							console.log(res.data.msg);
 							// this.mescroll.endSuccess();
+							uni.showToast({
+								icon:"none",
+								title:res.data.msg
+							})
+							// this.mescroll.endSuccess();
+							this.orderlist = [];
 						}else{
 							console.log(res.data.msg)
 						}
 					})
 				}
 				
-				//这里只需要传入不同的接口地址就可以
-				// console.log(res);
-
-				// uni.request({
-				// 	url: this.$apiUrl+"work/stay",
-				// 	method: "POST",
-				// 	dataType: JSON,
-				// 	header:{
-				// 		'content-type': 'application/x-www-form-urlencoded',
-				// 		 'cookie':cookie//读取cookie
-				// 	},
-				// 	data: {
-				// 		"town":town ,
-				// 		"genre": type,
-				// 		"uid": this.user_uid,
-				// 		"token":token
-				// 	},
-				// 	success(res) {
-				// 		console.log(res);
-				// 		// uni.stopPullDownRefresh();
-				// 		const data = JSON.parse(res.data);
-				// 		console.log(data.data);
-				// 		if(data.code == 200){
-				// 			// console.log(res)
-				
-				// 			// that.mescroll.endSuccess();
-				// 			that.orderlist = data.data;
-				// 			// this.triggered = true;
-				// 			console.log("订单列表:");
-				// 			console.log(that.orderlist);
-				// 			//计算经纬度距离和循环遍历工具要求
-				// 			// for (var i = 0; i < that.orderlist.length; i++) {
-				// 			// 	console.log("订单数据长度"+that.orderlist.length);
-				// 			// 	var location = that.orderlist[i].longitude;
-				// 			// 	// console.log(location);
-				// 			// 	// let index = str .lastIndexOf(">")
-				// 			// 	//客户距离
-				// 			// 	let str1 = location.split(",")[0];
-				// 			// 	str1 = str1.substring(0,9);
-				// 			// 	let str2 = location.split(",")[1];
-				// 			// 	str2 = str2.substring(0,9);
-				// 			// 	console.log("str1-"+str1);
-				// 			// 	var longitude = str1;
-				// 			// 	var latitude = str2;
-				// 			// 	//计算距离
-				// 			// 	let latitude1 = uni.getStorageSync("latitude");
-				// 			// 	let longitude1 = uni.getStorageSync("longitude");
-				// 			// 	//我的距离
-				// 			// 	console.log(that.latitude);
-				// 			// 	console.log(that.longitude);
-				// 			// 	console.log(latitude);
-				// 			// 	console.log(longitude);
-				// 			// 	var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
-				// 			// 	jl = Math.floor(jl/1000 * 10) / 10;
-				// 			// 	that.jl = that.jl.concat(jl);
-				// 			// 	console.log("距离");
-				// 			// 	console.log(that.jl);
-				// 			// }
-				// 		}else if(data.code == 300){
-				// 			uni.showToast({
-				// 				title:"该地区没有相关工单"
-				// 			})
-				// 		}
-				// 		else{
-				// 			console.log(res);
-				// 			uni.showToast({
-				// 				title:"无网络"
-				// 			})
-				// 		}
-						
-				// 	},
-				// 	fail(err) {
-				// 		console.log(err);
-				// 	}
-				// })
 			},
 			
 			
@@ -1577,7 +1575,7 @@
 						console.log(town);
 						that.town = town;
 						uni.setStorageSync('town', town);
-						that.getWOrkstay();
+						that.getWOrkstay(1,10);
 					}
 				})
 			}

@@ -176,6 +176,37 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 页面 */
 .content.data-v-c49b56f4 {
 	background-color: #F2F2F2;
@@ -278,6 +309,7 @@
 .user-data .user-avatar .r-text input.data-v-c49b56f4 {
 	padding-left: 35%;
 	text-align: right;
+	text-overflow: ellipsis;
 }
 /* button */
 .u-btn.data-v-c49b56f4 {

@@ -33,7 +33,18 @@
 					</view>
 				</view>
 			</view>
-			<button @click="submit" class="theme">保存信息</button>
+			<view class="user-data" @tap="openmask">
+				<view class="user-avatar">
+					<view class="l-text">更改服务类型</view>
+					<view class="r-text">
+						<input type="text" value="counttype" v-model="counttype"  focus placeholder="请点击" disabled="true"/>
+						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
+					</view>
+				</view>
+			</view>
+			<!-- 类型选择弹框 -->
+			<select-type ref="selecttype" @genggaifenlei="genggaifenlei"></select-type>
+			<button @click="$u.debounce(submit,1000)" class="theme">保存信息</button>
 		</view>
 	</view>
 </template>
@@ -48,12 +59,15 @@
 		},
 		data() {
 			return {
-				showmask:false,
+				show:false,
 				datas:{},
 				swiperheight: 667,
 				data:{},
 				name:"",
-				phone:''
+				phone:'',
+				type:[],
+				counttype:""
+				
 			}
 		},
 		
@@ -80,9 +94,19 @@
 				console.log(this.datas);
 			};
 			this.getInfo();
+			// this.getType();
 			// this.getinittype();
 		},
 		methods: {
+			//genggaifenlei
+			genggaifenlei(fenlei){
+				this.counttype = fenlei;
+			},
+			//打开遮罩
+			openmask(){
+				console.log(this.$refs.selecttype,"子分类属性");
+				this.$refs.selecttype.show = true;
+			},
 			//获取用户信息
 			getInfo(){
 				this.$myRequest({
@@ -116,12 +140,18 @@
 				let phone = this.phone;
 				// let nickname = this.data.user_name;
 				let nickname = this.name;
-				
+				let counttype = "";
+				if(this.counttype==""){
+					counttype = uni.getStorageSync("type");
+				}else{
+					counttype = this.counttype
+				}
 				this.$myRequest({
 					url:'user/updateInfo',
 					data:{
 						phone:phone,
-						nickname:nickname
+						nickname:nickname,
+						type:counttype,
 					},
 					methods:"POST"
 				}).then(res=>{
@@ -129,6 +159,7 @@
 				// const data = JSON.parse(res.data);
 					if(res.data.code == 200){
 						console.log(res.data.msg);
+							uni.setStorageSync("type",counttype);
 							uni.hideLoading();
 							uni.showToast({
 								title:"保存成功"
@@ -277,7 +308,7 @@
 	.user-data .user-avatar .r-text input {
 		padding-left: 35%;
 		text-align: right;
-
+		text-overflow: ellipsis;
 	}
 
 	/* button */

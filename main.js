@@ -20,67 +20,64 @@ import md5 from "./common/md5.min.js";
 							// console.log("uid的值:"+user_uid);
 							uni.login({
 								success(res) {
+									console.log(res,"检查登陆1111111111111111111111111");
 									let code = res.code;
 									let token = md5("code="+code+"0a88a84a25948b4f37f622b3a3ff9fc0");
-									
-									uni.request({
-										url:"https://yigongdan.com/public/applet/index",
-										dataType:JSON,
-										method:"GET",
-										header:"application/x-www-form-urlencoded",
+									myRequest({
+										url:'index/index',
 										data:{
+											
 											code:code,
-											token:token
 										},
-										success(res) {
-											const data = JSON.parse(res.data);
-											console.log("请求类型");
-											console.log(data);
-											if(data.code ==200){
-												let phone = data.data.phone;
-												let type  =data.data.type;
-												let uid  =data.data.uid;
-												let name  =data.data.name;
-												let number = data.data.number;
-												let cookie = data.data.session_id;
-												uni.setStorageSync("phone",phone);	
-												console.log("手机号码"+phone);
-												uni.setStorageSync("type",type);
-												console.log("服务类型"+type);
-												uni.setStorageSync("uid",uid);
-												console.log("uid标识"+uid);
-												uni.setStorageSync("name",name);
-												console.log("用户姓名"+name);
-												uni.setStorageSync("number",number);
-												console.log("用户编号"+number);
-												uni.setStorageSync('user_name', data.data.wechat_name);
-												uni.setStorageSync('user_avatar', data.data.wechat_img);
-												console.log("用户姓名"+data.data.wechat_name);
-												console.log("用户头像"+data.data.wechat_img);
-												uni.setStorageSync("cookie",cookie);
-												console.log("cookie"+cookie);
-											}else if(data.code ==300){
-												uni.showModal({
-												    title: '提示',
-												    content: '未登录',
-													confirmText:"去登录",
-												    success: function (res) {
-												        if (res.confirm) {
-												            console.log('用户点击确定');
-															uni.navigateTo({
-																url: '../login/login',
-															});
-												        } else if (res.cancel){
-												            console.log('用户点击取消');
-															// uni.navigateTo({
-															// 	url: '../login/login',
-															// });
-												        }
-												    }
-												});
-											}
+										methods:"GET"
+									}).then(res=>{
+										
+										if(res.data.code == 200){
+											console.log("获取登陆");
+											let phone = res.data.data.phone;
+											let type  =res.data.data.type;
+											let uid  =res.data.data.uid;
+											let name  =res.data.data.name;
+											let number = res.data.data.number;
+											let cookie = res.data.data.session_id;
+											uni.setStorageSync("phone",phone);	
+											console.log("手机号码"+phone);
+											uni.setStorageSync("type",type);
+											console.log("服务类型"+type);
+											uni.setStorageSync("uid",uid);
+											console.log("uid标识"+uid);
+											uni.setStorageSync("name",name);
+											console.log("用户姓名"+name);
+											uni.setStorageSync("number",number);
+											console.log("用户编号"+number);
+											uni.setStorageSync('user_name',res.data.data.wechat_name);
+											uni.setStorageSync('user_avatar',res.data.data.wechat_img);
+											console.log("用户姓名"+res.data.data.wechat_name);
+											console.log("用户头像"+res.data.data.wechat_img);
+											uni.setStorageSync("cookie",cookie);
+											console.log("cookie"+cookie);
+										}else if(res.data.code == 300){
+											uni.showModal({
+											    title: '提示',
+											    content: '未登录',
+												confirmText:"去登录",
+											    success: function (res) {
+											        if (res.confirm) {
+											            console.log('用户点击确定');
+														uni.navigateTo({
+															url: '../login/login',
+														});
+											        } else if (res.cancel){
+											            console.log('用户点击取消');
+														// uni.navigateTo({
+														// 	url: '../login/login',
+														// });
+											        }
+											    }
+											});
 										}
 									})
+									
 								},
 								fail(res) {
 									console.log(res);
@@ -127,7 +124,7 @@ Vue.prototype.$overShare = 	{
 //用户昵称全局变量
 
 //全局的apiurl
-Vue.prototype.$apiUrl = 'https://yigongdan.com/public/applet/'; 
+Vue.prototype.$apiUrl = 'https://sys.yigongdan.com/public/applet/'; 
 
 //全局的图标提示数字
 Vue.prototype.$badge = 0;

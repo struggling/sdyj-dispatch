@@ -6,6 +6,7 @@
   "navigationBarTextStyle": "white",
   "usingComponents": {
     "u-badge": "/uview-ui/components/u-badge/u-badge",
+    "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
     "u-modal": "/uview-ui/components/u-modal/u-modal",
     "load-more": "/components/common/load-more",
     "add-tip": "/components/struggler-uniapp-add-tip/struggler-uniapp-add-tip",

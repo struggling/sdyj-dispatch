@@ -12,9 +12,15 @@
 				<view class="input"><input type="text" v-model="name" value="" placeholder="请输入..." /></view>
 			</view>
 			<view class="">请输入您的工龄</view>
-			<view class="from-group">
-				
-				<view class="input"><input type="text" v-model="worktime" value="" placeholder="请输入..." /></view>
+			<view class="from-group" @tap="showworktime=true">
+				<block v-if="showss">
+					
+					<view class="input"><input type="text" v-model="selectworktime[worktimeindex]" value="" placeholder="请点击..." /></view>
+				</block>
+				<block v-else>
+					<view class="input"><input type="text"  value="" placeholder="请点击..." /></view>
+					
+				</block>
 			</view>
 			<view class="">验证您的手机号</view>
 			<view class="from-group">
@@ -77,15 +83,49 @@
 			<!-- 提交 -->
 			<button type="default" class="btn theme" @tap="submit()"> 确定提交</button>
 		</view>
+		<!-- 工龄类型选择 -->
+		<u-popup v-model="showworktime" mode="bottom" length="60%">
+			<view class="titlecontent">
+				<view class="" @tap="quxiaoworktime">取消</view>
+				<view class="" >选择工龄</view>
+				<view class="" @tap="quedingworktime">确定</view>
+				
+			</view>
+			<view class="wrapcontent">
+				<block v-for="(item,index) in selectworktime" :key="index">
+					<view :class="['item',worktimeindex == index?'listactive':'']" @tap.stop="checkworktime(index)">{{item}}</view>
+				</block>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
 <script>
 	import Validator from '../../common/validator.esm.js';
+	import selectType from "../../components/select-type/select-type.vue";
 	const validator = new Validator();
 	export default {
+		components:{
+			selectType
+		},
 		data() {
 			return {
+				// item:"wrapcontent item",
+				worktimeindex:0,
+				selectworktime:[
+					"一年及一年一下",
+					"2年",
+					"3年",
+					"4年",
+					"5年",
+					"6年",
+					"7年",
+					"8年",
+					"9年",
+					"十年及十年以上",
+				],
+				showworktime:false,
+				showss:false,
 				shows:false,
 				show:false,
 				tabIndex:0,
@@ -185,6 +225,22 @@
 			
 		},
 		methods: {
+			// 取消工龄
+			quxiaoworktime(){
+				this.showworktime = false;
+				// this.showss = false
+			},
+			//queding工龄
+			quedingworktime(){
+				this.worktime = this.worktimeindex+1;
+				this.showworktime = false;
+				this.showss = true;
+			},
+			//选择工龄时间
+			checkworktime(index){
+				this.worktimeindex = index;
+				
+			},
 			//跳转协议
 			goxieyi(){
 				console.log("tiaozhuan");
@@ -409,7 +465,7 @@
 						if(res.data.code == 200){
 							console.log(res.data.msg);
 							//提交成功后的跳转到首页
-							uni.hideLoading({
+							uni.showLoading({
 								title:"注册成功"
 							});
 							uni.setStorageSync("gonghao",res.id);
@@ -475,6 +531,41 @@
 </script>
 
 <style scoped>
+	/* 工龄类型选择 */
+	.titlecontent{
+		display: flex;
+		justify-content: space-between;
+		border-bottom: 1upx solid #CCCCCC;
+		padding: 32rpx;
+		font-weight: bold;
+	}
+	.wrapcontent{
+		    /* display: -webkit-box; */
+		    /* display: -webkit-flex; */
+		    display: flex;
+		    /* background: #CCCCCC; */
+		    padding: 40rpx;
+		    /* height: 87.2%; */
+		    /* -webkit-flex-wrap: wrap; */
+		    flex-wrap: wrap;
+		    display: flex;
+		    flex-wrap: wrap;
+	}
+	.wrapcontent .item{
+		    color: #000000;
+		    font-weight: bold;
+		    padding: 24rpx;
+		    border-radius: 4rpx;
+		    height: 12%;
+		    margin-right: 46rpx;
+		    margin-top: 60rpx;
+			    background: #c3c3c3;
+	}
+	.listactive{
+		color: #FFFFFF;
+		background:#0080FF !important;
+	}
+	/* 工龄类型选择 */
 	.warp {
 			display: flex;
 			align-items: center;

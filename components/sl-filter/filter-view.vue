@@ -14,7 +14,7 @@
 				<view v-else>
 					<block v-if="index == 1">
 						<view class="">
-							<view class="content" style="height: 1200upx !important;">
+							<view class="content" style="height: 584px !important;">
 								<!-- <view class="signed theme" @tap="Sign">签到</view> -->
 								<calendar
 										:ref="'calendar'"
@@ -182,34 +182,63 @@
 				let str = uni.getStorageSync("type");
 				let town = uni.getStorageSync("town");
 				let uid = uni.getStorageSync("uid");
+				let lng = uni.getStorageSync('longitude');
+				let lat = uni.getStorageSync('latitude');
 				this.$emit("qiehuan",status);
-				this.$myRequest({
-					url:'work/already',
-					data:{
-						"town":town ,
-						"uid":uid ,
-						"genre": str,
-						"status":status
-					},
-					methods:"POST"
-					
-				}).then(res=>{
-				// 	console.log(res);
-				// const data = JSON.parse(res.data);
-					if(res.data.code == 200){
-						console.log(res.data.msg);
-						console.log("审核状态");	
-						let beenlist = res.data.data;
-						uni.$emit("updatebeenlist",{data:beenlist})		
-					}else if(res.data.code == 300){
-						console.log(res.data.msg);
-						uni.showToast({
-							title:"暂无相关订单"
-						})
-					}else{
-						console.log(res.data.msg)
-					}
-				})
+				if(uid){
+					this.$myRequest({
+						url:'work/already',
+						data:{
+							"town":town ,
+							"uid":uid ,
+							"genre": str,
+							"status":status
+						},
+						methods:"POST"
+						
+					}).then(res=>{
+					// 	console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+							console.log("审核状态");
+								if(res.data.data.leng>0){
+									let beenlist = res.data.data;
+									uni.$emit("updatebeenlist",{data:beenlist})	
+								}else{
+									uni.showToast({
+										icon:"none",
+										title:"暂无相关订单"
+									})
+								}
+							
+								
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+							uni.showToast({
+								title:"暂无相关订单"
+							})
+						}else{
+							console.log(res.data.msg)
+						}
+					})
+				}else{
+					uni.showModal({
+					    title: '提示',
+					    content: '请先登录后操作',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								uni.navigateTo({
+									url:"../login/login"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+					});
+				}
+				
 			},
 			changetype(){
 				this.$emit("checkmoon");
@@ -231,7 +260,8 @@
 					endDate = "2050-1-1";
 				}
 				console.log(startDate,"开始时间");
-				
+				let lng = uni.getStorageSync('longitude');
+				let lat = uni.getStorageSync('latitude');
 				this.$myRequest({
 					url:'work/stay',
 					data:{
@@ -242,6 +272,10 @@
 						"end_time":endDate,
 						"noon":this.moon,
 						"duration":"",
+						"page":1,
+						"pageSize":10,
+						"lng":lng,
+						"lat":lat
 						
 					},
 					methods:"POST"
@@ -252,7 +286,7 @@
 					if(res.data.code == 200){
 						console.log(res.data.msg);
 						// this.mescroll.endSuccess();
-						let orderlist = res.data.data;
+						let orderlist = res.data.data.data;
 						console.log(orderlist,"改变数据");
 						uni.$emit("updateorderlist",{data:orderlist})
 									

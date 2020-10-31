@@ -3,6 +3,8 @@
   "navigationBarTitleText": "入驻登记",
   "navigationBarTextStyle": "black",
   "usingComponents": {
-    "u-mask": "/uview-ui/components/u-mask/u-mask"
+    "u-mask": "/uview-ui/components/u-mask/u-mask",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "select-type": "/components/select-type/select-type"
   }
 }

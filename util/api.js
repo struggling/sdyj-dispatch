@@ -1,4 +1,4 @@
-const BASE_URL="https://yigongdan.com/public/applet/"; //开发时使用本地接口，在上线时只需要修改此处接口为线上地址即可
+const BASE_URL="https://sys.yigongdan.com/public/applet/"; //开发时使用本地接口，在上线时只需要修改此处接口为线上地址即可http://sys.yigongdan.com/
 import md5 from "../common/md5.min.js"
 export const myRequest=(options)=>{ //传入的options是一个json对象
 	
@@ -47,7 +47,9 @@ export const myRequest=(options)=>{ //传入的options是一个json对象
 			},
 			fail: (err) => {
 				uni.showToast({
-					title:"网络错误,请重试！"
+					icon:"none",
+					title:"网络错误,请重试！",
+					duration:2000
 				})
 				reject(err)
 			}

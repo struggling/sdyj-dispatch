@@ -12,9 +12,9 @@
 								<view class="parm-txt door-time">上门时间：{{item.door_time}}</view>
 							</view>
 							<view class="parm-item-r">
-								<template v-if="item.jl">
-									<view class="parm-txt">{{item.jl}}公里</view>
-								</template>
+								<!-- <template v-if="item.jl"> -->
+									<view class="parm-txt">{{item.distance}}公里</view>
+								<!-- </template> -->
 							</view>
 						</view>
 						<view class="parm-txt label">
@@ -40,6 +40,21 @@
 					</block>
 					<block v-else-if="item.state==6">
 						<button type="default" class="btn shenhe">审核未通过</button>
+					</block>
+					<block v-else-if="item.state==4">
+						<button type="default" class="btn shenhe">已完成</button>
+					</block>
+					<block v-else-if="item.state==3">
+						<button type="default" class="btn shenhe">待上门</button>
+					</block>
+					<block v-else-if="item.state==2">
+						<button type="default" class="btn shenhe">已接单</button>
+					</block>
+					<block v-else-if="item.state==7">
+						<button type="default" class="btn shenhe">审核中</button>
+					</block>
+					<block v-else-if="item.state==8">
+						<button type="default" class="btn shenhe">待结算</button>
 					</block>
 					<block v-else>
 						<button type="default" class="btn active" @tap="goDetail(item)" @>立即抢单</button>
@@ -101,6 +116,23 @@
 					return false
 					
 				}else if(item.state == 6){
+					console.log(item.state,"跳转限制6");
+					return false
+				}else if(item.state == 4){
+					console.log(item.state,"跳转限制6");
+					return false
+				}else if(item.state == 3){
+					console.log(item.state,"跳转限制6");
+					return false
+				}else if(item.state == 2){
+					console.log(item.state,"跳转限制6");
+					return false
+				}
+				else if(item.state == 7){
+					console.log(item.state,"跳转限制6");
+					return false
+				}
+				else if(item.state == 8){
 					console.log(item.state,"跳转限制6");
 					return false
 				}
