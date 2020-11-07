@@ -23,6 +23,11 @@
 					 <view class="text" >个人信息</view>
 					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
 				 </view>
+				 <view class="item" @tap="showpopup=true">
+				 					 <image src="http://7n.51tiaoyin.com/20201103102653.png" mode=""></image>
+				 					 <view class="text" >积分签到</view>
+				 					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
+				 </view>
 				<!-- <view class="item" @tap="tomypoints">
 					 <image src="../../static/home1.png" mode=""></image>
 					 <view class="text" >我的积分</view>
@@ -43,11 +48,7 @@
 					 <view class="text" >售后客服</view>
 					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
 				 </view>
-				 <!-- <view class="item" @tap="requestMsg">
-				 					 <image src="http://7n.51tiaoyin.com/Group%204%402x.png" mode=""></image>
-				 					 <view class="text" >售后客服</view>
-				 					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
-				 </view> -->
+				 
 			 </view>
 		 </view>
 		<!-- class="iconfont icongerenxinxi"  class="iconfont icongonghao" class="iconfont iconshijian" class="iconfont iconpingfen" class="iconfont iconxinxi" class="iconfont iconshezhi"-->
@@ -58,9 +59,19 @@
 		<!-- <u-calendar v-model="showsign" :mode="mode" :change-year="false" @change="change"></u-calendar> -->
 		<u-popup v-model="showpopup" mode="center" border-radius="8" width="80%" ref="popup">
 			<view class="content">
-				<view class="signed theme" @tap="Sign">签到</view>
-				<ren-calendar ref='ren' :markDays='markDays' :open="true" :disabledAfter='true' :collapsible="false"  @onDayClick='onDayClick'></ren-calendar>
-			    <!-- <view class="change">选中日期：{{curDate}}</view> -->
+				<view class="signed theme" @tap="$u.throttle(Sign, 1000)">签到</view>
+				
+					<view class="change" style="padding-left: 25rpx;/* margin-top: 25rpx; */padding-top: 25rpx;">签到日期：{{curDate}}</view>
+					<view class="guize" style="padding-left: 25rpx;font-size: 32rpx;font-weight: bold;margin-top: 25rpx;">
+						积分规则
+					</view>
+					<view class="guize" style="padding-left: 25rpx;padding-right: 25rpx;margin-top: 25rpx;font-size: 24rpx;color: #f30404;">
+						每日签到获得1积分，连续七天签到可以额外增加5积分，长期签到可以增加接单成功率。
+					</view>
+					<ren-calendar ref='ren' :markDays='markDays' :open="true" :disabledAfter='true' :collapsible="false" @onDayClick='onDayClick'></ren-calendar>
+				
+			    
+				 <!-- @onDayClick='onDayClick' -->
 			</view>
 		</u-popup>
 		
@@ -79,6 +90,7 @@
 		},
 		data() {
 			return {
+				showcalendar:false,
 				total_amount:"",
 				openmask:false,
 				text:"订阅消息",
@@ -229,12 +241,26 @@
 					if(res.data.code == 200){
 						console.log(res.data.msg);
 						console.log(res);
-						uni.showToast({
-							title:res.data.msg
-						})
+						// uni.showToast({
+						// 	icon:"none",
+						// 	title:res.data.msg,
+						// 	duration:3000
+						// })
+						uni.showModal({
+						    title: '提示',
+						    content: res.data.msg,
+						    success: function (res) {
+						        if (res.confirm) {
+						            console.log('用户点击确定');
+						        } else if (res.cancel) {
+						            console.log('用户点击取消');
+						        }
+						    }
+						});
 					}else if(res.data.code == 300){
 						console.log(res.data.msg);
 						uni.showToast({
+							icon:"none",
 							title:res.data.msg
 						})
 					}else{

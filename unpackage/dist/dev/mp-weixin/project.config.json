@@ -4,7 +4,7 @@
     "ignore": []
   },
   "setting": {
-    "urlCheck": false,
+    "urlCheck": true,
     "es6": true,
     "enhance": false,
     "postcss": true,
@@ -35,7 +35,7 @@
     "packNpmRelationList": []
   },
   "compileType": "miniprogram",
-  "libVersion": "2.13.2",
+  "libVersion": "",
   "appid": "wxf9174d36a0a2834f",
   "projectname": "sdyj-dispatch",
   "simulatorType": "wechat",

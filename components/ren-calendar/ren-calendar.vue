@@ -14,7 +14,7 @@
                 <view class="item" v-for="(item, index) in dates" :key="index">
                     <view
                         class="day"
-                        @click="selectOne(item, $event,datenum)"
+                        
                         :class="{
                             choose: choose == `${item.year}-${item.month}-${item.date}`&&item.isCurM,
                             nolm: !item.isCurM,
@@ -22,6 +22,7 @@
                             isWorkDay: isWorkDay(item.year, item.month, item.date)
                         }"
                     >
+					<!-- @click="selectOne(item, $event,datenum)" -->
                         {{ Number(item.date) }}
                     </view>
                     <view class="markDay" v-if="isMarkDay(item.year, item.month, item.date)&&item.isCurM"></view>
@@ -234,8 +235,8 @@ export default {
             let response = {
                 date: date,
                 week: formatWeek,
-				start_time:date1,
-				end_time:date2
+				start_time:this.date1,
+				end_time:this.date2
             };
 
             if (!i.isCurM) {
@@ -293,7 +294,7 @@ export default {
     text-align: center;
     background-color: #fff;
     padding-bottom: 10rpx;
-    
+    // display: none;
     .header{
         display: flex;
         align-items: center;

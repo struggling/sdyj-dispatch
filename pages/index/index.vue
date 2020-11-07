@@ -19,11 +19,30 @@
 			</block>	
 			<!-- 列表 -->
 			<view class="uni-tab-bar">
+			<!-- <mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" :noMoreSize="1" > -->
 				<swiper class="swiper-box" :style="{height:swiperheight+'px',background: '#F2F2F2'}"  :current="tabIndex" @change="tabChange">
 					
 					<swiper-item>
 						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore">
-							<mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" >
+							<mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" :noMoreSize="1" >
+								<template v-if="orderlist.length>0">
+									<block v-for="(item,index) in orderlist" :key="index">
+										<orderList :item="item" :index="index" :tool="tool"  @openModel="openModel"></orderList>
+									</block>
+								</template>
+							
+							<!-- nothing -->
+								<template v-else >
+									<noThing :styles="swiperheight"></noThing>
+								</template>
+							</mescroll-uni>
+							<!-- 上拉加载 -->
+							<!-- <load-more :loadtext="loadtext"></load-more> -->
+						</scroll-view>
+					</swiper-item>
+					<swiper-item>
+						<scroll-view  scroll-y="true" class="list" @scrolltolower="loadmore">
+							<!-- <mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" > -->
 								<template v-if="orderlist.length>0">
 									<block v-for="(item,index) in orderlist" :key="index">
 										<orderList :item="item" :index="index" :tool="tool"  @openModel="openModel"></orderList>
@@ -34,7 +53,7 @@
 								<template v-else>
 									<noThing></noThing>
 								</template>
-							</mescroll-uni>
+							<!-- </mescroll-uni> -->
 							<!-- 上拉加载 -->
 							<!-- <load-more :loadtext="loadtext"></load-more> -->
 						</scroll-view>
@@ -67,6 +86,7 @@
 					</swiper-item>
 					
 				</swiper>
+				<!-- </mescroll-uni> -->
 			</view>
 			
 			
@@ -131,6 +151,7 @@
 		},
 		data() {
 			return {
+				
 				// offsetbadge:[-242,88],
 				beenlength:0,
 				closesearch:true,
@@ -212,7 +233,9 @@
 				showrili:false,
 				keyword: '',
 				upOption:{
-					use:true
+					use:true,
+					noMoreSize:2,
+
 				},
 				downOption:{
 					auto:false,
@@ -270,9 +293,8 @@
 			//判断用户是否注册服务工种,获取缓存里面的值
 			this.user_uid = uni.getStorageSync('uid');
 			this.phone = uni.getStorageSync('phone');
-			// 检查登录是否过期
-			this.getAuthorizeInfo();
 			
+			// this.getWOrkstay(1,10);
 			
 				
 				this.getInfo();
@@ -338,6 +360,8 @@
 		},
 		
 		onLoad(event) {
+			// 检查登录是否过期
+			this.getAuthorizeInfo();
 			//获取用户信息
 			wx.showShareMenu({
 					withShareTicket:true,
@@ -924,9 +948,29 @@
 				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
 				// loadSwiper();
 				// this.getWOrkstay(1,10);
-				this.getBeen();
-				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
 				this.mescroll.resetUpScroll();
+				// console.log("moren下拉刷新222",this.tabIndex);
+				// switch (this.tabIndex){
+				// 	case 0:
+				// 	console.log("moren下拉刷新");
+				// 	this.mescroll.resetUpScroll();
+				// 		break;
+				// 	case 1:
+				// 	this.getAlready();
+				// 	this.mescroll.endSuccess()
+				// 		break;
+				// 	case 2:
+				// 	this.getBeen();
+				// 	this.mescroll.endSuccess()
+				// 		break;
+				// 	default:
+				// 		break;
+				//}
+				// this.getBeen();
+				
+				// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+				
+				// this.getAlready();
 			},
 			upCallback(page) {
 				let pageNum = page.num; // 页码, 默认从1开始
@@ -950,7 +994,8 @@
 				this.tabIndex = e.detail.current;
 				if(e.detail.current == 0){
 						// 检查登录是否过期
-						this.getAuthorizeInfo();
+						// this.getAuthorizeInfo();
+						this.getWOrkstay(1,10);
 						this.closesearch = true;
 						uni.getSystemInfo({
 							success: (res) => {
@@ -963,6 +1008,21 @@
 				}
 				
 				if(e.detail.current == 1){
+						
+						this.getAlready();
+						this.badgeconts = 0;
+						this.closesearch = false;
+						// 获取scoll-view高度值
+						uni.getSystemInfo({
+							success: (res) => {
+								// console.log(res.windowHeight);
+								let height = res.windowHeight - uni.upx2px(395);
+								this.swiperheight = height;
+								console.log(this.swiperheight);
+							}
+						});
+				}
+				if(e.detail.current == 2){
 						this.getBeen();
 						// this.$refs.popup.open();
 						this.badgeconts = 0;
@@ -1146,27 +1206,6 @@
 						console.log(res.data.msg)
 					}
 				})
-				// const Random = Mock.Random;
-				// Random.county();
-				// Random.cname();
-				// Random.city();
-				// Random.datetime();
-				// const data = Mock.mock({
-				// 	'list|3': [{
-				// 		name: "@cname()",
-				// 		city: '@city(true)',
-				// 		"type|+1": [
-				// 			"日常保洁",
-				// 			"开荒保洁",
-				// 			"上门除甲醛",
-				// 			"上门维修",
-				// 		]
-				// 	}]
-				// });
-				// for (var i = 0; i < data.list.length; i++) {
-				// 	var str = "恭喜--" + data.list[i].name + "--抢到" + data.list[i].city + "--" + data.list[i].type + "--订单";
-				// 	this.notice.push(str);
-				// }
 			},
 			
 			
@@ -1228,10 +1267,12 @@
 								icon:"none",
 								title:res.data.msg
 							})
+							this.mescroll.endErr()
 							// this.mescroll.endSuccess();
 							this.orderlist = [];
 						}else{
-							console.log(res.data.msg)
+							console.log(res.data.msg);
+							this.mescroll.endErr()
 						}
 					})
 				}else{
@@ -1275,6 +1316,7 @@
 						}else if(res.data.code == 300){
 							console.log(res.data.msg);
 							// this.mescroll.endSuccess();
+							this.mescroll.endErr()
 							uni.showToast({
 								icon:"none",
 								title:res.data.msg
@@ -1282,6 +1324,7 @@
 							// this.mescroll.endSuccess();
 							this.orderlist = [];
 						}else{
+							this.mescroll.endErr()
 							console.log(res.data.msg)
 						}
 					})
@@ -1292,94 +1335,69 @@
 			
 			//获取已抢单列表信息
 			getAlready(){
-				this.$myRequest({
-					url:'work/already',
-					data:{
-						"uid": this.user_uid,
-					},
-					methods:"POST"
-					
-				}).then(res=>{
-				// 	console.log(res);
-				// const data = JSON.parse(res.data);
-					if(res.data.code == 200){
-						console.log(res.data.msg);
-						this.takelist = res.data.data;
-						// this.mescroll.endSuccess();
-					}else if(res.data.code == 300){
-						console.log(res.data.msg);
-						// this.mescroll.endSuccess();
-					}else{
-						console.log(res.data.msg)
-					}
-				})
-				// let that  =this;
-				// uni.request({
-				// 	url: this.$apiUrl+"work/already",
-				// 	method: "POST",
-				// 	dataType: JSON,
-				// 	data: {
-				// 		uid: this.user_uid
-				// 	},
-				// 	 success(res) {
-				// 		console.log(res);
-				// 		const data = JSON.parse(res.data);
-				// 		console.log(data.data);
-				// 		// uni.stopPullDownRefresh();
-				// 		if(data.code == 200){
-				// 			// console.log(res)
-				// 			that.takelist = data.data;
-				// 			// console.log("已抢单订单列表:");
-				// 			// console.log(that.takelist);
-				// 			// // var jl = await that.countDistance( 39.923423,116.368904,116.387271,39.922501);
-				// 			// // console.log("距离"+jl);
-				// 			// //计算经纬度距离
-				// 			for (var i = 0; i < that.takelist.length; i++) {
-				// 				console.log("订单数据长度"+that.takelist.length);
-				// 				var location = that.takelist[i].longitude;
-				// 				// console.log(location);
-				// 				// let index = str .lastIndexOf(">")
-				// 				//客户距离
-				// 				let str1 = location.split(",")[0];
-				// 				str1 = str1.substring(0,9);
-				// 				let str2 = location.split(",")[1];
-				// 				str2 = str2.substring(0,9);
-				// 				console.log("str1-"+str1);
-				// 				var longitude = str1;
-				// 				var latitude = str2;
-				// 				//计算距离
-				// 				let latitude1 = uni.getStorageSync("latitude");
-				// 				let longitude1 = uni.getStorageSync("longitude");
-				// 				//我的距离
-				// 				console.log(that.latitude);
-				// 				console.log(that.longitude);
-				// 				console.log(latitude);
-				// 				console.log(longitude);
-				// 				var jl = that.countDistance(latitude1, longitude1, latitude, longitude);
-				// 				jl = Math.floor(jl/1000 * 10) / 10;
-				// 				that.jl = jl;
-				// 				console.log("距离");
-				// 				console.log(that.jl);
-				// 			}
-				// 		}
-				// 		else if(data.code == 300){
-				// 			uni.showToast({
-				// 				title:"无最新工单",
-				// 				duration:2000
-				// 			})
-				// 		}
-				// 		else{
-				// 			console.log(res);
-				// 			uni.showToast({
-				// 				title:"无网络"
-				// 			})
-				// 		}
+				let str = uni.getStorageSync("type");
+				let town = uni.getStorageSync("town");
+				let uid = uni.getStorageSync("uid");
+				let lng = uni.getStorageSync('longitude');
+				let lat = uni.getStorageSync('latitude');
+				if(uid){
+					this.$myRequest({
+						url:'work/already',
+						data:{
+							"town":town ,
+							"uid":uid ,
+							"genre": str,
+							"status":0,
+							"page":1,
+							"pageSize":10,
+							"lng":lng,
+							"lat":lat
+						},
+						methods:"POST"
 						
-				// 	},
-				// 	fail(err) {
-				// 		console.log(err);
-				// 	}
-				// })
+					}).then(res=>{
+					// 	console.log(res);
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+							console.log("审核状态",res.data.data);
+								if(res.data.data.length>0){
+									this.orderlist = res.data.data;
+								}else{
+									uni.showToast({
+										icon:"none",
+										title:"暂无相关订单"
+									})
+									this.orderlist =[];
+								}
+							
+								
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+							uni.showToast({
+								title:"暂无相关订单"
+							})
+							this.orderlist =[];
+						}else{
+							console.log(res.data.msg)
+						}
+					})
+				}else{
+					uni.showModal({
+					    title: '提示',
+					    content: '请先登录后操作',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								uni.navigateTo({
+									url:"../login/login"
+								})
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+					});
+				}
 			},
 			
 			//mock假数据

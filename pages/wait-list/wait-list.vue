@@ -29,7 +29,10 @@
 				</view>
 			</view>
 			<view class="parameter">
-				<view class="r-txt "  style="font-size: 20upx;width: 100%;">
+				<view class="r-txt">
+					<span style="color:#666666 font-size: 28upx;width: 100%;height: 40rpx;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{data.producttype}}</span>
+				</view>
+				<view class="r-txt "  style="font-size: 20upx;width: 50%;">
 					<span style="
     font-size: 20upx;
     color: #7f7f7f;

@@ -169,56 +169,10 @@ Vue.prototype.requestMsg =async function(){
 
 //封装全局的网络请求
 
-// import md5 from "./common/md5.min.js";
-
-// function md5data(data){
-//   for(k in data)  for(k in data)
-// 	{
-// 	   let token = token+md5(k+data[k]+"0a88a84a25948b4f37f622b3a3ff9fc0");
-// 	}
-// 	data.token = token;
-// 	console.log(data);
-//    return data;
-// }
-
-
-
-// Vue.prototype.$https = (url,method,data)=>{
-// 	// for(k in data) 
-// 	// 	{
-// 	// 	   let token = token+md5(k+data[k]+"0a88a84a25948b4f37f622b3a3ff9fc0");
-// 	// 	}
-		
-// 		Object.keys(data).forEach(function(key){
-// 			console.log("参数");
-// 		     console.log(key,data[key]);
-// 			 let token = token+md5(key+data[key]+"0a88a84a25948b4f37f622b3a3ff9fc0");
-// 			data.token = token;
-		
-// 		});
-		
-// 		console.log(data);
-// 	let cookie = uni.getStorageSync("cookie")
-// 	let promise = new Promise( function(resolve,reject){
-// 		uni.request({
-// 			url:apihost+url,
-// 			header:{
-// 				'content-type': 'application/x-www-form-urlencoded',
-// 				'cookie':cookie//读取cookie
-// 			},
-// 			dataType:JSON,
-// 			data:data,
-// 			success(res) {
-// 				console.log(res);
-// 				resolve(res);
-// 			},
-// 			fail(res) {
-// 				uni.hideLoading();
-// 				reject("网络错误，请重试")
-// 			}
-// 		})
-// 	})
-// }
+//取消全局日志打印
+if (uni.getSystemInfoSync().platform !== "devtoolss") {
+	console.log = () => {}
+}
 //全局的主题样式颜色
 Vue.prototype.$background = {
 	backgroundImage: "linear-gradient(90deg, #54C3F1, #eb1270)",

@@ -1,11 +1,26 @@
 <template>
-		<view class="nothing">
-			<image src="http://7n.51tiaoyin.com/Group%202%402x.png" mode="widthFix"></image>
-			<view class="txt">抱歉，暂无数据!</view>
-		</view>
+		
+		<block v-if="styles">
+			<view class="nothing" :style="{height: styles + 'px' }">
+				<image src="http://7n.51tiaoyin.com/Group%202%402x.png" mode="widthFix"></image>
+				<view class="txt">抱歉，暂无数据!</view>
+			</view>
+		</block>
+		<block v-else>
+			<view class="nothing">
+				<image src="http://7n.51tiaoyin.com/Group%202%402x.png" mode="widthFix"></image>
+				<view class="txt">抱歉，暂无数据!</view>
+			</view>
+		</block>
+		
 </template>
 
 <script>
+	export default {
+		props:{
+			styles:Number
+		}
+	}
 </script>
 
 <style>

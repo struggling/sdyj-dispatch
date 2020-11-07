@@ -5,7 +5,13 @@
 			<view class="wait-list">
 				<view class="info" >
 					<view class="parm" @tap="goDetail(item)">
-						<view class="parm-txt title">{{item.type}}/{{item.duration}}</view>
+						<block v-if="item.producttype">
+							<view class="parm-txt title">{{item.type}}/{{item.producttype}}</view>
+						</block>
+						<block v-else>
+							<!-- <view class="parm-txt title">{{item.type}}/{{item.producttype}}</view> -->
+							<view class="parm-txt title">{{item.type}}/{{item.duration}}</view>
+						</block>
 						<view class="parm-tips">
 							<view class="parm-item-l">
 								<view class="parm-txt">{{item.origin}}</view>
@@ -157,7 +163,8 @@
 						type: item.type,
 						uid: item.uid,
 						integral:item.integral,
-						jl:item.jl
+						jl:item.jl,
+						producttype:item.producttype
 					};
 					uni.navigateTo({
 						// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))

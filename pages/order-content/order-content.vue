@@ -21,6 +21,9 @@
 				</view>
 			</view>
 			<view class="parameter">
+				<view class="r-txt">
+					<span style="color:#666666 font-size: 28upx;width: 100%;height: 40rpx;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{data.producttype}}</span>
+				</view>
 				<view class="r-txt "  style="font-size: 28upx;width: 100%;">
 					<span style="
     font-size: 20upx;
@@ -75,7 +78,7 @@
 					<view class="pad">
 						<view class="mask-title">确认完成服务</view>
 						<!-- 图片上传 -->
-						<view class="mask-uptext">上传现场图片(最多4张图片)</view>
+						<view class="mask-uptext">上传现场图片(最多4张图片,非必填)</view>
 						<vastwu-saveimg
 							:imgListprop="photo_list" 
 							:num='4' :isBase64='true' 
@@ -84,7 +87,7 @@
 							 @chooseImage='imglist_msg'  
 							 @delImg='del_imglist_msg'>
 							 </vastwu-saveimg>
-							<view class="mask-uptext">备注</view>
+							<view class="mask-uptext">备注(非必填)</view>
 							<textarea class="mask-area" value="" v-model='remarks'  />
 							<view class="mask-btn" @tap="submit">确认完成</view>
 						</view>
@@ -234,12 +237,17 @@
 							    success: function (res) {
 							        if (res.confirm) {
 							            console.log('用户点击确定');
+										uni.switchTab({
+											url:"../order/order"
+										})
 							        } else if (res.cancel) {
 							            console.log('用户点击取消');
 							        }
 							    }
 						})
-					}else if(res.data.code == 300){
+					}
+					// 返回300以及非200的状态码可以在请求的响应拦截里面统一封装，再封装全局统一的弹框，进行调用
+					else if(res.data.code == 300){
 						console.log(res.data.msg);
 						uni.showModal({
 							  title: '提示',
@@ -247,6 +255,9 @@
 							    success: function (res) {
 							        if (res.confirm) {
 							            console.log('用户点击确定');
+										uni.switchTab({
+											url:"../order/order"
+										})
 							        } else if (res.cancel) {
 							            console.log('用户点击取消');
 							        }
@@ -437,7 +448,7 @@
 		font-weight: bold;
 	}
 	.mask-uptext{
-		width: 320upx;
+		width: 372upx;
 		height: 34upx;
 		font-size: 24upx;
 		font-family: PingFangSC-Regular, PingFang SC;

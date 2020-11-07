@@ -34,7 +34,8 @@
 				active:'active',
 				tabBars: [
 					"抢单池",
-					"待上门"
+					"审核中",
+					"抢单成功"
 				],
 			}
 		},
@@ -88,8 +89,8 @@
 	}
 	.tab-head{
 		display: flex;
-		margin-left: 220upx;
-		margin-right: 220upx;
+		margin-left: 100upx;
+		margin-right: 100upx;
 		justify-content: space-between;
 		margin-top: 52upx;
 		margin-bottom: 44upx;

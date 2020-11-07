@@ -70,7 +70,7 @@
 			offset: {
 				type: Array,
 				default: () => {
-					return [180, 180]
+					return [180, 60]
 				}
 			},
 			// 是否开启绝对定位，开启了offset才会起作用

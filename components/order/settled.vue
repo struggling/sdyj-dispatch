@@ -5,7 +5,13 @@
 			<view class="wait-list">
 				<view class="info" >
 					<view class="parm" @tap="goDetail(item)">
-						<view class="parm-txt title">{{item.type}}/{{item.duration}}</view>
+						<block v-if="item.producttype">
+							<view class="parm-txt title">{{item.type}}/{{item.producttype}}</view>
+						</block>
+						<block v-else>
+							<!-- <view class="parm-txt title">{{item.type}}/{{item.producttype}}</view> -->
+							<view class="parm-txt title">{{item.type}}/{{item.duration}}</view>
+						</block>
 						<view class="parm-tips">
 							<view class="parm-item-l">
 								<view class="parm-txt">{{item.origin}}</view>
@@ -18,9 +24,14 @@
 							</view>
 						</view>
 						<view class="parm-txt label">
-							<block v-for="(items,indexs) in item.label" :key="indexs">
-								<view class="label-item">{{items}}</view>
-							</block>
+							
+								
+								<block v-for="(items,indexs) in item.label" :key="indexs">
+									<view class="label-item">1{{items}}</view>
+									</block>
+
+							
+							
 						</view>
 						<view style="display: flex;justify-content: space-between;">
 							<view class="price parm-txt">￥{{item.budget}}元</view>
