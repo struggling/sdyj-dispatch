@@ -8,7 +8,7 @@
 	line-height: 450rpx;
 }
 .header image {
-	width: 300rpx;
+	width: 200rpx;
 	height: 200rpx;
 }
 .content {

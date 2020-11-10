@@ -48,7 +48,10 @@
 					 <view class="text" >售后客服</view>
 					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
 				 </view>
+<<<<<<< HEAD
 				 
+=======
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 			 </view>
 		 </view>
 		<!-- class="iconfont icongerenxinxi"  class="iconfont icongonghao" class="iconfont iconshijian" class="iconfont iconpingfen" class="iconfont iconxinxi" class="iconfont iconshezhi"-->
@@ -269,16 +272,34 @@
 				})	
 			},
 			//订阅消息
-			 requestMsg(){
-				 console.log(111);
+			async requestMsg(){
 				let that = this;
-				
+				await this.$myRequest({
+					url:'user/getTemplateid',
+					data:{},
+				}).then(res=>{
+					console.log(res);
+				// const data = JSON.parse(res.data);
+					if(res.data.code == 200){
+						console.log(res.data.msg);
+						console.log(res.data.data);
+						this.template_id1 = res.data.data[0];
+						this.template_id2 = res.data.data[1];
+						this.template_id3 = res.data.data[2];
+					}else if(res.data.code == 300){
+						console.log(res.data.msg);
+
+					}else{
+						console.log(res.data.msg)
+					}
+				})
+				// console.log(res.data);
 				wx.requestSubscribeMessage({
 				  tmplIds: [this.template_id1,this.template_id2,this.template_id3],
 				  success (res) {
 					  console.log("模板");
 					  console.log(res);
-					   if (res['iiQ90pese4nEszXQth3EOf8Tb5SYJIyIKN-vA3EeBL4'] === 'accept'){
+					   if (res['c-QfMnWBUDkg2CIlBJDOYaGj6Bpn-p6g9HuKUi8LrXY'] === 'accept'){
 									that.currcount++;
 					               wx.showToast({
 					                 title: '订阅+1',
@@ -333,11 +354,6 @@
 				wx.openSetting({
 				  success (res) {
 				    console.log(res.authSetting)
-					let auth = res.authSetting["scope.userLocation"]
-						if(!auth){
-							uni.$emit('updateaddress',{msg:'未授权'})
-						}
-					
 				  }
 				})
 			},

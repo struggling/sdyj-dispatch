@@ -46,6 +46,7 @@
 							success(data) {
 								console.log(data);
 								let token = md5("code="+code+"&iv="+data.iv+"&encryptedData="+data.encryptedData+"0a88a84a25948b4f37f622b3a3ff9fc0");
+<<<<<<< HEAD
 								that.$myRequest({
 									url: "login/index",
 									method: "GET",
@@ -96,6 +97,55 @@
 											title: "服务器无响应"
 										});
 									}
+=======
+								uni.request({
+										url: that.$apiUrl+"login/index",
+										method: "GET",
+										dataType:JSON,
+										data: {
+											"code": code,
+											"iv":data.iv,
+											"encryptedData": data.encryptedData,
+											"token":token
+										},
+										success(res) {
+											// JSON.stringify(res.data.wechat_name);
+											console.log(res);
+											
+											console.log(JSON.parse(res.data));
+											const data = JSON.parse(res.data);
+											console.log(data.data.uid);
+											uni.setStorageSync("cookie",data.data.session_id);
+											if(data.code == 200){
+												uni.showLoading({
+												    title: '登录中'
+												});
+												setTimeout(
+												()=>{
+												uni.reLaunch({
+													url:"../share/share"
+												})	
+												},1500);
+												// 把用户信息写入缓存
+												
+												// console.log(res.data.data);
+												uni.setStorageSync('user_name', data.data.wechat_name);
+												uni.setStorageSync('user_avatar', data.data.wechat_img);
+												uni.setStorageSync('uid', data.data.uid);
+											}else{
+												uni.showToast({
+													title: "服务器无响应"
+												});
+											}
+											
+										},
+										fail(res) {
+											uni.showToast({
+												title: '获取授权信息失败',
+												icon: 'none'
+											});
+										}
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 								})
 								
 							},
@@ -125,7 +175,7 @@
 	}
 
 	.header image {
-		width: 300rpx;
+		width: 200rpx;
 		height: 200rpx;
 	}
 

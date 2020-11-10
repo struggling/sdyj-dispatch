@@ -92,8 +92,13 @@
   background-color: #fff;
   position: relative;
 }
+.u-calendar__content--end-date.data-v-5b667d40 {
+  border-bottom-left-radius: 8rpx;
+  border-bottom-right-radius: 8rpx;
+}
 .u-calendar__content--start-date.data-v-5b667d40 {
   border-bottom-left-radius: 8rpx;
+  border-bottom-right-radius: 8rpx;
 }
 .u-calendar__content__item.data-v-5b667d40 {
   width: 14.2857%;

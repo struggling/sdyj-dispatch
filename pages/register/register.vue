@@ -35,7 +35,7 @@
 						{{counttype}}
 					</block>
 					<block v-else>
-						<input type="text"  value="" placeholder="请点击..." disabled="true" />
+						<input type="text"  value="" placeholder="请点击..." />
 					</block>
 					
 				</view>
@@ -67,8 +67,8 @@
 				</view>
 			</u-mask>
 			<!-- 协议 -->
-			<view class="xieyi" @tap="checked">
-				<view :class="[check,]">
+			<view class="xieyi">
+				<view :class="[check,]" @tap="checked">
 					<block v-if="flag">
 						<image src="http://7n.51tiaoyin.com/Group%205%402x.png" mode=""></image>
 					</block>
@@ -76,7 +76,7 @@
 					<!-- <view :class="{'checkbox':flag,'':flag}"></view> -->
 				</view>
 				<view class="text">确定同意
-						<span class="navigator" @tap="goxieyi">《师傅入驻协议》</span class="">
+						<span class="navigator" @tap="goxieyi">《协议》</span class="">
 
 				</view>
 			</view>
@@ -390,20 +390,15 @@
 							message: '用户名大于8位!'
 						}
 					])
-					.add(this.worktime, [
-						{
+					.add(this.worktime, [{
 							type: 'required',
 							message: '工龄为空'
 						},
 						{
-							type: 'max:2',
-							message: '工龄2位数字'
-						},
-						{
 							type: 'callback',
-							message: '工龄必须数字',
+							message: '工龄2位数字',
 							callback :(value, message) =>  {
-								var reg = /\d/;
+								var reg = /\d{2}/;
 							      return reg.test(value) ? void 0 : message 
 							    }
 						}
@@ -476,17 +471,6 @@
 							},1500)
 						}else if(res.data.code == 300){
 							console.log(res.data.msg);
-							uni.showModal({
-							    title: '提示',
-							    content: res.data.msg,
-							    success: function (res) {
-							        if (res.confirm) {
-							            console.log('用户点击确定');
-							        } else if (res.cancel) {
-							            console.log('用户点击取消');
-							        }
-							    }
-							});
 							
 						}else{
 							console.log(res.data.msg)

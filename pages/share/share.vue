@@ -60,11 +60,17 @@
 				
 				let phone = uni.getStorageSync("phone");
 				console.log(phone);
-				
+				if(phone){
 					uni.reLaunch({
 						url:"../index/index"
 					})
-			
+				}else{
+					uni.navigateTo({
+						
+					
+						url:"../register/register"
+					})
+				}
 				
 			}
 		}

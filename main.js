@@ -29,6 +29,7 @@ import md5 from "./common/md5.min.js";
 											
 											code:code,
 										},
+<<<<<<< HEAD
 										methods:"GET"
 									}).then(res=>{
 										
@@ -75,6 +76,55 @@ import md5 from "./common/md5.min.js";
 											        }
 											    }
 											});
+=======
+										success(res) {
+											const data = JSON.parse(res.data);
+											console.log("请求类型");
+											console.log(data);
+											if(data.code ==200){
+												let phone = data.data.phone;
+												let type  =data.data.type;
+												let uid  =data.data.uid;
+												let name  =data.data.name;
+												let number = data.data.number;
+												let cookie = data.data.session_id;
+												uni.setStorageSync("phone",phone);	
+												console.log("手机号码"+phone);
+												uni.setStorageSync("type",type);
+												console.log("服务类型"+type);
+												uni.setStorageSync("uid",uid);
+												console.log("uid标识"+uid);
+												uni.setStorageSync("name",name);
+												console.log("用户姓名"+name);
+												uni.setStorageSync("number",number);
+												console.log("用户编号"+number);
+												uni.setStorageSync('user_name', data.data.wechat_name);
+												uni.setStorageSync('user_avatar', data.data.wechat_img);
+												console.log("用户姓名"+data.data.wechat_name);
+												console.log("用户头像"+data.data.wechat_img);
+												uni.setStorageSync("cookie",cookie);
+												console.log("cookie"+cookie);
+											}else if(data.code ==300){
+												uni.showModal({
+												    title: '提示',
+												    content: '未登录',
+													confirmText:"去登录",
+												    success: function (res) {
+												        if (res.confirm) {
+												            console.log('用户点击确定');
+															uni.navigateTo({
+																url: '../login/login',
+															});
+												        } else if (res.cancel){
+												            console.log('用户点击取消');
+															uni.navigateTo({
+																url: '../login/login',
+															});
+												        }
+												    }
+												});
+											}
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 										}
 									})
 									
@@ -94,17 +144,51 @@ import md5 from "./common/md5.min.js";
 							title: '登录已过期,请重新登录',
 							success: (res) => {
 								if (res.confirm) {
-									uni.reLaunch({
-										url: "../login/login"
+									uni.showLoading({
+										mask: true,
+										title: '登录中...'
 									})
 								}
-								else if (res.cancel){
-								    console.log('用户点击取消');
-									// uni.navigateTo({
-									// 	url: '../login/login',
-									// });
-								}
-								
+								uni.reLaunch({
+									url: "../login/login"
+								})
+								// uni.login({
+								// 	provider: 'weixin',
+								// 	success: (res) => {
+								// 		console.log(res);
+								// 		uni.request({
+								// 			url: "https://applet.51tiaoyin.com/public/applet/",
+								// 			method: "GET",
+								// 			data: {
+								// 				"code": res.code
+								// 			},
+								// 			success(res) {
+								// 				console.log(res);
+								// 				if (res.code = 300) {
+								// 					uni.showToast({
+								// 						title: "未登录",
+								// 					})
+								// 					uni.reLaunch({
+								// 						url: "../login/login"
+								// 					})
+								// 				}
+								// 				//用户已登录
+								// 				if (res.code = 200) {
+								// 					uni.showToast({
+								// 						title: "请授权登录",
+								// 					})
+								// 					uni.reLaunch({
+								// 						url: "../login/login"
+								// 					})
+								// 				}else{
+								// 					uni.showToast({
+								// 						title:"获取信息失败，请检查网络"
+								// 					})
+								// 				}
+								// 			}
+								// 		})
+								// 	}
+								// })
 							}
 						});
 					},
@@ -117,9 +201,9 @@ import md5 from "./common/md5.min.js";
 
 Vue.prototype.$overShare = 	{
 	title: '方便快捷 精准接单',
-	path: 'pages/index/index',
+	path: 'pages/share/share',
 	desc:"便快捷、就近派单 结算迅速、完成到账 积分商城、好礼送不停 全职招募、稳定收入",
-	imageUrl:"http://7n.51tiaoyin.com/%E8%83%8C%E6%99%AF%402x.png",
+	imageUrl:"http://7n.51tiaoyin.com/Group%205%402x.png",
 };
 //用户昵称全局变量
 

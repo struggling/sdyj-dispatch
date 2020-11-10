@@ -20,10 +20,9 @@
 										:ref="'calendar'"
 										mode="range"
 										max-date="2050-01-01" 
-										active-bg-color="#41b6ff" 
+										active-bg-color="#0080FF" 
 										active-color="#ffffff" 
-										range-color="#ffffff"
-										range-bg-color="#9bc7ff" @change="change">
+										range-bg-color="#a7cdff" @change="change">
 								</calendar>
 								<!-- <u-calendar class="calendar" :ref="'calendar'" v-model="show" :mode="mode" @change="change" max-date="2050-01-01" ></u-calendar> -->
 							    <!-- <view class="change">选中日期：{{curDate}}</view> -->
@@ -600,15 +599,13 @@
 <style>
 	.moonactive{
 		color: #ffffff;
-		background: #48C0FF !important;
+		background:#0080FF !important;
 	}
 	.moon{
 		display: flex;
 		justify-content: space-between;
 		margin-top: 30upx;
 		margin-bottom: 30upx;
-		margin-left: 30rpx;
-		margin-right: 30rpx;
 	}
 	.moon .sw{
 		width: 214upx;
@@ -672,7 +669,6 @@
 		    padding-left: 40rpx;
 		    padding-right: 40rpx;
 		    margin-right: 40rpx;
-			margin-top: 20rpx;
 	}
 
 	.filter-content-footer {
@@ -700,7 +696,7 @@
 		    -webkit-align-items: center;
 		    align-items: center;
 		    font-size: 16px;
-		    margin: 30rpx;
+		    margin: 40rpx;
 			
 			background: linear-gradient(132deg, #48C0FF 0%, #0F80FF 100%);
 	}

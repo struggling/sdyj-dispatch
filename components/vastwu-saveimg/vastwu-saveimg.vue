@@ -7,7 +7,7 @@
 			<view class="icon_close " style="position: absolute;" @click="delImg(index)"><i class="iconfont " style="">&#xe635;</i></view>
 		</view>
 		<view v-if="imgList.length < num" class="text_center" @click="chooseImage">
-			<image src="http://7n.51tiaoyin.com/20201020160015.png" mode="widthFix" :style="{ width: size + 'rpx' }"></image>
+			<image src="https://www.xyzgy.xyz/image/upload.png" mode="widthFix" :style="{ width: size + 'rpx' }"></image>
 		</view>
 		<!--#endif-->
 		<!--#ifdef APP-PLUS-->

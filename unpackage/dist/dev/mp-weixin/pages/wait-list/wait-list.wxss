@@ -36,7 +36,7 @@ uni-map.data-v-70637098 {
 map.data-v-70637098 {
   position: relative;
   width: 100%;
-  height: 620rpx;
+  height: 385rpx;
   display: block;
 }
 label.data-v-70637098 {
@@ -87,6 +87,7 @@ label.data-v-70637098 {
   margin-bottom: 20rpx;
   height: 40rpx !important;
   width: 100% !important;
+  text-align: center !important;
 }
 .graytd .r-txt .iconfont.data-v-70637098 {
   font-size: 28rpx;

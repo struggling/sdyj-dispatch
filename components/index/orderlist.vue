@@ -35,7 +35,7 @@
 							</block>
 						</view>
 						<template v-if="item.reason">
-							<view style="color: #0080FF;font-weight: 600;padding-bottom: 30upx;"  class="parm-txt reason">原因：{{item.reason}}</view>
+							<view  class="parm-txt reason">原因：{{item.reason}}</view>
 							
 						</template>
 					</view>
@@ -116,6 +116,7 @@
 			// },
 			//跳转到导航详情页
 			goDetail: function(item) {
+<<<<<<< HEAD
 				
 				if(item.state == 5){
 					console.log(item.state,"跳转限制5");
@@ -172,6 +173,33 @@
 					});
 				}
 				
+=======
+				let detail = {
+					Distance: item.Distance,
+					budget: item.budget,
+					code: item.code,
+					content: item.content,
+					delete: item.delete,
+					destination: item.destination,
+					door_time: item.door_time,
+					duration: item.duration,
+					label: item.label,
+					longitude: item.longitude,
+					name: item.name,
+					origin: item.origin,
+					send: item.send,
+					state: item.state,
+					tel: item.tel,
+					type: item.type,
+					uid: item.uid,
+					integral:item.integral,
+					jl:item.jl
+				};
+				uni.navigateTo({
+					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					url: '../../pages/wait-list/wait-list?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				});
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 			},
 			
 		}
@@ -209,25 +237,9 @@
 	}
 	.btn-group .active{
 		
-		background: linear-gradient(133deg, $themeleft 0%, $themeright 100%) !important;
+		background: linear-gradient(133deg, $themeleft 0%, $themeright 100%);
 		color: #FFFFFF !important;
 		border: none !important;
-	}
-	.btn-group .btn {
-		width: 100%;
-		height: 88upx;
-		text-align: center;
-		line-height: 88upx;
-		font-size: 32upx;
-		border-radius: 8upx;
-		border: 1upx solid #979797;
-		color:#333333;
-		padding-left: 20upx;
-		padding-right: 20upx;
-		line-height: 88upx;
-		/* margin-left: 48upx; */
-		border: 1upx solid #c5c4d5;
-		background: none;
 	}
 	.info{
 		/* padding-left: 25upx;
@@ -284,7 +296,7 @@
 		margin-top: 20rpx;
 	}
 	.parm-item-l .door-time{
-		color: #1E91FF;
+		color: $themeleft;
 	}
 	.parm-item-r .parm-txt{
 		line-height: 24upx !important;
@@ -314,9 +326,8 @@
 	}
 	.parm .price{
 		text-align: left;
-		color:#FF3D3D;
-		
-		font-weight: 400;
+		color:#FA5741 ;
+		font-weight: bold;
 		font-size: 44upx;
 		margin-top: 40upx;
 		margin-bottom: 40upx;
@@ -326,7 +337,21 @@
 		height: 168upx;
 		border-radius: 100%;
 	}
-	
+	.btn-group .btn {
+		width: 100%;
+		height: 88upx;
+		text-align: center;
+		line-height: 88upx;
+		font-size: 32upx;
+		border-radius: 8upx;
+		border: 1upx solid #979797;
+		color:#333333;
+		padding-left: 20upx;
+		padding-right: 20upx;
+		line-height: 88upx;
+		/* margin-left: 48upx; */
+		border: 1upx solid #c5c4d5 !important;
+	}
 	button{
 		-webkit-appearance: none;
 	}

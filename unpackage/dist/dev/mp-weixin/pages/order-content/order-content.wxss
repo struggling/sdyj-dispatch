@@ -83,7 +83,7 @@
   text-align: left;
   padding-left: 50rpx;
   padding-right: 50rpx;
-  color: #666666;
+  color: #ff557f;
   line-height: 80rpx;
 }
 .mask-btn.data-v-3b7cf03c {
@@ -97,7 +97,6 @@
   color: #ffffff;
   text-align: center;
   line-height: 88rpx;
-  margin-bottom: 60rpx;
 }
 /* map */
 uni-map.data-v-3b7cf03c {
@@ -110,7 +109,7 @@ uni-map.data-v-3b7cf03c {
 map.data-v-3b7cf03c {
   position: relative;
   width: 100%;
-  height: 618rpx;
+  height: 441rpx;
   display: block;
 }
 label.data-v-3b7cf03c {
@@ -140,7 +139,7 @@ label.data-v-3b7cf03c {
 }
 .graytd.data-v-3b7cf03c {
   background: #F8F8F8;
-  height: 200rpx;
+  height: 160rpx;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -161,6 +160,7 @@ label.data-v-3b7cf03c {
   margin-bottom: 20rpx;
   height: 40rpx;
   width: 100% !important;
+  text-align: center !important;
 }
 .graytd .r-txt .iconfont.data-v-3b7cf03c {
   font-size: 28rpx;

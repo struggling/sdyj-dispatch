@@ -53,8 +53,8 @@
           justify-content: space-between;
 }
 .btn-group .active.data-v-1e40dce6 {
-  background: -webkit-linear-gradient(317deg, #48C0FF 0%, #0080FF 100%) !important;
-  background: linear-gradient(133deg, #48C0FF 0%, #0080FF 100%) !important;
+  background: -webkit-linear-gradient(317deg, #48C0FF 0%, #0080FF 100%);
+  background: linear-gradient(133deg, #48C0FF 0%, #0080FF 100%);
   color: #FFFFFF !important;
   border: none !important;
 }
@@ -123,7 +123,7 @@
   margin-top: 20rpx;
 }
 .parm-item-l .door-time.data-v-1e40dce6 {
-  color: #1E91FF;
+  color: #48C0FF;
 }
 .parm-item-r .parm-txt.data-v-1e40dce6 {
   line-height: 24rpx !important;
@@ -153,8 +153,8 @@
 }
 .parm .price.data-v-1e40dce6 {
   text-align: left;
-  color: #FF3D3D;
-  font-weight: 400;
+  color: #FA5741;
+  font-weight: bold;
   font-size: 44rpx;
   margin-top: 40rpx;
   margin-bottom: 40rpx;
@@ -177,8 +177,7 @@
   padding-right: 20rpx;
   line-height: 88rpx;
   /* margin-left: 48upx; */
-  border: 1rpx solid #c5c4d5;
-  background: none;
+  border: 1rpx solid #c5c4d5 !important;
 }
 button.data-v-1e40dce6 {
   -webkit-appearance: none;

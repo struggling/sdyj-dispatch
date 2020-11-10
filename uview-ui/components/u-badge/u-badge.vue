@@ -70,7 +70,11 @@
 			offset: {
 				type: Array,
 				default: () => {
+<<<<<<< HEAD
 					return [180, 60]
+=======
+					return [20, 20]
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 				}
 			},
 			// 是否开启绝对定位，开启了offset才会起作用
