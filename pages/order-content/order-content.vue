@@ -22,11 +22,16 @@
 			</view>
 			<view class="parameter">
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<view class="r-txt">
 					<span style="color:#666666 font-size: 28upx;width: 100%;height: 40rpx;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{data.producttype}}</span>
 				</view>
 				<view class="r-txt "  style="font-size: 28upx;width: 100%;">
 					<span style="
+=======
+				<view class="r-txt "  style="font-size: 28upx;">
+					<span style="padding-left: 12px;
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 =======
 				<view class="r-txt "  style="font-size: 28upx;">
 					<span style="padding-left: 12px;
@@ -88,8 +93,13 @@
 							 @delImg='del_imglist_msg'>
 							 </vastwu-saveimg>
 <<<<<<< HEAD
+<<<<<<< HEAD
 							<view class="mask-uptext">备注(非必填)</view>
 							<textarea class="mask-area" value="" v-model='remarks'  />
+=======
+							<view class="mask-uptext">备注</view>
+							<textarea class="mask-area" value="haha" v-model='remarks' placeholder="说明" />
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 =======
 							<view class="mask-uptext">备注</view>
 							<textarea class="mask-area" value="haha" v-model='remarks' placeholder="说明" />

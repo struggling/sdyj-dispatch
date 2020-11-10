@@ -47,15 +47,19 @@
 .panel .text-l .pic image.data-v-24376c04{
 	width: 117rpx;
 	height: 121rpx;
-	border-radius: 100%;
+	-webkit-border-radius: 100%;
+	        border-radius: 100%;
 }
 .panel .text-r.data-v-24376c04{
+	background: -webkit-gradient(linear, left top, right top, from(#0080ff), to(##00B7FF));
 	background: -webkit-linear-gradient(left, #0080ff, ##00B7FF);
 	background: linear-gradient(90deg, #0080ff, ##00B7FF);
 	width: 186rpx;
 	height: 52rpx;
-	border-bottom-left-radius: 20rpx;
-	border-top-left-radius: 20rpx;
+	-webkit-border-bottom-left-radius: 20rpx;
+	        border-bottom-left-radius: 20rpx;
+	-webkit-border-top-left-radius: 20rpx;
+	        border-top-left-radius: 20rpx;
 	/* opacity: 0.32; */
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -69,7 +73,10 @@
 .panel .text-r .range.data-v-24376c04{
 	width: 52rpx;
 	height: 52rpx;
-	border-radius: 100%;
+	-webkit-border-radius: 100%;
+	        border-radius: 100%;
+	
+	background: -webkit-gradient(linear, left top, left bottom, from(#FFAF00), to(#FFCF00));
 	
 	background: -webkit-linear-gradient(top, #FFAF00, #FFCF00);
 	
@@ -131,14 +138,22 @@
 	height: 398rpx;
 	background: #FFFFFF;
 	border: 1rpx solid #E5E5E5;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	margin-top: 40rpx;
 }
 .malllist .mallitem .ppic.data-v-24376c04{
 	width: 330rpx;
 	height: 288rpx;
 	background: #E8E8E8;
+<<<<<<< HEAD
 	border-top-left-radius: 4rpx;
 	border-top-right-radius: 4rpx;
+=======
+	-webkit-border-top-left-radius: 4rpx;
+	        border-top-left-radius: 4rpx;
+	-webkit-border-top-right-radius: 4rpx;
+	        border-top-right-radius: 4rpx;
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 }
 

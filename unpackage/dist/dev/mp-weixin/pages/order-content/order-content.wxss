@@ -18,7 +18,8 @@
 	-webkit-align-items: center;
 	        align-items: center;
 	background: rgb(244, 245, 246);
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 }
 .slot-btn__hover {
 	background-color: rgb(235, 236, 238);
@@ -78,7 +79,8 @@
   width: 620rpx;
   height: 80rpx;
   background: #F8F8F8;
-  border-radius: 6rpx;
+  -webkit-border-radius: 6rpx;
+          border-radius: 6rpx;
   margin-top: 52rpx;
   text-align: left;
   padding-left: 50rpx;
@@ -91,7 +93,8 @@
   height: 88rpx;
   background: -webkit-linear-gradient(317deg, #48C0FF 0%, #0F80FF 100%);
   background: linear-gradient(133deg, #48C0FF 0%, #0F80FF 100%);
-  border-radius: 6rpx;
+  -webkit-border-radius: 6rpx;
+          border-radius: 6rpx;
   margin-top: 124rpx;
   font-size: 32rpx;
   color: #ffffff;
@@ -121,7 +124,8 @@ label.data-v-3b7cf03c {
   padding-right: 25rpx;
   padding-top: 30rpx;
   position: relative;
-  border-radius: 4%;
+  -webkit-border-radius: 4%;
+          border-radius: 4%;
 }
 .orderDetail .iconfont.data-v-3b7cf03c {
   color: #0080FF;
@@ -169,7 +173,8 @@ label.data-v-3b7cf03c {
   margin-top: 20rpx;
   font-size: 20rpx;
   border: 1rpx solid #000000;
-  border-radius: 8rpx;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
   margin-right: 20rpx;
   padding-left: 20rpx;
   padding-right: 20rpx;
@@ -209,7 +214,8 @@ label.data-v-3b7cf03c {
 .orderDetail image.data-v-3b7cf03c {
   width: 130rpx;
   height: 130rpx;
-  border-radius: 100%;
+  -webkit-border-radius: 100%;
+          border-radius: 100%;
   border: 4rpx solid #00ABEB;
   background-color: #CCCCCC;
   position: absolute;
@@ -218,7 +224,8 @@ label.data-v-3b7cf03c {
 }
 .orderDetail button.data-v-3b7cf03c {
   color: #FFFFFF;
-  border-radius: 8rpx;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
   width: 40% !important;
   height: 76rpx;
   font-size: 40rpx;

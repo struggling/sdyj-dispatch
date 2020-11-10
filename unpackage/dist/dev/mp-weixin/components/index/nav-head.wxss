@@ -32,6 +32,7 @@
 /* 文章场景相关 */
 .nav-head.data-v-45f4ab62 {
   height: 391rpx;
+  background: -webkit-gradient(linear, left top, right top, from(#48C0FF), to(#0080FF));
   background: -webkit-linear-gradient(left, #48C0FF, #0080FF);
   background: linear-gradient(90deg, #48C0FF, #0080FF);
   position: relative;

@@ -65,8 +65,10 @@
   margin-top: 20rpx;
   position: relative;
   background-color: #0080FF;
-  box-shadow: 0 10rpx 20rpx -10rpx #0080FF;
-  border-radius: 12rpx;
+  -webkit-box-shadow: 0 10rpx 20rpx -10rpx #0080FF;
+          box-shadow: 0 10rpx 20rpx -10rpx #0080FF;
+  -webkit-border-radius: 12rpx;
+          border-radius: 12rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;

@@ -2,10 +2,13 @@
 	<view>
 		<nav-head :address="address" :tabIndex="tabIndex" :notice="notice"  @openConfirm="openConfirm" @xuanzhong="xuanzhong"></nav-head>
 <<<<<<< HEAD
+<<<<<<< HEAD
 		<!-- 动态数字角标提醒 -->
 		<u-badge type="error" :count="beenlength"></u-badge>
 		<!-- <mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption"> -->
 =======
+=======
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 		
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 >>>>>>> parent of 2c9d977 (乌龟添加信息)
@@ -158,9 +161,12 @@
 		data() {
 			return {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				
 				// offsetbadge:[-242,88],
 				beenlength:0,
+=======
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 =======
 >>>>>>> parent of 2c9d977 (乌龟添加信息)
 				closesearch:true,
@@ -307,6 +313,7 @@
 			this.phone = uni.getStorageSync('phone');
 			
 <<<<<<< HEAD
+<<<<<<< HEAD
 			// this.getWOrkstay(1,10);
 			
 				
@@ -315,6 +322,18 @@
 		
 			// mock数据通知栏
 			this.getNavbar();
+=======
+			this.checklogin();
+			setTimeout(()=>{
+				uni.hideLoading({
+					title:"加载中",
+					duration:1500
+				});
+				this.getInfo();
+				this.getWOrkstay();
+			},1500);
+			
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 =======
 			this.checklogin();
 			setTimeout(()=>{
@@ -1612,7 +1631,10 @@
 						that.town = town;
 						uni.setStorageSync('town', town);
 <<<<<<< HEAD
+<<<<<<< HEAD
 						that.getWOrkstay(1,10);
+=======
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 =======
 >>>>>>> parent of 2c9d977 (乌龟添加信息)
 					}

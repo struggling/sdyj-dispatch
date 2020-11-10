@@ -49,7 +49,10 @@
 					<u-icon name="arrow-right" color="#666666" size="28"></u-icon>
 				 </view>
 <<<<<<< HEAD
+<<<<<<< HEAD
 				 
+=======
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 =======
 >>>>>>> parent of 2c9d977 (乌龟添加信息)
 			 </view>

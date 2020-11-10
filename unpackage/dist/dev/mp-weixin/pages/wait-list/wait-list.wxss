@@ -48,7 +48,8 @@ label.data-v-70637098 {
   padding-right: 25rpx;
   padding-top: 30rpx;
   position: relative;
-  border-radius: 4%;
+  -webkit-border-radius: 4%;
+          border-radius: 4%;
 }
 .orderDetail .iconfont.data-v-70637098 {
   color: #0080FF;
@@ -96,7 +97,8 @@ label.data-v-70637098 {
   margin-top: 20rpx;
   font-size: 20rpx;
   border: 1rpx solid #000000;
-  border-radius: 8rpx;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
   margin-right: 20rpx;
   padding-left: 20rpx;
   padding-right: 20rpx;
@@ -136,7 +138,8 @@ label.data-v-70637098 {
 .orderDetail image.data-v-70637098 {
   width: 130rpx;
   height: 130rpx;
-  border-radius: 100%;
+  -webkit-border-radius: 100%;
+          border-radius: 100%;
   border: 4rpx solid #00ABEB;
   background-color: #CCCCCC;
   position: absolute;
@@ -145,7 +148,8 @@ label.data-v-70637098 {
 }
 .orderDetail button.data-v-70637098 {
   color: #FFFFFF;
-  border-radius: 8rpx;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
   width: 40%;
   height: 76rpx;
   font-size: 40rpx;

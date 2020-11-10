@@ -71,7 +71,11 @@
 				type: Array,
 				default: () => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 					return [180, 60]
+=======
+					return [20, 20]
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 =======
 					return [20, 20]
 >>>>>>> parent of 2c9d977 (乌龟添加信息)

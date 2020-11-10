@@ -42,7 +42,8 @@
 .gird .gird-item.data-v-00659ba6{
 	width:338rpx;
 	height: 356rpx;
-	border-radius: 12rpx;
+	-webkit-border-radius: 12rpx;
+	        border-radius: 12rpx;
 	background-color: #000000;
 	text-align: center;
 	margin-top: 20rpx;
@@ -50,14 +51,16 @@
 .gird .gird-item image.data-v-00659ba6{
 	width: 298rpx;
 	height: 256rpx;
-	border-radius: 8rpx;
+	-webkit-border-radius: 8rpx;
+	        border-radius: 8rpx;
 	margin-top: 15rpx;
 }
 .gird .gird-item .btn.data-v-00659ba6{
 	width:231rpx;
 	height: 50rpx;
 	line-height: 50rpx;
-	border-radius: 8rpx;
+	-webkit-border-radius: 8rpx;
+	        border-radius: 8rpx;
 	font-size: 30rpx;
 	/* display: inline; */
 	margin: 0 auto;
@@ -69,10 +72,13 @@
 .ensure .title.data-v-00659ba6{
 	width: 155rpx;
 	height: 40rpx;
+	background: -webkit-gradient(linear, left top, right top, from(#80BF26), to(#5CB531));
 	background: -webkit-linear-gradient(left, #80BF26, #5CB531);
 	background: linear-gradient(90deg, #80BF26, #5CB531);
-	border-bottom-right-radius: 20rpx;
-	border-top-right-radius: 20rpx;
+	-webkit-border-bottom-right-radius: 20rpx;
+	        border-bottom-right-radius: 20rpx;
+	-webkit-border-top-right-radius: 20rpx;
+	        border-top-right-radius: 20rpx;
 	line-height: 40rpx;
 	text-align: center;
 	color: #FFFFFF;
@@ -81,9 +87,11 @@
 	margin-top: 40rpx;
 	width: 691rpx;
 	height: 161rpx;
+	background: -webkit-gradient(linear, left top, right top, from(#30C7FF), to(#55C3F2));
 	background: -webkit-linear-gradient(left, #30C7FF, #55C3F2);
 	background: linear-gradient(90deg, #30C7FF, #55C3F2);
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: flex;

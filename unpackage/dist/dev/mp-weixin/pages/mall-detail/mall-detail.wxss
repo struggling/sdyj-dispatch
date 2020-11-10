@@ -91,7 +91,8 @@ uni-swiper {
   padding-left: 80rpx;
   background: -webkit-linear-gradient(317deg, #48C0FF 0%, #0F80FF 100%);
   background: linear-gradient(133deg, #48C0FF 0%, #0F80FF 100%);
-  border-radius: 12rpx;
+  -webkit-border-radius: 12rpx;
+          border-radius: 12rpx;
   text-align: center;
   color: #FFFFFF;
   line-height: 80rpx;

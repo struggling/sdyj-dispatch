@@ -103,11 +103,13 @@ uni-view.data-v-213f788e{
 .parm .pic image.data-v-213f788e{
 	width: 168rpx;
 	height: 168rpx;
-	border-radius: 100%;
+	-webkit-border-radius: 100%;
+	        border-radius: 100%;
 }
 .btn-group .btn.data-v-213f788e {
 	font-size: 28rpx;
-	border-radius: 28rpx;
+	-webkit-border-radius: 28rpx;
+	        border-radius: 28rpx;
 	border: 1rpx solid #CCCCCC;
 	color:#CCCCCC ;
 	padding-left: 20rpx;

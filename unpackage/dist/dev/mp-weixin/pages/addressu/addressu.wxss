@@ -54,7 +54,8 @@
   line-height: 34rpx;
   color: #ffffff;
   font-size: 20rpx;
-  border-radius: 6rpx;
+  -webkit-border-radius: 6rpx;
+          border-radius: 6rpx;
   text-align: center;
   margin-left: 30rpx;
   background-color: #3191fd;
@@ -85,7 +86,8 @@
   bottom: 30rpx;
   left: 80rpx;
   background-color: red;
-  border-radius: 60rpx;
+  -webkit-border-radius: 60rpx;
+          border-radius: 60rpx;
   font-size: 30rpx;
 }
 .addSite .add.data-v-393917a6 {

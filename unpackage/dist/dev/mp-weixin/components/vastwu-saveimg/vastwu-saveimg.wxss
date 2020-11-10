@@ -56,7 +56,8 @@
 }
 .chooseImage .icon_close .iconfont.data-v-0b9610e4 {
   background: #ccc;
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
   padding: 4px;
   font-size: 10px;
 }

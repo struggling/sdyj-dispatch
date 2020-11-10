@@ -117,6 +117,7 @@
 			//跳转到导航详情页
 			goDetail: function(item) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				
 				if(item.state == 5){
 					console.log(item.state,"跳转限制5");
@@ -174,6 +175,8 @@
 				}
 				
 =======
+=======
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 				let detail = {
 					Distance: item.Distance,
 					budget: item.budget,
@@ -199,6 +202,9 @@
 					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 					url: '../../pages/wait-list/wait-list?detailDate=' + encodeURIComponent(JSON.stringify(detail))
 				});
+<<<<<<< HEAD
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
+=======
 >>>>>>> parent of 2c9d977 (乌龟添加信息)
 			},
 			

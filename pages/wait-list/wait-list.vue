@@ -30,11 +30,16 @@
 			</view>
 			<view class="parameter">
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<view class="r-txt">
 					<span style="color:#666666 font-size: 28upx;width: 100%;height: 40rpx;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{data.producttype}}</span>
 				</view>
 				<view class="r-txt "  style="font-size: 20upx;width: 50%;">
 					<span style="
+=======
+				<view class="r-txt "  style="font-size: 20upx;">
+					<span style="padding-left: 12px;
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 =======
 				<view class="r-txt "  style="font-size: 20upx;">
 					<span style="padding-left: 12px;
@@ -66,12 +71,15 @@
 				</view>
 				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<span class="iconfont  iconshalou">{{data.duration}}</span>
 				</view>
 				<view class=" r-txt"  style="font-size: 24upx;padding-left: 25upx;">
 					<span class="iconfont  iconshalou">{{dataorigin}} (抢单成功可显示详细地址)</span>
 				</view>		
 =======
+=======
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 					<span class="iconfont iconweibiaoti9">{{data.duration}}</span>
 				</view>				
 >>>>>>> parent of 2c9d977 (乌龟添加信息)
@@ -381,6 +389,9 @@
 					})
 						
 				} else {
+<<<<<<< HEAD
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
+=======
 >>>>>>> parent of 2c9d977 (乌龟添加信息)
 					uni.showModal({
 					    title: '提示',

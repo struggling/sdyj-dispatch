@@ -115,10 +115,14 @@
 					type: item.type,
 					integral:item.integral,
 <<<<<<< HEAD
+<<<<<<< HEAD
 					uid: item.uid,
 					producttype:item.producttype
 					// system:item.system
 
+=======
+					uid: item.uid
+>>>>>>> parent of 2c9d977 (乌龟添加信息)
 =======
 					uid: item.uid
 >>>>>>> parent of 2c9d977 (乌龟添加信息)

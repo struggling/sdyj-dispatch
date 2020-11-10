@@ -3,7 +3,8 @@
 	width: 100%;
 }
 .page-section-spacing.data-v-d3f05c80{
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	padding-top: 16%;
 }
 .page-section-spacing.swiper.data-v-d3f05c80{
@@ -42,7 +43,8 @@ swiper.data-v-d3f05c80{
 }
 .btn.data-v-d3f05c80{
 	border: 2rpx solid #00ABEB;
-	border-radius: 20rpx;
+	-webkit-border-radius: 20rpx;
+	        border-radius: 20rpx;
 	padding: 25rpx;
 	width: 400rpx !important;
 	color:#00ABEB !important;
