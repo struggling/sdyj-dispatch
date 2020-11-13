@@ -1,4 +1,5 @@
-const BASE_URL="https://sys.yigongdan.com/public/applet/"; //开发时使用本地接口，在上线时只需要修改此处接口为线上地址即可http://sys.yigongdan.com/
+const BASE_URL="https://sys.yigongdan.com/public/applet/"; //开发时使用本地接口，在上线时只需要修改此处接口为线上地址即可https://sys.yigongdan.com/ 
+//生产环境：https://yigongdan.com/public/applet/
 import md5 from "../common/md5.min.js"
 export const myRequest=(options)=>{ //传入的options是一个json对象
 	

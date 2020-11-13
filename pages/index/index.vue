@@ -3,6 +3,7 @@
 		<nav-head :address="address" :tabIndex="tabIndex" :notice="notice"  @openConfirm="openConfirm" @xuanzhong="xuanzhong"></nav-head>
 		<!-- 动态数字角标提醒 -->
 		<u-badge type="error" :count="beenlength"></u-badge>
+		<u-badge type="error" :count="alreadylenth" :offset='offsetbadge'></u-badge>
 		<!-- <mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption"> -->
 		<view class="content">
 			<!-- 收索筛选框 -->
@@ -152,7 +153,8 @@
 		data() {
 			return {
 				
-				// offsetbadge:[-242,88],
+				offsetbadge:[180,300],
+				alreadylenth:0,
 				beenlength:0,
 				closesearch:true,
 				userFeedbackHidden: true, // 默认隐藏
@@ -290,6 +292,7 @@
 		onShow() {
 			//检查登录授权
 			this.getBeen();
+			this.getAlready();
 			//判断用户是否注册服务工种,获取缓存里面的值
 			this.user_uid = uni.getStorageSync('uid');
 			this.phone = uni.getStorageSync('phone');
@@ -414,7 +417,7 @@
 		   uni.$on('updatebeenlist',function(data){
 				 console.log('监听到事件来自 updatebeenlist ，携带参数 msg 为：' ,data.data);
 				that.orderlist = data.data;
-				console.log(that.orderlist);
+				
 			})
 		  uni.$on('updateaddress',function(data){
 				 console.log('监听到事件来自 updateaddress ，携带参数 msg 为：' ,data.msg);
@@ -1233,7 +1236,7 @@
 						url:'work/stay',
 						data:{
 							"town":town ,
-							"genre": type,
+							"genre": "",
 							"uid": this.user_uid,
 							"page":pageNum,
 							"pageSize":pageSize,
@@ -1363,6 +1366,9 @@
 							console.log("审核状态",res.data.data);
 								if(res.data.data.length>0){
 									this.orderlist = res.data.data;
+									this.alreadylenth = this.orderlist.length;
+									console.log(this.orderlist.length,'审核列表长度');
+									
 								}else{
 									uni.showToast({
 										icon:"none",

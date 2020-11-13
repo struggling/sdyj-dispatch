@@ -44,7 +44,10 @@
 			</view>
 			<!-- 类型选择弹框 -->
 			<select-type ref="selecttype" @genggaifenlei="genggaifenlei"></select-type>
-			<button @click="$u.debounce(submit,1000)" class="theme">保存信息</button>
+			<block v-if="baocun">
+				<button  class="theme" disabled="true">保存中...</button>
+			</block>
+			<block v-else><button @click="submit" class="theme">保存信息</button></block>
 		</view>
 	</view>
 </template>
@@ -60,17 +63,55 @@
 		data() {
 			return {
 				show:false,
+				baocun:false,
 				datas:{},
 				swiperheight: 667,
 				data:{},
 				name:"",
 				phone:'',
 				type:[],
-				counttype:""
-				
+				counttype:"",
+				gaibian:false
 			}
 		},
-		
+		watch:{
+			phone(old,val){
+				if(!old == val){
+					// uni.showToast({
+					// 	icon:"none",
+					// 	title:"未做任何修改",
+					// 	duration:2000
+					// })
+					this.gaibian = false
+				}else{
+					this.gaibian = true
+				}
+			},
+			name(old,val){
+				if(!old == val){
+					// uni.showToast({
+					// 	icon:"none",
+					// 	title:"未做任何修改",
+					// 	duration:2000
+					// })
+					this.gaibian = false
+				}else{
+					this.gaibian = true
+				}
+			},
+			counttype(old,val){
+				if(!old == val){
+					// uni.showToast({
+					// 	icon:"none",
+					// 	title:"未做任何修改",
+					// 	duration:2000
+					// })
+					this.gaibian = false
+				}else{
+					this.gaibian = true
+				}
+			},
+		},
 		onLoad(event) {
 			//设置容器高度
 			uni.getSystemInfo({
@@ -100,6 +141,7 @@
 		methods: {
 			//genggaifenlei
 			genggaifenlei(fenlei){
+				console.log(fenlei.length,"打印分类属性");
 				this.counttype = fenlei;
 			},
 			//打开遮罩
@@ -134,57 +176,68 @@
 			},
 			//提交修改信息
 			submit() {
-				uni.showLoading({
-					title: '保存中'
-				});
-				let phone = this.phone;
-				// let nickname = this.data.user_name;
-				let nickname = this.name;
-				let counttype = "";
-				if(this.counttype==""){
-					counttype = uni.getStorageSync("type");
-				}else{
-					counttype = this.counttype
-				}
-				this.$myRequest({
-					url:'user/updateInfo',
-					data:{
-						phone:phone,
-						nickname:nickname,
-						type:counttype,
-					},
-					methods:"POST"
-				}).then(res=>{
-					console.log(res);
-				// const data = JSON.parse(res.data);
-					if(res.data.code == 200){
-						console.log(res.data.msg);
-							uni.setStorageSync("type",counttype);
-							uni.hideLoading();
-							uni.showToast({
-								title:"保存成功"
-							});
-							// uni.setStorageSync("user_name",this.name)
-					}else if(res.data.code == 300){
-						console.log(res.data.msg);
-						uni.showModal({
-						    title: '提示',
-						    content: res.data.msg,
-						    success: function (res) {
-						        if (res.confirm) {
-						            console.log('用户点击确定');
-						        } else if (res.cancel) {
-						            console.log('用户点击取消');
-						        }
-						    }
-						});
-				
+				if(this.gaibian){
+					this.gaibian = false,
+					this.baocun =true;
+					uni.showLoading({
+						title: '保存中'
+					});
+					let phone = this.phone;
+					// let nickname = this.data.user_name;
+					let nickname = this.name;
+					let counttype = "";
+					if(this.counttype==""){
+						counttype = uni.getStorageSync("type");
 					}else{
-						console.log(res.data.msg)
+						counttype = this.counttype
 					}
-				})
-				uni.hideLoading();
-				
+					this.$myRequest({
+						url:'user/updateInfo',
+						data:{
+							phone:phone,
+							nickname:nickname,
+							type:counttype,
+						},
+						methods:"POST"
+					}).then(res=>{
+						console.log(res);
+						this.baocun =false;
+					// const data = JSON.parse(res.data);
+						if(res.data.code == 200){
+							console.log(res.data.msg);
+								uni.setStorageSync("type",counttype);
+								uni.hideLoading();
+								
+								uni.showToast({
+									title:"保存成功"
+								});
+								// uni.setStorageSync("user_name",this.name)
+						}else if(res.data.code == 300){
+							console.log(res.data.msg);
+							uni.showModal({
+							    title: '提示',
+							    content: res.data.msg,
+							    success: function (res) {
+							        if (res.confirm) {
+							            console.log('用户点击确定');
+							        } else if (res.cancel) {
+							            console.log('用户点击取消');
+							        }
+							    }
+							});
+					
+						}else{
+							console.log(res.data.msg)
+						}
+					})
+					uni.hideLoading();
+				}else{
+					uni.showToast({
+						icon:"none",
+						title:"信息未更新,请修改信息",
+						duration:3000
+					})
+				}
 			},
 		},
 		onReady() {

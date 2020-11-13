@@ -170,9 +170,9 @@ Vue.prototype.requestMsg =async function(){
 //封装全局的网络请求
 
 //取消全局日志打印
-if (uni.getSystemInfoSync().platform !== "devtoolss") {
-	console.log = () => {}
-}
+// if (uni.getSystemInfoSync().platform !== "devtoolss") {
+// 	console.log = () => {}
+// }
 //全局的主题样式颜色
 Vue.prototype.$background = {
 	backgroundImage: "linear-gradient(90deg, #54C3F1, #eb1270)",

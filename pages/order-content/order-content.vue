@@ -21,16 +21,14 @@
 				</view>
 			</view>
 			<view class="parameter">
-				<view class="r-txt">
-					<span style="color:#666666 font-size: 28upx;width: 100%;height: 40rpx;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{data.producttype}}</span>
-				</view>
+				<block v-if="data.producttype">
+					<view class="r-txt">
+						<span style="color:#666666 font-size: 28upx;width: 100%;height: 40rpx;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{data.producttype}}</span>
+					</view>
+				</block>
+				
 				<view class="r-txt "  style="font-size: 28upx;width: 100%;">
-					<span style="
-    font-size: 20upx;
-    color: #7f7f7f;
-    text-align: right;
-    display: block;
-    width: 100%;">完成订单可获得:{{data.integral}}积分</span>
+					<span style="font-size: 20upx;color: #7f7f7f;text-align: right;display: block;width: 100%;">完成订单可获得:{{data.integral}}积分</span>
 				</view>
 			</view>
 			<view class="parameter label">
@@ -40,7 +38,7 @@
 			</view>
 			<view class="parameter">备注：{{data.content}}</view>
 			<view class="parameter" @tap="go">
-				<view class="iconfont icondianhua1 contact">
+				<view class="iconfont icondianhua contact">
 					<span style="padding-left: 25upx;">{{data.tel}}</span>
 				</view>
 			</view>
@@ -104,6 +102,7 @@
 		},
 		data() {
 			return {
+				finshtask:false,
 				imgs:"",
 				header:{},
 				remarks:"",
@@ -237,6 +236,7 @@
 							    success: function (res) {
 							        if (res.confirm) {
 							            console.log('用户点击确定');
+										// this.finshtask = true;
 										uni.switchTab({
 											url:"../order/order"
 										})

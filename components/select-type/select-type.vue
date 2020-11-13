@@ -60,10 +60,22 @@
 		methods:{
 			//确定分类
 			quedingtype(){
-				this.shows = true;
-				this.show  =false;
-				this.$emit("genggaifenlei",this.counttype)
-				console.log("已选择分类又",this.counttype);
+				
+				const settype = this.counttype.split(',');
+				console.log("已选择分类数组",settype);
+				if(settype[1]){
+					this.$emit("genggaifenlei",this.counttype);
+					this.shows = true;
+					this.show  =false;
+					console.log("已选择分类又",this.counttype);
+				}else{
+					uni.showToast({
+						icon:"none",
+						title:"请选择二级分类",
+						duration:2000
+					})
+				}
+				
 			},
 			//取消分类
 			quxiaotype(){
