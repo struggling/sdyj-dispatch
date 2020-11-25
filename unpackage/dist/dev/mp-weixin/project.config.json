@@ -66,15 +66,15 @@
       "list": [
         {
           "id": -1,
-          "name": "pages/myinfo/myinfo",
-          "pathName": "pages/myinfo/myinfo",
+          "name": "pages/home/home",
+          "pathName": "pages/home/home",
           "query": "",
           "scene": null
         },
         {
           "id": -1,
-          "name": "pages/home/home",
-          "pathName": "pages/home/home",
+          "name": "pages/register/register",
+          "pathName": "pages/register/register",
           "scene": null
         }
       ]

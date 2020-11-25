@@ -20,7 +20,9 @@
     "pages/mall-detail/mall-detail",
     "pages/addressu/addressu",
     "pages/share/share",
-    "pages/agreement/agreement"
+    "pages/agreement/agreement",
+    "pages/address/address",
+    "pages/address/addSite"
   ],
   "subPackages": [],
   "window": {
@@ -70,5 +72,5 @@
     "mescroll-body": "/components/mescroll-uni/mescroll-body",
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni"
   },
-  "sitemapLocation": "sitemap68.json"
+  "sitemapLocation": "sitemap53.json"
 }

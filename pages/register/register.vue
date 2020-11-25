@@ -40,6 +40,11 @@
 					
 				</view>
 			</view>
+			<view class="">请输入常驻收货地址</view>
+			<view class="from-group" @tap="goaddress">
+				
+				<view class="input"><input type="text" v-model="address" value="" placeholder="请选择..."  disabled="true"></view>
+			</view>
 			<!-- 类型选择弹框 -->
 			<u-mask :show="show">
 				<view class="warp">
@@ -155,7 +160,9 @@
 					longgqty:"../../static/settlement/longgqty.png",
 					longgyby:"../../static/settlement/longgqby.png",
 					longjdwx:"../../static/settlement/longjdwx.png",
-				}
+				},
+				address:'',
+				data:""
 			}
 		},
 		computed: {
@@ -166,6 +173,19 @@
 			}
 		},
 		onLoad(option) {
+			// TODO 后面把参数名替换成 payload
+			const payload = option.detailDate;
+			// 目前在某些平台参数会被主动 decode，暂时这样处理。
+			try {
+				this.data= JSON.parse(decodeURIComponent(payload));
+				console.log("详情页参数");
+				console.log(this.data);
+
+			} catch (error) {
+				this.data = JSON.parse(payload);
+				console.log("详情页参数");
+				console.log(this.data);
+			};
 			this.$myRequest({
 				url:'user/item',
 				data:{}
@@ -225,6 +245,12 @@
 			
 		},
 		methods: {
+			//跳转收货地址
+			goaddress(){
+				uni.navigateTo({
+					url:"../address/address"
+				})
+			},
 			// 取消工龄
 			quxiaoworktime(){
 				this.showworktime = false;

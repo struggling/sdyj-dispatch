@@ -1,0 +1,9 @@
+{
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTitleText": "编辑收货地址",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-picker": "/uview-ui/components/u-picker/u-picker"
+  }
+}

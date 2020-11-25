@@ -269,6 +269,7 @@
 				
 				orderlist: [],
 				beenlist:[],
+				alreadylist:[],
 				page:1,
 				istake:false
 			}
@@ -297,7 +298,7 @@
 			this.user_uid = uni.getStorageSync('uid');
 			this.phone = uni.getStorageSync('phone');
 			
-			// this.getWOrkstay(1,10);
+			this.getWOrkstay(1,10);
 			
 				
 				this.getInfo();
@@ -323,6 +324,10 @@
 			beenlist(old,xin){
 				this.beenlength = this.beenlist.length;
 				console.log("监听beenlist长度",this.beenlength);
+			},
+			alreadylist(old,xin){
+				this.alreadylenth = this.alreadylist.length;
+				console.log("监听alreadylist长度",this.alreadylenth);
 			}
 		},
 		
@@ -1362,12 +1367,16 @@
 					// 	console.log(res);
 					// const data = JSON.parse(res.data);
 						if(res.data.code == 200){
+							// 增加该类订单长度监听
 							console.log(res.data.msg);
+							this.alreadylist = res.data.data;
+							this.alreadylenth = this.alreadylist.length;
+							console.log(this.alreadylist.length,'审核列表长度');
 							console.log("审核状态",res.data.data);
 								if(res.data.data.length>0){
 									this.orderlist = res.data.data;
-									this.alreadylenth = this.orderlist.length;
-									console.log(this.orderlist.length,'审核列表长度');
+									
+									// console.log(this.orderlist.length,'审核列表长度');
 									
 								}else{
 									uni.showToast({

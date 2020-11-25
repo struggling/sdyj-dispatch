@@ -70,7 +70,7 @@
 				name:"",
 				phone:'',
 				type:[],
-				counttype:"",
+				counttype:"请点击",
 				gaibian:false
 			}
 		},

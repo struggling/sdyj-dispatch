@@ -68,7 +68,13 @@
 			</view>
 			<view class="btngroup">
 				<button type="default" class="iconfont iconfeiji" style="color: #FFFFFF;"  @tap="navlociton">开启导航</button>
-				<button style="background: linear-gradient(133deg, #48C0FF 0%, #0F80FF 100%);" type="default"  @tap="opentake" clsss="themes">立即抢单</button>
+				<block v-if="shifouqiangdan">
+					<button style="background: linear-gradient(133deg, #48C0FF 0%, #0F80FF 100%);" type="default"  @tap="opentake" clsss="themes">立即抢单</button>
+				</block>
+				<block v-else>
+					<button style="background: linear-gradient(133deg, #48C0FF 0%, #0F80FF 100%);" type="default" clsss="themes">已抢单</button>
+				</block>
+				
 			</view>
 			<!-- <view class="btngroup">
 			
@@ -95,6 +101,7 @@
 	export default {
 		data() {
 			return {
+				shifouqiangdan:false,
 				shwomask:false,
 				currentpage:"",
 				istheme:true,
@@ -269,6 +276,8 @@
 						// const data = JSON.parse(res.data);
 							if(res.data.code == 200){
 								console.log(res.data.msg);
+								//完成订单提示以完成
+								that.shifouqiangdan = true;
 								that.show = true;
 								that.isactive = true;
 								let badgecont = 0;
