@@ -91,7 +91,7 @@
 		data() {
 			return {
 				showcalendar:false,
-				total_amount:"",
+				total_amount:"0",
 				openmask:false,
 				text:"订阅消息",
 				currcount:0,
@@ -109,8 +109,8 @@
 					backgroundImage:"linear-gradient(90deg,  #54C3F1,#00ABEB)",
 				},
 				//顶部导航栏
-				user_name:"",
-				user_avatar:"",
+				user_name:"未知用户",
+				user_avatar:"../../static/logo.png",
 				user_phone:"",
 				user_address:"",
 				user_type:"",
@@ -147,8 +147,8 @@
 		onLoad() {
 			//检查状态
 			this.checklogin();
-			this.user_name = uni.getStorageSync("user_name");
-			this.user_avatar = uni.getStorageSync("user_avatar");
+			this.user_name = uni.getStorageSync("user_name") || "未知用户";
+			this.user_avatar = uni.getStorageSync("user_avatar")||"../../static/tabBar/homeselect.png";
 			this.user_phone = uni.getStorageSync("phone");
 			this.user_address = uni.getStorageSync("address");
 			this.number = uni.getStorageSync("number");
@@ -167,6 +167,7 @@
 		},
 		onShow() {
 			this.getInfo();
+			this.checklogin();
 		},
 		onReady() {
 		    let today = this.$refs.ren.getToday().date;
@@ -303,6 +304,11 @@
 			},
 			//打开个人数据页面
 			openmydata(){
+				let uid = uni.getStorageSync('uid');
+				if(!uid){
+					this.checklogin();
+					return
+				}
 				let userdata = {
 					user_name : this.user_name,
 					user_avatar: this.user_avatar,
@@ -316,6 +322,11 @@
 			},
 			//打开个人信息页面
 			openinfo(){
+				let uid = uni.getStorageSync('uid');
+				if(!uid){
+					this.checklogin();
+					return
+				}
 				let userinfo = {
 					user_name : this.user_name,
 					user_avatar: this.user_avatar,
@@ -330,6 +341,11 @@
 			},
 			// 打开设置权限
 			openset(){
+				let uid = uni.getStorageSync('uid');
+				if(!uid){
+					this.checklogin();
+					return
+				}
 				wx.openSetting({
 				  success (res) {
 				    console.log(res.authSetting)
@@ -349,12 +365,22 @@
 			},
 			//我的积分
 			tomypoints(){
+				let uid = uni.getStorageSync('uid');
+				if(!uid){
+					this.checklogin();
+					return
+				}
 				uni.navigateTo({
 					url:"../my-points/my-points"
 				})
 			},
 			//积分商城
 			topointsmall(){
+				let uid = uni.getStorageSync('uid');
+				if(!uid){
+					this.checklogin();
+					return
+				}
 				uni.navigateTo({
 					url:"../points-mall/points-mall"
 				})

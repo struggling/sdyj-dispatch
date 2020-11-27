@@ -1608,6 +1608,8 @@
 						console.log(town);
 						that.town = town;
 						uni.setStorageSync('town', town);
+						const sheng = res.result.address.substring(0,towns+1);
+						uni.setStorageSync('sheng', sheng);
 						that.getWOrkstay(1,10);
 					}
 				})

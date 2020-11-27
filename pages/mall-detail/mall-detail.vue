@@ -47,17 +47,23 @@
 				userName:"hah",
 				cityName:'',
 				detailInfo:"",
-				telNumber:""
+				telNumber:"",
+				siteList:'' ,//默认收货地址信息
+				addressid:0,//收货地址id
 			}
 		},
 		onLoad(event) {
-			// TODO 后面把参数名替换成 payload
+			//获取地址信息id
 			const payload = event.detailDate;
+			// TODO 后面把参数名替换成 payload
+			const addressid = event.detailid;
+			
+			
 			
 			// 目前在某些平台参数会被主动 decode，暂时这样处理。
 			try {
 				this.data= JSON.parse(decodeURIComponent(payload));
-				console.log(this.data);
+				console.log(this.data,"获取商品详情页参数");
 
 			} catch (error) {
 				this.data = JSON.parse(payload);
@@ -68,6 +74,13 @@
 			var currentpage = page.route;
 			this.currentpage = currentpage;
 			console.log(currentpage);
+			
+			if(addressid){
+				this.getDefalutadd(addressid);
+				
+			}else{
+				this.getDefalutadd();
+			}
 		},
 		methods: {
 			closemask(){
@@ -86,76 +99,109 @@
 				this.duration = e.target.value
 			},
 			
-			getExchange(index,id){
-				let that  =this;
-				uni.chooseAddress({
-				  success(res) {
-				    console.log(res.userName)
-				    console.log(res.postalCode)
-				    console.log(res.provinceName)
-				    console.log(res.cityName)
-				    console.log(res.countyName)
-				    console.log(res.detailInfo)
-				    console.log(res.nationalCode)
-				    console.log(res.telNumber)
-					that.$myRequest({
-						url:'mall/exchange',
-						data:{
-							id:id,
-							addressee:res.userName,//收件人
-							phone:res.telNumber,//phone
-							city:res.cityName,//城市
-							detailed:res.detailInfo//详细地址
-						},
-						methods:"POST"
-					}).then(res=>{
-						console.log(res);
-					// const data = JSON.parse(res.data);
-						if(res.data.code == 200){
-							console.log(res.data.msg);
-							uni.showModal({
-							    title: '提示',
-							    content: res.data.msg,
-							    success: function (res) {
-							        if (res.confirm) {
-							            console.log('用户点击确定');
-							        } else if (res.cancel) {
-							            console.log('用户点击取消');	
-							        }
-							    }
-							});
-							// console.log(res.data.data);
-						}else if(res.data.code == 300){
-							console.log(res.data.msg);
-							uni.showModal({
-							    title: '提示',
-							    content: res.data.msg,
-							    success: function (res) {
-							        if (res.confirm) {
-							            console.log('用户点击确定');
-							        } else if (res.cancel) {
-							            console.log('用户点击取消');	
-							        }
-							    }
-							});
-					
+			// 封装公共弹窗
+			toAlert(content){
+				uni.showModal({
+				    title: '提示',
+				    content: content,
+				    success: function (res) {
+				        if (res.confirm) {
+				            console.log('用户点击确定');
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');	
+				        }
+				    }
+				})
+			},
+			
+			getDefalutadd(addressid){
+				// 获取收货地址信息,收货地址里面第一个
+				this.$myRequest({
+					url:'address/index',
+					data:{},
+					methods:"GET"
+				}).then(res=>{
+					if(res.data.status == 200){
+						console.log('获取默认值',res.data.msg);
+						// 取值地址列表第一个为默认值
+						this.siteList = res.data.data;
+						if(addressid){
+							this.addressid = addressid
 						}else{
-							console.log(res.data.msg);
-							uni.showModal({
-							    title: '提示',
-							    content: res.data.msg,
-							    success: function (res) {
-							        if (res.confirm) {
-							            console.log('用户点击确定');
-							        } else if (res.cancel) {
-							            console.log('用户点击取消');	
-							        }
-							    }
-							});
+							this.addressid = res.data.data[0].id;
 						}
-					})
-				  }
-				})	
+						
+					}else{
+						console.log(res.data.msg);
+						uni.showToast({
+							icon:"none",
+							title:res.data.msg
+						})
+					}
+				});
+			},
+			
+			 getExchange(index,id){
+				let that  = this;
+				let addressid = this.addressid;
+				console.log(addressid);
+				for (var i = 0; i < that.siteList.length; i++) {
+					if(that.siteList[i].id ==  addressid){
+						console.log();
+						uni.showModal({
+						    title: '确认收货信息',
+						    content: `收件人： ${that.siteList[i].consignee} \n 
+								电话： ${that.siteList[i].phone} \n 
+								城市： ${that.siteList[i].location} \n 
+								详细地址： ${that.siteList[i].address} \n 
+							 `,
+							cancelText:"修改",
+							confirmText:"确认",
+						    success: function (res) {
+						        if (res.confirm) {
+						            console.log('用户点击确定');
+									
+									// 发送兑换请求
+									 that.$myRequest({
+										url:'mall/exchange',
+										data:{
+											id:id,
+											addressee:that.siteList[addressid].consignee,//收件人
+											phone:that.siteList[addressid].phone,//phone
+											city:that.siteList[addressid].location,//城市
+											detailed:that.siteList[addressid].address//详细地址
+										},
+										methods:"POST"
+									}).then(res=>{
+										console.log(res);
+									// const data = JSON.parse(res.data);
+										if(res.data.code == 200){
+											console.log(res.data.msg);
+											that.toAlert(res.data.msg);
+											// console.log(res.data.data);
+										}else if(res.data.code == 300){
+											console.log(res.data.msg);
+											that.toAlert(res.data.msg);
+									
+										}else{
+											console.log(res.data.msg);
+											that.toAlert(res.data.msg);
+										}
+									})
+						        } else if (res.cancel) {
+						            console.log('用户点击取消');	
+									console.log(that.data);
+									uni.navigateTo({
+										// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+										url: '../address/address?page=3&point=' + encodeURIComponent(JSON.stringify(that.data))
+									});
+						        }
+						    }
+						})								
+					}
+				}
+				// console.log("获取收件默认值",that.siteList[addressid]);
+					
 			},
 		}
 	}

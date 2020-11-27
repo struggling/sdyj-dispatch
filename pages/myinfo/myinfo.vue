@@ -42,6 +42,15 @@
 					</view>
 				</view>
 			</view>
+			<view class="user-data" @tap="goaddress">
+				<view class="user-avatar">
+					<view class="l-text">更改收货地址</view>
+					<view class="r-text">
+						<input type="text"  v-model="address" focus  placeholder="请选择收货地址" disabled="true" />
+						<u-icon style="padding-left: 25upx;" name="arrow-right" color="#a69ea3" size="28"></u-icon>
+					</view>
+				</view>
+			</view>
 			<!-- 类型选择弹框 -->
 			<select-type ref="selecttype" @genggaifenlei="genggaifenlei"></select-type>
 			<block v-if="baocun">
@@ -71,45 +80,34 @@
 				phone:'',
 				type:[],
 				counttype:"请点击",
-				gaibian:false
+				gaibian:false,
+				address:'请选择收货地址'
 			}
 		},
 		watch:{
 			phone(old,val){
 				if(!old == val){
-					// uni.showToast({
-					// 	icon:"none",
-					// 	title:"未做任何修改",
-					// 	duration:2000
-					// })
-					this.gaibian = false
+					// this.gaibian = false
 				}else{
 					this.gaibian = true
 				}
 			},
 			name(old,val){
 				if(!old == val){
-					// uni.showToast({
-					// 	icon:"none",
-					// 	title:"未做任何修改",
-					// 	duration:2000
-					// })
-					this.gaibian = false
+					// this.gaibian = false
 				}else{
 					this.gaibian = true
 				}
 			},
 			counttype(old,val){
 				if(!old == val){
-					// uni.showToast({
-					// 	icon:"none",
-					// 	title:"未做任何修改",
-					// 	duration:2000
-					// })
-					this.gaibian = false
+					// this.gaibian = false
 				}else{
 					this.gaibian = true
 				}
+			},
+			address(old,val){
+				this.gaibian = true
 			},
 		},
 		onLoad(event) {
@@ -123,22 +121,45 @@
 			});
 			// TODO 后面把参数名替换成 payload
 			
-			console.log(event.userinfo );
-			const payload = event.userinfo || event.payload;
-			// 目前在某些平台参数会被主动 decode，暂时这样处理。
-			try {
-				this.datas= JSON.parse(decodeURIComponent(payload));
+			// console.log(event.userinfo );
+			const address = event.detailDate
+			if(address){
+				try{
+					this.address = JSON.parse(decodeURIComponent(address)).site;
+					this.gaibian = true;
+					console.log(this.gaibian);
+					console.log(this.address);
+				}catch (error) {
+				this.address = JSON.parse(address);
+				console.log(this.address);
+			};
 				
-				console.log(this.data);
-			} catch (error) {
-				this.datas = JSON.parse(payload);
-				console.log(this.datas);
+			}
+			let user_name =uni.getStorageSync("user_name");
+			let user_avatar = uni.getStorageSync("user_avatar");
+			let user_phone = uni.getStorageSync("user_phone");
+			let user_address = uni.getStorageSync("address");
+			let user_type = uni.getStorageSync("user_type");
+			let user_score = uni.getStorageSync("user_score");
+			this.datas ={
+				user_name	:	user_name,
+				user_avatar	:	user_avatar,	
+				user_phone	:	user_phone,		
+				user_address	:	user_address,	
+				user_type	:	user_type,	
+				user_score	:	user_score,
 			};
 			this.getInfo();
-			// this.getType();
-			// this.getinittype();
+
 		},
 		methods: {
+			//跳转收货地址
+			goaddress(){
+				// this.gaibian = true;
+				uni.navigateTo({
+					url:"../address/address?page=2"
+				})
+			},
 			//genggaifenlei
 			genggaifenlei(fenlei){
 				console.log(fenlei.length,"打印分类属性");
@@ -151,6 +172,7 @@
 			},
 			//获取用户信息
 			getInfo(){
+				// this.gaibian = true;
 				this.$myRequest({
 					url:'user/getInfo',
 					data:{},
@@ -244,8 +266,18 @@
 			// 得到整个组件对象，内部图片列表变量为"lists"
 			// this.lists = this.$refs.uUpload.lists;
 		},
-		onBackPress() {  
-				uni.$emit('updatename',{msg:this.name})
+		onBackPress() {
+			console.log("监听返回");
+				uni.$emit('updatename',{msg:this.name});
+				uni.switchTab({
+				    url: '../home/home'
+				});
+		},
+		// 用页面卸载周期替代返回建，在小程序中监听页面返回
+		onUnload(){
+			uni.switchTab({
+			    url: '../home/home'
+			});
 		},
 		//自定义分享页面
 		onShareAppMessage(e){

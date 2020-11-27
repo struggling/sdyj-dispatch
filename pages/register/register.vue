@@ -173,19 +173,30 @@
 			}
 		},
 		onLoad(option) {
+			this.name = uni.getStorageSync('rename',this.name);
+			this.worktime = uni.getStorageSync('reworktime',this.worktime);
+			this.phonenum = uni.getStorageSync('rephonenum',this.phonenum);
+			this.counttype = uni.getStorageSync('recounttype',this.counttype);
+			this.flag = uni.getStorageSync('reflag',this.flag);
 			// TODO 后面把参数名替换成 payload
 			const payload = option.detailDate;
 			// 目前在某些平台参数会被主动 decode，暂时这样处理。
-			try {
-				this.data= JSON.parse(decodeURIComponent(payload));
-				console.log("详情页参数");
-				console.log(this.data);
-
-			} catch (error) {
-				this.data = JSON.parse(payload);
-				console.log("详情页参数");
-				console.log(this.data);
-			};
+			if(payload){
+				try {
+					this.data= JSON.parse(decodeURIComponent(payload));
+					console.log("详情页参数");
+					
+					console.log(this.data);
+					 this.address = this.data.site;
+					 console.log(this.address);
+				
+				} catch (error) {
+					this.data = JSON.parse(payload);
+					console.log("详情页参数");
+					console.log(this.data);
+				};
+			}
+			
 			this.$myRequest({
 				url:'user/item',
 				data:{}
@@ -247,8 +258,13 @@
 		methods: {
 			//跳转收货地址
 			goaddress(){
+				uni.setStorageSync('rename',this.name);
+				uni.setStorageSync('reworktime',this.worktime);
+				uni.setStorageSync('rephonenum',this.phonenum);
+				uni.setStorageSync('recounttype',this.counttype);
+				uni.setStorageSync('reflag',this.flag);
 				uni.navigateTo({
-					url:"../address/address"
+					url:"../address/address?page=1"
 				})
 			},
 			// 取消工龄
@@ -276,8 +292,19 @@
 			},
 			//确定分类
 			quedingtype(){
-				this.shows = true;
-				this.show  =false;
+				const settype = this.counttype.split(',');
+				if(settype[1]){
+					this.$emit("genggaifenlei",this.counttype);
+					this.shows = true;
+					this.show  =false;
+					console.log("已选择分类又",this.counttype);
+				}else{
+					uni.showToast({
+						icon:"none",
+						title:"请选择二级分类",
+						duration:2000
+					})
+				}
 			},
 			//取消分类
 			quxiaotype(){
@@ -452,6 +479,11 @@
 							type: 'min:6',
 							message: '选择服务类型'
 						},
+					])
+					.add(this.address, [{
+							type: 'required',
+							message: '地址为空'
+						}
 					])
 				const errorMsg = validator.validation()
 				if (errorMsg) {
@@ -775,7 +807,7 @@
 		margin-top: 200rpx;
 		margin-bottom: 25rpx;
 		font-size: 32rpx;
-		margin-top: 200rpx;
+		margin-top:162rpx;
 	}
 
 	/* 选中协议 */

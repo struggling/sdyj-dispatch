@@ -1,18 +1,25 @@
 <template>
 	<view>
-		<view class="item" v-for="(res, index) in siteList" :key="res.id" @tap="xzaddress(res)">
-			<view class="top">
-				<view class="name">{{ res.name }}</view>
-				<view class="phone">{{ res.phone }}</view>
-				<view class="tag">
-					<text v-for="(item, index) in res.tag" :key="index" :class="{red:item.tagText=='默认'}">{{ item.tagText }}</text>
+		<block v-if="siteList.length>0">
+			<view class="item" v-for="(res, index) in siteList" :key="res.id" @tap="xzaddress(res)">
+				<view class="top">
+					<view class="name">{{ res.consignee }}</view>
+					<view class="phone">{{ res.phone }}</view>
+					<view class="tag">
+						<text>{{ res.tag }}</text>
+						<block v-if="res.is_default==1"><text  :class="{red:res.is_default==1}">默认</text></block>
+						
+					</view>
+				</view>
+				<view class="bottom">
+					{{res.address}}
+					<u-icon name="edit-pen" :size="40" color="#999999" @tap.stop="toAddSite(res)"></u-icon>
 				</view>
 			</view>
-			<view class="bottom">
-				广东省深圳市宝安区 自由路66号
-				<u-icon name="edit-pen" :size="40" color="#999999" @tap="toAddSite"></u-icon>
-			</view>
-		</view>
+		</block>
+		<block v-else>
+			<view class="noaddress">暂无收货地址，请手动添加</view>
+		</block>
 		<view class="addSite" @tap="toAddSite">
 			<view class="add">
 				<u-icon name="plus" color="#ffffff" class="icon" :size="30"></u-icon>新建收货地址
@@ -26,12 +33,35 @@ export default {
 	data() {
 		return {
 			siteList: [],
-			data:""
+			data:"",
+			page:1,
+			point:{}
 		};
 	},
 	onLoad(event) {
+		//接受积分商城详情页数据
+		const point = event.point;
+		if(point){
+			try {
+				this.point =JSON.parse(decodeURIComponent(point))
+				console.log(this.point);
+			} catch (error) {
+				this.point = JSON.parse(point);
+			};
+		}
 		const payload = event.detailDate;
 		// 目前在某些平台参数会被主动 decode，暂时这样处理。
+		// 接受页码值判断是哪个页面进来的
+		const page = event.page;
+		console.log(page,"接受页码值：");
+		if(page){
+			try {
+				this.page = page
+			
+			} catch (error) {
+				this.page = page
+			};
+		}
 		if(payload){
 			try {
 				this.data= JSON.parse(decodeURIComponent(payload));
@@ -44,72 +74,101 @@ export default {
 				console.log(this.data);
 			};
 		}
-		
+		// 获取地址列表
 		this.getData();
 	},
 	methods: {
+		// 获取地址列表
 		getData() {
-			this.siteList = [
-				{
-					id: 1,
-					name: '游X',
-					phone: '183****5523',
-					tag: [
-						{
-							tagText: '默认'
-						},
-						{
-							tagText: '家'
-						}
-					],
-					site: '广东省深圳市宝安区 自由路66号'
-				},
-				{
-					id: 2,
-					name: '李XX',
-					phone: '183****5555',
-					tag: [
-						{
-							tagText: '公司'
-						}
-					],
-					site: '广东省深圳市宝安区 翻身路xx号'
-				},
-				{
-					id: 3,
-					name: '王YY',
-					phone: '153****5555',
-					tag: [],
-					site: '广东省深圳市宝安区 平安路13号'
+			
+			this.$myRequest({
+				url:'address/index',
+				data:{},
+				methods:"GET"
+			}).then(res=>{
+				if(res.data.status == 200){
+					console.log(res.data.msg);
+					this.siteList = res.data.data;
+				}else{
+					console.log(res.data.msg);
+					uni.showToast({
+						icon:"none",
+						title:res.data.msg
+					})
 				}
-			];
-		},
-		toAddSite(){
-			console.log('111');
-			uni.navigateTo({
-				url:"./addSite"
 			})
 		},
-		//选中地址回调
-		xzaddress(item){
-			// uni.$emit('xzaddress',{msg:res});
+		// 增加和修改地址信息 传参为修改地址信息
+		toAddSite(item){
+			console.log(item.is_default);
 			let detail = {
 				id: item.id,
-				name: item.name,
+				name: item.consignee,
 				phone: item.phone,
 				tag: item.tag,
-				site: item.site,
+				site: item.address,
+				quyu:item.location,
+				is_default:item.is_default
 			};
-			uni.navigateTo({
-				// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-				url: '../register/register?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-			});
+			if(this.page ==1){
+				uni.navigateTo({
+					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					url: './addSite?addsite=' + encodeURIComponent(JSON.stringify(detail))+'&page='+this.page
+				});
+			}else if(this.page ==2){
+				uni.navigateTo({
+					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					url: './addSite?addsite=' + encodeURIComponent(JSON.stringify(detail))+'&page='+this.page
+				});
+			}else{
+				uni.setStorageSync('addressid',detail.id);
+				uni.navigateTo({
+					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					url: './addSite?point='+ encodeURIComponent(JSON.stringify(this.point))+'&detailid='+detail.id+'&page='+this.page+'&addsite=' + encodeURIComponent(JSON.stringify(detail))
+				});
+			}
+		},
+		//选中地址回调原页面
+		xzaddress(item){
+			console.log("回传注册页面参数地址",item,item.id,this.page);
+			// console.log("回传注册页面参数地址",item.address);
+			let detail = {
+				id: item.id,
+				name: item.consignee,
+				phone: item.phone,
+				tag: item.tag,
+				site: item.address,
+				quyu:item.location,
+				is_default:item.is_default
+			};
+			if(this.page ==1){
+				uni.reLaunch({
+					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					url: '../register/register?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				});
+			}else if(this.page ==2){
+				uni.reLaunch({
+					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					url: '../myinfo/myinfo?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				});
+			}else{
+				uni.setStorageSync('addressid',detail.id);
+				uni.reLaunch({
+					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					url: '../mall-detail/mall-detail?detailDate='+ encodeURIComponent(JSON.stringify(this.point))+'&detailid='+detail.id
+				});
+			}
 		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+	.noaddress{
+		text-align: center;
+		margin-top: 400rpx;
+		color: #666666;
+	}
 	view{
 		line-height: 3.15;
 	}

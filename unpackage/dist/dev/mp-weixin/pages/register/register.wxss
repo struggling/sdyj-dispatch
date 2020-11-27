@@ -557,6 +557,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 工龄类型选择 */
 .titlecontent.data-v-891c2434{
 	display: -webkit-box;
@@ -787,7 +819,7 @@
 	margin-top: 200rpx;
 	margin-bottom: 25rpx;
 	font-size: 32rpx;
-	margin-top: 200rpx;
+	margin-top:162rpx;
 }
 /* 选中协议 */
 .check.data-v-891c2434 {

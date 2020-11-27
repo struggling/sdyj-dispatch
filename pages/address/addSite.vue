@@ -32,12 +32,13 @@
 					<block v-for="(item,index) in tags" :key="index">
 						<text :class="['tags',tabIndex==index?'active':'']" @tap="xztags(index)">{{item}}</text>
 					</block>
-					<block v-if="showtags">
+					<!-- 曾加自定义标签 -->
+					<!-- <block v-if="showtags">
 						<view class="tags plus"><input type="text" focus confirm-type="done" @confirm="confirm" @blur="cancel" value="" v-model="edtag" /></u-icon></view>
 					</block>
 					<block v-else>
 						<view class="tags plus"><u-icon size="22" name="plus" @tap="edtags"></u-icon></view>
-					</block>
+					</block> -->
 					
 				</view>
 			</view>
@@ -46,12 +47,12 @@
 					<view class="set">设置默认地址</view>
 					<view class="tips">提醒：每次下单会默认推荐该地址</view>
 				</view>
-				<view class="right"><switch color="red" @change="setDefault" /></view>
+				<view class="right"><switch  :checked="flag" color="red" @change="setDefault" /></view>
 			</view>
 		</view>
-		<view class="addSite" @tap="toAddSite">
+		<view class="addSite" @tap="createadd">
 			<view class="add">
-				<u-icon name="plus" color="#ffffff" class="icon" :size="30"></u-icon>确认提交
+				确认提交
 			</view>
 		</view>
 		<u-picker mode="region" ref="uPicker" v-model="show" @confirm="rangeadd" @cancel="caladd"/>
@@ -65,18 +66,12 @@ export default {
 			show: false,
 			address:{
 					id: 1,
-					name: '游X',
-					phone: '183****5523',
-					tag: [
-						{
-							tagText: '默认'
-						},
-						{
-							tagText: '家'
-						}
-					],
-					site: '广东省深圳市宝安区 自由路66号',
-					quyu:'眉山是'
+					name: '',
+					phone: '',
+					tag: '家',
+					site: '',
+					quyu:'',
+					is_default:2
 			},
 			tags:[
 				"家",
@@ -85,17 +80,96 @@ export default {
 			],
 			tabIndex:0,
 			showtags: false,
-			edtag:''
+			edtag:'',
+			flag:false,
+			page:0,
+			point:{}
 		};
 	},
+	onLoad(event) {
+		// 接受地址页面修改地址参数
+		const page = event.page;
+		console.log('页面跳转参数',page);
+		//接受积分商城详情页数据
+		const point = event.point;
+		if(point){
+			try {
+				this.point =JSON.parse(decodeURIComponent(point))
+				console.log(this.point);
+			} catch (error) {
+				this.point = JSON.parse(point);
+			};
+		}
+		const payload = event.addsite;
+		// 目前在某些平台参数会被主动 decode，暂时这样处理。
+		// 接受页码值判断是哪个页面进来的
+		console.log(page,"接受页码值：");
+		if(page){
+			try {
+				this.page = page
+			
+			} catch (error) {
+				this.page = page
+			};
+		}
+		
+		console.log(event.addsite);
+		// 目前在某些平台参数会被主动 decode，暂时这样处理。
+		if(payload){
+			try {
+				this.address= JSON.parse(decodeURIComponent(payload));
+				console.log("详情页参数");
+				console.log(this.address);
+				for(var i = 0; i<this.tags.length;i++){
+					if(this.tags[i] == this.address.tag){
+						this.tabIndex = i;
+					}
+					
+				}
+				// 使用find方法执行查抄元素,当数组中的元素在测试条件时返回 true 时, find() 返回符合条件的元素，之后的值不会再调用执行函数。
+				// tags
+				 
+				
+			} catch (error) {
+				this.address = JSON.parse(payload);
+				console.log("详情页参数");
+				console.log(this.address);
+			};
+		}
+		const detailDate = event.detailDate;
+		function checkTags(tag,index) {
+		    return tag == "家"
+		}				 
+		let findtag=this.tags.findIndex(checkTags);
+		console.log(findtag,"查找元素为");
+		// 初始化区域信息
+		// this.address.quyu = uni.getStorageSync('sheng');
+		// if(this.address.is_default ==1){
+		// 	this.flag = true
+		// }else{
+		// 	this.flag = false
+		// }
+	},
 	methods: {
-		setDefault() {},
+		setDefault() {
+			// console.log('设置');
+			this.flag =!this.flag;
+			
+			if(this.flag){
+				this.address.is_default = 1
+				console.log(this.address.is_default);
+			}else{
+				this.address.is_default = 2
+				console.log(this.address.is_default);
+			}
+		},
 		showRegionPicker() {
 			this.show = true;
 		},
 		//点击选中tags
 		xztags(index){
 			this.tabIndex = index;
+			this.address.tag = this.tags[index];
 			console.log('选中tags下表',index);
 		},
 		// 点击编辑tags
@@ -136,6 +210,111 @@ export default {
 		// 地区选择取消
 		caladd(e){
 			console.log(e);
+		},
+		// 增加地址
+		createadd(){
+			//增加地址
+			if(!this.address.id){
+				this.$myRequest({
+					url:'address/create',
+					data:{
+						consignee :this.address.name, //	是	string	收货人
+						phone:this.address.phone,	//是	number	手机号
+						location:this.address.quyu,//	是	string	所在地
+						address:this.address.site,//	是	string	详细地址
+						tag:this.address.tag, //	否	string	标签
+						is_default:this.address.is_default    // 1为是2为否
+					},
+					methods:"POST"
+				}).then(res=>{
+					if(res.data.status == 200){
+						console.log(res.data.msg,"传递页码值",this.page);
+						console.log("传递页码值");
+						uni.showToast({
+							icon:"none",
+							title:res.data.msg
+						})
+						// console.log();
+						setTimeout(()=>{
+							if(this.page ==1){
+								uni.reLaunch({
+									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+									url: './address?page='+this.page
+								});
+							}else if(this.page ==2){
+								uni.reLaunch({
+									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+									url: './address?page='+this.page
+								});
+							}else{
+								// uni.setStorageSync('addressid',detail.id);
+								uni.reLaunch({
+									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+									url: './address?point='+ encodeURIComponent(JSON.stringify(this.point))+'&detailid='+this.address.id+'&page='+this.page
+								});
+							}
+						},500)
+						
+					}else{
+						console.log(res.data.msg);
+						uni.showToast({
+							icon:"none",
+							title:res.data.msg
+						})
+					}
+				})
+			}
+			// 修改地址
+			else{
+				this.$myRequest({
+					url:'address/updata',
+					data:{
+						id:this.address.id,
+						consignee :this.address.name, //	是	string	收货人
+						phone:this.address.phone,	//是	number	手机号
+						location:this.address.quyu,//	是	string	所在地
+						address:this.address.site,//	是	string	详细地址
+						tag:this.address.tag, //	否	string	标签
+						is_default:this.address.is_default    // 1为是2为否
+					},
+					methods:"POST"
+				}).then(res=>{
+					if(res.data.status == 200){
+						console.log(res.data.msg);
+						uni.showToast({
+							icon:"none",
+							title:res.data.msg
+						})
+						setTimeout(()=>{
+							if(this.page ==1){
+								uni.reLaunch({
+									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+									url: './address?page='+this.page
+								});
+							}else if(this.page ==2){
+								uni.reLaunch({
+									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+									url: './address?page='+this.page
+								});
+							}else{
+								// uni.setStorageSync('addressid',detail.id);
+								uni.reLaunch({
+									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+									url: './address?point='+ encodeURIComponent(JSON.stringify(this.point))+'&detailid='+this.address.id+'&page='+this.page
+								});
+							}
+						},500)
+						
+					}else{
+						console.log(res.data.msg);
+						uni.showToast({
+							icon:"none",
+							title:res.data.msg
+						})
+					}
+				})
+			}
+			
 		}
 	}
 };

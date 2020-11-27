@@ -25,6 +25,11 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.noaddress.data-v-db675620 {
+  text-align: center;
+  margin-top: 400rpx;
+  color: #666666;
+}
 view.data-v-db675620 {
   line-height: 3.15;
 }
