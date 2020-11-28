@@ -147,14 +147,10 @@
 				console.log(addressid);
 				for (var i = 0; i < that.siteList.length; i++) {
 					if(that.siteList[i].id ==  addressid){
-						console.log();
+						// console.log();
 						uni.showModal({
 						    title: '确认收货信息',
-						    content: `收件人： ${that.siteList[i].consignee} \n 
-								电话： ${that.siteList[i].phone} \n 
-								城市： ${that.siteList[i].location} \n 
-								详细地址： ${that.siteList[i].address} \n 
-							 `,
+						    content: `收件人:${that.siteList[i].consignee}电话:${that.siteList[i].phone}  城市: ${that.siteList[i].location}详细地址: ${that.siteList[i].address}`,
 							cancelText:"修改",
 							confirmText:"确认",
 						    success: function (res) {
@@ -203,7 +199,12 @@
 				// console.log("获取收件默认值",that.siteList[addressid]);
 					
 			},
-		}
+		},
+		onUnload(){
+			uni.navigateBack({
+			    delta: 1
+			});
+		},
 	}
 </script>
 

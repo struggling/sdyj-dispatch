@@ -275,9 +275,9 @@
 		},
 		// 用页面卸载周期替代返回建，在小程序中监听页面返回
 		onUnload(){
-			uni.switchTab({
-			    url: '../home/home'
-			});
+			// uni.switchTab({
+			//     url: '../home/home'
+			// });
 		},
 		//自定义分享页面
 		onShareAppMessage(e){

@@ -166,10 +166,16 @@
 			}
 		},
 		computed: {
-			counttype() {
-				let selectname = this.selectname;
-				this.sumstring = this.selectname;
-				return this.typefy + "," + this.sumstring; //类型加二级类型
+			counttype:{
+				get:function(){
+					let selectname = this.selectname;
+					this.sumstring = this.selectname;
+					return this.typefy + "," + this.sumstring; //类型加二级类型
+				},
+				
+				set:function(){
+					
+				}
 			}
 		},
 		onLoad(option) {

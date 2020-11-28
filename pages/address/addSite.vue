@@ -112,7 +112,7 @@ export default {
 				this.page = page
 			};
 		}
-		
+		// 初始化tags
 		console.log(event.addsite);
 		// 目前在某些平台参数会被主动 decode，暂时这样处理。
 		if(payload){
@@ -215,6 +215,8 @@ export default {
 		createadd(){
 			//增加地址
 			if(!this.address.id){
+				this.address.tag = "家"||this.address.tag;
+				this.address.is_default = 2 || this.address.is_default
 				this.$myRequest({
 					url:'address/create',
 					data:{
@@ -237,20 +239,33 @@ export default {
 						// console.log();
 						setTimeout(()=>{
 							if(this.page ==1){
-								uni.reLaunch({
-									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-									url: './address?page='+this.page
+								let pages = getCurrentPages();  //获取所有页面栈实例列表
+								let nowPage = pages[ pages.length - 1];  //当前页页面实例
+								let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+								prevPage.$vm.page = this.page ; //修改上一页data里面的searchVal参数值为1211
+								uni.navigateBack({  
+									//uni.navigateTo跳转的返回，默认1为返回上一级
+									delta: 1
 								});
 							}else if(this.page ==2){
-								uni.reLaunch({
-									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-									url: './address?page='+this.page
+								let pages = getCurrentPages();  //获取所有页面栈实例列表
+								let nowPage = pages[ pages.length - 1];  //当前页页面实例
+								let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+								prevPage.$vm.page = this.page ; //修改上一页data里面的searchVal参数值为1211
+								uni.navigateBack({  
+									//uni.navigateTo跳转的返回，默认1为返回上一级
+									delta: 1
 								});
 							}else{
-								// uni.setStorageSync('addressid',detail.id);
-								uni.reLaunch({
-									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-									url: './address?point='+ encodeURIComponent(JSON.stringify(this.point))+'&detailid='+this.address.id+'&page='+this.page
+							
+								let pages = getCurrentPages();  //获取所有页面栈实例列表
+								let nowPage = pages[ pages.length - 1];  //当前页页面实例
+								let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+								prevPage.$vm.point = this.point ; //修改上一页data里面的searchVal参数值为1211
+								prevPage.$vm.page = this.page ;
+								uni.navigateBack({  
+									//uni.navigateTo跳转的返回，默认1为返回上一级
+									delta: 1
 								});
 							}
 						},500)
@@ -287,20 +302,33 @@ export default {
 						})
 						setTimeout(()=>{
 							if(this.page ==1){
-								uni.reLaunch({
-									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-									url: './address?page='+this.page
+								let pages = getCurrentPages();  //获取所有页面栈实例列表
+								let nowPage = pages[ pages.length - 1];  //当前页页面实例
+								let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+								prevPage.$vm.page = this.page ; //修改上一页data里面的searchVal参数值为1211
+								uni.navigateBack({  
+									//uni.navigateTo跳转的返回，默认1为返回上一级
+									delta: 1
 								});
 							}else if(this.page ==2){
-								uni.reLaunch({
-									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-									url: './address?page='+this.page
+								let pages = getCurrentPages();  //获取所有页面栈实例列表
+								let nowPage = pages[ pages.length - 1];  //当前页页面实例
+								let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+								prevPage.$vm.page = this.page ; //修改上一页data里面的searchVal参数值为1211
+								uni.navigateBack({  
+									//uni.navigateTo跳转的返回，默认1为返回上一级
+									delta: 1
 								});
 							}else{
-								// uni.setStorageSync('addressid',detail.id);
-								uni.reLaunch({
-									// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-									url: './address?point='+ encodeURIComponent(JSON.stringify(this.point))+'&detailid='+this.address.id+'&page='+this.page
+
+								let pages = getCurrentPages();  //获取所有页面栈实例列表
+								let nowPage = pages[ pages.length - 1];  //当前页页面实例
+								let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+								prevPage.$vm.point = this.point ; //修改上一页data里面的searchVal参数值为1211
+								prevPage.$vm.page = this.page ;
+								uni.navigateBack({  
+									//uni.navigateTo跳转的返回，默认1为返回上一级
+									delta: 1
 								});
 							}
 						},500)

@@ -38,6 +38,10 @@ export default {
 			point:{}
 		};
 	},
+	onShow() {
+		// 加载页面及时刷新
+		this.getData();
+	},
 	onLoad(event) {
 		//接受积分商城详情页数据
 		const point = event.point;
@@ -142,20 +146,30 @@ export default {
 				is_default:item.is_default
 			};
 			if(this.page ==1){
-				uni.reLaunch({
-					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-					url: '../register/register?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				let pages = getCurrentPages();  //获取所有页面栈实例列表
+				let nowPage = pages[ pages.length - 1];  //当前页页面实例
+				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+				prevPage.$vm.address= detail.site ; //修改上一页data里面的searchVal参数值为1211
+				uni.navigateBack({  //uni.navigateTo跳转的返回，默认1为返回上一级
+					delta: 1
 				});
 			}else if(this.page ==2){
-				uni.reLaunch({
-					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-					url: '../myinfo/myinfo?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+				let pages = getCurrentPages();  //获取所有页面栈实例列表
+				let nowPage = pages[ pages.length - 1];  //当前页页面实例
+				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+				prevPage.$vm.address= detail.site ; //修改上一页data里面的searchVal参数值为1211
+				uni.navigateBack({  //uni.navigateTo跳转的返回，默认1为返回上一级
+					delta: 1
 				});
 			}else{
 				uni.setStorageSync('addressid',detail.id);
-				uni.reLaunch({
-					// url: '../../pages/order-detail/order-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
-					url: '../mall-detail/mall-detail?detailDate='+ encodeURIComponent(JSON.stringify(this.point))+'&detailid='+detail.id
+				let pages = getCurrentPages();  //获取所有页面栈实例列表
+				let nowPage = pages[ pages.length - 1];  //当前页页面实例
+				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+				prevPage.$vm.address= detail.site ;
+				 prevPage.$vm.addressid= detail.id ; //修改上一页data里面的searchVal参数值为1211
+				uni.navigateBack({  //uni.navigateTo跳转的返回，默认1为返回上一级
+					delta: 1
 				});
 			}
 		}
